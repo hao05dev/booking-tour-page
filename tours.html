@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danh Sách Tour Du Lịch - BookingTour</title>
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="navbar-brand">
+        <i class="fa-solid fa-compass"></i>
+        <span>BookingTour</span>
+      </a>
+
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link">Trang chủ</a>
+        <a href="tours.html" class="nav-link active">Tour du lịch</a>
+        <a href="explore.html" class="nav-link">Khám phá</a>
+        <a href="about.html" class="nav-link">Về chúng tôi</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="profile.html" class="user-profile-btn" title="Tài khoản của tôi">
+          <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80" alt="Avatar" class="user-avatar">
+          <span class="user-name">Nguyễn Hào</span>
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-nav-overlay" id="mobileOverlay"></div>
+  <aside class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-header">
+      <a href="index.html" class="navbar-brand">
+        <i class="fa-solid fa-compass"></i>
+        <span>BookingTour</span>
+      </a>
+      <button class="modal-close" id="mobileNavClose"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="mobile-nav-links">
+      <a href="index.html" class="nav-link"><i class="fa-solid fa-house" style="margin-right:8px;"></i> Trang chủ</a>
+      <a href="tours.html" class="nav-link active"><i class="fa-solid fa-map-location-dot" style="margin-right:8px;"></i> Tour du lịch</a>
+      <a href="explore.html" class="nav-link"><i class="fa-solid fa-mountain-sun" style="margin-right:8px;"></i> Khám phá</a>
+      <a href="about.html" class="nav-link"><i class="fa-solid fa-circle-info" style="margin-right:8px;"></i> Về chúng tôi</a>
+      <a href="booking-history.html" class="nav-link"><i class="fa-solid fa-ticket" style="margin-right:8px;"></i> Đơn tour của tôi</a>
+      <a href="profile.html" class="nav-link"><i class="fa-solid fa-user" style="margin-right:8px;"></i> Hồ sơ cá nhân</a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content container">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+      <a href="index.html"><i class="fa-solid fa-house"></i> Trang chủ</a>
+      <span class="breadcrumb-separator"><i class="fa-solid fa-chevron-right" style="font-size:0.75rem;"></i></span>
+      <span class="breadcrumb-current">Tất cả tour du lịch</span>
+    </nav>
+
+    <!-- Page Title & Search bar -->
+    <div style="margin-bottom: 28px;">
+      <h1 class="section-title">Khám Phá Các Tour Du Lịch</h1>
+      <p class="section-subtitle" style="margin-bottom: 20px;">Tìm kiếm và chọn lọc hơn 50+ hành trình hấp dẫn với giá ưu đãi</p>
+
+      <!-- Quick Search Bar -->
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <div class="input-icon-wrapper" style="flex:1; min-width:280px;">
+          <i class="fa-solid fa-magnifying-glass icon-left"></i>
+          <input type="text" id="searchInput" class="form-control has-icon-left" placeholder="Nhập tên tour, địa điểm du lịch mong muốn...">
+        </div>
+        <button class="btn btn-primary" onclick="showToast('Đang lọc kết quả tìm kiếm...')">
+          <i class="fa-solid fa-filter"></i> Áp Dụng
+        </button>
+        <!-- Mobile filter toggle button -->
+        <button class="btn btn-secondary" id="openMobileFilter" style="display:none;" onclick="openModal('mobileFilterModal')">
+          <i class="fa-solid fa-sliders"></i> Bộ Lọc
+        </button>
+      </div>
+    </div>
+
+    <!-- Listing Layout: Sidebar + Grid -->
+    <div class="listing-layout">
+      <!-- Desktop Filter Sidebar -->
+      <aside class="filter-sidebar" id="desktopFilter">
+        <div class="filter-section">
+          <div class="filter-title">
+            <span>Bộ Lọc Tìm Kiếm</span>
+            <button class="btn btn-sm btn-outline" style="padding:2px 8px; font-size:0.75rem;" onclick="resetFilters()">Đặt lại</button>
+          </div>
+        </div>
+
+        <!-- Filter Location -->
+        <div class="filter-section">
+          <div class="filter-title">Địa Điểm / Vùng Miền</div>
+          <div class="filter-options">
+            <label class="form-check">
+              <input type="checkbox" checked>
+              <span>Tất cả địa điểm</span>
+            </label>
+            <label class="form-check">
+              <input type="checkbox">
+              <span>Miền Bắc (Hạ Long, Sa Pa, Hà Nội)</span>
+            </label>
+            <label class="form-check">
+              <input type="checkbox">
+              <span>Miền Trung (Đà Nẵng, Hội An, Huế)</span>
+            </label>
+            <label class="form-check">
+              <input type="checkbox">
+              <span>Miền Nam (Phú Quốc, Côn Đảo, Cần Thơ)</span>
+            </label>
+            <label class="form-check">
+              <input type="checkbox">
+              <span>Tây Nguyên (Đà Lạt, Buôn Ma Thuột)</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Filter Price Range -->
+        <div class="filter-section">
+          <div class="filter-title">Mức Giá (VND)</div>
+          <div class="filter-options">
+            <label class="form-check">
+              <input type="radio" name="price_filter" checked>
+              <span>Tất cả mức giá</span>
+            </label>
+            <label class="form-check">
+              <input type="radio" name="price_filter">
+              <span>Dưới 2.000.000đ</span>
+            </label>
+            <label class="form-check">
+              <input type="radio" name="price_filter">
+              <span>2.000.000đ - 4.000.000đ</span>
+            </label>
+            <label class="form-check">
+              <input type="radio" name="price_filter">
+              <span>4.000.000đ - 6.000.000đ</span>
+            </label>
+            <label class="form-check">
+              <input type="radio" name="price_filter">
+              <span>Trên 6.000.000đ</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Filter Duration -->
+        <div class="filter-section">
+          <div class="filter-title">Thời Lượng Tour</div>
+          <div class="filter-options">
+            <label class="form-check">
+              <input type="checkbox">
+              <span>Trong ngày (1 Ngày)</span>
+            </label>
+            <label class="form-check">
+              <input type="checkbox" checked>
+              <span>2 - 3 Ngày</span>
+            </label>
+            <label class="form-check">
+              <input type="checkbox">
+              <span>4 - 7 Ngày</span>
+            </label>
+            <label class="form-check">
+              <input type="checkbox">
+              <span>Trên 7 Ngày</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Filter Departure Date -->
+        <div class="filter-section">
+          <div class="filter-title">Thời Gian Khởi Hành</div>
+          <input type="date" class="form-control" value="2026-10-25">
+        </div>
+      </aside>
+
+      <!-- Tour Content Area -->
+      <section>
+        <!-- Header Bar: Count + Sort + View Prototype States -->
+        <div class="listing-header-bar">
+          <div>
+            <strong>Hiển thị <span class="text-primary">6 / 24</span> tour phù hợp</strong>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <label style="font-size:0.875rem; color:var(--text-muted); font-weight:600;">Sắp xếp theo:</label>
+            <select class="form-control" style="width:auto; padding:6px 12px; font-size:0.875rem;">
+              <option>Được đặt nhiều nhất</option>
+              <option>Đánh giá cao nhất</option>
+              <option>Giá: Thấp đến Cao</option>
+              <option>Giá: Cao đến Thấp</option>
+              <option>Mới nhất</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Prototype State Controls (Demo Switcher) -->
+        <div style="background:var(--surface-alt); padding:10px 16px; border-radius:var(--radius-md); margin-bottom:20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:0.85rem;">
+          <span style="font-weight:600; color:var(--text-muted);"><i class="fa-solid fa-code"></i> Prototype UI States:</span>
+          <div style="display:flex; gap:8px;">
+            <button class="btn btn-sm btn-secondary" onclick="toggleTourState('normal')">Danh Sách Chuẩn</button>
+            <button class="btn btn-sm btn-secondary" onclick="toggleTourState('empty')">Empty State</button>
+            <button class="btn btn-sm btn-secondary" onclick="toggleTourState('error')">Error State</button>
+          </div>
+        </div>
+
+        <!-- Normal State Grid -->
+        <div id="tourGridNormal" class="tour-grid">
+          <!-- Card 1 -->
+          <div class="tour-card">
+            <div class="tour-card-img-wrap">
+              <span class="badge badge-warning tour-card-badge"><i class="fa-solid fa-fire"></i> Best Seller</span>
+              <button class="tour-card-favorite" aria-label="Yêu thích"><i class="fa-regular fa-heart"></i></button>
+              <img src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80" alt="Hạ Long" class="tour-card-img">
+            </div>
+            <div class="tour-card-body">
+              <div class="tour-card-location"><i class="fa-solid fa-location-dot"></i> Quảng Ninh</div>
+              <h3 class="tour-card-title"><a href="tour-detail.html">Khám Phá Vịnh Hạ Long - Du Thuyền 5 Sao 3N2Đ</a></h3>
+              <div class="tour-card-meta">
+                <span class="tour-card-meta-item"><i class="fa-regular fa-clock"></i> 3N2Đ</span>
+                <div class="rating-display">
+                  <span class="rating-stars"><i class="fa-solid fa-star"></i></span>
+                  <span>4.9</span>
+                  <span class="rating-count">(128)</span>
+                </div>
+              </div>
+              <div class="tour-card-footer">
+                <div>
+                  <span class="tour-card-price-label">Giá từ</span>
+                  <div class="tour-card-price">3.490.000đ</div>
+                </div>
+                <a href="tour-detail.html" class="btn btn-primary btn-sm">Xem chi tiết</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="tour-card">
+            <div class="tour-card-img-wrap">
+              <span class="badge badge-primary tour-card-badge"><i class="fa-solid fa-mountain"></i> Săn Mây</span>
+              <button class="tour-card-favorite" aria-label="Yêu thích"><i class="fa-regular fa-heart"></i></button>
+              <img src="https://images.unsplash.com/photo-1570789210967-2cac24afeb00?auto=format&fit=crop&w=800&q=80" alt="Sa Pa" class="tour-card-img">
+            </div>
+            <div class="tour-card-body">
+              <div class="tour-card-location"><i class="fa-solid fa-location-dot"></i> Lào Cai</div>
+              <h3 class="tour-card-title"><a href="tour-detail.html">Chinh Phục Fansipan & Săn Mây Sa Pa 2N1Đ</a></h3>
+              <div class="tour-card-meta">
+                <span class="tour-card-meta-item"><i class="fa-regular fa-clock"></i> 2N1Đ</span>
+                <div class="rating-display">
+                  <span class="rating-stars"><i class="fa-solid fa-star"></i></span>
+                  <span>4.8</span>
+                  <span class="rating-count">(95)</span>
+                </div>
+              </div>
+              <div class="tour-card-footer">
+                <div>
+                  <span class="tour-card-price-label">Giá từ</span>
+                  <div class="tour-card-price">2.190.000đ</div>
+                </div>
+                <a href="tour-detail.html" class="btn btn-primary btn-sm">Xem chi tiết</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="tour-card">
+            <div class="tour-card-img-wrap">
+              <span class="badge badge-warning tour-card-badge"><i class="fa-solid fa-award"></i> Đánh Giá Cao</span>
+              <button class="tour-card-favorite" aria-label="Yêu thích"><i class="fa-regular fa-heart"></i></button>
+              <img src="https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=800&q=80" alt="Đà Nẵng" class="tour-card-img">
+            </div>
+            <div class="tour-card-body">
+              <div class="tour-card-location"><i class="fa-solid fa-location-dot"></i> Đà Nẵng</div>
+              <h3 class="tour-card-title"><a href="tour-detail.html">Đà Nẵng - Hội An - Bà Nà Hills Cầu Vàng 4N3Đ</a></h3>
+              <div class="tour-card-meta">
+                <span class="tour-card-meta-item"><i class="fa-regular fa-clock"></i> 4N3Đ</span>
+                <div class="rating-display">
+                  <span class="rating-stars"><i class="fa-solid fa-star"></i></span>
+                  <span>4.9</span>
+                  <span class="rating-count">(240)</span>
+                </div>
+              </div>
+              <div class="tour-card-footer">
+                <div>
+                  <span class="tour-card-price-label">Giá từ</span>
+                  <div class="tour-card-price">4.590.000đ</div>
+                </div>
+                <a href="tour-detail.html" class="btn btn-primary btn-sm">Xem chi tiết</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="tour-card">
+            <div class="tour-card-img-wrap">
+              <span class="badge badge-primary tour-card-badge"><i class="fa-solid fa-umbrella-beach"></i> Biển Đảo</span>
+              <button class="tour-card-favorite" aria-label="Yêu thích"><i class="fa-regular fa-heart"></i></button>
+              <img src="https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=800&q=80" alt="Phú Quốc" class="tour-card-img">
+            </div>
+            <div class="tour-card-body">
+              <div class="tour-card-location"><i class="fa-solid fa-location-dot"></i> Kiên Giang</div>
+              <h3 class="tour-card-title"><a href="tour-detail.html">Thiên Đường Biển Đảo Phú Quốc - Cáp Treo 3N2Đ</a></h3>
+              <div class="tour-card-meta">
+                <span class="tour-card-meta-item"><i class="fa-regular fa-clock"></i> 3N2Đ</span>
+                <div class="rating-display">
+                  <span class="rating-stars"><i class="fa-solid fa-star"></i></span>
+                  <span>4.7</span>
+                  <span class="rating-count">(160)</span>
+                </div>
+              </div>
+              <div class="tour-card-footer">
+                <div>
+                  <span class="tour-card-price-label">Giá từ</span>
+                  <div class="tour-card-price">3.990.000đ</div>
+                </div>
+                <a href="tour-detail.html" class="btn btn-primary btn-sm">Xem chi tiết</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="tour-card">
+            <div class="tour-card-img-wrap">
+              <span class="badge badge-secondary tour-card-badge">1 Ngày</span>
+              <button class="tour-card-favorite" aria-label="Yêu thích"><i class="fa-regular fa-heart"></i></button>
+              <img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=800&q=80" alt="Ninh Bình" class="tour-card-img">
+            </div>
+            <div class="tour-card-body">
+              <div class="tour-card-location"><i class="fa-solid fa-location-dot"></i> Ninh Bình</div>
+              <h3 class="tour-card-title"><a href="tour-detail.html">Ninh Bình Tràng An - Bái Đính - Hang Múa 1 Ngày</a></h3>
+              <div class="tour-card-meta">
+                <span class="tour-card-meta-item"><i class="fa-regular fa-clock"></i> 1 Ngày</span>
+                <div class="rating-display">
+                  <span class="rating-stars"><i class="fa-solid fa-star"></i></span>
+                  <span>4.8</span>
+                  <span class="rating-count">(88)</span>
+                </div>
+              </div>
+              <div class="tour-card-footer">
+                <div>
+                  <span class="tour-card-price-label">Giá từ</span>
+                  <div class="tour-card-price">950.000đ</div>
+                </div>
+                <a href="tour-detail.html" class="btn btn-primary btn-sm">Xem chi tiết</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 6 -->
+          <div class="tour-card">
+            <div class="tour-card-img-wrap">
+              <span class="badge badge-primary tour-card-badge"><i class="fa-solid fa-leaf"></i> Nghỉ Dưỡng</span>
+              <button class="tour-card-favorite" aria-label="Yêu thích"><i class="fa-regular fa-heart"></i></button>
+              <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80" alt="Đà Lạt" class="tour-card-img">
+            </div>
+            <div class="tour-card-body">
+              <div class="tour-card-location"><i class="fa-solid fa-location-dot"></i> Lâm Đồng</div>
+              <h3 class="tour-card-title"><a href="tour-detail.html">Đà Lạt Xứ Sở Ngàn Hoa - Check-in Cổng Trời 3N2Đ</a></h3>
+              <div class="tour-card-meta">
+                <span class="tour-card-meta-item"><i class="fa-regular fa-clock"></i> 3N2Đ</span>
+                <div class="rating-display">
+                  <span class="rating-stars"><i class="fa-solid fa-star"></i></span>
+                  <span>4.85</span>
+                  <span class="rating-count">(175)</span>
+                </div>
+              </div>
+              <div class="tour-card-footer">
+                <div>
+                  <span class="tour-card-price-label">Giá từ</span>
+                  <div class="tour-card-price">2.890.000đ</div>
+                </div>
+                <a href="tour-detail.html" class="btn btn-primary btn-sm">Xem chi tiết</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty State (Hidden by default) -->
+        <div id="tourStateEmpty" style="display:none; text-align:center; padding:60px 20px; background:var(--surface); border-radius:var(--radius-lg); border:1px dashed var(--border);">
+          <div style="font-size:3.5rem; color:var(--text-light); margin-bottom:16px;">
+            <i class="fa-solid fa-compass-slash"></i>
+          </div>
+          <h3 style="font-size:1.3rem; margin-bottom:8px;">Không tìm thấy tour phù hợp</h3>
+          <p class="text-muted" style="max-width:400px; margin:0 auto 20px;">Rất tiếc, không có hành trình nào khớp với bộ lọc của bạn. Hãy thử chọn khoảng giá khác hoặc đặt lại bộ lọc.</p>
+          <button class="btn btn-primary btn-sm" onclick="toggleTourState('normal')">Xem tất cả tour</button>
+        </div>
+
+        <!-- Error State (Hidden by default) -->
+        <div id="tourStateError" style="display:none; text-align:center; padding:60px 20px; background:var(--surface); border-radius:var(--radius-lg); border:1px solid #FEE2E2;">
+          <div style="font-size:3.5rem; color:var(--danger); margin-bottom:16px;">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          </div>
+          <h3 style="font-size:1.3rem; margin-bottom:8px; color:var(--danger);">Đã xảy ra lỗi khi tải danh sách</h3>
+          <p class="text-muted" style="max-width:400px; margin:0 auto 20px;">Không thể tải dữ liệu tour du lịch lúc này. Vui lòng tải lại trang hoặc kiểm tra kết nối mạng.</p>
+          <button class="btn btn-outline btn-sm" onclick="toggleTourState('normal')"><i class="fa-solid fa-rotate-right"></i> Thử Lại</button>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination" id="tourPagination">
+          <button class="page-item disabled"><i class="fa-solid fa-chevron-left"></i></button>
+          <button class="page-item active">1</button>
+          <button class="page-item">2</button>
+          <button class="page-item">3</button>
+          <button class="page-item"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Mobile Filter Modal -->
+  <div class="modal-backdrop" id="mobileFilterModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="fa-solid fa-sliders"></i> Bộ Lọc Tour</h3>
+        <button class="modal-close" data-close-modal><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="filter-section">
+          <div class="filter-title">Địa Điểm</div>
+          <div class="filter-options">
+            <label class="form-check"><input type="checkbox" checked> <span>Tất cả</span></label>
+            <label class="form-check"><input type="checkbox"> <span>Miền Bắc</span></label>
+            <label class="form-check"><input type="checkbox"> <span>Miền Trung</span></label>
+            <label class="form-check"><input type="checkbox"> <span>Miền Nam</span></label>
+          </div>
+        </div>
+        <div class="filter-section">
+          <div class="filter-title">Mức Giá</div>
+          <div class="filter-options">
+            <label class="form-check"><input type="radio" name="mobile_price" checked> <span>Tất cả giá</span></label>
+            <label class="form-check"><input type="radio" name="mobile_price"> <span>Dưới 2 triệu</span></label>
+            <label class="form-check"><input type="radio" name="mobile_price"> <span>2 - 5 triệu</span></label>
+            <label class="form-check"><input type="radio" name="mobile_price"> <span>Trên 5 triệu</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" data-close-modal>Đóng</button>
+        <button class="btn btn-primary btn-sm" onclick="closeModal('mobileFilterModal'); showToast('Đã áp dụng bộ lọc');">Áp Dụng</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand"><i class="fa-solid fa-compass"></i><span>BookingTour</span></div>
+          <p class="footer-desc">Nền tảng đặt tour du lịch chất lượng cao, giá tốt và bảo hiểm toàn diện.</p>
+        </div>
+        <div>
+          <h4 class="footer-title">Điểm Đến</h4>
+          <div class="footer-links">
+            <a href="explore.html">Miền Bắc</a>
+            <a href="explore.html">Miền Trung</a>
+            <a href="explore.html">Miền Nam</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-title">Liên Kết</h4>
+          <div class="footer-links">
+            <a href="about.html">Về chúng tôi</a>
+            <a href="tours.html">Danh sách tour</a>
+            <a href="booking-history.html">Lịch sử tour</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-title">Liên Hệ</h4>
+          <div class="footer-contact-item"><i class="fa-solid fa-phone"></i><span>Hotline: 1900 6868</span></div>
+          <div class="footer-contact-item"><i class="fa-solid fa-envelope"></i><span>support@bookingtour.vn</span></div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 BookingTour. Prototype UI/UX.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+  <script>
+    function toggleTourState(state) {
+      const normal = document.getElementById('tourGridNormal');
+      const empty = document.getElementById('tourStateEmpty');
+      const error = document.getElementById('tourStateError');
+      const pagination = document.getElementById('tourPagination');
+
+      normal.style.display = 'none';
+      empty.style.display = 'none';
+      error.style.display = 'none';
+      pagination.style.display = 'none';
+
+      if (state === 'empty') {
+        empty.style.display = 'block';
+      } else if (state === 'error') {
+        error.style.display = 'block';
+      } else {
+        normal.style.display = 'grid';
+        pagination.style.display = 'flex';
+      }
+    }
+
+    function resetFilters() {
+      showToast('Đã khôi phục bộ lọc mặc định');
+      toggleTourState('normal');
+    }
+
+    // Responsive check for mobile filter button
+    function checkFilterBtn() {
+      const btn = document.getElementById('openMobileFilter');
+      if (btn) {
+        btn.style.display = window.innerWidth <= 1024 ? 'inline-flex' : 'none';
+      }
+    }
+    window.addEventListener('resize', checkFilterBtn);
+    checkFilterBtn();
+  </script>
+</body>
+</html>

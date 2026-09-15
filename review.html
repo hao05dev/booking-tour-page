@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đánh Giá Tour Du Lịch - BookingTour</title>
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="navbar-brand">
+        <i class="fa-solid fa-compass"></i>
+        <span>BookingTour</span>
+      </a>
+
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link">Trang chủ</a>
+        <a href="tours.html" class="nav-link">Tour du lịch</a>
+        <a href="explore.html" class="nav-link">Khám phá</a>
+        <a href="about.html" class="nav-link">Về chúng tôi</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="booking-history.html" class="btn btn-secondary btn-sm">
+          <i class="fa-solid fa-arrow-left"></i> Về Lịch Sử Tour
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content container" style="max-width: 760px; padding-top: 24px;">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+      <a href="index.html"><i class="fa-solid fa-house"></i> Trang chủ</a>
+      <span class="breadcrumb-separator"><i class="fa-solid fa-chevron-right" style="font-size:0.75rem;"></i></span>
+      <a href="booking-history.html">Lịch sử tour</a>
+      <span class="breadcrumb-separator"><i class="fa-solid fa-chevron-right" style="font-size:0.75rem;"></i></span>
+      <span class="breadcrumb-current">Đánh giá tour</span>
+    </nav>
+
+    <!-- Review Card Box -->
+    <div class="card" style="padding: 36px;">
+      <!-- Tour Quick Summary -->
+      <div style="display: flex; gap: 16px; align-items: center; padding-bottom: 24px; border-bottom: 1px solid var(--border); margin-bottom: 28px;">
+        <img src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=200&q=80" alt="Tour Hạ Long" style="width: 80px; height: 64px; border-radius: var(--radius-md); object-fit: cover;">
+        <div>
+          <span class="badge badge-primary" style="margin-bottom: 4px;">Mã đơn: BK-892347</span>
+          <h2 style="font-size: 1.15rem; margin-bottom: 2px;">Khám Phá Vịnh Hạ Long - Du Thuyền 5 Sao 3N2Đ</h2>
+          <div style="font-size: 0.85rem; color: var(--text-muted);">Khởi hành ngày 25/10/2026 • Hướng dẫn viên: Trần Quốc Hưng</div>
+        </div>
+      </div>
+
+      <div id="reviewFormContainer">
+        <h1 style="font-size: 1.5rem; text-align: center; margin-bottom: 8px;">Cảm Nhận Của Bạn Về Chuyến Đi</h1>
+        <p class="text-muted text-center" style="margin-bottom: 28px;">Đánh giá chân thực của bạn sẽ giúp BookingTour và các du khách khác có thêm thông tin hữu ích</p>
+
+        <!-- Star Rating Input Component -->
+        <div style="text-align: center; background-color: var(--surface-alt); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 28px;">
+          <label class="form-label" style="font-size: 1rem; margin-bottom: 12px;">Đánh giá tổng quan chất lượng dịch vụ</label>
+          <div class="star-rating-group" data-rating="5" style="justify-content: center; font-size: 2.4rem;">
+            <i class="fa-solid fa-star active"></i>
+            <i class="fa-solid fa-star active"></i>
+            <i class="fa-solid fa-star active"></i>
+            <i class="fa-solid fa-star active"></i>
+            <i class="fa-solid fa-star active"></i>
+          </div>
+          <div style="font-size: 0.9rem; font-weight: 700; color: var(--accent-dark); margin-top: 8px;" id="ratingTextDesc">
+            Tuyệt vời - Vượt trên mong đợi (5/5 sao)
+          </div>
+        </div>
+
+        <!-- Detailed Criteria Ratings -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+          <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:0.9rem; font-weight:600;">Hướng dẫn viên:</span>
+            <div class="star-rating-group" data-rating="5" style="font-size:1.2rem;">
+              <i class="fa-solid fa-star active"></i><i class="fa-solid fa-star active"></i><i class="fa-solid fa-star active"></i><i class="fa-solid fa-star active"></i><i class="fa-solid fa-star active"></i>
+            </div>
+          </div>
+          <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:0.9rem; font-weight:600;">Phòng ngủ / Du thuyền:</span>
+            <div class="star-rating-group" data-rating="5" style="font-size:1.2rem;">
+              <i class="fa-solid fa-star active"></i><i class="fa-solid fa-star active"></i><i class="fa-solid fa-star active"></i><i class="fa-solid fa-star active"></i><i class="fa-solid fa-star active"></i>
+            </div>
+          </div>
+          <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:0.9rem; font-weight:600;">Đồ ăn / Bữa ăn:</span>
+            <div class="star-rating-group" data-rating="5" style="font-size:1.2rem;">
+              <i class="fa-solid fa-star active"></i><i class="fa-solid fa-star active"></i><i class="fa-solid fa-star active"></i><i class="fa-solid fa-star active"></i><i class="fa-solid fa-star active"></i>
+            </div>
+          </div>
+          <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:0.9rem; font-weight:600;">Lịch trình & Hoạt động:</span>
+            <div class="star-rating-group" data-rating="5" style="font-size:1.2rem;">
+              <i class="fa-solid fa-star active"></i><i class="fa-solid fa-star active"></i><i class="fa-solid fa-star active"></i><i class="fa-solid fa-star active"></i><i class="fa-solid fa-star active"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feedback Textarea -->
+        <div class="form-group">
+          <label class="form-label required" for="reviewComment">Nội dung đánh giá & chia sẻ trải nghiệm</label>
+          <textarea id="reviewComment" class="form-control" rows="4" placeholder="Hãy viết những điều bạn tâm đắc nhất về chuyến đi, hướng dẫn viên hoặc những đóng góp để chúng tôi cải thiện hơn..." required></textarea>
+        </div>
+
+        <!-- Upload Image Mockup -->
+        <div class="form-group">
+          <label class="form-label">Tải lên hình ảnh kỷ niệm của bạn (Tùy chọn)</label>
+          <div style="border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 20px; text-align: center; background: var(--surface-alt); cursor: pointer;" onclick="showToast('Đã chọn 2 bức ảnh đính kèm!')">
+            <i class="fa-solid fa-cloud-arrow-up text-primary" style="font-size: 1.8rem; margin-bottom: 8px;"></i>
+            <div style="font-size: 0.9rem; font-weight: 600;">Kéo thả hoặc nhấp để tải ảnh lên</div>
+            <div class="form-hint">Hỗ trợ định dạng JPG, PNG, WEBP tối đa 5MB</div>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-block btn-lg" onclick="handleSubmitReview()">
+          <i class="fa-solid fa-paper-plane"></i> Gửi Đánh Giá Ngay
+        </button>
+      </div>
+
+      <!-- Success Feedback State -->
+      <div id="reviewSuccessState" style="display: none; text-align: center; padding: 40px 20px;">
+        <div class="result-icon success" style="width: 70px; height: 70px; font-size: 2rem;">
+          <i class="fa-solid fa-check"></i>
+        </div>
+        <h2 style="font-size: 1.6rem; margin-bottom: 8px;">Đánh Giá Thành Công!</h2>
+        <p class="text-muted" style="margin-bottom: 24px; max-width: 450px; margin-left: auto; margin-right: auto;">
+          Cảm ơn bạn đã dành thời gian đóng góp ý kiến quý báu. Bạn nhận được <strong>+100 Điểm Thưởng</strong> vào tài khoản thành viên.
+        </p>
+        <div style="display: flex; gap: 12px; justify-content: center;">
+          <a href="booking-history.html" class="btn btn-primary">
+            <i class="fa-solid fa-ticket"></i> Về Lịch Sử Tour
+          </a>
+          <a href="tours.html" class="btn btn-secondary">
+            <i class="fa-solid fa-compass"></i> Tiếp Tục Đặt Tour
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom" style="border:none; padding-top:0;">
+        <span>© 2026 BookingTour. Prototype UI/UX.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+  <script>
+    function handleSubmitReview() {
+      const comment = document.getElementById('reviewComment');
+      if (!comment.value.trim()) {
+        showToast('Vui lòng nhập nội dung đánh giá', 'danger');
+        comment.focus();
+        return;
+      }
+
+      document.getElementById('reviewFormContainer').style.display = 'none';
+      document.getElementById('reviewSuccessState').style.display = 'block';
+      showToast('Đánh giá thành công!', 'success');
+    }
+  </script>
+</body>
+</html>

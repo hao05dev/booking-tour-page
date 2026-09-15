@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BookingTour - Khám Phá Thế Giới Theo Cách Của Bạn</title>
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="navbar-brand">
+        <i class="fa-solid fa-compass"></i>
+        <span>BookingTour</span>
+      </a>
+
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link active">Trang chủ</a>
+        <a href="tours.html" class="nav-link">Tour du lịch</a>
+        <a href="explore.html" class="nav-link">Khám phá</a>
+        <a href="about.html" class="nav-link">Về chúng tôi</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="profile.html" class="user-profile-btn" title="Tài khoản của tôi">
+          <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80" alt="Avatar" class="user-avatar">
+          <span class="user-name">Nguyễn Hào</span>
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-nav-overlay" id="mobileOverlay"></div>
+  <aside class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-header">
+      <a href="index.html" class="navbar-brand">
+        <i class="fa-solid fa-compass"></i>
+        <span>BookingTour</span>
+      </a>
+      <button class="modal-close" id="mobileNavClose"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="mobile-nav-links">
+      <a href="index.html" class="nav-link active"><i class="fa-solid fa-house" style="margin-right:8px;"></i> Trang chủ</a>
+      <a href="tours.html" class="nav-link"><i class="fa-solid fa-map-location-dot" style="margin-right:8px;"></i> Tour du lịch</a>
+      <a href="explore.html" class="nav-link"><i class="fa-solid fa-mountain-sun" style="margin-right:8px;"></i> Khám phá</a>
+      <a href="about.html" class="nav-link"><i class="fa-solid fa-circle-info" style="margin-right:8px;"></i> Về chúng tôi</a>
+      <a href="booking-history.html" class="nav-link"><i class="fa-solid fa-ticket" style="margin-right:8px;"></i> Đơn tour của tôi</a>
+      <a href="profile.html" class="nav-link"><i class="fa-solid fa-user" style="margin-right:8px;"></i> Hồ sơ cá nhân</a>
+    </div>
+    <div style="margin-top:auto;">
+      <a href="login.html" class="btn btn-primary btn-block">Đăng nhập / Đăng ký</a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container hero-content">
+        <span class="badge badge-warning" style="margin-bottom: 16px;">
+          <i class="fa-solid fa-sparkles"></i> Trải nghiệm du lịch đẳng cấp
+        </span>
+        <h1 class="hero-title">Khám Phá Việt Nam & Thế Giới Trọn Vẹn</h1>
+        <p class="hero-subtitle">Hơn 500+ tour chất lượng cao với lịch trình hấp dẫn, hướng dẫn viên chuyên nghiệp và ưu đãi độc quyền.</p>
+
+        <!-- Search Bar -->
+        <div class="search-box-card">
+          <div class="search-field">
+            <span class="search-field-label"><i class="fa-solid fa-location-dot text-primary"></i> Bạn muốn đi đâu?</span>
+            <input type="text" class="search-field-input" placeholder="Hạ Long, Đà Nẵng, Sa Pa...">
+          </div>
+          <div class="search-field">
+            <span class="search-field-label"><i class="fa-regular fa-calendar text-primary"></i> Thời gian</span>
+            <input type="text" class="search-field-input" placeholder="Chọn ngày khởi hành" onfocus="(this.type='date')" onblur="(this.type='text')">
+          </div>
+          <div class="search-field">
+            <span class="search-field-label"><i class="fa-solid fa-tag text-primary"></i> Mức giá</span>
+            <select class="search-field-input" style="cursor: pointer;">
+              <option value="">Tất cả mức giá</option>
+              <option value="1">Dưới 2 triệu</option>
+              <option value="2">2 - 5 triệu</option>
+              <option value="3">Trên 5 triệu</option>
+            </select>
+          </div>
+          <div>
+            <a href="tours.html" class="btn btn-primary btn-lg" style="height: 100%;">
+              <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features / Value Props -->
+    <section class="container" style="margin-top: 80px;">
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon-box"><i class="fa-solid fa-shield-halved"></i></div>
+          <h3 class="feature-title">Bảo Hiểm Toàn Diện</h3>
+          <p class="feature-desc">Mọi chuyến đi đều được bảo hiểm du lịch quốc tế bảo vệ trọn vẹn.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-box"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+          <h3 class="feature-title">Giá Tốt Nhất</h3>
+          <p class="feature-desc">Cam kết giá minh bạch, không phí ẩn và hoàn hủy linh hoạt.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-box"><i class="fa-solid fa-person-hiking"></i></div>
+          <h3 class="feature-title">Hướng Dẫn Chuyên Nghiệp</h3>
+          <p class="feature-desc">Đội ngũ hướng dẫn viên giàu kinh nghiệm, nhiệt tình và am hiểu văn hóa.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-box"><i class="fa-solid fa-headset"></i></div>
+          <h3 class="feature-title">Hỗ Trợ 24/7</h3>
+          <p class="feature-desc">Tổng đài viên luôn đồng hành và hỗ trợ quý khách mọi lúc mọi nơi.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Tours Section -->
+    <section class="container" style="margin-bottom: 60px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px;">
+        <div>
+          <h2 class="section-title">Tour Nổi Bật</h2>
+          <p class="section-subtitle" style="margin-bottom:0;">Những hành trình được yêu thích nhất trong mùa này</p>
+        </div>
+        <a href="tours.html" class="btn btn-outline btn-sm">Xem tất cả <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+
+      <div class="tour-grid">
+        <!-- Tour 1 -->
+        <div class="tour-card">
+          <div class="tour-card-img-wrap">
+            <span class="badge badge-warning tour-card-badge"><i class="fa-solid fa-fire"></i> Best Seller</span>
+            <button class="tour-card-favorite" aria-label="Yêu thích"><i class="fa-regular fa-heart"></i></button>
+            <img src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80" alt="Hạ Long" class="tour-card-img">
+          </div>
+          <div class="tour-card-body">
+            <div class="tour-card-location"><i class="fa-solid fa-location-dot"></i> Quảng Ninh, Việt Nam</div>
+            <h3 class="tour-card-title"><a href="tour-detail.html">Khám Phá Vịnh Hạ Long - Du Thuyền 5 Sao 3N2Đ</a></h3>
+            <div class="tour-card-meta">
+              <span class="tour-card-meta-item"><i class="fa-regular fa-clock"></i> 3N2Đ</span>
+              <div class="rating-display">
+                <span class="rating-stars"><i class="fa-solid fa-star"></i></span>
+                <span>4.9</span>
+                <span class="rating-count">(128)</span>
+              </div>
+            </div>
+            <div class="tour-card-footer">
+              <div>
+                <span class="tour-card-price-label">Giá từ</span>
+                <div class="tour-card-price">3.490.000đ</div>
+              </div>
+              <a href="tour-detail.html" class="btn btn-primary btn-sm">Xem chi tiết</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tour 2 -->
+        <div class="tour-card">
+          <div class="tour-card-img-wrap">
+            <span class="badge badge-primary tour-card-badge"><i class="fa-solid fa-mountain"></i> Săn Mây</span>
+            <button class="tour-card-favorite" aria-label="Yêu thích"><i class="fa-regular fa-heart"></i></button>
+            <img src="https://images.unsplash.com/photo-1570789210967-2cac24afeb00?auto=format&fit=crop&w=800&q=80" alt="Sa Pa" class="tour-card-img">
+          </div>
+          <div class="tour-card-body">
+            <div class="tour-card-location"><i class="fa-solid fa-location-dot"></i> Lào Cai, Việt Nam</div>
+            <h3 class="tour-card-title"><a href="tour-detail.html">Chinh Phục Fansipan & Săn Mây Sa Pa 2N1Đ</a></h3>
+            <div class="tour-card-meta">
+              <span class="tour-card-meta-item"><i class="fa-regular fa-clock"></i> 2N1Đ</span>
+              <div class="rating-display">
+                <span class="rating-stars"><i class="fa-solid fa-star"></i></span>
+                <span>4.8</span>
+                <span class="rating-count">(95)</span>
+              </div>
+            </div>
+            <div class="tour-card-footer">
+              <div>
+                <span class="tour-card-price-label">Giá từ</span>
+                <div class="tour-card-price">2.190.000đ</div>
+              </div>
+              <a href="tour-detail.html" class="btn btn-primary btn-sm">Xem chi tiết</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tour 3 -->
+        <div class="tour-card">
+          <div class="tour-card-img-wrap">
+            <span class="badge badge-warning tour-card-badge"><i class="fa-solid fa-award"></i> Đánh Giá Cao</span>
+            <button class="tour-card-favorite" aria-label="Yêu thích"><i class="fa-regular fa-heart"></i></button>
+            <img src="https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=800&q=80" alt="Đà Nẵng Hội An" class="tour-card-img">
+          </div>
+          <div class="tour-card-body">
+            <div class="tour-card-location"><i class="fa-solid fa-location-dot"></i> Đà Nẵng, Việt Nam</div>
+            <h3 class="tour-card-title"><a href="tour-detail.html">Đà Nẵng - Hội An - Bà Nà Hills Cầu Vàng 4N3Đ</a></h3>
+            <div class="tour-card-meta">
+              <span class="tour-card-meta-item"><i class="fa-regular fa-clock"></i> 4N3Đ</span>
+              <div class="rating-display">
+                <span class="rating-stars"><i class="fa-solid fa-star"></i></span>
+                <span>4.9</span>
+                <span class="rating-count">(240)</span>
+              </div>
+            </div>
+            <div class="tour-card-footer">
+              <div>
+                <span class="tour-card-price-label">Giá từ</span>
+                <div class="tour-card-price">4.590.000đ</div>
+              </div>
+              <a href="tour-detail.html" class="btn btn-primary btn-sm">Xem chi tiết</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tour 4 -->
+        <div class="tour-card">
+          <div class="tour-card-img-wrap">
+            <span class="badge badge-primary tour-card-badge"><i class="fa-solid fa-umbrella-beach"></i> Biển Đảo</span>
+            <button class="tour-card-favorite" aria-label="Yêu thích"><i class="fa-regular fa-heart"></i></button>
+            <img src="https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=800&q=80" alt="Phú Quốc" class="tour-card-img">
+          </div>
+          <div class="tour-card-body">
+            <div class="tour-card-location"><i class="fa-solid fa-location-dot"></i> Kiên Giang, Việt Nam</div>
+            <h3 class="tour-card-title"><a href="tour-detail.html">Thiên Đường Biển Đảo Phú Quốc - Cáp Treo 3N2Đ</a></h3>
+            <div class="tour-card-meta">
+              <span class="tour-card-meta-item"><i class="fa-regular fa-clock"></i> 3N2Đ</span>
+              <div class="rating-display">
+                <span class="rating-stars"><i class="fa-solid fa-star"></i></span>
+                <span>4.7</span>
+                <span class="rating-count">(160)</span>
+              </div>
+            </div>
+            <div class="tour-card-footer">
+              <div>
+                <span class="tour-card-price-label">Giá từ</span>
+                <div class="tour-card-price">3.990.000đ</div>
+              </div>
+              <a href="tour-detail.html" class="btn btn-primary btn-sm">Xem chi tiết</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Top Destinations Section -->
+    <section class="container" style="margin-bottom: 70px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px;">
+        <div>
+          <h2 class="section-title">Điểm Đến Nổi Bật</h2>
+          <p class="section-subtitle" style="margin-bottom:0;">Những tọa độ check-in không thể bỏ lỡ tại Việt Nam</p>
+        </div>
+        <a href="explore.html" class="btn btn-outline btn-sm">Khám phá tất cả <i class="fa-solid fa-arrow-right"></i></a>
+      </div>
+
+      <div class="destination-grid">
+        <a href="explore.html" class="destination-card">
+          <img src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=600&q=80" alt="Hạ Long">
+          <div class="destination-overlay">
+            <h3 class="destination-title">Vịnh Hạ Long</h3>
+            <span class="destination-tours-count"><i class="fa-solid fa-compass"></i> 35+ tour có sẵn</span>
+          </div>
+        </a>
+        <a href="explore.html" class="destination-card">
+          <img src="https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=600&q=80" alt="Đà Nẵng">
+          <div class="destination-overlay">
+            <h3 class="destination-title">Đà Nẵng - Hội An</h3>
+            <span class="destination-tours-count"><i class="fa-solid fa-compass"></i> 48+ tour có sẵn</span>
+          </div>
+        </a>
+        <a href="explore.html" class="destination-card">
+          <img src="https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=600&q=80" alt="Phú Quốc">
+          <div class="destination-overlay">
+            <h3 class="destination-title">Đảo Ngọc Phú Quốc</h3>
+            <span class="destination-tours-count"><i class="fa-solid fa-compass"></i> 29+ tour có sẵn</span>
+          </div>
+        </a>
+        <a href="explore.html" class="destination-card">
+          <img src="https://images.unsplash.com/photo-1570789210967-2cac24afeb00?auto=format&fit=crop&w=600&q=80" alt="Sa Pa">
+          <div class="destination-overlay">
+            <h3 class="destination-title">Sa Pa - Fansipan</h3>
+            <span class="destination-tours-count"><i class="fa-solid fa-compass"></i> 22+ tour có sẵn</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="container" style="margin-bottom: 40px;">
+      <div style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); border-radius: var(--radius-xl); padding: 48px; color: #FFFFFF; text-align: center; position: relative; overflow: hidden;">
+        <div style="position: relative; z-index: 2; max-width: 650px; margin: 0 auto;">
+          <h2 style="font-size: 2.2rem; color: #FFFFFF; margin-bottom: 12px;">Sẵn Sàng Cho Chuyến Đi Tiếp Theo?</h2>
+          <p style="font-size: 1.05rem; opacity: 0.9; margin-bottom: 24px;">Đăng ký nhận bản tin để không bỏ lỡ các mã giảm giá lên đến 30% và lịch trình độc quyền mỗi tuần.</p>
+          <div style="display: flex; gap: 12px; max-width: 480px; margin: 0 auto; flex-wrap: wrap;">
+            <input type="email" placeholder="Nhập địa chỉ email của bạn..." class="form-control" style="flex: 1; min-width: 240px; border: none;">
+            <button class="btn btn-accent" onclick="showToast('Đăng ký nhận tin ưu đãi thành công!')">Đăng Ký Ngay</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">
+            <i class="fa-solid fa-compass"></i>
+            <span>BookingTour</span>
+          </div>
+          <p class="footer-desc">
+            Nền tảng đặt tour du lịch hàng đầu, mang đến trải nghiệm khám phá văn hóa và cảnh sắc thiên nhiên tuyệt vời với mức giá tối ưu và dịch vụ chuẩn mực.
+          </p>
+          <div style="display:flex; gap:12px;">
+            <a href="#" class="btn btn-secondary btn-icon" style="background:#1E293B; border-color:#334155; color:#FFF;"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" class="btn btn-secondary btn-icon" style="background:#1E293B; border-color:#334155; color:#FFF;"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="btn btn-secondary btn-icon" style="background:#1E293B; border-color:#334155; color:#FFF;"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#" class="btn btn-secondary btn-icon" style="background:#1E293B; border-color:#334155; color:#FFF;"><i class="fa-brands fa-tiktok"></i></a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Điểm Đến</h4>
+          <div class="footer-links">
+            <a href="explore.html">Du Lịch Miền Bắc</a>
+            <a href="explore.html">Du Lịch Miền Trung</a>
+            <a href="explore.html">Du Lịch Miền Nam</a>
+            <a href="explore.html">Du Thuyền Vịnh Hạ Long</a>
+            <a href="explore.html">Tour Biển Đảo Phú Quốc</a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Liên Kết Nhanh</h4>
+          <div class="footer-links">
+            <a href="about.html">Về chúng tôi</a>
+            <a href="tours.html">Danh sách tour</a>
+            <a href="booking-history.html">Lịch sử đặt tour</a>
+            <a href="login.html">Đăng nhập</a>
+            <a href="register.html">Đăng ký thành viên</a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-title">Liên Hệ</h4>
+          <div class="footer-contact-item">
+            <i class="fa-solid fa-location-dot"></i>
+            <span>Tòa nhà Innovation, Quận 1, TP. Hồ Chí Minh</span>
+          </div>
+          <div class="footer-contact-item">
+            <i class="fa-solid fa-phone"></i>
+            <span>Hotline: 1900 6868 (8:00 - 21:00)</span>
+          </div>
+          <div class="footer-contact-item">
+            <i class="fa-solid fa-envelope"></i>
+            <span>support@bookingtour.vn</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 BookingTour. Tất cả quyền được bảo lưu. Prototype by Senior UI/UX Team.</span>
+        <span>Chính sách bảo mật | Điều khoản dịch vụ</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+</body>
+</html>

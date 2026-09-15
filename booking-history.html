@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lịch Sử Đặt Tour Của Tôi - BookingTour</title>
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="navbar-brand">
+        <i class="fa-solid fa-compass"></i>
+        <span>BookingTour</span>
+      </a>
+
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link">Trang chủ</a>
+        <a href="tours.html" class="nav-link">Tour du lịch</a>
+        <a href="explore.html" class="nav-link">Khám phá</a>
+        <a href="about.html" class="nav-link">Về chúng tôi</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="profile.html" class="user-profile-btn" title="Tài khoản của tôi">
+          <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80" alt="Avatar" class="user-avatar">
+          <span class="user-name">Nguyễn Hào</span>
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-nav-overlay" id="mobileOverlay"></div>
+  <aside class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-header">
+      <a href="index.html" class="navbar-brand">
+        <i class="fa-solid fa-compass"></i>
+        <span>BookingTour</span>
+      </a>
+      <button class="modal-close" id="mobileNavClose"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="mobile-nav-links">
+      <a href="index.html" class="nav-link"><i class="fa-solid fa-house" style="margin-right:8px;"></i> Trang chủ</a>
+      <a href="tours.html" class="nav-link"><i class="fa-solid fa-map-location-dot" style="margin-right:8px;"></i> Tour du lịch</a>
+      <a href="explore.html" class="nav-link"><i class="fa-solid fa-mountain-sun" style="margin-right:8px;"></i> Khám phá</a>
+      <a href="about.html" class="nav-link"><i class="fa-solid fa-circle-info" style="margin-right:8px;"></i> Về chúng tôi</a>
+      <a href="booking-history.html" class="nav-link active"><i class="fa-solid fa-ticket" style="margin-right:8px;"></i> Đơn tour của tôi</a>
+      <a href="profile.html" class="nav-link"><i class="fa-solid fa-user" style="margin-right:8px;"></i> Hồ sơ cá nhân</a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content container">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+      <a href="index.html"><i class="fa-solid fa-house"></i> Trang chủ</a>
+      <span class="breadcrumb-separator"><i class="fa-solid fa-chevron-right" style="font-size:0.75rem;"></i></span>
+      <span class="breadcrumb-current">Lịch sử đặt tour</span>
+    </nav>
+
+    <!-- Page Title -->
+    <div style="margin-bottom: 28px;">
+      <h1 class="section-title">Quản Lý Đơn Đặt Tour</h1>
+      <p class="section-subtitle" style="margin-bottom: 0;">Theo dõi tình trạng vé, xem lịch trình và gửi đánh giá trải nghiệm các chuyến đi của bạn</p>
+    </div>
+
+    <!-- History Tabs -->
+    <div class="nav-tabs">
+      <div class="nav-tab-item history-tab active" data-target="tabUpcoming">
+        <i class="fa-solid fa-plane-departure"></i> Sắp Khởi Hành <span class="badge badge-primary" style="margin-left:4px;">1</span>
+      </div>
+      <div class="nav-tab-item history-tab" data-target="tabCompleted">
+        <i class="fa-solid fa-circle-check"></i> Đã Tham Gia <span class="badge badge-secondary" style="margin-left:4px;">2</span>
+      </div>
+      <div class="nav-tab-item history-tab" data-target="tabCancelled">
+        <i class="fa-solid fa-ban"></i> Đã Hủy <span class="badge badge-secondary" style="margin-left:4px;">1</span>
+      </div>
+    </div>
+
+    <!-- TAB 1: UPCOMING TOURS -->
+    <div class="tab-content history-panel active" id="tabUpcoming">
+      <!-- Item 1 -->
+      <div class="booking-item-card">
+        <img src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=600&q=80" alt="Tour Hạ Long" class="booking-item-img">
+        <div class="booking-item-content">
+          <div>
+            <div class="booking-item-header">
+              <div>
+                <h3 class="booking-item-title"><a href="booking-detail.html">Khám Phá Vịnh Hạ Long - Du Thuyền 5 Sao 3N2Đ</a></h3>
+                <span class="booking-item-code">Mã đơn: <strong>BK-892347</strong> • Đặt ngày: 15/10/2026</span>
+              </div>
+              <span class="badge badge-available"><i class="fa-solid fa-circle-check"></i> Đã Xác Nhận</span>
+            </div>
+
+            <div class="booking-item-details">
+              <div><i class="fa-regular fa-calendar text-primary"></i> Khởi hành: <strong>25/10/2026</strong></div>
+              <div><i class="fa-solid fa-users text-primary"></i> Số khách: <strong>1 Người lớn</strong></div>
+              <div><i class="fa-solid fa-credit-card text-success"></i> Thanh toán: <strong class="text-success">Đã thanh toán Online</strong></div>
+            </div>
+          </div>
+
+          <div class="booking-item-actions">
+            <div>
+              <span class="text-muted" style="font-size:0.85rem;">Tổng tiền:</span>
+              <strong class="text-primary" style="font-size:1.2rem; margin-left:6px;">3.490.000đ</strong>
+            </div>
+            <div style="display:flex; gap:10px;">
+              <button class="btn btn-sm btn-danger-outline" onclick="openCancelModal('BK-892347', 'Khám Phá Vịnh Hạ Long 3N2Đ')">
+                <i class="fa-solid fa-xmark"></i> Hủy Đặt Tour
+              </button>
+              <a href="booking-detail.html" class="btn btn-sm btn-primary">
+                <i class="fa-solid fa-eye"></i> Xem Chi Tiết
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: COMPLETED TOURS -->
+    <div class="tab-content history-panel" id="tabCompleted">
+      <!-- Item 2 -->
+      <div class="booking-item-card">
+        <img src="https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=600&q=80" alt="Đà Nẵng" class="booking-item-img">
+        <div class="booking-item-content">
+          <div>
+            <div class="booking-item-header">
+              <div>
+                <h3 class="booking-item-title"><a href="booking-detail.html">Đà Nẵng - Hội An - Bà Nà Hills Cầu Vàng 4N3Đ</a></h3>
+                <span class="booking-item-code">Mã đơn: <strong>BK-712849</strong> • Đặt ngày: 01/08/2026</span>
+              </div>
+              <span class="badge badge-secondary"><i class="fa-solid fa-flag-checkered"></i> Đã Hoàn Thành</span>
+            </div>
+
+            <div class="booking-item-details">
+              <div><i class="fa-regular fa-calendar text-primary"></i> Khởi hành: <strong>10/08/2026</strong></div>
+              <div><i class="fa-solid fa-users text-primary"></i> Số khách: <strong>2 Người lớn</strong></div>
+              <div><i class="fa-solid fa-credit-card text-success"></i> Thanh toán: <strong>Đã thanh toán</strong></div>
+            </div>
+          </div>
+
+          <div class="booking-item-actions">
+            <div>
+              <span class="text-muted" style="font-size:0.85rem;">Tổng tiền:</span>
+              <strong class="text-primary" style="font-size:1.2rem; margin-left:6px;">9.180.000đ</strong>
+            </div>
+            <div style="display:flex; gap:10px;">
+              <button class="btn btn-sm btn-accent" onclick="openReviewModal('BK-712849', 'Đà Nẵng - Hội An 4N3Đ')">
+                <i class="fa-solid fa-star"></i> Đánh Giá Tour
+              </button>
+              <a href="booking-detail.html" class="btn btn-sm btn-secondary">
+                <i class="fa-solid fa-eye"></i> Xem Chi Tiết
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 3 -->
+      <div class="booking-item-card">
+        <img src="https://images.unsplash.com/photo-1570789210967-2cac24afeb00?auto=format&fit=crop&w=600&q=80" alt="Sa Pa" class="booking-item-img">
+        <div class="booking-item-content">
+          <div>
+            <div class="booking-item-header">
+              <div>
+                <h3 class="booking-item-title"><a href="booking-detail.html">Chinh Phục Fansipan & Săn Mây Sa Pa 2N1Đ</a></h3>
+                <span class="booking-item-code">Mã đơn: <strong>BK-655210</strong> • Đặt ngày: 12/06/2026</span>
+              </div>
+              <span class="badge badge-secondary"><i class="fa-solid fa-flag-checkered"></i> Đã Hoàn Thành</span>
+            </div>
+
+            <div class="booking-item-details">
+              <div><i class="fa-regular fa-calendar text-primary"></i> Khởi hành: <strong>20/06/2026</strong></div>
+              <div><i class="fa-solid fa-users text-primary"></i> Số khách: <strong>1 Người lớn</strong></div>
+              <div><i class="fa-solid fa-star text-accent"></i> Đánh giá: <strong>5.0 ★ (Đã đánh giá)</strong></div>
+            </div>
+          </div>
+
+          <div class="booking-item-actions">
+            <div>
+              <span class="text-muted" style="font-size:0.85rem;">Tổng tiền:</span>
+              <strong class="text-primary" style="font-size:1.2rem; margin-left:6px;">2.190.000đ</strong>
+            </div>
+            <div>
+              <a href="booking-detail.html" class="btn btn-sm btn-secondary">
+                <i class="fa-solid fa-eye"></i> Xem Chi Tiết
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: CANCELLED TOURS -->
+    <div class="tab-content history-panel" id="tabCancelled">
+      <!-- Item 4 -->
+      <div class="booking-item-card" style="opacity: 0.85;">
+        <img src="https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=600&q=80" alt="Phú Quốc" class="booking-item-img">
+        <div class="booking-item-content">
+          <div>
+            <div class="booking-item-header">
+              <div>
+                <h3 class="booking-item-title"><a href="booking-detail.html">Thiên Đường Biển Đảo Phú Quốc - Cáp Treo 3N2Đ</a></h3>
+                <span class="booking-item-code">Mã đơn: <strong>BK-501923</strong> • Đặt ngày: 10/04/2026</span>
+              </div>
+              <span class="badge badge-sold-out"><i class="fa-solid fa-ban"></i> Đã Hủy</span>
+            </div>
+
+            <div class="booking-item-details">
+              <div><i class="fa-regular fa-calendar text-primary"></i> Ngày dự kiến: <strong>05/05/2026</strong></div>
+              <div><i class="fa-solid fa-rotate-left text-muted"></i> Lý do: <strong>Thay đổi kế hoạch cá nhân</strong></div>
+              <div><i class="fa-solid fa-circle-info text-success"></i> Trạng thái tiền: <strong>Đã hoàn tiền 100%</strong></div>
+            </div>
+          </div>
+
+          <div class="booking-item-actions">
+            <div>
+              <span class="text-muted" style="font-size:0.85rem;">Tổng tiền hoàn:</span>
+              <strong style="font-size:1.2rem; margin-left:6px; color:var(--text-muted);">3.990.000đ</strong>
+            </div>
+            <div>
+              <a href="booking-detail.html" class="btn btn-sm btn-secondary">
+                <i class="fa-solid fa-eye"></i> Xem Chi Tiết
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Cancel Confirmation Modal -->
+  <div class="modal-backdrop" id="cancelModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="fa-solid fa-triangle-exclamation text-danger"></i> Xác Nhận Hủy Đặt Tour</h3>
+        <button class="modal-close" data-close-modal><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom:12px;">Bạn có chắc chắn muốn hủy đơn đặt tour <strong id="cancelTourTitle">Khám Phá Vịnh Hạ Long</strong> (Mã: <span id="cancelTourCode" class="text-primary font-bold">BK-892347</span>)?</p>
+        <div style="background-color: var(--warning-light); border: 1px solid #FDE68A; border-radius: var(--radius-md); padding: 12px 16px; font-size: 0.85rem; color: #92400E; margin-bottom: 16px;">
+          <i class="fa-solid fa-circle-info"></i> Theo chính sách, tour của bạn được hủy miễn phí và tiền sẽ hoàn về tài khoản trong 24-48 giờ làm việc.
+        </div>
+        <div class="form-group">
+          <label class="form-label required">Vui lòng chọn lý do hủy:</label>
+          <select class="form-control">
+            <option>Thay đổi lịch trình công tác / cá nhân</option>
+            <option>Có việc bận đột xuất</option>
+            <option>Tìm thấy hành trình khác phù hợp hơn</option>
+            <option>Lý do sức khỏe</option>
+            <option>Khác</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" data-close-modal>Giữ Lại Vé</button>
+        <button class="btn btn-danger btn-sm" onclick="confirmCancelBooking()"><i class="fa-solid fa-trash"></i> Xác Nhận Hủy</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Review Modal -->
+  <div class="modal-backdrop" id="reviewModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="fa-solid fa-star text-accent"></i> Đánh Giá Chuyến Đi</h3>
+        <button class="modal-close" data-close-modal><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom: 16px; font-size: 0.95rem;">
+          Bạn cảm thấy thế nào về chuyến đi <strong id="reviewTourTitle">Đà Nẵng - Hội An 4N3Đ</strong>?
+        </p>
+
+        <div style="text-align:center; margin-bottom: 20px;">
+          <div class="star-rating-group" data-rating="5" style="justify-content:center;">
+            <i class="fa-solid fa-star active"></i>
+            <i class="fa-solid fa-star active"></i>
+            <i class="fa-solid fa-star active"></i>
+            <i class="fa-solid fa-star active"></i>
+            <i class="fa-solid fa-star active"></i>
+          </div>
+          <div style="font-size:0.85rem; color:var(--text-muted); margin-top:4px;">Nhấp để xếp hạng sao</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label required">Chia sẻ cảm nhận chi tiết:</label>
+          <textarea class="form-control" rows="3" placeholder="Chia sẻ về hướng dẫn viên, khách sạn, đồ ăn và cảnh quan..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" data-close-modal>Hủy Bỏ</button>
+        <button class="btn btn-primary btn-sm" onclick="submitReview()"><i class="fa-solid fa-paper-plane"></i> Gửi Đánh Giá</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom" style="border:none; padding-top:0;">
+        <span>© 2026 BookingTour. Prototype UI/UX.</span>
+        <span>Hotline hỗ trợ: 1900 6868</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+  <script>
+    function openCancelModal(code, title) {
+      document.getElementById('cancelTourCode').textContent = code;
+      document.getElementById('cancelTourTitle').textContent = title;
+      openModal('cancelModal');
+    }
+
+    function confirmCancelBooking() {
+      closeModal('cancelModal');
+      showToast('Đã gửi yêu cầu hủy tour thành công! Tiền sẽ được hoàn lại.');
+    }
+
+    function openReviewModal(code, title) {
+      document.getElementById('reviewTourTitle').textContent = title;
+      openModal('reviewModal');
+    }
+
+    function submitReview() {
+      closeModal('reviewModal');
+      showToast('Đánh giá thành công! Cảm ơn bạn đã đóng góp ý kiến.');
+    }
+  </script>
+</body>
+</html>

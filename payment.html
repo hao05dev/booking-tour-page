@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thanh Toán Đơn Tour - BookingTour</title>
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="navbar-brand">
+        <i class="fa-solid fa-compass"></i>
+        <span>BookingTour</span>
+      </a>
+
+      <div style="display:flex; align-items:center; gap:8px; font-size:0.9rem; color:var(--text-muted);">
+        <i class="fa-solid fa-clock text-accent"></i>
+        <span>Cổng thanh toán tự động</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content container" style="padding-top: 24px;">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+      <a href="index.html"><i class="fa-solid fa-house"></i> Trang chủ</a>
+      <span class="breadcrumb-separator"><i class="fa-solid fa-chevron-right" style="font-size:0.75rem;"></i></span>
+      <a href="booking.html">Đặt tour</a>
+      <span class="breadcrumb-separator"><i class="fa-solid fa-chevron-right" style="font-size:0.75rem;"></i></span>
+      <span class="breadcrumb-current">Cổng thanh toán trực tuyến</span>
+    </nav>
+
+    <!-- Header info -->
+    <div style="text-align: center; max-width: 680px; margin: 0 auto 32px;">
+      <h1 class="section-title">Thanh Toán Đơn Đặt Tour</h1>
+      <p class="section-subtitle" style="margin-bottom: 16px;">Vui lòng quét mã QR ngân hàng bên dưới để hệ thống tự động xác nhận vé tức thì</p>
+
+      <!-- Countdown Timer Box -->
+      <div class="countdown-box">
+        <i class="fa-solid fa-hourglass-half fa-spin"></i>
+        <span>Thời gian giữ chỗ còn lại:</span>
+        <span class="countdown-time" id="paymentTimer">10:00</span>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-muted);">Vui lòng hoàn tất thanh toán trong vòng 10 phút. Quá thời gian trên, mã giữ chỗ sẽ tự động bị hủy.</p>
+    </div>
+
+    <!-- Payment Content Grid -->
+    <div class="payment-grid" style="max-width: 960px; margin: 0 auto;">
+      <!-- Left Box: QR Code & Bank instructions -->
+      <div class="qr-box">
+        <div style="display:inline-block; padding: 4px 12px; background: var(--primary-100); color: var(--primary-900); border-radius: var(--radius-full); font-size: 0.8rem; font-weight: 700; margin-bottom: 16px;">
+          VIETQR - CHUYỂN KHOẢN TỨC THÌ 24/7
+        </div>
+
+        <div style="position: relative; display: inline-block;">
+          <!-- Mock QR image via quickchart or svg -->
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=BOOKINGTOUR_BK892347_3490000VND" alt="QR Code Thanh Toán" class="qr-image">
+        </div>
+
+        <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px;">
+          Mở ứng dụng ngân hàng (Vietcombank, Techcombank, MBBank, Momo...) để quét mã
+        </div>
+
+        <!-- Bank Transfer Details -->
+        <div style="background-color: var(--surface-alt); border-radius: var(--radius-md); padding: 16px; text-align: left; font-size: 0.9rem;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+            <span class="text-muted">Ngân hàng thụ hưởng:</span>
+            <strong>MB Bank (Quân Đội)</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+            <span class="text-muted">Số tài khoản:</span>
+            <strong>9999 8888 6666 <button type="button" onclick="showToast('Đã sao chép số tài khoản!')" style="border:none; background:none; color:var(--primary); cursor:pointer;"><i class="fa-regular fa-copy"></i></button></strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+            <span class="text-muted">Chủ tài khoản:</span>
+            <strong>CONG TY CPHH BOOKINGTOUR VN</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+            <span class="text-muted">Số tiền:</span>
+            <strong class="text-primary" style="font-size:1.1rem;">3.490.000đ</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between;">
+            <span class="text-muted">Nội dung chuyển khoản:</span>
+            <strong class="text-accent font-bold">BK892347 <button type="button" onclick="showToast('Đã sao chép nội dung chuyển khoản!')" style="border:none; background:none; color:var(--primary); cursor:pointer;"><i class="fa-regular fa-copy"></i></button></strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Box: Booking Details & Simulated Actions -->
+      <div>
+        <div class="card" style="padding: 24px; margin-bottom: 24px;">
+          <h3 style="font-size: 1.15rem; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border);">
+            <i class="fa-solid fa-file-invoice text-primary"></i> Chi Tiết Đơn Hàng
+          </h3>
+
+          <div style="display: flex; flex-direction: column; gap: 14px; font-size: 0.95rem;">
+            <div style="display:flex; justify-content:space-between;">
+              <span class="text-muted">Mã booking:</span>
+              <strong class="badge badge-primary">BK-892347</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+              <span class="text-muted">Tên tour:</span>
+              <span style="font-weight:600; text-align:right; max-width:240px;">Khám Phá Vịnh Hạ Long 3N2Đ</span>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+              <span class="text-muted">Ngày khởi hành:</span>
+              <strong>25/10/2026</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+              <span class="text-muted">Số lượng khách:</span>
+              <strong>1 Người lớn</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+              <span class="text-muted">Người đặt:</span>
+              <strong>Nguyễn Văn Hào (0912 345 678)</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding-top:12px; border-top:1px dashed var(--border);">
+              <span style="font-weight:700;">Tổng tiền thanh toán:</span>
+              <strong class="text-primary" style="font-size:1.3rem;">3.490.000đ</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Prototype Tester Controls -->
+        <div class="card" style="padding: 20px; background-color: #FEF3C7; border-color: #FDE68A;">
+          <div style="font-weight: 700; color: #92400E; margin-bottom: 8px; font-size: 0.95rem;">
+            <i class="fa-solid fa-sliders"></i> Giả Lập Kết Quả Prototype (Dành Cho Kiểm Thử):
+          </div>
+          <p style="font-size: 0.85rem; color: #78350F; margin-bottom: 14px;">
+            Nhấp vào một trong các nút dưới đây để kiểm tra các màn hình kết quả thanh toán tương ứng:
+          </p>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <a href="payment-result.html?status=success" class="btn btn-primary btn-block">
+              <i class="fa-solid fa-circle-check"></i> Mô Phỏng Thanh Toán Thành Công
+            </a>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+              <a href="payment-result.html?status=failed" class="btn btn-danger-outline btn-sm">
+                <i class="fa-solid fa-circle-xmark"></i> Mô Phỏng Thất Bại
+              </a>
+              <a href="payment-result.html?status=expired" class="btn btn-secondary btn-sm">
+                <i class="fa-solid fa-hourglass-end"></i> Mô Phỏng Hết Hạn
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom" style="border:none; padding-top:0;">
+        <span>© 2026 BookingTour. Prototype UI/UX.</span>
+        <span>Hỗ trợ kỹ thuật: support@bookingtour.vn</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+</body>
+</html>

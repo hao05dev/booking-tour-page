@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thông Tin Đặt Tour & Thanh Toán - BookingTour</title>
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="navbar-brand">
+        <i class="fa-solid fa-compass"></i>
+        <span>BookingTour</span>
+      </a>
+
+      <div style="display:flex; align-items:center; gap:8px; font-size:0.9rem; color:var(--text-muted);">
+        <i class="fa-solid fa-lock text-success"></i>
+        <span>Giao dịch an toàn 100% (SSL 256-bit)</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content container" style="padding-top: 24px;">
+    <!-- Breadcrumb / Checkout Step Indicator -->
+    <nav class="breadcrumb">
+      <a href="index.html"><i class="fa-solid fa-house"></i> Trang chủ</a>
+      <span class="breadcrumb-separator"><i class="fa-solid fa-chevron-right" style="font-size:0.75rem;"></i></span>
+      <a href="tours.html">Tour du lịch</a>
+      <span class="breadcrumb-separator"><i class="fa-solid fa-chevron-right" style="font-size:0.75rem;"></i></span>
+      <span class="breadcrumb-current">Thông tin đặt chỗ & Thanh toán</span>
+    </nav>
+
+    <div style="margin-bottom: 28px;">
+      <h1 class="section-title">Xác Nhận & Đặt Tour</h1>
+      <p class="section-subtitle" style="margin-bottom: 0;">Vui lòng điền chính xác thông tin để chúng tôi chuẩn bị vé và bảo hiểm tốt nhất cho bạn</p>
+    </div>
+
+    <!-- Checkout Grid -->
+    <div class="checkout-grid">
+      <!-- Left Column: Form Steps -->
+      <div>
+        <form id="checkoutForm">
+          <!-- Step 1: Thông tin liên hệ -->
+          <div class="checkout-section">
+            <h2 class="checkout-section-title">
+              <span class="step-num">1</span>
+              <span>Thông Tin Liên Hệ Người Đặt</span>
+            </h2>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group">
+                <label class="form-label required" for="fullName">Họ và tên trưởng đoàn</label>
+                <input type="text" id="fullName" class="form-control" placeholder="Nguyễn Văn Hào" value="Nguyễn Văn Hào" required>
+                <div class="invalid-feedback">Vui lòng nhập họ và tên.</div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required" for="phone">Số điện thoại liên lạc</label>
+                <input type="tel" id="phone" class="form-control" placeholder="0912 345 678" value="0912 345 678" required>
+                <div class="invalid-feedback">Vui lòng nhập số điện thoại.</div>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group">
+                <label class="form-label required" for="email">Địa chỉ Email (nhận vé điện tử)</label>
+                <input type="email" id="email" class="form-control" placeholder="hao.nguyen@example.com" value="hao.nguyen@example.com" required>
+                <div class="invalid-feedback">Vui lòng nhập email hợp lệ.</div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="address">Địa chỉ thường trú</label>
+                <input type="text" id="address" class="form-control" placeholder="Quận 1, TP. Hồ Chí Minh" value="Quận 1, TP. Hồ Chí Minh">
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" for="notes">Ghi chú đặc biệt (ăn kiêng, dị ứng, phòng đôi...)</label>
+              <textarea id="notes" class="form-control" rows="2" placeholder="Ví dụ: Ăn chay, yêu cầu phòng tầng cao hướng biển..."></textarea>
+            </div>
+          </div>
+
+          <!-- Step 2: Chi tiết hành khách -->
+          <div class="checkout-section">
+            <h2 class="checkout-section-title">
+              <span class="step-num">2</span>
+              <span>Danh Sách Hành Khách Đi Cùng</span>
+            </h2>
+            <p class="form-hint" style="margin-bottom: 16px;">Thông tin dùng để mua bảo hiểm du lịch bắt buộc theo quy định.</p>
+
+            <!-- Passenger 1 -->
+            <div style="background-color: var(--surface-alt); border-radius: var(--radius-md); padding: 16px; margin-bottom: 14px;">
+              <div style="font-weight: 700; font-size: 0.95rem; margin-bottom: 10px; color: var(--primary);">Hành khách 1: Người lớn (Trưởng đoàn)</div>
+              <div style="display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 12px;">
+                <input type="text" class="form-control" placeholder="Họ và tên" value="Nguyễn Văn Hào">
+                <select class="form-control">
+                  <option>Nam</option>
+                  <option>Nữ</option>
+                </select>
+                <input type="text" class="form-control" placeholder="Ngày sinh (DD/MM/YYYY)" value="15/08/1995">
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Chi tiết đặt chỗ & Chính sách -->
+          <div class="checkout-section">
+            <h2 class="checkout-section-title">
+              <span class="step-num">3</span>
+              <span>Chính Sách & Điều Kiện Tour</span>
+            </h2>
+
+            <div style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; display: flex; flex-direction: column; gap: 10px;">
+              <div style="display:flex; gap:8px;">
+                <i class="fa-solid fa-circle-check text-success" style="margin-top:3px;"></i>
+                <span><strong>Miễn phí hủy tour:</strong> Được hoàn tiền 100% nếu hủy trước 7 ngày khởi hành.</span>
+              </div>
+              <div style="display:flex; gap:8px;">
+                <i class="fa-solid fa-circle-check text-success" style="margin-top:3px;"></i>
+                <span><strong>Bao gồm trọn gói:</strong> Vé tham quan, phòng du thuyền 5 sao, 05 bữa ăn chính và xe đưa đón.</span>
+              </div>
+              <div style="display:flex; gap:8px;">
+                <i class="fa-solid fa-circle-check text-success" style="margin-top:3px;"></i>
+                <span><strong>Giữ chỗ đảm bảo:</strong> Vé được xác nhận tức thì sau khi hoàn tất chuyển khoản trực tuyến.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 4: Phương thức thanh toán -->
+          <div class="checkout-section">
+            <h2 class="checkout-section-title">
+              <span class="step-num">4</span>
+              <span>Phương Thức Thanh Toán</span>
+            </h2>
+
+            <div style="border: 2px solid var(--primary); background-color: var(--primary-50); border-radius: var(--radius-md); padding: 18px; display: flex; align-items: center; justify-content: space-between;">
+              <div style="display: flex; align-items: center; gap: 14px;">
+                <input type="radio" checked name="payment_method" style="width: 20px; height: 20px; accent-color: var(--primary);">
+                <div>
+                  <strong style="font-size: 1.05rem; color: var(--text-main);"><i class="fa-solid fa-qrcode text-primary"></i> Thanh toán Online (QR Code / Chuyển khoản tức thì)</strong>
+                  <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 2px;">Quét mã VietQR tiện lợi qua mọi ứng dụng ngân hàng và ví điện tử.</div>
+                </div>
+              </div>
+              <span class="badge badge-available">Khuyên Dùng</span>
+            </div>
+          </div>
+
+          <!-- Submit Button Mobile / Bottom -->
+          <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-bottom: 24px;">
+            <i class="fa-solid fa-arrow-right"></i> Xác Nhận Đặt Tour & Đi Đến Thanh Toán
+          </button>
+        </form>
+      </div>
+
+      <!-- Right Column: Sticky Booking Summary -->
+      <aside>
+        <div class="booking-summary-panel">
+          <div class="booking-summary-header">
+            <span class="text-muted" style="font-size: 0.85rem; font-weight: 600;">CHI TIẾT ĐƠN ĐẶT</span>
+            <h3 id="checkoutTourName" style="font-size: 1.1rem; margin-top: 4px; line-height: 1.35;">Khám Phá Vịnh Hạ Long - Du Thuyền 5 Sao 3N2Đ</h3>
+          </div>
+
+          <div class="booking-summary-row">
+            <span><i class="fa-regular fa-calendar text-primary"></i> Khởi hành:</span>
+            <strong id="checkoutDate" class="text-main">25/10/2026</strong>
+          </div>
+
+          <div class="booking-summary-row">
+            <span><i class="fa-regular fa-clock text-primary"></i> Thời lượng:</span>
+            <span>3 Ngày 2 Đêm</span>
+          </div>
+
+          <div class="booking-summary-row">
+            <span><i class="fa-solid fa-users text-primary"></i> Hành khách:</span>
+            <strong id="checkoutGuests" class="text-main">1 Người lớn</strong>
+          </div>
+
+          <div class="booking-summary-row">
+            <span>Bảo hiểm du lịch:</span>
+            <span class="text-success font-semibold">Miễn phí</span>
+          </div>
+
+          <div class="booking-summary-row total">
+            <span>Tổng thanh toán:</span>
+            <span class="price-val" id="checkoutTotal">3.490.000đ</span>
+          </div>
+
+          <div style="background-color: var(--surface-alt); border-radius: var(--radius-md); padding: 14px; font-size: 0.85rem; color: var(--text-muted);">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+              <i class="fa-solid fa-shield-halved text-primary"></i> <strong>Cam kết từ BookingTour:</strong>
+            </div>
+            <span>Thông tin đặt vé của bạn được mã hóa và bảo mật tuyệt đối.</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom" style="border:none; padding-top:0;">
+        <span>© 2026 BookingTour. Prototype UI/UX.</span>
+        <span>Hỗ trợ khách hàng: 1900 6868</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+</body>
+</html>

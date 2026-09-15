@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khám Phá Điểm Đến & Chủ Đề Du Lịch - BookingTour</title>
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="navbar-brand">
+        <i class="fa-solid fa-compass"></i>
+        <span>BookingTour</span>
+      </a>
+
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link">Trang chủ</a>
+        <a href="tours.html" class="nav-link">Tour du lịch</a>
+        <a href="explore.html" class="nav-link active">Khám phá</a>
+        <a href="about.html" class="nav-link">Về chúng tôi</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="profile.html" class="user-profile-btn" title="Tài khoản của tôi">
+          <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80" alt="Avatar" class="user-avatar">
+          <span class="user-name">Nguyễn Hào</span>
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-nav-overlay" id="mobileOverlay"></div>
+  <aside class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-header">
+      <a href="index.html" class="navbar-brand">
+        <i class="fa-solid fa-compass"></i>
+        <span>BookingTour</span>
+      </a>
+      <button class="modal-close" id="mobileNavClose"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="mobile-nav-links">
+      <a href="index.html" class="nav-link"><i class="fa-solid fa-house" style="margin-right:8px;"></i> Trang chủ</a>
+      <a href="tours.html" class="nav-link"><i class="fa-solid fa-map-location-dot" style="margin-right:8px;"></i> Tour du lịch</a>
+      <a href="explore.html" class="nav-link active"><i class="fa-solid fa-mountain-sun" style="margin-right:8px;"></i> Khám phá</a>
+      <a href="about.html" class="nav-link"><i class="fa-solid fa-circle-info" style="margin-right:8px;"></i> Về chúng tôi</a>
+      <a href="booking-history.html" class="nav-link"><i class="fa-solid fa-ticket" style="margin-right:8px;"></i> Đơn tour của tôi</a>
+      <a href="profile.html" class="nav-link"><i class="fa-solid fa-user" style="margin-right:8px;"></i> Hồ sơ cá nhân</a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content container">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+      <a href="index.html"><i class="fa-solid fa-house"></i> Trang chủ</a>
+      <span class="breadcrumb-separator"><i class="fa-solid fa-chevron-right" style="font-size:0.75rem;"></i></span>
+      <span class="breadcrumb-current">Khám phá điểm đến</span>
+    </nav>
+
+    <!-- Header Intro Banner -->
+    <div style="background: linear-gradient(rgba(15,23,42,0.6), rgba(15,23,42,0.8)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80') center/cover; border-radius: var(--radius-xl); padding: 48px 36px; color:#FFFFFF; margin-bottom: 48px; text-align:center;">
+      <span class="badge badge-warning" style="margin-bottom:12px;"><i class="fa-solid fa-earth-asia"></i> Cảm hứng bất tận</span>
+      <h1 style="font-size:2.5rem; color:#FFF; margin-bottom:12px;">Khám Phá Các Tọa Độ Du Lịch Tuyệt Mỹ</h1>
+      <p style="max-width:650px; margin:0 auto; opacity:0.9; font-size:1.05rem;">Từ kỳ quan thiên nhiên miền Bắc, di sản văn hóa miền Trung đến biển đảo ngọc miền Nam cùng các chủ đề du lịch phong phú.</p>
+    </div>
+
+    <!-- Travel Themes Section -->
+    <section style="margin-bottom: 56px;">
+      <h2 class="section-title">Chủ Đề Du Lịch Phổ Biến</h2>
+      <p class="section-subtitle">Lựa chọn chuyến đi theo phong cách và sở thích riêng của bạn</p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px;">
+        <a href="tours.html" class="card" style="padding: 24px 16px; text-align: center; border-radius: var(--radius-md);">
+          <div style="font-size: 2.2rem; color: var(--primary); margin-bottom: 12px;"><i class="fa-solid fa-umbrella-beach"></i></div>
+          <h3 style="font-size: 1.05rem; margin-bottom: 4px;">Biển Đảo</h3>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">42 Tour</span>
+        </a>
+
+        <a href="tours.html" class="card" style="padding: 24px 16px; text-align: center; border-radius: var(--radius-md);">
+          <div style="font-size: 2.2rem; color: var(--primary); margin-bottom: 12px;"><i class="fa-solid fa-mountain-sun"></i></div>
+          <h3 style="font-size: 1.05rem; margin-bottom: 4px;">Thiên Nhiên</h3>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">35 Tour</span>
+        </a>
+
+        <a href="tours.html" class="card" style="padding: 24px 16px; text-align: center; border-radius: var(--radius-md);">
+          <div style="font-size: 2.2rem; color: var(--primary); margin-bottom: 12px;"><i class="fa-solid fa-landmark"></i></div>
+          <h3 style="font-size: 1.05rem; margin-bottom: 4px;">Văn Hóa Lịch Sử</h3>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">28 Tour</span>
+        </a>
+
+        <a href="tours.html" class="card" style="padding: 24px 16px; text-align: center; border-radius: var(--radius-md);">
+          <div style="font-size: 2.2rem; color: var(--primary); margin-bottom: 12px;"><i class="fa-solid fa-utensils"></i></div>
+          <h3 style="font-size: 1.05rem; margin-bottom: 4px;">Ẩm Thực</h3>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">19 Tour</span>
+        </a>
+
+        <a href="tours.html" class="card" style="padding: 24px 16px; text-align: center; border-radius: var(--radius-md);">
+          <div style="font-size: 2.2rem; color: var(--primary); margin-bottom: 12px;"><i class="fa-solid fa-spa"></i></div>
+          <h3 style="font-size: 1.05rem; margin-bottom: 4px;">Nghỉ Dưỡng</h3>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">31 Tour</span>
+        </a>
+
+        <a href="tours.html" class="card" style="padding: 24px 16px; text-align: center; border-radius: var(--radius-md);">
+          <div style="font-size: 2.2rem; color: var(--primary); margin-bottom: 12px;"><i class="fa-solid fa-people-roof"></i></div>
+          <h3 style="font-size: 1.05rem; margin-bottom: 4px;">Gia Đình</h3>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">24 Tour</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Region 1: Northern Vietnam -->
+    <section style="margin-bottom: 56px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:20px;">
+        <div>
+          <h2 class="section-title">Du Lịch Miền Bắc</h2>
+          <p class="section-subtitle" style="margin-bottom:0;">Kỳ quan núi non hùng vĩ và trầm tích ngàn năm lịch sử</p>
+        </div>
+        <a href="tours.html" class="btn btn-outline btn-sm">Xem tất cả tour Miền Bắc</a>
+      </div>
+
+      <div class="destination-grid">
+        <a href="tours.html" class="destination-card">
+          <img src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=600&q=80" alt="Vịnh Hạ Long">
+          <div class="destination-overlay">
+            <h3 class="destination-title">Vịnh Hạ Long</h3>
+            <span class="destination-tours-count">18 Tour du thuyền & nghỉ dưỡng</span>
+          </div>
+        </a>
+
+        <a href="tours.html" class="destination-card">
+          <img src="https://images.unsplash.com/photo-1570789210967-2cac24afeb00?auto=format&fit=crop&w=600&q=80" alt="Sa Pa">
+          <div class="destination-overlay">
+            <h3 class="destination-title">Sa Pa - Fansipan</h3>
+            <span class="destination-tours-count">14 Tour săn mây & leo núi</span>
+          </div>
+        </a>
+
+        <a href="tours.html" class="destination-card">
+          <img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=600&q=80" alt="Ninh Bình">
+          <div class="destination-overlay">
+            <h3 class="destination-title">Tràng An - Ninh Bình</h3>
+            <span class="destination-tours-count">12 Tour khám phá di sản</span>
+          </div>
+        </a>
+
+        <a href="tours.html" class="destination-card">
+          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Hà Giang">
+          <div class="destination-overlay">
+            <h3 class="destination-title">Hà Giang Hùng Vĩ</h3>
+            <span class="destination-tours-count">9 Tour cung đèo Mã Pí Lèng</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Region 2: Central Vietnam -->
+    <section style="margin-bottom: 56px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:20px;">
+        <div>
+          <h2 class="section-title">Du Lịch Miền Trung</h2>
+          <p class="section-subtitle" style="margin-bottom:0;">Con đường di sản thế giới cùng những bãi biển trong vắt</p>
+        </div>
+        <a href="tours.html" class="btn btn-outline btn-sm">Xem tất cả tour Miền Trung</a>
+      </div>
+
+      <div class="destination-grid">
+        <a href="tours.html" class="destination-card">
+          <img src="https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=600&q=80" alt="Đà Nẵng">
+          <div class="destination-overlay">
+            <h3 class="destination-title">Đà Nẵng - Cầu Vàng</h3>
+            <span class="destination-tours-count">24 Tour thành phố đáng sống</span>
+          </div>
+        </a>
+
+        <a href="tours.html" class="destination-card">
+          <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="Hội An">
+          <div class="destination-overlay">
+            <h3 class="destination-title">Phố Cổ Hội An</h3>
+            <span class="destination-tours-count">16 Tour trải nghiệm đèn lồng</span>
+          </div>
+        </a>
+
+        <a href="tours.html" class="destination-card">
+          <img src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=600&q=80" alt="Nha Trang">
+          <div class="destination-overlay">
+            <h3 class="destination-title">Biển Nha Trang</h3>
+            <span class="destination-tours-count">20 Tour lặn biển ngắm san hô</span>
+          </div>
+        </a>
+
+        <a href="tours.html" class="destination-card">
+          <img src="https://images.unsplash.com/photo-1570789210967-2cac24afeb00?auto=format&fit=crop&w=600&q=80" alt="Huế">
+          <div class="destination-overlay">
+            <h3 class="destination-title">Cố Đô Huế</h3>
+            <span class="destination-tours-count">11 Tour đại nội & lăng tẩm</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Region 3: Southern Vietnam -->
+    <section style="margin-bottom: 56px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:20px;">
+        <div>
+          <h2 class="section-title">Du Lịch Miền Nam & Biển Đảo</h2>
+          <p class="section-subtitle" style="margin-bottom:0;">Sông nước miệt vườn thanh bình và thiên đường đảo ngọc</p>
+        </div>
+        <a href="tours.html" class="btn btn-outline btn-sm">Xem tất cả tour Miền Nam</a>
+      </div>
+
+      <div class="destination-grid">
+        <a href="tours.html" class="destination-card">
+          <img src="https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=600&q=80" alt="Phú Quốc">
+          <div class="destination-overlay">
+            <h3 class="destination-title">Đảo Ngọc Phú Quốc</h3>
+            <span class="destination-tours-count">22 Tour cáp treo & lặn ngắm san hô</span>
+          </div>
+        </a>
+
+        <a href="tours.html" class="destination-card">
+          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Cần Thơ Miền Tây">
+          <div class="destination-overlay">
+            <h3 class="destination-title">Miền Tây Sông Nước</h3>
+            <span class="destination-tours-count">15 Tour chợ nổi Cái Răng</span>
+          </div>
+        </a>
+
+        <a href="tours.html" class="destination-card">
+          <img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=600&q=80" alt="Côn Đảo">
+          <div class="destination-overlay">
+            <h3 class="destination-title">Quần Đảo Côn Đảo</h3>
+            <span class="destination-tours-count">8 Tour tâm linh & thiên nhiên</span>
+          </div>
+        </a>
+
+        <a href="tours.html" class="destination-card">
+          <img src="https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=600&q=80" alt="Vũng Tàu">
+          <div class="destination-overlay">
+            <h3 class="destination-title">Vũng Tàu - Hồ Tràm</h3>
+            <span class="destination-tours-count">12 Tour nghỉ dưỡng cuối tuần</span>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand"><i class="fa-solid fa-compass"></i><span>BookingTour</span></div>
+          <p class="footer-desc">Nền tảng đặt tour du lịch chất lượng cao, an toàn và bảo hiểm toàn diện.</p>
+        </div>
+        <div>
+          <h4 class="footer-title">Điểm Đến</h4>
+          <div class="footer-links">
+            <a href="explore.html">Miền Bắc</a>
+            <a href="explore.html">Miền Trung</a>
+            <a href="explore.html">Miền Nam</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-title">Liên Kết</h4>
+          <div class="footer-links">
+            <a href="about.html">Về chúng tôi</a>
+            <a href="tours.html">Danh sách tour</a>
+            <a href="booking-history.html">Lịch sử tour</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-title">Liên Hệ</h4>
+          <div class="footer-contact-item"><i class="fa-solid fa-phone"></i><span>Hotline: 1900 6868</span></div>
+          <div class="footer-contact-item"><i class="fa-solid fa-envelope"></i><span>support@bookingtour.vn</span></div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 BookingTour. Prototype UI/UX.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+</body>
+</html>

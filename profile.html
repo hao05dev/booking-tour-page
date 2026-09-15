@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hồ Sơ Của Tôi - BookingTour</title>
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="navbar-brand">
+        <i class="fa-solid fa-compass"></i>
+        <span>BookingTour</span>
+      </a>
+
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link">Trang chủ</a>
+        <a href="tours.html" class="nav-link">Tour du lịch</a>
+        <a href="explore.html" class="nav-link">Khám phá</a>
+        <a href="about.html" class="nav-link">Về chúng tôi</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="profile.html" class="user-profile-btn" title="Tài khoản của tôi">
+          <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80" alt="Avatar" class="user-avatar">
+          <span class="user-name">Nguyễn Hào</span>
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-nav-overlay" id="mobileOverlay"></div>
+  <aside class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-header">
+      <a href="index.html" class="navbar-brand">
+        <i class="fa-solid fa-compass"></i>
+        <span>BookingTour</span>
+      </a>
+      <button class="modal-close" id="mobileNavClose"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="mobile-nav-links">
+      <a href="index.html" class="nav-link"><i class="fa-solid fa-house" style="margin-right:8px;"></i> Trang chủ</a>
+      <a href="tours.html" class="nav-link"><i class="fa-solid fa-map-location-dot" style="margin-right:8px;"></i> Tour du lịch</a>
+      <a href="explore.html" class="nav-link"><i class="fa-solid fa-mountain-sun" style="margin-right:8px;"></i> Khám phá</a>
+      <a href="about.html" class="nav-link"><i class="fa-solid fa-circle-info" style="margin-right:8px;"></i> Về chúng tôi</a>
+      <a href="booking-history.html" class="nav-link"><i class="fa-solid fa-ticket" style="margin-right:8px;"></i> Đơn tour của tôi</a>
+      <a href="profile.html" class="nav-link active"><i class="fa-solid fa-user" style="margin-right:8px;"></i> Hồ sơ cá nhân</a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content container">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+      <a href="index.html"><i class="fa-solid fa-house"></i> Trang chủ</a>
+      <span class="breadcrumb-separator"><i class="fa-solid fa-chevron-right" style="font-size:0.75rem;"></i></span>
+      <span class="breadcrumb-current">Hồ sơ cá nhân</span>
+    </nav>
+
+    <!-- Page Title -->
+    <div style="margin-bottom: 28px;">
+      <h1 class="section-title">Hồ Sơ & Cài Đặt Tài Khoản</h1>
+      <p class="section-subtitle" style="margin-bottom: 0;">Quản lý thông tin cá nhân và bảo mật tài khoản của bạn</p>
+    </div>
+
+    <!-- Profile Grid Layout -->
+    <div class="profile-grid">
+      <!-- Left Column: User Summary Card -->
+      <aside>
+        <div class="profile-sidebar-card">
+          <div style="position: relative; display: inline-block;">
+            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=300&q=80" alt="Avatar" class="profile-avatar-large">
+            <button class="btn btn-sm btn-primary" style="position: absolute; bottom: 12px; right: 0; width: 34px; height: 34px; border-radius: 50%; padding: 0;" onclick="showToast('Chọn ảnh avatar mới')" title="Đổi avatar">
+              <i class="fa-solid fa-camera"></i>
+            </button>
+          </div>
+
+          <h2 style="font-size: 1.25rem; margin-bottom: 4px;">Nguyễn Văn Hào</h2>
+          <span class="badge badge-warning" style="margin-bottom: 16px;"><i class="fa-solid fa-crown"></i> Thành viên Gold</span>
+          
+          <div style="text-align: left; padding: 16px; background: var(--surface-alt); border-radius: var(--radius-md); font-size: 0.9rem; margin-bottom: 20px;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+              <span class="text-muted">Điểm thưởng:</span>
+              <strong class="text-primary">1.250 điểm</strong>
+            </div>
+            <div style="display:flex; justify-content:space-between;">
+              <span class="text-muted">Chuyến đi đã đặt:</span>
+              <strong>3 chuyến</strong>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <a href="booking-history.html" class="btn btn-outline btn-block btn-sm">
+              <i class="fa-solid fa-ticket"></i> Xem Đơn Tour Của Tôi
+            </a>
+            <button class="btn btn-secondary btn-block btn-sm" onclick="openModal('changePasswordModal')">
+              <i class="fa-solid fa-key"></i> Đổi Mật Khẩu
+            </button>
+            <a href="login.html" class="btn btn-danger-outline btn-block btn-sm" onclick="showToast('Đã đăng xuất tài khoản', 'info')">
+              <i class="fa-solid fa-right-from-bracket"></i> Đăng Xuất
+            </a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Right Column: Profile Form -->
+      <div>
+        <div class="card" style="padding: 32px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; padding-bottom:16px; border-bottom:1px solid var(--border);">
+            <h2 style="font-size: 1.3rem; margin:0;"><i class="fa-regular fa-id-card text-primary"></i> Thông Tin Cá Nhân</h2>
+            <span class="badge badge-available">Đã xác minh</span>
+          </div>
+
+          <form onsubmit="event.preventDefault(); showToast('Đã lưu thay đổi hồ sơ thành công!');">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group">
+                <label class="form-label required" for="profName">Họ và tên</label>
+                <input type="text" id="profName" class="form-control" value="Nguyễn Văn Hào" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label required" for="profEmail">Địa chỉ Email</label>
+                <input type="email" id="profEmail" class="form-control" value="hao.nguyen@example.com" required>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group">
+                <label class="form-label required" for="profPhone">Số điện thoại</label>
+                <input type="tel" id="profPhone" class="form-control" value="0912 345 678" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profDob">Ngày sinh</label>
+                <input type="date" id="profDob" class="form-control" value="1995-08-15">
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group">
+                <label class="form-label" for="profGender">Giới tính</label>
+                <select id="profGender" class="form-control">
+                  <option selected>Nam</option>
+                  <option>Nữ</option>
+                  <option>Khác</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="profIdCard">Số CCCD / Hộ chiếu</label>
+                <input type="text" id="profIdCard" class="form-control" value="079095012345">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="profAddress">Địa chỉ liên hệ</label>
+              <input type="text" id="profAddress" class="form-control" value="Số 123 Đường Lê Lợi, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh">
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 12px; margin-top: 10px;">
+              <button type="reset" class="btn btn-secondary">Khôi Phục</button>
+              <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Lưu Thay Đổi</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Change Password Modal -->
+  <div class="modal-backdrop" id="changePasswordModal">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title"><i class="fa-solid fa-key text-primary"></i> Đổi Mật Khẩu</h3>
+        <button class="modal-close" data-close-modal><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <form id="changePassForm" onsubmit="event.preventDefault(); closeModal('changePasswordModal'); showToast('Đổi mật khẩu thành công!');">
+          <div class="form-group">
+            <label class="form-label required">Mật khẩu hiện tại</label>
+            <input type="password" class="form-control" placeholder="••••••••" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Mật khẩu mới</label>
+            <input type="password" class="form-control" placeholder="Tối thiểu 6 ký tự" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label required">Xác nhận mật khẩu mới</label>
+            <input type="password" class="form-control" placeholder="Nhập lại mật khẩu mới" required>
+          </div>
+          <div class="modal-footer" style="padding: 16px 0 0 0; background: none;">
+            <button type="button" class="btn btn-secondary btn-sm" data-close-modal>Hủy</button>
+            <button type="submit" class="btn btn-primary btn-sm"><i class="fa-solid fa-check"></i> Cập Nhật Mật Khẩu</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom" style="border:none; padding-top:0;">
+        <span>© 2026 BookingTour. Prototype UI/UX.</span>
+        <span>Hỗ trợ: support@bookingtour.vn</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+</body>
+</html>

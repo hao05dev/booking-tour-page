@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng Ký Tài Khoản - BookingTour</title>
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="navbar-brand">
+        <i class="fa-solid fa-compass"></i>
+        <span>BookingTour</span>
+      </a>
+
+      <div class="nav-actions">
+        <span class="text-muted" style="font-size: 0.9rem;">Đã có tài khoản?</span>
+        <a href="login.html" class="btn btn-outline btn-sm">Đăng Nhập</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Auth Wrapper -->
+  <div class="auth-wrapper">
+    <div class="auth-card" style="max-width: 500px;">
+      <div class="auth-header">
+        <div style="width: 56px; height: 56px; border-radius: 50%; background-color: var(--primary-100); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 16px;">
+          <i class="fa-solid fa-user-plus"></i>
+        </div>
+        <h1 class="auth-title">Đăng Ký Tài Khoản</h1>
+        <p class="auth-subtitle">Gia nhập BookingTour để nhận voucher 200.000đ cho chuyến đi đầu tiên</p>
+      </div>
+
+      <form id="registerForm" onsubmit="handleRegister(event)">
+        <!-- Full name -->
+        <div class="form-group">
+          <label class="form-label required" for="regName">Họ và tên</label>
+          <div class="input-icon-wrapper">
+            <i class="fa-regular fa-user icon-left"></i>
+            <input type="text" id="regName" class="form-control has-icon-left" placeholder="Ví dụ: Nguyễn Văn A" required>
+          </div>
+        </div>
+
+        <!-- Email Input -->
+        <div class="form-group">
+          <label class="form-label required" for="regEmail">Email</label>
+          <div class="input-icon-wrapper">
+            <i class="fa-regular fa-envelope icon-left"></i>
+            <input type="email" id="regEmail" class="form-control has-icon-left" placeholder="name@example.com" required>
+          </div>
+          <div class="invalid-feedback" id="regEmailError">Email không đúng định dạng.</div>
+        </div>
+
+        <!-- Phone Number -->
+        <div class="form-group">
+          <label class="form-label required" for="regPhone">Số điện thoại</label>
+          <div class="input-icon-wrapper">
+            <i class="fa-solid fa-phone icon-left"></i>
+            <input type="tel" id="regPhone" class="form-control has-icon-left" placeholder="0912 345 678" required>
+          </div>
+          <div class="invalid-feedback" id="regPhoneError">Vui lòng nhập số điện thoại hợp lệ.</div>
+        </div>
+
+        <!-- Password Input -->
+        <div class="form-group">
+          <label class="form-label required" for="regPassword">Mật khẩu</label>
+          <div class="input-icon-wrapper">
+            <i class="fa-solid fa-lock icon-left"></i>
+            <input type="password" id="regPassword" class="form-control has-icon-left has-icon-right" placeholder="Tối thiểu 6 ký tự" required>
+            <i class="fa-regular fa-eye icon-right" onclick="togglePasswordVisibility('regPassword', this)"></i>
+          </div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group">
+          <label class="form-label required" for="regConfirmPassword">Xác nhận mật khẩu</label>
+          <div class="input-icon-wrapper">
+            <i class="fa-solid fa-shield-halved icon-left"></i>
+            <input type="password" id="regConfirmPassword" class="form-control has-icon-left has-icon-right" placeholder="Nhập lại mật khẩu" required>
+            <i class="fa-regular fa-eye icon-right" onclick="togglePasswordVisibility('regConfirmPassword', this)"></i>
+          </div>
+          <div class="invalid-feedback" id="confirmPassError">Mật khẩu xác nhận không khớp.</div>
+        </div>
+
+        <!-- Terms Agreement -->
+        <div style="margin-bottom: 24px;">
+          <label class="form-check">
+            <input type="checkbox" id="termsCheck" required>
+            <span style="font-size: 0.85rem; color: var(--text-muted);">
+              Tôi đồng ý với <a href="#" style="color:var(--primary); text-decoration:underline;">Điều khoản dịch vụ</a> và <a href="#" style="color:var(--primary); text-decoration:underline;">Chính sách bảo mật</a> của BookingTour.
+            </span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block btn-lg">
+          <i class="fa-solid fa-user-plus"></i> Đăng Ký Tài Khoản
+        </button>
+      </form>
+
+      <div style="text-align:center; margin-top:24px; font-size:0.9rem; color:var(--text-muted);">
+        Đã có tài khoản? <a href="login.html" style="color:var(--primary); font-weight:700;">Đăng nhập ngay</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+  <script>
+    function togglePasswordVisibility(inputId, iconEl) {
+      const input = document.getElementById(inputId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        iconEl.className = 'fa-regular fa-eye-slash icon-right';
+      } else {
+        input.type = 'password';
+        iconEl.className = 'fa-regular fa-eye icon-right';
+      }
+    }
+
+    function handleRegister(e) {
+      e.preventDefault();
+      const email = document.getElementById('regEmail');
+      const phone = document.getElementById('regPhone');
+      const pass = document.getElementById('regPassword');
+      const confirmPass = document.getElementById('regConfirmPassword');
+
+      let valid = true;
+
+      if (!email.value.includes('@')) {
+        email.classList.add('is-invalid');
+        valid = false;
+      } else {
+        email.classList.remove('is-invalid');
+      }
+
+      if (phone.value.length < 9) {
+        phone.classList.add('is-invalid');
+        valid = false;
+      } else {
+        phone.classList.remove('is-invalid');
+      }
+
+      if (pass.value !== confirmPass.value) {
+        confirmPass.classList.add('is-invalid');
+        valid = false;
+      } else {
+        confirmPass.classList.remove('is-invalid');
+      }
+
+      if (valid) {
+        showToast('Đăng ký tài khoản thành công! Đang chuyển tới Đăng nhập...', 'success');
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 1000);
+      }
+    }
+  </script>
+</body>
+</html>

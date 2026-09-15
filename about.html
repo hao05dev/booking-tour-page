@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Về Chúng Tôi - BookingTour</title>
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="navbar-brand">
+        <i class="fa-solid fa-compass"></i>
+        <span>BookingTour</span>
+      </a>
+
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link">Trang chủ</a>
+        <a href="tours.html" class="nav-link">Tour du lịch</a>
+        <a href="explore.html" class="nav-link">Khám phá</a>
+        <a href="about.html" class="nav-link active">Về chúng tôi</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="profile.html" class="user-profile-btn" title="Tài khoản của tôi">
+          <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80" alt="Avatar" class="user-avatar">
+          <span class="user-name">Nguyễn Hào</span>
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-nav-overlay" id="mobileOverlay"></div>
+  <aside class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-header">
+      <a href="index.html" class="navbar-brand">
+        <i class="fa-solid fa-compass"></i>
+        <span>BookingTour</span>
+      </a>
+      <button class="modal-close" id="mobileNavClose"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="mobile-nav-links">
+      <a href="index.html" class="nav-link"><i class="fa-solid fa-house" style="margin-right:8px;"></i> Trang chủ</a>
+      <a href="tours.html" class="nav-link"><i class="fa-solid fa-map-location-dot" style="margin-right:8px;"></i> Tour du lịch</a>
+      <a href="explore.html" class="nav-link"><i class="fa-solid fa-mountain-sun" style="margin-right:8px;"></i> Khám phá</a>
+      <a href="about.html" class="nav-link active"><i class="fa-solid fa-circle-info" style="margin-right:8px;"></i> Về chúng tôi</a>
+      <a href="booking-history.html" class="nav-link"><i class="fa-solid fa-ticket" style="margin-right:8px;"></i> Đơn tour của tôi</a>
+      <a href="profile.html" class="nav-link"><i class="fa-solid fa-user" style="margin-right:8px;"></i> Hồ sơ cá nhân</a>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content container">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+      <a href="index.html"><i class="fa-solid fa-house"></i> Trang chủ</a>
+      <span class="breadcrumb-separator"><i class="fa-solid fa-chevron-right" style="font-size:0.75rem;"></i></span>
+      <span class="breadcrumb-current">Về chúng tôi</span>
+    </nav>
+
+    <!-- Hero Section About -->
+    <section style="background: linear-gradient(rgba(15,23,42,0.5), rgba(15,23,42,0.75)), url('https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1200&q=80') center/cover; border-radius: var(--radius-xl); padding: 60px 30px; color:#FFFFFF; text-align:center; margin-bottom:56px;">
+      <span class="badge badge-warning" style="margin-bottom:12px;"><i class="fa-solid fa-heart"></i> Hành trình kết nối yêu thương</span>
+      <h1 style="font-size: 2.6rem; color:#FFF; margin-bottom: 16px;">Về BookingTour</h1>
+      <p style="max-width: 700px; margin: 0 auto; font-size: 1.1rem; opacity: 0.95; line-height: 1.7;">
+        Chúng tôi là nền tảng tiên phong cung cấp giải pháp du lịch thông minh, mang tới những trải nghiệm đáng nhớ và giá trị bền vững cho du khách trên từng dặm đường.
+      </p>
+    </section>
+
+    <!-- Mission & Vision Section -->
+    <section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-bottom: 60px;">
+      <div class="card" style="padding: 32px;">
+        <div style="width: 50px; height: 50px; border-radius: 50%; background-color: var(--primary-100); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 18px;">
+          <i class="fa-solid fa-bullseye"></i>
+        </div>
+        <h2 style="font-size: 1.35rem; margin-bottom: 12px;">Sứ Mệnh Của Chúng Tôi</h2>
+        <p style="color: var(--text-muted); line-height: 1.7;">
+          Truyền cảm hứng và đơn giản hóa việc du lịch cho mọi người thông qua công nghệ hiện đại, chất lượng dịch vụ chuẩn mực quốc tế, đồng thời gìn giữ và tôn vinh nét đẹp văn hóa bản địa.
+        </p>
+      </div>
+
+      <div class="card" style="padding: 32px;">
+        <div style="width: 50px; height: 50px; border-radius: 50%; background-color: var(--accent-light); color: var(--accent-dark); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 18px;">
+          <i class="fa-solid fa-eye"></i>
+        </div>
+        <h2 style="font-size: 1.35rem; margin-bottom: 12px;">Tầm Nhìn 2030</h2>
+        <p style="color: var(--text-muted); line-height: 1.7;">
+          Trở thành hệ sinh thái du lịch - lữ hành số được yêu thích và tin cậy nhất Đông Nam Á, nơi mỗi hành trình là một câu chuyện truyền cảm hứng và đem lại hạnh phúc cho hàng triệu du khách.
+        </p>
+      </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section style="background-color: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 48px 30px; margin-bottom: 60px; box-shadow: var(--shadow-sm);">
+      <h2 class="text-center" style="font-size: 1.8rem; margin-bottom: 36px;">Những Con Số Tự Hào Của BookingTour</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; text-align: center;">
+        <div>
+          <div style="font-size: 2.5rem; font-weight: 800; color: var(--primary); margin-bottom: 6px;">100K+</div>
+          <div style="color: var(--text-muted); font-weight: 600;">Khách Hàng Đồng Hành</div>
+        </div>
+        <div>
+          <div style="font-size: 2.5rem; font-weight: 800; color: var(--primary); margin-bottom: 6px;">500+</div>
+          <div style="color: var(--text-muted); font-weight: 600;">Hành Trình Đa Dạng</div>
+        </div>
+        <div>
+          <div style="font-size: 2.5rem; font-weight: 800; color: var(--primary); margin-bottom: 6px;">99.2%</div>
+          <div style="color: var(--text-muted); font-weight: 600;">Tỷ Lệ Hài Lòng</div>
+        </div>
+        <div>
+          <div style="font-size: 2.5rem; font-weight: 800; color: var(--primary); margin-bottom: 6px;">10+</div>
+          <div style="color: var(--text-muted); font-weight: 600;">Năm Kinh Nghiệm</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose Us -->
+    <section style="margin-bottom: 60px;">
+      <div class="text-center" style="max-width: 600px; margin: 0 auto 36px;">
+        <h2 class="section-title">Vì Sao Chọn BookingTour?</h2>
+        <p class="section-subtitle">Cam kết mang đến dịch vụ chất lượng tối đa với chi phí tối ưu nhất</p>
+      </div>
+
+      <div class="features-grid" style="margin-top: 0; margin-bottom: 0;">
+        <div class="feature-card">
+          <div class="feature-icon-box"><i class="fa-solid fa-certificate"></i></div>
+          <h3 class="feature-title">Chất Lượng Cam Kết</h3>
+          <p class="feature-desc">Tất cả khách sạn, du thuyền và đối tác vận chuyển đều qua kiểm định định kỳ khắt khe.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-box"><i class="fa-solid fa-coins"></i></div>
+          <h3 class="feature-title">Giá Tốt & Minh Bạch</h3>
+          <p class="feature-desc">Không phí ẩn, không phụ thu bất ngờ. Hoàn tiền nếu dịch vụ không đúng cam kết.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-box"><i class="fa-solid fa-user-shield"></i></div>
+          <h3 class="feature-title">Bảo Hiểm Tối Đa</h3>
+          <p class="feature-desc">Hợp đồng bảo hiểm du lịch quốc tế quyền lợi lên đến 100.000.000đ cho mỗi du khách.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-box"><i class="fa-solid fa-clock-rotate-left"></i></div>
+          <h3 class="feature-title">Hủy Đổi Linh Hoạt</h3>
+          <p class="feature-desc">Hỗ trợ dời ngày đi hoặc hủy vé miễn phí trước 7 ngày khởi hành đối với đa số các tour.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Info Section -->
+    <section class="card" style="padding: 40px; margin-bottom: 40px;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px;">
+        <div>
+          <h2 style="font-size: 1.5rem; margin-bottom: 16px;">Liên Hệ Với Chúng Tôi</h2>
+          <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 24px;">
+            Quý khách có bất kỳ câu hỏi hoặc cần hỗ trợ tư vấn thiết kế tour riêng cho cơ quan, đoàn thể, hãy liên hệ ngay với đội ngũ tư vấn viên của BookingTour.
+          </p>
+
+          <div style="display:flex; flex-direction:column; gap:16px;">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="width:36px; height:36px; border-radius:50%; background:var(--primary-100); color:var(--primary); display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-location-dot"></i></div>
+              <div><strong>Trụ sở:</strong> Tòa nhà Innovation, 123 Lê Duẩn, Quận 1, TP. HCM</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="width:36px; height:36px; border-radius:50%; background:var(--primary-100); color:var(--primary); display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-phone"></i></div>
+              <div><strong>Hotline 24/7:</strong> 1900 6868 - 028 3822 9999</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="width:36px; height:36px; border-radius:50%; background:var(--primary-100); color:var(--primary); display:flex; align-items:center; justify-content:center;"><i class="fa-solid fa-envelope"></i></div>
+              <div><strong>Email:</strong> contact@bookingtour.vn</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick message form -->
+        <div style="background-color: var(--surface-alt); padding: 24px; border-radius: var(--radius-lg);">
+          <h3 style="font-size: 1.15rem; margin-bottom: 16px;">Gửi Tin Nhắn Cho Tư Vấn Viên</h3>
+          <form onsubmit="event.preventDefault(); showToast('Đã gửi tin nhắn thành công! Chúng tôi sẽ liên hệ lại sớm.'); this.reset();">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Họ và tên của bạn *" required>
+            </div>
+            <div class="form-group">
+              <input type="email" class="form-control" placeholder="Email liên hệ *" required>
+            </div>
+            <div class="form-group">
+              <textarea class="form-control" rows="3" placeholder="Nội dung cần tư vấn..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Gửi Lời Nhắn</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand"><i class="fa-solid fa-compass"></i><span>BookingTour</span></div>
+          <p class="footer-desc">Nền tảng đặt tour du lịch chất lượng cao, an toàn và bảo hiểm toàn diện.</p>
+        </div>
+        <div>
+          <h4 class="footer-title">Điểm Đến</h4>
+          <div class="footer-links">
+            <a href="explore.html">Miền Bắc</a>
+            <a href="explore.html">Miền Trung</a>
+            <a href="explore.html">Miền Nam</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-title">Liên Kết</h4>
+          <div class="footer-links">
+            <a href="about.html">Về chúng tôi</a>
+            <a href="tours.html">Danh sách tour</a>
+            <a href="booking-history.html">Lịch sử tour</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-title">Liên Hệ</h4>
+          <div class="footer-contact-item"><i class="fa-solid fa-phone"></i><span>Hotline: 1900 6868</span></div>
+          <div class="footer-contact-item"><i class="fa-solid fa-envelope"></i><span>support@bookingtour.vn</span></div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 BookingTour. Prototype UI/UX.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+</body>
+</html>

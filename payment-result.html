@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kết Quả Thanh Toán - BookingTour</title>
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="navbar-brand">
+        <i class="fa-solid fa-compass"></i>
+        <span>BookingTour</span>
+      </a>
+
+      <div class="nav-actions">
+        <a href="booking-history.html" class="btn btn-outline btn-sm">
+          <i class="fa-solid fa-ticket"></i> Lịch Sử Tour
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content container" style="padding-top: 30px;">
+    <!-- Prototype Quick State Switcher Bar -->
+    <div style="max-width: 600px; margin: 0 auto 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+      <span style="font-size: 0.85rem; font-weight: 700; color: var(--text-muted);"><i class="fa-solid fa-eye"></i> Xem Các Trạng Thái:</span>
+      <div style="display: flex; gap: 6px;">
+        <a href="payment-result.html?status=success" class="btn btn-sm btn-secondary" style="font-size:0.8rem;"><i class="fa-solid fa-check text-success"></i> Thành Công</a>
+        <a href="payment-result.html?status=failed" class="btn btn-sm btn-secondary" style="font-size:0.8rem;"><i class="fa-solid fa-xmark text-danger"></i> Thất Bại</a>
+        <a href="payment-result.html?status=expired" class="btn btn-sm btn-secondary" style="font-size:0.8rem;"><i class="fa-solid fa-clock text-accent"></i> Hết Hạn</a>
+      </div>
+    </div>
+
+    <!-- STATE 1: SUCCESS -->
+    <div class="result-card" id="stateSuccess">
+      <div class="result-icon success">
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <span class="badge badge-available" style="margin-bottom: 12px;">Giao dịch hoàn tất</span>
+      <h1 style="font-size: 1.8rem; margin-bottom: 8px;">Thanh Toán Thành Công!</h1>
+      <p class="text-muted" style="margin-bottom: 28px;">
+        Cảm ơn quý khách! Vé điện tử và xác nhận giữ chỗ đã được gửi về email <strong>hao.nguyen@example.com</strong>.
+      </p>
+
+      <!-- Summary Ticket Card -->
+      <div style="background-color: var(--surface-alt); border-radius: var(--radius-md); padding: 20px; text-align: left; margin-bottom: 28px; font-size: 0.95rem;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+          <span class="text-muted">Mã Đặt Chỗ (Booking ID):</span>
+          <strong class="text-primary font-bold">BK-892347</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+          <span class="text-muted">Tour:</span>
+          <strong style="text-align:right; max-width:240px;">Khám Phá Vịnh Hạ Long 3N2Đ</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+          <span class="text-muted">Ngày khởi hành:</span>
+          <strong>25/10/2026</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+          <span class="text-muted">Số lượng hành khách:</span>
+          <strong>1 Người lớn</strong>
+        </div>
+        <div style="display:flex; justify-content:space-between; padding-top:10px; border-top:1px dashed var(--border);">
+          <span class="text-muted">Tổng số tiền đã thanh toán:</span>
+          <strong class="text-primary" style="font-size:1.15rem;">3.490.000đ</strong>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+        <a href="booking-detail.html" class="btn btn-primary">
+          <i class="fa-solid fa-ticket"></i> Xem Chi Tiết Vé Tour
+        </a>
+        <a href="index.html" class="btn btn-secondary">
+          <i class="fa-solid fa-house"></i> Về Trang Chủ
+        </a>
+      </div>
+    </div>
+
+    <!-- STATE 2: FAILED -->
+    <div class="result-card" id="stateFailed" style="display:none;">
+      <div class="result-icon failed">
+        <i class="fa-solid fa-xmark"></i>
+      </div>
+      <span class="badge badge-sold-out" style="margin-bottom: 12px;">Thanh toán chưa thành công</span>
+      <h1 style="font-size: 1.8rem; margin-bottom: 8px;">Thanh Toán Thất Bại</h1>
+      <p class="text-muted" style="margin-bottom: 28px;">
+        Hệ thống không thể ghi nhận giao dịch của bạn do kết nối gián đoạn hoặc thông tin chuyển khoản chưa chính xác. Vui lòng kiểm tra lại.
+      </p>
+
+      <div style="background-color: #FEF2F2; border: 1px solid #FEE2E2; border-radius: var(--radius-md); padding: 16px; text-align: left; margin-bottom: 28px; font-size: 0.9rem; color: #991B1B;">
+        <div style="font-weight:700; margin-bottom:4px;"><i class="fa-solid fa-circle-exclamation"></i> Gợi ý xử lý:</div>
+        <ul style="list-style:disc; padding-left:20px; line-height:1.6;">
+          <li>Kiểm tra lại số dư trong tài khoản hoặc hạn mức thanh toán.</li>
+          <li>Đảm bảo bạn đã nhập đúng mã chuyển khoản <strong>BK892347</strong>.</li>
+          <li>Thử lại qua cổng quét mã QR hoặc liên hệ hotline 1900 6868.</li>
+        </ul>
+      </div>
+
+      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+        <a href="payment.html" class="btn btn-primary">
+          <i class="fa-solid fa-rotate-right"></i> Thử Lại Thanh Toán
+        </a>
+        <a href="index.html" class="btn btn-secondary">
+          <i class="fa-solid fa-house"></i> Về Trang Chủ
+        </a>
+      </div>
+    </div>
+
+    <!-- STATE 3: EXPIRED -->
+    <div class="result-card" id="stateExpired" style="display:none;">
+      <div class="result-icon expired">
+        <i class="fa-solid fa-hourglass-end"></i>
+      </div>
+      <span class="badge badge-almost-full" style="margin-bottom: 12px;">Hết thời gian giữ chỗ</span>
+      <h1 style="font-size: 1.8rem; margin-bottom: 8px;">Phiên Thanh Toán Đã Hết Hạn</h1>
+      <p class="text-muted" style="margin-bottom: 28px;">
+        Đã quá thời gian 10 phút giữ chỗ. Hệ thống đã tự động giải phóng chỗ của bạn để phục vụ các khách hàng khác.
+      </p>
+
+      <div style="background-color: var(--surface-alt); border-radius: var(--radius-md); padding: 18px; text-align: left; margin-bottom: 28px; font-size: 0.9rem;">
+        <p class="text-muted" style="margin-bottom:0;">
+          Nếu bạn đã chuyển tiền nhưng quá thời hạn trên, vui lòng giữ lại biên lai ngân hàng và liên hệ tổng đài <strong>1900 6868</strong> để nhân viên kích hoạt vé thủ công ngay cho bạn.
+        </p>
+      </div>
+
+      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+        <a href="tour-detail.html" class="btn btn-primary">
+          <i class="fa-solid fa-arrow-rotate-left"></i> Đặt Lại Chuyến Đi Này
+        </a>
+        <a href="booking-history.html" class="btn btn-secondary">
+          <i class="fa-solid fa-clock-rotate-left"></i> Lịch Sử Đặt Tour
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-bottom" style="border:none; padding-top:0;">
+        <span>© 2026 BookingTour. Prototype UI/UX.</span>
+        <span>Hỗ trợ 24/7: 1900 6868</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+</body>
+</html>
