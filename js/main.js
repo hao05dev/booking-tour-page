@@ -93,14 +93,13 @@ function switchRole(roleName, redirect = false) {
 
   if (roleName === 'guest') {
     setCurrentUser(null);
-    showToast('Đã chuyển sang vai trò: Khách vãng lai (Guest)', 'info');
+    showToast('Đã đăng xuất tài khoản.', 'info');
     renderRoleBasedNav();
-    updateDemoRoleSwitcherUI();
     if (redirect) window.location.href = 'index.html';
     return;
   }
 
-  // Find demo user for the specified role
+  // Find user for the specified role
   targetUser = db.users.find(u => u.role === roleName && u.status === 'active');
   if (!targetUser) {
     if (roleName === 'customer') {
@@ -121,9 +120,8 @@ function switchRole(roleName, redirect = false) {
     manager: 'Quản lý Tour',
     admin: 'Quản trị viên'
   };
-  showToast(`Đã chuyển vai trò: ${roleDisplayNames[roleName]} (${targetUser.name})`, 'success');
+  showToast(`Đăng nhập thành công: ${roleDisplayNames[roleName]} (${targetUser.name})`, 'success');
   renderRoleBasedNav();
-  updateDemoRoleSwitcherUI();
 
   if (redirect) {
     if (roleName === 'guide') window.location.href = 'guide-dashboard.html';
@@ -136,9 +134,8 @@ function switchRole(roleName, redirect = false) {
 
 function logout() {
   setCurrentUser(null);
-  showToast('Đã đăng xuất thành công. Hiện tại đang là Khách vãng lai.', 'info');
+  showToast('Đã đăng xuất thành công.', 'info');
   renderRoleBasedNav();
-  updateDemoRoleSwitcherUI();
   setTimeout(() => {
     window.location.href = 'index.html';
   }, 400);

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang=vi>
 <head>
   <meta charset=UTF-8>
@@ -58,7 +58,7 @@
           <p style=opacity:0.9; font-size:0.95rem; margin-top:6px;>Quản lý các chuyến đi được phân công, danh sách hành khách và cập nhật tiến độ thực tế.</p>
         </div>
         <div>
-          <button class=btn btn-warning onclick=openModal('modalRosterDemo')>
+          <button class=btn btn-warning onclick=openModal('modalGuestRoster')>
             <i class=fa-solid fa-users></i> Danh Sách Khách Đoàn Này
           </button>
         </div>
@@ -131,7 +131,7 @@
             <button class=btn btn-outline btn-sm onclick=showToast('Đã gửi thông báo tập trung tới 18 hành khách qua SMS & App!', 'success')>
               <i class=fa-solid fa-bullhorn></i> Nhắc Giờ Tập Trung
             </button>
-            <button class=btn btn-primary btn-sm onclick=openModal('modalRosterDemo')>
+            <button class=btn btn-primary btn-sm onclick=openModal('modalGuestRoster')>
               <i class=fa-solid fa-clipboard-user></i> Điểm Danh Khách
             </button>
           </div>
@@ -169,7 +169,7 @@
                 <td><span class=badge badge-info><i class=fa-solid fa-users></i> 18 / 20 Khách</span></td>
                 <td><span class=badge badge-warning><i class=fa-solid fa-spinner fa-spin></i> Chuẩn bị đoàn</span></td>
                 <td>
-                  <button class=btn btn-primary btn-sm onclick=openModal('modalRosterDemo')>
+                  <button class=btn btn-primary btn-sm onclick=openModal('modalGuestRoster')>
                     <i class=fa-regular fa-id-card></i> Danh Sách Khách
                   </button>
                 </td>
@@ -210,7 +210,7 @@
   </main>
 
   <!-- Guest Roster Modal -->
-  <div class=modal-backdrop id=modalRosterDemo>
+  <div class=modal-backdrop id=modalGuestRoster>
     <div class=modal-container style=max-width:850px;>
       <div class=modal-header>
         <h3 class=modal-title><i class=fa-solid fa-users-viewfinder text-primary></i> Danh Sách Hành Khách (Vịnh Hạ Long 25/10/2026)</h3>
@@ -270,7 +270,7 @@
       </div>
       <div class=modal-footer>
         <button class=btn btn-secondary btn-sm data-close-modal>Đóng</button>
-        <button class=btn btn-primary btn-sm onclick=showToast('Đã lưu dữ liệu điểm danh đoàn!', 'success'); closeModal('modalRosterDemo');>Lưu Điểm Danh</button>
+        <button class=btn btn-primary btn-sm onclick=showToast('Đã lưu dữ liệu điểm danh đoàn!', 'success'); closeModal('modalGuestRoster');>Lưu Điểm Danh</button>
       </div>
     </div>
   </div>
@@ -279,7 +279,7 @@
   <footer class=site-footer>
     <div class=container>
       <div class=footer-bottom style=border:none; padding-top:0;>
-        <span>© 2026 BookingTour. Prototype HDV Operations.</span>
+        <span>© 2026 BookingTour. Tất cả quyền được bảo lưu.</span>
         <span>Hỗ trợ khẩn cấp HDV: 1900 6868 (Nhánh 2)</span>
       </div>
     </div>
