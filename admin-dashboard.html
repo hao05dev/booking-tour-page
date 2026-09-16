@@ -1,234 +1,397 @@
 <!DOCTYPE html>
-<html lang=vi>
+<html lang="vi">
 <head>
-  <meta charset=UTF-8>
-  <meta name=viewport content=width=device-width, initial-scale=1.0>
-  <title>Bảng Quản Trị Hệ Thống - BookingTour</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bảng Quản Trị Hệ Thống - BookingTour Admin</title>
   <!-- Google Fonts & FontAwesome -->
-  <link rel=preconnect href=https://fonts.googleapis.com>
-  <link rel=preconnect href=https://fonts.gstatic.com crossorigin>
-  <link href=https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap rel=stylesheet>
-  <link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Stylesheet -->
-  <link rel=stylesheet href=css/style.css>
+  <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="admindek-body">
 
-  <!-- Site Header -->
-  <header class="site-header">
-    <div class="container navbar">
-      <a href="index.html" class="navbar-brand">
-        <i class="fa-solid fa-compass"></i>
-        <span>BookingTour</span>
+  <!-- Mobile Overlay for Sidebar -->
+  <div class="admindek-sidebar-overlay" id="admindekOverlay" onclick="toggleAdmindekSidebar()"></div>
+
+  <div class="admindek-app">
+    <!-- 1. LEFT SIDEBAR (Admindek Style) -->
+    <aside class="admindek-sidebar" id="admindekSidebar">
+      <!-- Brand Logo -->
+      <a href="index.html" class="admindek-brand">
+        <div class="admindek-brand-icon">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <div class="admindek-brand-text">
+          <span class="admindek-brand-title">BookingTour</span>
+          <span class="admindek-brand-subtitle">Admin Console</span>
+        </div>
       </a>
 
-      <nav class="nav-menu">
-        <a href="index.html" class="nav-link">Trang chủ</a>
-        <a href="tours.html" class="nav-link">Tour du lịch</a>
-        <a href="explore.html" class="nav-link">Khám phá</a>
-        <a href="about.html" class="nav-link">Về chúng tôi</a>
-      </nav>
-
-      <div class="nav-actions"></div>
-    </div>
-  </header>
-
-  <!-- Mobile Drawer Menu -->
-  <div class=mobile-nav-overlay id=mobileOverlay></div>
-  <aside class=mobile-nav id=mobileNav>
-    <div class=mobile-nav-header>
-      <a href=index.html class=navbar-brand><i class=fa-solid fa-compass></i><span>BookingTour</span></a>
-      <button class=modal-close id=mobileNavClose><i class=fa-solid fa-xmark></i></button>
-    </div>
-    <div class=mobile-nav-links></div>
-  </aside>
-
-  <!-- Dashboard Hero Header -->
-  <div class=dashboard-header>
-    <div class=container>
-      <div class=dashboard-title-row>
-        <div>
-          <span class=badge badge-role-admin style=font-size:0.8rem; padding:4px 12px; margin-bottom:8px; display:inline-block;>
-            <i class=fa-solid fa-shield-halved></i> Quản Trị Viên Hệ Thống (Super Admin)
-          </span>
-          <h1 style=font-size:1.8rem; font-weight:800; margin:0;>Bảng Quản Trị Tổng Quan & Phân Quyền</h1>
-          <p style=opacity:0.9; font-size:0.95rem; margin-top:6px;>Quản lý toàn diện tài khoản người dùng, phân quyền 5 vai trò, duyệt đánh giá và theo dõi doanh thu.</p>
-        </div>
-        <div>
-          <button class=btn btn-warning onclick="resetMockDatabase(); showToast('Đã làm mới và đồng bộ dữ liệu hệ thống!', 'info'); setTimeout(()=>location.reload(), 600);">
-            <i class="fa-solid fa-arrows-rotate"></i> Đồng Bộ Dữ Liệu
-          </button>
+      <!-- Sidebar User Summary -->
+      <div class="admindek-sidebar-user">
+        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80" alt="Admin Avatar" class="admindek-sidebar-avatar">
+        <div class="admindek-sidebar-user-info">
+          <span class="admindek-sidebar-name">Lê Hoàng Long</span>
+          <span class="admindek-sidebar-role"><i class="fa-solid fa-circle" style="color:#10b981; font-size:0.55rem;"></i> Super Admin</span>
         </div>
       </div>
+
+      <!-- Navigation Sections -->
+      <div class="admindek-nav-body">
+        <div class="admindek-section-title">Tổng Quan & Phân Tích</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="admin-dashboard.html" class="admindek-nav-link active">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-chart-pie"></i> Bảng Điều Khiển</span>
+              <span class="admindek-nav-badge badge-blue">Live</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="#sectionBookings" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-sack-dollar"></i> Báo Cáo Doanh Thu</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="admindek-section-title">Quản Lý Tài Khoản & Phân Quyền</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="#sectionUsers" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-users-gear"></i> Tài Khoản & Vai Trò</span>
+              <span class="admindek-nav-badge badge-emerald">4 Roles</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="#sectionUsers" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-id-badge"></i> Hướng Dẫn Viên</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="admindek-section-title">Dịch Vụ & Vận Hành</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="manager-dashboard.html" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-compass"></i> Quản Lý Kho Tour</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="#sectionBookings" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-receipt"></i> Đơn Đặt Chỗ Booking</span>
+              <span class="admindek-nav-badge badge-amber">142</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="#sectionReviews" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-star-half-stroke"></i> Kiểm Duyệt Đánh Giá</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="admindek-section-title">Hệ Thống</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="javascript:void(0)" onclick="resetMockDatabase(); showToast('Đã làm mới và đồng bộ dữ liệu hệ thống!', 'info'); setTimeout(()=>location.reload(), 600);" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-arrows-rotate"></i> Đồng Bộ Dữ Liệu</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="profile.html" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-gear"></i> Cài Đặt Hồ Sơ</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Sidebar Footer / Logout -->
+      <div class="admindek-sidebar-footer">
+        <button type="button" onclick="logout()" class="btn btn-outline btn-block text-danger" style="font-size:0.84rem; padding:8px 12px; border-color:rgba(239, 68, 68, 0.4);">
+          <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất Admin
+        </button>
+      </div>
+    </aside>
+
+    <!-- 2. MAIN APP WRAPPER -->
+    <div class="admindek-main-wrapper">
+      <!-- Topbar -->
+      <header class="admindek-topbar">
+        <div class="admindek-topbar-left">
+          <button type="button" class="admindek-toggle-btn" onclick="toggleAdmindekSidebar()" title="Toggle Sidebar">
+            <i class="fa-solid fa-bars-staggered"></i>
+          </button>
+          <div class="admindek-topbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Tìm kiếm tài khoản, tour, đơn đặt..." id="adminSearchInput">
+            <span class="admindek-search-badge">Ctrl K</span>
+          </div>
+        </div>
+
+        <div class="admindek-topbar-right">
+          <!-- Back to Public Site -->
+          <a href="index.html" class="admindek-btn-site">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Về Trang Chủ Khách Hàng</span>
+          </a>
+
+          <!-- Notification Bell -->
+          <button type="button" class="admindek-icon-btn" onclick="showToast('Hệ thống có 3 thông báo mới từ khách hàng!', 'info')" title="Thông báo">
+            <i class="fa-regular fa-bell"></i>
+            <span class="admindek-icon-badge"></span>
+          </button>
+
+          <!-- User Dropdown (Re-used) -->
+          <div class="nav-actions" style="margin-left: 6px;">
+            <!-- Rendered by JS renderRoleBasedNav -->
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content Container -->
+      <main class="admindek-content">
+        <!-- Page Header & Breadcrumb -->
+        <div class="admindek-page-header">
+          <div class="admindek-page-title-wrap">
+            <h1>Bảng Quản Trị Hệ Thống (Analytics)</h1>
+            <div class="admindek-breadcrumb">
+              <a href="index.html">Trang chủ</a>
+              <span>/</span>
+              <span>Quản trị viên</span>
+              <span>/</span>
+              <span style="color:#0f172a; font-weight:600;">Tổng quan hệ thống</span>
+            </div>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <button class="btn btn-warning btn-sm" onclick="resetMockDatabase(); showToast('Đã làm mới và đồng bộ dữ liệu hệ thống!', 'info'); setTimeout(()=>location.reload(), 600);">
+              <i class="fa-solid fa-arrows-rotate"></i> Đồng Bộ Dữ Liệu
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 Stat KPI Cards (Admindek Gradient Style) -->
+        <div class="admindek-stats-grid">
+          <div class="admindek-stat-card stat-blue">
+            <div class="admindek-stat-top">
+              <div>
+                <div class="admindek-stat-label">Tổng Doanh Thu</div>
+                <div class="admindek-stat-value">158,4 Tr</div>
+              </div>
+              <div class="admindek-stat-icon"><i class="fa-solid fa-sack-dollar"></i></div>
+            </div>
+            <div class="admindek-stat-bottom">
+              <i class="fa-solid fa-arrow-trend-up"></i>
+              <span>+18.5% so với tháng trước</span>
+            </div>
+          </div>
+
+          <div class="admindek-stat-card stat-emerald">
+            <div class="admindek-stat-top">
+              <div>
+                <div class="admindek-stat-label">Tổng Thành Viên</div>
+                <div class="admindek-stat-value">18 Người</div>
+              </div>
+              <div class="admindek-stat-icon"><i class="fa-solid fa-users-gear"></i></div>
+            </div>
+            <div class="admindek-stat-bottom">
+              <i class="fa-solid fa-user-check"></i>
+              <span>4 vai trò hoạt động ổn định</span>
+            </div>
+          </div>
+
+          <div class="admindek-stat-card stat-amber">
+            <div class="admindek-stat-top">
+              <div>
+                <div class="admindek-stat-label">Tour Đang Mở Bán</div>
+                <div class="admindek-stat-value">12 Tour</div>
+              </div>
+              <div class="admindek-stat-icon"><i class="fa-solid fa-compass"></i></div>
+            </div>
+            <div class="admindek-stat-bottom">
+              <i class="fa-solid fa-calendar-check"></i>
+              <span>25 đoàn khởi hành tháng 10-11</span>
+            </div>
+          </div>
+
+          <div class="admindek-stat-card stat-teal">
+            <div class="admindek-stat-top">
+              <div>
+                <div class="admindek-stat-label">Đánh Giá Công Khai</div>
+                <div class="admindek-stat-value">4 Đánh Giá</div>
+              </div>
+              <div class="admindek-stat-icon"><i class="fa-solid fa-comments"></i></div>
+            </div>
+            <div class="admindek-stat-bottom">
+              <i class="fa-solid fa-star" style="color:#fef08a;"></i>
+              <span>Điểm trung bình 4.9 / 5.0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analytical Wave Mock Chart & Overview Widget -->
+        <div class="admindek-box">
+          <div class="admindek-box-header">
+            <h2 class="admindek-box-title">
+              <i class="fa-solid fa-chart-line"></i>
+              <span>Biểu Đồ Lượng Khách & Đơn Đặt Chỗ (Real-time Analytics)</span>
+            </h2>
+            <div style="display:flex; gap:6px;">
+              <span class="badge badge-role-customer" style="font-size:0.75rem;"><i class="fa-solid fa-circle" style="color:#3b82f6; font-size:0.5rem;"></i> Lượt truy cập</span>
+              <span class="badge badge-role-guide" style="font-size:0.75rem;"><i class="fa-solid fa-circle" style="color:#10b981; font-size:0.5rem;"></i> Đơn hoàn tất</span>
+            </div>
+          </div>
+          <div class="admindek-box-body">
+            <!-- Simulated High-Tech SVG Wave Chart -->
+            <div style="width:100%; height:180px; position:relative; overflow:hidden; background:linear-gradient(180deg, #f8fafc 0%, #ffffff 100%); border-radius:8px; display:flex; align-items:flex-end;">
+              <svg viewBox="0 0 800 160" style="width:100%; height:100%;" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="gradBlue" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#3b82f6; stop-opacity:0.35" />
+                    <stop offset="100%" style="stop-color:#3b82f6; stop-opacity:0.0" />
+                  </linearGradient>
+                  <linearGradient id="gradGreen" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#10b981; stop-opacity:0.35" />
+                    <stop offset="100%" style="stop-color:#10b981; stop-opacity:0.0" />
+                  </linearGradient>
+                </defs>
+                <path d="M0,130 C150,60 250,150 400,80 C550,20 680,100 800,40 L800,160 L0,160 Z" fill="url(#gradBlue)" />
+                <path d="M0,130 C150,60 250,150 400,80 C550,20 680,100 800,40" fill="none" stroke="#3b82f6" stroke-width="3" />
+                
+                <path d="M0,145 C120,110 280,70 420,120 C580,140 700,60 800,85 L800,160 L0,160 Z" fill="url(#gradGreen)" />
+                <path d="M0,145 C120,110 280,70 420,120 C580,140 700,60 800,85" fill="none" stroke="#10b981" stroke-width="2.5" />
+              </svg>
+            </div>
+            <div style="display:flex; justify-content:space-between; margin-top:8px; font-size:0.75rem; color:#94a3b8; font-weight:600;">
+              <span>T1</span><span>T2</span><span>T3</span><span>T4</span><span>T5</span><span>T6</span><span>T7</span><span>T8</span><span>T9</span><span>T10</span><span>T11</span><span>T12</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 1: User & Role Management Table -->
+        <div class="admindek-box" id="sectionUsers">
+          <div class="admindek-box-header">
+            <div>
+              <h2 class="admindek-box-title">
+                <i class="fa-solid fa-user-shield"></i>
+                <span>Quản Lý Người Dùng & Phân Quyền Vai Trò (Roles)</span>
+              </h2>
+              <p class="text-muted" style="font-size:0.85rem; margin-top:4px;">Thay đổi vai trò (Customer, Guide, Manager, Admin) hoặc tạm khóa tài khoản tức thời.</p>
+            </div>
+            <span class="badge badge-info"><i class="fa-solid fa-bolt"></i> Cập nhật theo thời gian thực</span>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table-custom">
+              <thead>
+                <tr>
+                  <th>Thông Tin Thành Viên</th>
+                  <th>Phân Quyền Vai Trò</th>
+                  <th>Trạng Thái</th>
+                  <th>Hành Động</th>
+                </tr>
+              </thead>
+              <tbody id="adminUsersTable">
+                <!-- Dynamically populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- SECTION 2: Review Moderation Table -->
+        <div class="admindek-box" id="sectionReviews">
+          <div class="admindek-box-header">
+            <div>
+              <h2 class="admindek-box-title">
+                <i class="fa-solid fa-star-half-stroke text-warning"></i>
+                <span>Kiểm Duyệt Đánh Giá Khách Hàng (Reviews)</span>
+              </h2>
+              <p class="text-muted" style="font-size:0.85rem; margin-top:4px;">Duyệt hiển thị hoặc ẩn các nhận xét của khách hàng trên trang chi tiết tour.</p>
+            </div>
+            <span class="badge badge-warning"><i class="fa-solid fa-filter"></i> Kiểm duyệt nội dung</span>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table-custom">
+              <thead>
+                <tr>
+                  <th>Khách Hàng & Tour</th>
+                  <th>Đánh Giá</th>
+                  <th>Nội Dung Nhận Xét</th>
+                  <th>Trạng Thái</th>
+                  <th>Thao Tác</th>
+                </tr>
+              </thead>
+              <tbody id="adminReviewsTable">
+                <!-- Dynamically populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- SECTION 3: System All Bookings Overview -->
+        <div class="admindek-box" id="sectionBookings">
+          <div class="admindek-box-header">
+            <div>
+              <h2 class="admindek-box-title">
+                <i class="fa-solid fa-receipt"></i>
+                <span>Tổng Hợp Đơn Đặt Tour Toàn Hệ Thống</span>
+              </h2>
+              <p class="text-muted" style="font-size:0.85rem; margin-top:4px;">Theo dõi tiến độ thanh toán và giao dịch đặt vé của tất cả khách hàng.</p>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="showToast('Đang xuất báo cáo tài chính...')">
+              <i class="fa-solid fa-download"></i> Xuất Báo Cáo
+            </button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table-custom">
+              <thead>
+                <tr>
+                  <th>Mã Đơn & Tour</th>
+                  <th>Khách Hàng</th>
+                  <th>Ngày Đi</th>
+                  <th>Số Tiền</th>
+                  <th>Thanh Toán</th>
+                  <th>Trạng Thái</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>BK-892347</strong><br><span class="text-muted" style="font-size:0.75rem;">Vịnh Hạ Long 5 Sao 3N2Đ</span></td>
+                  <td><strong>Nguyễn Văn Hào</strong><br><span class="text-muted" style="font-size:0.75rem;">0912 345 678</span></td>
+                  <td>25/10/2026</td>
+                  <td><strong class="text-primary">3.490.000đ</strong></td>
+                  <td><span class="badge badge-success">VietQR (Đã thanh toán)</span></td>
+                  <td><span class="badge badge-available">Đã xác nhận</span></td>
+                </tr>
+                <tr>
+                  <td><strong>BK-784192</strong><br><span class="text-muted" style="font-size:0.75rem;">Đà Nẵng - Hội An - Bà Nà Hills 4N3Đ</span></td>
+                  <td><strong>Trần Thị Mai</strong><br><span class="text-muted" style="font-size:0.75rem;">0988 123 456</span></td>
+                  <td>15/11/2026</td>
+                  <td><strong class="text-primary">9.180.000đ</strong></td>
+                  <td><span class="badge badge-success">Thẻ Visa/Mastercard</span></td>
+                  <td><span class="badge badge-available">Đã xác nhận</span></td>
+                </tr>
+                <tr>
+                  <td><strong>BK-655210</strong><br><span class="text-muted" style="font-size:0.75rem;">Fansipan & Săn Mây Sa Pa 2N1Đ</span></td>
+                  <td><strong>Lê Hoàng Nam</strong><br><span class="text-muted" style="font-size:0.75rem;">0905 678 901</span></td>
+                  <td>20/06/2026</td>
+                  <td><strong class="text-primary">2.190.000đ</strong></td>
+                  <td><span class="badge badge-success">VietQR</span></td>
+                  <td><span class="badge badge-secondary">Đã hoàn thành</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
     </div>
   </div>
 
-  <!-- Main Content -->
-  <main class=main-content style=padding-top:0;>
-    <div class=container>
-      <!-- 4 KPI Stat Cards -->
-      <div class=dashboard-stats-grid>
-        <div class=stat-card>
-          <div class=stat-icon-box stat-icon-primary><i class=fa-solid fa-users-gear></i></div>
-          <div>
-            <div class=stat-value>18 Người</div>
-            <div class=stat-label>Tổng Tài Khoản Thành Viên</div>
-          </div>
-        </div>
-        <div class=stat-card>
-          <div class=stat-icon-box stat-icon-success><i class=fa-solid fa-sack-dollar></i></div>
-          <div>
-            <div class=stat-value>158,4 Triệu</div>
-            <div class=stat-label>Tổng Doanh Thu Booking</div>
-          </div>
-        </div>
-        <div class=stat-card>
-          <div class=stat-icon-box stat-icon-info><i class=fa-solid fa-map-location-dot></i></div>
-          <div>
-            <div class=stat-value>12 Tour</div>
-            <div class=stat-label>Hành Trình Mở Bán</div>
-          </div>
-        </div>
-        <div class=stat-card>
-          <div class=stat-icon-box stat-icon-warning><i class=fa-solid fa-comments></i></div>
-          <div>
-            <div class=stat-value>4 Đánh Giá</div>
-            <div class=stat-label>Đã Kiểm Duyệt Công Khai</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- SECTION 1: User & Role Management Table -->
-      <div class=dashboard-card>
-        <div class=dashboard-card-header>
-          <div>
-            <h2 class=dashboard-card-title>
-              <i class=fa-solid fa-user-shield text-primary></i>
-              <span>Quản Lý Người Dùng & Phân Quyền Vai Trò (Roles)</span>
-            </h2>
-            <p class=text-muted style=font-size:0.85rem; margin-top:4px;>Thay đổi vai trò (Customer, Guide, Manager, Admin) hoặc tạm khóa tài khoản tức thời.</p>
-          </div>
-          <span class=badge badge-info><i class=fa-solid fa-bolt></i> Cập nhật theo thời gian thực</span>
-        </div>
-
-        <div class=table-responsive>
-          <table class=table-custom>
-            <thead>
-              <tr>
-                <th>Thông Tin Thành Viên</th>
-                <th>Phân Quyền Vai Trò</th>
-                <th>Trạng Thái</th>
-                <th>Hành Động</th>
-              </tr>
-            </thead>
-            <tbody id=adminUsersTable>
-              <!-- Dynamically populated via JS -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- SECTION 2: Review Moderation Table -->
-      <div class=dashboard-card>
-        <div class=dashboard-card-header>
-          <div>
-            <h2 class=dashboard-card-title>
-              <i class=fa-solid fa-star-half-stroke text-warning></i>
-              <span>Kiểm Duyệt Đánh Giá Khách Hàng (Reviews)</span>
-            </h2>
-            <p class=text-muted style=font-size:0.85rem; margin-top:4px;>Duyệt hiển thị hoặc ẩn các nhận xét của khách hàng trên trang chi tiết tour.</p>
-          </div>
-          <span class=badge badge-warning><i class=fa-solid fa-filter></i> Kiểm duyệt nội dung</span>
-        </div>
-
-        <div class=table-responsive>
-          <table class=table-custom>
-            <thead>
-              <tr>
-                <th>Khách Hàng & Tour</th>
-                <th>Đánh Giá</th>
-                <th>Nội Dung Nhận Xét</th>
-                <th>Trạng Thái</th>
-                <th>Thao Tác</th>
-              </tr>
-            </thead>
-            <tbody id=adminReviewsTable>
-              <!-- Dynamically populated via JS -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- SECTION 3: System All Bookings Overview -->
-      <div class=dashboard-card>
-        <div class=dashboard-card-header>
-          <div>
-            <h2 class=dashboard-card-title>
-              <i class=fa-solid fa-receipt text-primary></i>
-              <span>Tổng Hợp Đơn Đặt Tour Toàn Hệ Thống</span>
-            </h2>
-            <p class=text-muted style=font-size:0.85rem; margin-top:4px;>Theo dõi tiến độ thanh toán và giao dịch đặt vé của tất cả khách hàng.</p>
-          </div>
-          <button class=btn btn-outline btn-sm onclick=showToast('Đang xuất báo cáo tài chính...')>
-            <i class=fa-solid fa-download></i> Xuất Báo Cáo
-          </button>
-        </div>
-
-        <div class=table-responsive>
-          <table class=table-custom>
-            <thead>
-              <tr>
-                <th>Mã Đơn & Tour</th>
-                <th>Khách Hàng</th>
-                <th>Ngày Đi</th>
-                <th>Số Tiền</th>
-                <th>Thanh Toán</th>
-                <th>Trạng Thái</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>BK-892347</strong><br><span class=text-muted style=font-size:0.75rem;>Vịnh Hạ Long 5 Sao 3N2Đ</span></td>
-                <td><strong>Nguyễn Văn Hào</strong><br><span class=text-muted style=font-size:0.75rem;>0912 345 678</span></td>
-                <td>25/10/2026</td>
-                <td><strong class=text-primary>3.490.000đ</strong></td>
-                <td><span class=badge badge-success>VietQR (Đã thanh toán)</span></td>
-                <td><span class=badge badge-available>Đã xác nhận</span></td>
-              </tr>
-              <tr>
-                <td><strong>BK-784192</strong><br><span class=text-muted style=font-size:0.75rem;>Đà Nẵng - Hội An - Bà Nà Hills 4N3Đ</span></td>
-                <td><strong>Trần Thị Mai</strong><br><span class=text-muted style=font-size:0.75rem;>0988 123 456</span></td>
-                <td>15/11/2026</td>
-                <td><strong class=text-primary>9.180.000đ</strong></td>
-                <td><span class=badge badge-success>Thẻ Visa/Mastercard</span></td>
-                <td><span class=badge badge-available>Đã xác nhận</span></td>
-              </tr>
-              <tr>
-                <td><strong>BK-655210</strong><br><span class=text-muted style=font-size:0.75rem;>Fansipan & Săn Mây Sa Pa 2N1Đ</span></td>
-                <td><strong>Lê Hoàng Nam</strong><br><span class=text-muted style=font-size:0.75rem;>0905 678 901</span></td>
-                <td>20/06/2026</td>
-                <td><strong class=text-primary>2.190.000đ</strong></td>
-                <td><span class=badge badge-success>VietQR</span></td>
-                <td><span class=badge badge-secondary>Đã hoàn thành</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- Site Footer -->
-  <footer class=site-footer>
-    <div class=container>
-      <div class=footer-bottom style=border:none; padding-top:0;>
-        <span>© 2026 BookingTour. Hệ Thống Quản Trị Trung Tâm.</span>
-      </div>
-    </div>
-  </footer>
-
   <!-- Scripts -->
-  <script src=js/mock-data.js></script>
-  <script src=js/main.js></script>
+  <script src="js/mock-data.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>

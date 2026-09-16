@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bảng Điều Khiển Hướng Dẫn Viên - BookingTour</title>
+  <title>Bảng Điều Khiển Hướng Dẫn Viên - BookingTour Guide</title>
   <!-- Google Fonts & FontAwesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,211 +12,352 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="admindek-body">
 
-  <!-- Site Header -->
-  <header class="site-header">
-    <div class="container navbar">
-      <a href="index.html" class="navbar-brand">
-        <i class="fa-solid fa-compass"></i>
-        <span>BookingTour</span>
+  <!-- Mobile Overlay for Sidebar -->
+  <div class="admindek-sidebar-overlay" id="admindekOverlay" onclick="toggleAdmindekSidebar()"></div>
+
+  <div class="admindek-app">
+    <!-- 1. LEFT SIDEBAR (Admindek Style) -->
+    <aside class="admindek-sidebar" id="admindekSidebar">
+      <!-- Brand Logo -->
+      <a href="index.html" class="admindek-brand">
+        <div class="admindek-brand-icon" style="background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 4px 10px rgba(16, 185, 129, 0.4);">
+          <i class="fa-solid fa-flag"></i>
+        </div>
+        <div class="admindek-brand-text">
+          <span class="admindek-brand-title">BookingTour</span>
+          <span class="admindek-brand-subtitle" style="color:#10b981;">Field Guide App</span>
+        </div>
       </a>
 
-      <nav class="nav-menu">
-        <a href="index.html" class="nav-link">Trang chủ</a>
-        <a href="tours.html" class="nav-link">Tour du lịch</a>
-        <a href="explore.html" class="nav-link">Khám phá</a>
-        <a href="about.html" class="nav-link">Về chúng tôi</a>
-      </nav>
-
-      <div class="nav-actions">
-        <!-- Rendered via JS renderRoleBasedNav -->
-      </div>
-    </div>
-  </header>
-
-  <!-- Mobile Drawer Menu -->
-  <div class="mobile-nav-overlay" id="mobileOverlay"></div>
-  <aside class="mobile-nav" id="mobileNav">
-    <div class="mobile-nav-header">
-      <a href="index.html" class="navbar-brand"><i class="fa-solid fa-compass"></i><span>BookingTour</span></a>
-      <button class="modal-close" id="mobileNavClose"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-    <div class="mobile-nav-links">
-      <!-- Injected via JS -->
-    </div>
-  </aside>
-
-  <!-- Dashboard Hero Header -->
-  <div class="dashboard-header">
-    <div class="container">
-      <div class="dashboard-title-row">
-        <div>
-          <span class="badge badge-role-guide" style="font-size:0.8rem; padding:5px 14px; margin-bottom:10px; display:inline-flex; align-items:center; gap:6px; background:#FEF3C7; color:#92400E; border:1px solid #FDE68A;">
-            <i class="fa-solid fa-flag"></i> Hướng Dẫn Viên Chuyên Nghiệp
-          </span>
-          <h1 style="font-size:2rem; font-weight:800; margin:0; color:#FFFFFF; text-shadow:0 2px 4px rgba(0,0,0,0.2);">Bảng Điều Khiển Tour & Đoàn Khách</h1>
-          <p style="color:#E2E8F0; font-size:1rem; margin-top:8px; max-width:680px; line-height:1.5;">
-            Quản lý các chuyến đi được phân công, theo dõi danh sách hành khách, cập nhật tiến độ thực tế và thời gian biểu chi tiết từng ngày.
-          </p>
-        </div>
-        <div style="display:flex; gap:10px; flex-wrap:wrap;">
-          <button class="btn btn-warning" onclick="openGuestRosterModal()" style="font-weight:700;">
-            <i class="fa-solid fa-clipboard-user"></i> Danh Sách Khách Đoàn Này
-          </button>
-          <button class="btn btn-outline" onclick="openTourDetailModal()" style="background:rgba(255,255,255,0.15); color:#FFFFFF; border-color:rgba(255,255,255,0.4);">
-            <i class="fa-solid fa-circle-info"></i> Chi Tiết Chuyến Đi
-          </button>
+      <!-- Sidebar User Summary -->
+      <div class="admindek-sidebar-user">
+        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80" alt="Guide Avatar" class="admindek-sidebar-avatar" style="border-color:#10b981;">
+        <div class="admindek-sidebar-user-info">
+          <span class="admindek-sidebar-name">Trần Quốc Hưng</span>
+          <span class="admindek-sidebar-role"><i class="fa-solid fa-star" style="color:#f59e0b; font-size:0.65rem;"></i> HDV Trưởng Đoàn (4.95★)</span>
         </div>
       </div>
+
+      <!-- Navigation Sections -->
+      <div class="admindek-nav-body">
+        <div class="admindek-section-title">Chuyến Đi Của Tôi</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="guide-dashboard.html" class="admindek-nav-link active">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-route"></i> Tour Đang Dẫn Đoàn</span>
+              <span class="admindek-nav-badge badge-emerald">Active</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="#sectionAssignedTours" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-list-check"></i> 5 Chuyến Sắp Tới</span>
+              <span class="admindek-nav-badge badge-blue">5 Tour</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="admindek-section-title">Công Cụ Dẫn Đoàn Thực Địa</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="javascript:void(0)" onclick="openGuestRosterModal()" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-clipboard-user"></i> Điểm Danh Khách Lên Xe</span>
+              <span class="admindek-nav-badge badge-amber">18 Khách</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="#sectionTimeline" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-calendar-days"></i> Lịch Trình Chi Tiết Từng Ngày</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="javascript:void(0)" onclick="openTourDetailModal()" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-circle-info"></i> Chi Tiết Hồ Sơ Chuyến Đi</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="admindek-section-title">Hỗ Trợ & Khẩn Cấp</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="tel:0911223344" class="admindek-nav-link" style="color:#ef4444;">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-phone-volume text-danger"></i> Gọi Trực Ban Điều Hành (24/7)</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="profile.html" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-id-card"></i> Hồ Sơ Thẻ HDV</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Sidebar Footer / Logout -->
+      <div class="admindek-sidebar-footer">
+        <button type="button" onclick="logout()" class="btn btn-outline btn-block text-danger" style="font-size:0.84rem; padding:8px 12px; border-color:rgba(239, 68, 68, 0.4);">
+          <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất HDV
+        </button>
+      </div>
+    </aside>
+
+    <!-- 2. MAIN APP WRAPPER -->
+    <div class="admindek-main-wrapper">
+      <!-- Topbar -->
+      <header class="admindek-topbar">
+        <div class="admindek-topbar-left">
+          <button type="button" class="admindek-toggle-btn" onclick="toggleAdmindekSidebar()" title="Toggle Sidebar">
+            <i class="fa-solid fa-bars-staggered"></i>
+          </button>
+          <div class="admindek-topbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Tìm kiếm hành khách, số điện thoại..." id="guideSearchInput">
+            <span class="admindek-search-badge">Ctrl K</span>
+          </div>
+        </div>
+
+        <div class="admindek-topbar-right">
+          <!-- Back to Public Site -->
+          <a href="index.html" class="admindek-btn-site">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Về Trang Chủ Khách Hàng</span>
+          </a>
+
+          <!-- Notification Bell -->
+          <button type="button" class="admindek-icon-btn" onclick="showToast('Thông báo: Đoàn khởi hành đúng 07:30 tại Nhà hát Lớn!', 'info')" title="Thông báo">
+            <i class="fa-regular fa-bell"></i>
+            <span class="admindek-icon-badge"></span>
+          </button>
+
+          <!-- User Dropdown (Re-used) -->
+          <div class="nav-actions" style="margin-left: 6px;">
+            <!-- Rendered by JS renderRoleBasedNav -->
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Content Container -->
+      <main class="admindek-content">
+        <!-- Page Header & Breadcrumb -->
+        <div class="admindek-page-header">
+          <div class="admindek-page-title-wrap">
+            <h1>Bảng Điều Khiển Tour & Đoàn Khách</h1>
+            <div class="admindek-breadcrumb">
+              <a href="index.html">Trang chủ</a>
+              <span>/</span>
+              <span>Hướng dẫn viên</span>
+              <span>/</span>
+              <span style="color:#0f172a; font-weight:600;">Dẫn đoàn thực địa</span>
+            </div>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="btn btn-warning" onclick="openGuestRosterModal()" style="font-weight:700;">
+              <i class="fa-solid fa-clipboard-user"></i> Danh Sách Khách Đoàn Này
+            </button>
+            <button class="btn btn-primary" onclick="openTourDetailModal()" style="font-weight:700;">
+              <i class="fa-solid fa-circle-info"></i> Chi Tiết Chuyến Đi
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 Stat KPI Cards (Admindek Gradient Style) -->
+        <div class="admindek-stats-grid">
+          <div class="admindek-stat-card stat-blue">
+            <div class="admindek-stat-top">
+              <div>
+                <div class="admindek-stat-label">Thời Lượng & Chuyến Đi</div>
+                <div class="admindek-stat-value" id="kpiDuration">3N2Đ</div>
+              </div>
+              <div class="admindek-stat-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+            </div>
+            <div class="admindek-stat-bottom">
+              <i class="fa-solid fa-compass"></i>
+              <span id="kpiTourTitle">Vịnh Hạ Long 5 Sao</span>
+            </div>
+          </div>
+
+          <div class="admindek-stat-card stat-amber">
+            <div class="admindek-stat-top">
+              <div>
+                <div class="admindek-stat-label">Tổng Số Khách Đoàn</div>
+                <div class="admindek-stat-value" id="kpiGuests">18 Khách</div>
+              </div>
+              <div class="admindek-stat-icon"><i class="fa-solid fa-users"></i></div>
+            </div>
+            <div class="admindek-stat-bottom">
+              <i class="fa-solid fa-user-group"></i>
+              <span id="kpiGroups">6 Nhóm Đặt Tour</span>
+            </div>
+          </div>
+
+          <div class="admindek-stat-card stat-teal">
+            <div class="admindek-stat-top">
+              <div>
+                <div class="admindek-stat-label">Tiến Độ Chuyến Đi</div>
+                <div class="admindek-stat-value" style="font-size:1.4rem;" id="currentTourStatusBadge">Chuẩn bị đoàn</div>
+              </div>
+              <div class="admindek-stat-icon"><i class="fa-solid fa-route"></i></div>
+            </div>
+            <div class="admindek-stat-bottom">
+              <i class="fa-solid fa-arrow-right"></i>
+              <span>Cập nhật bước trực tiếp bên dưới</span>
+            </div>
+          </div>
+
+          <div class="admindek-stat-card stat-emerald">
+            <div class="admindek-stat-top">
+              <div>
+                <div class="admindek-stat-label">Đánh Giá HDV</div>
+                <div class="admindek-stat-value">4.95 ★</div>
+              </div>
+              <div class="admindek-stat-icon"><i class="fa-solid fa-award"></i></div>
+            </div>
+            <div class="admindek-stat-bottom">
+              <i class="fa-solid fa-star" style="color:#fef08a;"></i>
+              <span>88 Lượt Đánh Giá Xuất Sắc</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Tour Interactive Stepper Card -->
+        <div class="admindek-box">
+          <div class="admindek-box-header">
+            <div>
+              <h2 class="admindek-box-title">
+                <i class="fa-solid fa-compass"></i>
+                <span>Cập Nhật Trạng Thái Đoàn: <strong id="activeTourHeaderTitle" class="text-primary">Khám Phá Vịnh Hạ Long - Du Thuyền 5 Sao (25/10/2026)</strong></span>
+              </h2>
+              <p class="text-muted" style="font-size:0.85rem; margin-top:4px;">Nhấp vào từng bước để cập nhật tiến độ đoàn theo thời gian thực.</p>
+            </div>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <span class="badge badge-warning" id="activeTourDepartureTime"><i class="fa-solid fa-clock"></i> Khởi hành: 07:30 25/10/2026</span>
+            </div>
+          </div>
+
+          <div class="admindek-box-body">
+            <!-- Tour Stepper -->
+            <div class="tour-progress-stepper" id="tourProgressStepper">
+              <!-- Rendered via JS -->
+            </div>
+
+            <!-- Step Action Helper -->
+            <div style="background:var(--surface-alt); border-radius:var(--radius-md); padding:16px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-top:16px;">
+              <div>
+                <strong style="font-size:0.92rem; color:var(--text-main); display:block;">Cần cập nhật nhanh cho đoàn?</strong>
+                <span class="text-muted" style="font-size:0.82rem;">Thông báo cập nhật sẽ gửi tin nhắn SMS & thông báo trực tiếp đến điện thoại các khách hàng trong đoàn.</span>
+              </div>
+              <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <button class="btn btn-outline btn-sm" onclick="showToast('Đã gửi thông báo tập trung tới các hành khách qua SMS & App!', 'success')">
+                  <i class="fa-solid fa-bullhorn"></i> Nhắc Giờ Tập Trung
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="openGuestRosterModal()">
+                  <i class="fa-solid fa-clipboard-user"></i> Điểm Danh Đoàn
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Detailed Itinerary & Timeline Schedule -->
+        <div class="admindek-box" id="sectionTimeline">
+          <div class="admindek-box-header">
+            <div>
+              <h2 class="admindek-box-title">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span>Thời Gian Biểu & Hoạt Động Theo Ngày</span>
+              </h2>
+              <p class="text-muted" style="font-size:0.85rem; margin-top:4px;">Lịch trình chi tiết từng khung giờ cho chuyến đi đang chọn.</p>
+            </div>
+            <div style="display:flex; gap:8px;" id="scheduleDayTabsContainer">
+              <!-- Day Tabs Rendered via JS -->
+            </div>
+          </div>
+
+          <div class="admindek-box-body">
+            <!-- Logistics Summary Row -->
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:14px; margin-bottom:20px; padding:14px 18px; background:var(--surface-alt); border-radius:var(--radius-md); border:1px solid var(--border);">
+              <div style="font-size:0.88rem;">
+                <span class="text-muted" style="display:block; font-size:0.78rem;"><i class="fa-solid fa-bus text-primary"></i> Xe vận chuyển & Biển số:</span>
+                <strong id="scheduleBusInfo">29B - 889.99 (Universe 29 chỗ VIP)</strong>
+              </div>
+              <div style="font-size:0.88rem;">
+                <span class="text-muted" style="display:block; font-size:0.78rem;"><i class="fa-solid fa-id-badge text-primary"></i> Lái xe phụ trách:</span>
+                <strong id="scheduleDriverInfo">Bác Thành - 0983 222 333</strong>
+              </div>
+              <div style="font-size:0.88rem;">
+                <span class="text-muted" style="display:block; font-size:0.78rem;"><i class="fa-solid fa-hotel text-primary"></i> Điểm lưu trú / Khách sạn:</span>
+                <strong id="scheduleHotelInfo">Du thuyền Paradise Elegance 5 Sao</strong>
+              </div>
+              <div style="font-size:0.88rem;">
+                <span class="text-muted" style="display:block; font-size:0.78rem;"><i class="fa-solid fa-phone-volume text-success"></i> Điều hành tour (24/7):</span>
+                <strong>0911 223 344 (Ms. Thu Hà)</strong>
+              </div>
+            </div>
+
+            <!-- Interactive Timeline -->
+            <div class="timeline-schedule" id="timelineScheduleContainer">
+              <!-- Rendered via JS based on selected active tour and day -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Assigned Departures List (Multi-Tour Selection) -->
+        <div class="admindek-box" id="sectionAssignedTours">
+          <div class="admindek-box-header">
+            <div>
+              <h2 class="admindek-box-title">
+                <i class="fa-solid fa-list-check"></i>
+                <span>Danh Sách Tất Cả Tour Được Phân Công</span>
+              </h2>
+              <p class="text-muted" style="font-size:0.85rem; margin-top:4px;">Nhấp <strong>"Chọn Điều Hành"</strong> để chuyển bảng điều khiển sang chuyến đi đó, hoặc <strong>"Xem Chi Tiết"</strong> để xem hồ sơ chuyến đi.</p>
+            </div>
+            <span class="badge badge-primary" id="assignedToursCountBadge"><i class="fa-solid fa-route"></i> 5 Chuyến Đi Sắp Tới</span>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table-custom">
+              <thead>
+                <tr>
+                  <th>Tên Tour & Mã Lịch Trình</th>
+                  <th>Thời Gian Khởi Hành</th>
+                  <th>Số Lượng Khách</th>
+                  <th>Trạng Thái Vận Hành</th>
+                  <th style="text-align:right;">Thao Tác HDV</th>
+                </tr>
+              </thead>
+              <tbody id="assignedDeparturesTableBody">
+                <!-- Rendered via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
     </div>
   </div>
 
-  <!-- Main Content -->
-  <main class="main-content" style="padding-top:0;">
-    <div class="container">
-      <!-- 4 KPI Stat Cards -->
-      <div class="dashboard-stats-grid">
-        <div class="stat-card">
-          <div class="stat-icon-box stat-icon-primary"><i class="fa-solid fa-map-location-dot"></i></div>
-          <div>
-            <div class="stat-value" id="kpiDuration">3N2Đ</div>
-            <div class="stat-label" id="kpiTourTitle">Vịnh Hạ Long 5 Sao</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon-box stat-icon-warning"><i class="fa-solid fa-users"></i></div>
-          <div>
-            <div class="stat-value" id="kpiGuests">18 Khách</div>
-            <div class="stat-label" id="kpiGroups">6 Nhóm Đặt Tour</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon-box stat-icon-info"><i class="fa-solid fa-route"></i></div>
-          <div>
-            <div class="stat-value" style="font-size:1.2rem;" id="currentTourStatusBadge">Chuẩn bị đoàn</div>
-            <div class="stat-label">Tiến Độ Chuyến Đi</div>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon-box stat-icon-success"><i class="fa-solid fa-star"></i></div>
-          <div>
-            <div class="stat-value">4.95 ★</div>
-            <div class="stat-label">88 Lượt Đánh Giá Tốt</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Active Tour Interactive Stepper Card -->
-      <div class="dashboard-card">
-        <div class="dashboard-card-header">
-          <div>
-            <h2 class="dashboard-card-title">
-              <i class="fa-solid fa-compass text-primary"></i>
-              <span>Cập Nhật Trạng Thái Đoàn: <strong id="activeTourHeaderTitle" class="text-primary">Khám Phá Vịnh Hạ Long - Du Thuyền 5 Sao (25/10/2026)</strong></span>
-            </h2>
-            <p class="text-muted" style="font-size:0.85rem; margin-top:4px;">Nhấp vào từng bước để cập nhật tiến độ đoàn theo thời gian thực.</p>
-          </div>
-          <div style="display:flex; gap:8px; align-items:center;">
-            <span class="badge badge-warning" id="activeTourDepartureTime"><i class="fa-solid fa-clock"></i> Khởi hành: 07:30 25/10/2026</span>
-          </div>
-        </div>
-
-        <!-- Tour Stepper -->
-        <div class="tour-progress-stepper" id="tourProgressStepper">
-          <!-- Rendered via JS -->
-        </div>
-
-        <!-- Step Action Helper -->
-        <div style="background:var(--surface-alt); border-radius:var(--radius-md); padding:16px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-          <div>
-            <strong style="font-size:0.92rem; color:var(--text-main); display:block;">Cần cập nhật nhanh cho đoàn?</strong>
-            <span class="text-muted" style="font-size:0.82rem;">Thông báo cập nhật sẽ gửi tin nhắn SMS & thông báo trực tiếp đến điện thoại các khách hàng trong đoàn.</span>
-          </div>
-          <div style="display:flex; gap:8px; flex-wrap:wrap;">
-            <button class="btn btn-outline btn-sm" onclick="showToast('Đã gửi thông báo tập trung tới các hành khách qua SMS & App!', 'success')">
-              <i class="fa-solid fa-bullhorn"></i> Nhắc Giờ Tập Trung
-            </button>
-            <button class="btn btn-primary btn-sm" onclick="openGuestRosterModal()">
-              <i class="fa-solid fa-clipboard-user"></i> Điểm Danh Đoàn
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Detailed Itinerary & Timeline Schedule -->
-      <div class="dashboard-card">
-        <div class="dashboard-card-header">
-          <div>
-            <h2 class="dashboard-card-title">
-              <i class="fa-solid fa-calendar-days text-primary"></i>
-              <span>Thời Gian Biểu & Hoạt Động Theo Ngày</span>
-            </h2>
-            <p class="text-muted" style="font-size:0.85rem; margin-top:4px;">Lịch trình chi tiết từng khung giờ cho chuyến đi đang chọn.</p>
-          </div>
-          <div style="display:flex; gap:8px;" id="scheduleDayTabsContainer">
-            <!-- Day Tabs Rendered via JS -->
-          </div>
-        </div>
-
-        <!-- Logistics Summary Row -->
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:14px; margin-bottom:20px; padding:14px 18px; background:var(--surface-alt); border-radius:var(--radius-md); border:1px solid var(--border);">
-          <div style="font-size:0.88rem;">
-            <span class="text-muted" style="display:block; font-size:0.78rem;"><i class="fa-solid fa-bus text-primary"></i> Xe vận chuyển & Biển số:</span>
-            <strong id="scheduleBusInfo">29B - 889.99 (Universe 29 chỗ VIP)</strong>
-          </div>
-          <div style="font-size:0.88rem;">
-            <span class="text-muted" style="display:block; font-size:0.78rem;"><i class="fa-solid fa-id-badge text-primary"></i> Lái xe phụ trách:</span>
-            <strong id="scheduleDriverInfo">Bác Thành - 0983 222 333</strong>
-          </div>
-          <div style="font-size:0.88rem;">
-            <span class="text-muted" style="display:block; font-size:0.78rem;"><i class="fa-solid fa-hotel text-primary"></i> Điểm lưu trú / Khách sạn:</span>
-            <strong id="scheduleHotelInfo">Du thuyền Paradise Elegance 5 Sao</strong>
-          </div>
-          <div style="font-size:0.88rem;">
-            <span class="text-muted" style="display:block; font-size:0.78rem;"><i class="fa-solid fa-phone-volume text-success"></i> Điều hành tour (24/7):</span>
-            <strong>0911 223 344 (Ms. Thu Hà)</strong>
-          </div>
-        </div>
-
-        <!-- Interactive Timeline -->
-        <div class="timeline-schedule" id="timelineScheduleContainer">
-          <!-- Rendered via JS based on selected active tour and day -->
-        </div>
-      </div>
-
-      <!-- Assigned Departures List (Multi-Tour Selection) -->
-      <div class="dashboard-card">
-        <div class="dashboard-card-header">
-          <div>
-            <h2 class="dashboard-card-title">
-              <i class="fa-solid fa-list-check text-primary"></i>
-              <span>Danh Sách Tất Cả Tour Được Phân Công</span>
-            </h2>
-            <p class="text-muted" style="font-size:0.85rem; margin-top:4px;">Nhấp <strong>"Chọn Điều Hành"</strong> để chuyển bảng điều khiển sang chuyến đi đó, hoặc <strong>"Xem Chi Tiết"</strong> để xem hồ sơ chuyến đi.</p>
-          </div>
-          <span class="badge badge-primary" id="assignedToursCountBadge"><i class="fa-solid fa-route"></i> 5 Chuyến Đi Sắp Tới</span>
-        </div>
-
-        <div class="table-responsive">
-          <table class="table-custom">
-            <thead>
-              <tr>
-                <th>Tên Tour & Mã Lịch Trình</th>
-                <th>Thời Gian Khởi Hành</th>
-                <th>Số Lượng Khách</th>
-                <th>Trạng Thái Vận Hành</th>
-                <th style="text-align:right;">Thao Tác HDV</th>
-              </tr>
-            </thead>
-            <tbody id="assignedDeparturesTableBody">
-              <!-- Rendered via JS -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </main>
+  <!-- Mobile Bottom Action Bar for Guide on Smartphones -->
+  <nav class="guide-mobile-bar" aria-label="Mobile Guide Actions">
+    <button class="guide-mobile-tab-btn active" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+      <i class="fa-solid fa-compass"></i>
+      <span>Tour Hiện Tại</span>
+    </button>
+    <button class="guide-mobile-tab-btn" onclick="openGuestRosterModal()">
+      <i class="fa-solid fa-clipboard-user"></i>
+      <span>Điểm Danh</span>
+    </button>
+    <button class="guide-mobile-tab-btn" onclick="document.getElementById('sectionTimeline')?.scrollIntoView({behavior:'smooth'})">
+      <i class="fa-solid fa-calendar-days"></i>
+      <span>Lịch Trình</span>
+    </button>
+    <button class="guide-mobile-tab-btn" onclick="openTourDetailModal()">
+      <i class="fa-solid fa-circle-info"></i>
+      <span>Hồ Sơ Đoàn</span>
+    </button>
+    <a href="tel:0911223344" class="guide-mobile-tab-btn" style="color:#ef4444;">
+      <i class="fa-solid fa-phone-volume"></i>
+      <span>Khẩn Cấp</span>
+    </a>
+  </nav>
 
   <!-- Tour Detail Modal for Guide -->
   <div class="modal-backdrop" id="modalTourDetailGuide">
@@ -283,19 +424,8 @@
     </div>
   </div>
 
-  <!-- Site Footer -->
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-bottom" style="border:none; padding-top:0;">
-        <span>© 2026 BookingTour. Tất cả quyền được bảo lưu.</span>
-        <span>Hỗ trợ khẩn cấp HDV: 1900 6868 (Nhánh 2 - Trực ban điều hành)</span>
-      </div>
-    </div>
-  </footer>
-
   <!-- Scripts -->
   <script src="js/mock-data.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
-

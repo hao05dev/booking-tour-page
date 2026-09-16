@@ -314,15 +314,45 @@ function attachNavInteractions() {
 
 function highlightActiveNavLink() {
   const currentPath = window.location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.nav-menu .nav-link, .mobile-nav-links .nav-link').forEach(link => {
+  document.querySelectorAll('.nav-menu .nav-link, .mobile-nav-links .nav-link, .admindek-nav-link').forEach(link => {
     const href = link.getAttribute('href');
     if (href && (href === currentPath || (currentPath === '' && href === 'index.html'))) {
       link.classList.add('active');
-    } else if (href && href !== currentPath) {
+    } else if (href && href !== currentPath && !href.startsWith('#') && !href.startsWith('javascript')) {
       link.classList.remove('active');
     }
   });
 }
+
+window.toggleAdmindekSidebar = function() {
+  const sidebar = document.getElementById('admindekSidebar');
+  const overlay = document.getElementById('admindekOverlay');
+  if (!sidebar) return;
+  
+  if (window.innerWidth <= 992) {
+    sidebar.classList.toggle('active');
+    if (overlay) overlay.classList.toggle('active');
+    document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
+  } else {
+    sidebar.classList.toggle('collapsed');
+    const isCollapsed = sidebar.classList.contains('collapsed');
+    sidebar.style.width = isCollapsed ? '76px' : '270px';
+    document.querySelectorAll('.admindek-brand-title, .admindek-brand-subtitle, .admindek-sidebar-user-info, .admindek-section-title, .admindek-nav-link span, .admindek-sidebar-footer').forEach(el => {
+      el.style.display = isCollapsed ? 'none' : '';
+    });
+  }
+};
+
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+    const searchInput = document.getElementById('adminSearchInput') || document.getElementById('managerSearchInput') || document.getElementById('guideSearchInput');
+    if (searchInput) {
+      e.preventDefault();
+      searchInput.focus();
+    }
+  }
+});
+
 
 // ==========================================
 // 6. HOME PAGE SEARCH INTERACTION
