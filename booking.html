@@ -95,14 +95,38 @@
             </div>
           </div>
 
-          <!-- Step 2: Chi tiết đặt chỗ & Chính sách -->
+          <!-- Step 2: Phương thức thanh toán (Đặt lên trên thuận tiện thao tác) -->
           <div class="checkout-section">
             <h2 class="checkout-section-title">
               <span class="step-num">2</span>
-              <span>Chính Sách & Điều Kiện Tour</span>
+              <span>Phương Thức Thanh Toán</span>
             </h2>
 
-            <div style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; display: flex; flex-direction: column; gap: 10px;">
+            <div style="border: 2px solid var(--primary); background-color: var(--primary-50); border-radius: var(--radius-md); padding: 18px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+              <div style="display: flex; align-items: center; gap: 14px;">
+                <input type="radio" checked name="payment_method" value="vietqr" id="payOnline" style="width: 20px; height: 20px; accent-color: var(--primary); cursor:pointer;">
+                <label for="payOnline" style="cursor:pointer; margin:0;">
+                  <strong style="font-size: 1rem; color: var(--text-main); display:block;"><i class="fa-solid fa-qrcode text-primary"></i> Thanh toán Online (VietQR / Chuyển khoản tức thì / MoMo / VNPay)</strong>
+                  <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 2px;">Tự động tạo mã QR chính xác số tiền, quét mã xác nhận vé tự động trong 30 giây.</div>
+                </label>
+              </div>
+              <span class="badge badge-available" style="flex-shrink:0;">Khuyên Dùng</span>
+            </div>
+          </div>
+
+          <!-- Nút Xác Nhận Đặt Tour & Thanh Toán (Đặt ngay phía trên) -->
+          <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-bottom: 20px; font-size:1.05rem; padding: 14px 20px; font-weight:700; box-shadow: 0 4px 14px rgba(15, 118, 110, 0.3);">
+            <i class="fa-solid fa-arrow-right"></i> Xác Nhận Đặt Tour & Đi Đến Thanh Toán
+          </button>
+
+          <!-- Step 3: Chính sách & Quyền lợi bảo đảm (Đặt ở dưới tham khảo) -->
+          <div class="checkout-section" style="background: var(--surface-alt); border: 1px dashed var(--border);">
+            <h2 class="checkout-section-title" style="font-size:0.95rem; margin-bottom:12px;">
+              <i class="fa-solid fa-shield-halved text-primary"></i>
+              <span>Chính Sách Hủy Vé & Cam Kết Dịch Vụ</span>
+            </h2>
+
+            <div style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; display: flex; flex-direction: column; gap: 8px;">
               <div style="display:flex; gap:8px;">
                 <i class="fa-solid fa-circle-check text-success" style="margin-top:3px;"></i>
                 <span><strong>Miễn phí hủy tour:</strong> Được hoàn tiền 100% nếu hủy trước 7 ngày khởi hành.</span>
@@ -113,34 +137,10 @@
               </div>
               <div style="display:flex; gap:8px;">
                 <i class="fa-solid fa-circle-check text-success" style="margin-top:3px;"></i>
-                <span><strong>Giữ chỗ đảm bảo:</strong> Vé được xác nhận tức thì sau khi hoàn tất chuyển khoản trực tuyến.</span>
+                <span><strong>Giữ chỗ đảm bảo:</strong> Vé được xác nhận tức thì sau khi hoàn tất thanh toán trực tuyến.</span>
               </div>
             </div>
           </div>
-
-          <!-- Step 3: Phương thức thanh toán -->
-          <div class="checkout-section">
-            <h2 class="checkout-section-title">
-              <span class="step-num">3</span>
-              <span>Phương Thức Thanh Toán</span>
-            </h2>
-
-            <div style="border: 2px solid var(--primary); background-color: var(--primary-50); border-radius: var(--radius-md); padding: 18px; display: flex; align-items: center; justify-content: space-between;">
-              <div style="display: flex; align-items: center; gap: 14px;">
-                <input type="radio" checked name="payment_method" style="width: 20px; height: 20px; accent-color: var(--primary);">
-                <div>
-                  <strong style="font-size: 1.05rem; color: var(--text-main);"><i class="fa-solid fa-qrcode text-primary"></i> Thanh toán Online (QR Code / Chuyển khoản tức thì)</strong>
-                  <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 2px;">Quét mã VietQR tiện lợi qua mọi ứng dụng ngân hàng và ví điện tử.</div>
-                </div>
-              </div>
-              <span class="badge badge-available">Khuyên Dùng</span>
-            </div>
-          </div>
-
-          <!-- Submit Button Mobile / Bottom -->
-          <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-bottom: 24px;">
-            <i class="fa-solid fa-arrow-right"></i> Xác Nhận Đặt Tour & Đi Đến Thanh Toán
-          </button>
         </form>
       </div>
 
@@ -177,11 +177,16 @@
             <span class="price-val" id="checkoutTotal">3.490.000đ</span>
           </div>
 
+          <!-- Fast Action Button in Sticky Panel -->
+          <button type="button" onclick="document.getElementById('checkoutForm').requestSubmit()" class="btn btn-primary btn-block btn-lg" style="margin-top: 14px; margin-bottom: 14px; font-weight: 700; box-shadow: 0 4px 12px rgba(15, 118, 110, 0.25);">
+            <i class="fa-solid fa-lock"></i> Xác Nhận & Thanh Toán
+          </button>
+
           <div style="background-color: var(--surface-alt); border-radius: var(--radius-md); padding: 14px; font-size: 0.85rem; color: var(--text-muted);">
             <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
               <i class="fa-solid fa-shield-halved text-primary"></i> <strong>Cam kết từ BookingTour:</strong>
             </div>
-            <span>Thông tin đặt vé của bạn được mã hóa và bảo mật tuyệt đối.</span>
+            <span>Thông tin đặt vé của bạn được mã hóa và bảo mật an toàn 100%.</span>
           </div>
         </div>
       </aside>
