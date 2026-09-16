@@ -593,3 +593,11 @@ function initManagerCalendarPage() {
     `;
   }
 }
+
+// Auto-run if loaded standalone
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof initManagerCalendarPage === 'function') {
+    initManagerCalendarPage();
+  }
+});
+

@@ -1,4 +1,4 @@
-﻿/* ==========================================================================
+/* ==========================================================================
    BOOKING TOUR - APPLICATION MAIN ENTRY POINT & COORDINATOR
    Initializes page components, role-based navigation, global delegates
    ========================================================================== */
@@ -69,8 +69,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (typeof initProfilePage === 'function') initProfilePage();
   if (typeof initLoginPage === 'function') initLoginPage();
 
-  // 3. Initialize Dashboards (Guide, Manager, Admin)
+  // 3. Initialize Dashboards (Guide, Manager, Admin, Calendar)
   if (typeof initGuideDashboard === 'function') initGuideDashboard();
   if (typeof initManagerDashboard === 'function') initManagerDashboard();
   if (typeof initAdminDashboard === 'function') initAdminDashboard();
+  if (typeof initManagerCalendarPage === 'function') initManagerCalendarPage();
 });
