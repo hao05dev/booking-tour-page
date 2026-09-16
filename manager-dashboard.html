@@ -56,13 +56,13 @@
             </a>
           </li>
           <li class="admindek-nav-item">
-            <a href="#sectionDepartures" class="admindek-nav-link">
+            <a href="#sectionTours" class="admindek-nav-link" onclick="openSelectedManagerTourSchedule()">
               <span class="admindek-nav-link-left"><i class="fa-solid fa-calendar-check"></i> Lịch Khởi Hành & Đoàn</span>
               <span class="admindek-nav-badge badge-blue">25 Đoàn</span>
             </a>
           </li>
           <li class="admindek-nav-item">
-            <a href="#sectionDepartures" class="admindek-nav-link">
+            <a href="#sectionTours" class="admindek-nav-link" onclick="openSelectedManagerTourSchedule()">
               <span class="admindek-nav-link-left"><i class="fa-solid fa-user-tag"></i> Phân Công HDV</span>
             </a>
           </li>
@@ -269,30 +269,6 @@
                 <!-- Dynamically populated via JS -->
               </tbody>
             </table>
-          </div>
-        </div>
-
-        <!-- SECTION 2: Departures grouped by selected tour -->
-        <div class="admindek-box manager-departure-workspace" id="sectionDepartures">
-          <div class="admindek-box-header">
-            <div>
-              <h2 class="admindek-box-title">
-                <i class="fa-solid fa-calendar-check"></i>
-                <span>Lịch Khởi Hành Theo Tour</span>
-              </h2>
-              <p class="text-muted" style="font-size:0.85rem; margin-top:4px;">Mỗi tour có thể có nhiều chuyến khởi hành. Chọn một tour ở bảng trên để quản lý toàn bộ lịch, giá, số chỗ và HDV của tour đó.</p>
-            </div>
-            <button class="btn btn-warning btn-sm" id="btnAddDepartureForSelectedTour">
-              <i class="fa-solid fa-calendar-plus"></i> Thêm Chuyến Khởi Hành
-            </button>
-          </div>
-
-          <div class="manager-selected-tour" id="managerSelectedTourSummary">
-            <!-- Rendered by js/dashboards.js -->
-          </div>
-
-          <div class="manager-departure-list" id="managerDepartureList">
-            <!-- Rendered by js/dashboards.js -->
           </div>
         </div>
       </main>

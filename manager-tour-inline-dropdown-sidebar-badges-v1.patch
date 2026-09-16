@@ -1,0 +1,438 @@
+diff --git a/css/dashboard.css b/css/dashboard.css
+index fe39b61..2ff1798 100644
+--- a/css/dashboard.css
++++ b/css/dashboard.css
+@@ -670,6 +670,7 @@
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
++  gap: 10px;
+   padding: 10px 14px;
+   color: #94a3b8;
+   font-size: 0.88rem;
+@@ -681,9 +682,12 @@
+ }
+ 
+ .admindek-nav-link-left {
++  min-width: 0;
++  flex: 1 1 auto;
+   display: flex;
+   align-items: center;
+   gap: 12px;
++  line-height: 1.45;
+ }
+ 
+ .admindek-nav-link i {
+@@ -715,10 +719,21 @@
+ }
+ 
+ .admindek-nav-badge {
+-  font-size: 0.7rem;
+-  padding: 2px 7px;
+-  border-radius: 20px;
+-  font-weight: 700;
++  flex: 0 0 68px;
++  width: 68px;
++  min-width: 68px;
++  height: 28px;
++  padding: 0 6px;
++  border-radius: 999px;
++  display: inline-flex;
++  align-items: center;
++  justify-content: center;
++  font-size: 0.68rem;
++  line-height: 1;
++  font-weight: 800;
++  white-space: nowrap;
++  overflow: hidden;
++  text-overflow: clip;
+ }
+ 
+ .admindek-nav-badge.badge-blue {
+@@ -1149,16 +1164,33 @@
+ }
+ 
+ .manager-departure-count {
+-  display: flex;
+-  flex-direction: column;
+-  align-items: flex-start;
+-  gap: 2px;
+-  padding: 0;
++  min-width: 168px;
++  display: inline-flex;
++  align-items: center;
++  justify-content: space-between;
++  gap: 12px;
++  margin: -6px -8px;
++  padding: 6px 8px;
+   border: 0;
++  border-radius: 9px;
+   background: transparent;
+   color: var(--text-main);
+   text-align: left;
+   cursor: pointer;
++  transition: var(--transition);
++}
++
++.manager-departure-count:hover,
++.manager-departure-count.is-open {
++  background: #ecfdf5;
++}
++
++.manager-departure-count-copy {
++  min-width: 0;
++  display: flex;
++  flex-direction: column;
++  align-items: flex-start;
++  gap: 2px;
+ }
+ 
+ .manager-departure-count strong {
+@@ -1166,9 +1198,95 @@
+   font-size: 0.9rem;
+ }
+ 
+-.manager-departure-count span {
++.manager-departure-count-copy > span {
+   color: var(--text-muted);
+   font-size: 0.72rem;
++  white-space: nowrap;
++}
++
++.manager-departure-row-chevron {
++  flex: 0 0 auto;
++  color: var(--primary);
++  font-size: 0.72rem;
++  transition: transform 0.2s ease;
++}
++
++.manager-departure-count.is-open .manager-departure-row-chevron {
++  transform: rotate(180deg);
++}
++
++.manager-departure-dropdown-row > td {
++  padding: 0 !important;
++  border-top: 0 !important;
++  background: #f8fafc !important;
++}
++
++.manager-departure-dropdown-row:hover > td {
++  background: #f8fafc !important;
++}
++
++.manager-departure-dropdown {
++  display: none;
++  padding: 18px 20px 22px;
++  border-top: 1px solid var(--border);
++  border-bottom: 1px solid var(--border);
++  background: #f8fafc;
++}
++
++.manager-departure-dropdown.is-open {
++  display: block;
++  animation: managerDepartureDropdownIn 0.2s ease-out;
++}
++
++@keyframes managerDepartureDropdownIn {
++  from {
++    opacity: 0;
++    transform: translateY(-6px);
++  }
++  to {
++    opacity: 1;
++    transform: translateY(0);
++  }
++}
++
++.manager-departure-dropdown-header {
++  display: flex;
++  align-items: center;
++  justify-content: space-between;
++  gap: 16px;
++  margin-bottom: 14px;
++}
++
++.manager-departure-dropdown-kicker {
++  display: inline-flex;
++  align-items: center;
++  gap: 7px;
++  color: var(--primary-dark);
++  font-size: 0.82rem;
++  font-weight: 800;
++}
++
++.manager-departure-dropdown-header p {
++  margin: 3px 0 0;
++  color: var(--text-muted);
++  font-size: 0.76rem;
++}
++
++.manager-departure-dropdown-actions {
++  flex: 0 0 auto;
++  display: flex;
++  align-items: center;
++  gap: 8px;
++}
++
++.manager-departure-collapse-btn {
++  width: 38px;
++  height: 34px;
++  padding: 0;
++}
++
++.manager-departure-dropdown .manager-selected-tour {
++  margin: 0 0 16px;
+ }
+ 
+ .manager-selected-tour {
+@@ -1399,6 +1517,23 @@
+ }
+ 
+ @media (max-width: 720px) {
++  .manager-departure-dropdown {
++    padding: 14px 12px 16px;
++  }
++
++  .manager-departure-dropdown-header {
++    align-items: stretch;
++    flex-direction: column;
++  }
++
++  .manager-departure-dropdown-actions {
++    justify-content: space-between;
++  }
++
++  .manager-departure-count {
++    min-width: 150px;
++  }
++
+   .manager-selected-tour-stats {
+     grid-template-columns: 1fr;
+   }
+diff --git a/js/dashboards.js b/js/dashboards.js
+index c1c1137..8fcab92 100644
+--- a/js/dashboards.js
++++ b/js/dashboards.js
+@@ -547,18 +547,16 @@ function initGuideDashboard() {
+ 
+ function initManagerDashboard() {
+   const managerTourTable = document.getElementById('managerTourTable');
+-  const managerDepartureList = document.getElementById('managerDepartureList');
+-  const managerSelectedTourSummary = document.getElementById('managerSelectedTourSummary');
+   const formAddTour = document.getElementById('formAddTour');
+   const formAddDeparture = document.getElementById('formAddDeparture');
+   const depTourSelect = document.getElementById('depTourSelect');
+-  const btnAddDepartureForSelectedTour = document.getElementById('btnAddDepartureForSelectedTour');
+   const managerSearchInput = document.getElementById('managerSearchInput');
+ 
+   if (!managerTourTable && !formAddTour && !formAddDeparture) return;
+ 
+   const db = getMockDatabase();
+   let selectedManagerTourId = db.tours[0]?.id || null;
++  let isManagerDepartureDropdownOpen = false;
+   let tourSearchKeyword = '';
+ 
+   function parseVnDate(value) {
+@@ -634,9 +632,36 @@ function initManagerDashboard() {
+       const tourDepartures = getTourDepartures(tour.id);
+       const nextDeparture = getNextDeparture(tour.id);
+       const isSelected = tour.id === selectedManagerTourId;
++      const isExpanded = isSelected && isManagerDepartureDropdownOpen;
++      const departureDropdownRow = isExpanded ? `
++        <tr class="manager-departure-dropdown-row">
++          <td colspan="5">
++            <div class="manager-departure-dropdown is-open" id="sectionDepartures" aria-hidden="false">
++              <div class="manager-departure-dropdown-header">
++                <div>
++                  <span class="manager-departure-dropdown-kicker">
++                    <i class="fa-solid fa-calendar-check"></i> Quản lý lịch khởi hành
++                  </span>
++                  <p>Quản lý ngày đi, giá, số chỗ và hướng dẫn viên của tour đang chọn.</p>
++                </div>
++                <div class="manager-departure-dropdown-actions">
++                  <button type="button" class="btn btn-warning btn-sm" onclick="openManagerDepartureModal('${tour.id}')">
++                    <i class="fa-solid fa-calendar-plus"></i> Thêm Chuyến Khởi Hành
++                  </button>
++                  <button type="button" class="btn btn-outline btn-sm manager-departure-collapse-btn" onclick="closeManagerDepartureDropdown()" title="Thu gọn lịch khởi hành" aria-label="Thu gọn lịch khởi hành">
++                    <i class="fa-solid fa-chevron-up"></i>
++                  </button>
++                </div>
++              </div>
++              <div class="manager-selected-tour" id="managerSelectedTourSummary"></div>
++              <div class="manager-departure-list" id="managerDepartureList"></div>
++            </div>
++          </td>
++        </tr>
++      ` : '';
+ 
+       return `
+-        <tr class="${isSelected ? 'manager-tour-row-active' : ''}">
++        <tr class="${isExpanded ? 'manager-tour-row-active' : ''}">
+           <td>
+             <div style="display:flex; align-items:center; gap:12px;">
+               <img src="${tour.image}" style="width:58px; height:44px; object-fit:cover; border-radius:var(--radius-sm);" alt="${tour.title}">
+@@ -648,27 +673,35 @@ function initManagerDashboard() {
+           </td>
+           <td><strong class="text-primary">${formatCurrency(tour.price)}</strong></td>
+           <td>
+-            <button type="button" class="manager-departure-count" onclick="selectManagerTour('${tour.id}')">
+-              <strong>${tourDepartures.length} chuyến</strong>
+-              <span>${nextDeparture ? `Gần nhất ${nextDeparture.date}` : 'Chưa có lịch mở bán'}</span>
++            <button type="button" class="manager-departure-count ${isExpanded ? 'is-open' : ''}" onclick="selectManagerTour('${tour.id}')" aria-expanded="${isExpanded}">
++              <span class="manager-departure-count-copy">
++                <strong>${tourDepartures.length} chuyến</strong>
++                <span>${nextDeparture ? `Gần nhất ${nextDeparture.date}` : 'Chưa có lịch mở bán'}</span>
++              </span>
++              <i class="fa-solid fa-chevron-down manager-departure-row-chevron" aria-hidden="true"></i>
+             </button>
+           </td>
+           <td><span class="badge ${tour.featured ? 'badge-warning' : 'badge-neutral'}">${tour.featured ? 'Nổi bật' : 'Tiêu chuẩn'}</span></td>
+           <td>
+             <div style="display:flex; gap:6px; flex-wrap:wrap;">
+-              <button class="btn ${isSelected ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="selectManagerTour('${tour.id}')" title="Quản lý lịch">
+-                <i class="fa-solid fa-calendar-days"></i>
++              <button class="btn ${isExpanded ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="selectManagerTour('${tour.id}')" title="${isExpanded ? 'Thu gọn lịch' : 'Quản lý lịch'}" aria-expanded="${isExpanded}">
++                <i class="fa-solid ${isExpanded ? 'fa-chevron-up' : 'fa-calendar-days'}"></i>
+               </button>
+               <a href="tour-detail.html?id=${tour.id}" class="btn btn-outline btn-sm" title="Xem phía khách hàng"><i class="fa-regular fa-eye"></i></a>
+               <button class="btn btn-outline btn-sm text-danger" onclick="deleteTour('${tour.id}')" title="Xóa"><i class="fa-regular fa-trash-can"></i></button>
+             </div>
+           </td>
+         </tr>
++        ${departureDropdownRow}
+       `;
+     }).join('');
+   }
+ 
+   function renderManagerDepartures() {
++    if (!isManagerDepartureDropdownOpen) return;
++
++    const managerDepartureList = document.getElementById('managerDepartureList');
++    const managerSelectedTourSummary = document.getElementById('managerSelectedTourSummary');
+     if (!managerDepartureList || !managerSelectedTourSummary) return;
+ 
+     const tour = db.tours.find(item => item.id === selectedManagerTourId);
+@@ -766,11 +799,41 @@ function initManagerDashboard() {
+     renderManagerDepartures();
+   }
+ 
++  function scrollDepartureDropdownIntoView() {
++    if (!isManagerDepartureDropdownOpen) return;
++    window.setTimeout(() => {
++      document.getElementById('sectionDepartures')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
++    }, 60);
++  }
++
+   window.selectManagerTour = (tourId) => {
+     if (!db.tours.some(tour => tour.id === tourId)) return;
+-    selectedManagerTourId = tourId;
++
++    if (selectedManagerTourId === tourId && isManagerDepartureDropdownOpen) {
++      isManagerDepartureDropdownOpen = false;
++    } else {
++      selectedManagerTourId = tourId;
++      isManagerDepartureDropdownOpen = true;
++    }
++
++    refreshManagerUI();
++    scrollDepartureDropdownIntoView();
++  };
++
++  window.openSelectedManagerTourSchedule = () => {
++    if (!selectedManagerTourId && db.tours.length) {
++      selectedManagerTourId = db.tours[0].id;
++    }
++    if (!selectedManagerTourId) return;
++
++    isManagerDepartureDropdownOpen = true;
++    refreshManagerUI();
++    scrollDepartureDropdownIntoView();
++  };
++
++  window.closeManagerDepartureDropdown = () => {
++    isManagerDepartureDropdownOpen = false;
+     refreshManagerUI();
+-    document.getElementById('sectionDepartures')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+   };
+ 
+   window.openManagerDepartureModal = (tourId = selectedManagerTourId, departureId = null) => {
+@@ -875,6 +938,7 @@ function initManagerDashboard() {
+ 
+       db.tours.unshift(newTour);
+       selectedManagerTourId = newTour.id;
++      isManagerDepartureDropdownOpen = true;
+       saveMockDatabase(db);
+       refreshManagerUI();
+       closeModal('modalAddTour');
+@@ -942,6 +1006,7 @@ function initManagerDashboard() {
+       }
+ 
+       selectedManagerTourId = tourId;
++      isManagerDepartureDropdownOpen = true;
+       saveMockDatabase(db);
+       closeModal('modalAddDeparture');
+       formAddDeparture.reset();
+@@ -949,12 +1014,6 @@ function initManagerDashboard() {
+     });
+   }
+ 
+-  if (btnAddDepartureForSelectedTour) {
+-    btnAddDepartureForSelectedTour.addEventListener('click', () => {
+-      window.openManagerDepartureModal(selectedManagerTourId);
+-    });
+-  }
+-
+   if (managerSearchInput) {
+     managerSearchInput.addEventListener('input', () => {
+       tourSearchKeyword = managerSearchInput.value;
+diff --git a/manager-dashboard.html b/manager-dashboard.html
+index 2407f15..1a7e59d 100644
+--- a/manager-dashboard.html
++++ b/manager-dashboard.html
+@@ -56,13 +56,13 @@
+             </a>
+           </li>
+           <li class="admindek-nav-item">
+-            <a href="#sectionDepartures" class="admindek-nav-link">
++            <a href="#sectionTours" class="admindek-nav-link" onclick="openSelectedManagerTourSchedule()">
+               <span class="admindek-nav-link-left"><i class="fa-solid fa-calendar-check"></i> Lịch Khởi Hành & Đoàn</span>
+               <span class="admindek-nav-badge badge-blue">25 Đoàn</span>
+             </a>
+           </li>
+           <li class="admindek-nav-item">
+-            <a href="#sectionDepartures" class="admindek-nav-link">
++            <a href="#sectionTours" class="admindek-nav-link" onclick="openSelectedManagerTourSchedule()">
+               <span class="admindek-nav-link-left"><i class="fa-solid fa-user-tag"></i> Phân Công HDV</span>
+             </a>
+           </li>
+@@ -271,30 +271,6 @@
+             </table>
+           </div>
+         </div>
+-
+-        <!-- SECTION 2: Departures grouped by selected tour -->
+-        <div class="admindek-box manager-departure-workspace" id="sectionDepartures">
+-          <div class="admindek-box-header">
+-            <div>
+-              <h2 class="admindek-box-title">
+-                <i class="fa-solid fa-calendar-check"></i>
+-                <span>Lịch Khởi Hành Theo Tour</span>
+-              </h2>
+-              <p class="text-muted" style="font-size:0.85rem; margin-top:4px;">Mỗi tour có thể có nhiều chuyến khởi hành. Chọn một tour ở bảng trên để quản lý toàn bộ lịch, giá, số chỗ và HDV của tour đó.</p>
+-            </div>
+-            <button class="btn btn-warning btn-sm" id="btnAddDepartureForSelectedTour">
+-              <i class="fa-solid fa-calendar-plus"></i> Thêm Chuyến Khởi Hành
+-            </button>
+-          </div>
+-
+-          <div class="manager-selected-tour" id="managerSelectedTourSummary">
+-            <!-- Rendered by js/dashboards.js -->
+-          </div>
+-
+-          <div class="manager-departure-list" id="managerDepartureList">
+-            <!-- Rendered by js/dashboards.js -->
+-          </div>
+-        </div>
+       </main>
+     </div>
+   </div>
