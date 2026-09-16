@@ -22,7 +22,12 @@ function initBookingPage() {
       const data = JSON.parse(rawData);
       if (document.getElementById('checkoutTourName')) document.getElementById('checkoutTourName').textContent = data.tourTitle;
       if (document.getElementById('checkoutDate')) document.getElementById('checkoutDate').textContent = data.date;
-      if (document.getElementById('checkoutGuests')) document.getElementById('checkoutGuests').textContent = `${data.adults} Người lớn${data.children > 0 ? ', ' + data.children + ' Trẻ em' : ''}`;
+      if (document.getElementById('checkoutGuests')) {
+        const guestParts = [`${data.adults} Người lớn`];
+        if (data.children > 0) guestParts.push(`${data.children} Trẻ em`);
+        if (data.infants > 0) guestParts.push(`${data.infants} Em bé`);
+        document.getElementById('checkoutGuests').textContent = guestParts.join(', ');
+      }
       if (document.getElementById('checkoutTotal')) document.getElementById('checkoutTotal').textContent = formatCurrency(data.totalAmount);
     } catch (e) {
       console.error(e);
@@ -104,10 +109,11 @@ function initPaymentPage() {
         tourId: draft.tourId || "tour-1",
         tourTitle: draft.tourTitle,
         tourImage: draft.tourImage || "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80",
+        departureId: draft.departureId || null,
         departureDate: draft.date,
-        returnDate: "28/10/2026",
+        returnDate: draft.returnDate || "Theo lịch trình",
         bookingDate: "16/09/2026",
-        guests: { adults: draft.adults || 2, children: draft.children || 0 },
+        guests: { adults: draft.adults || 2, children: draft.children || 0, infants: draft.infants || 0 },
         totalPrice: draft.totalAmount || 9423000,
         status: "confirmed",
         paymentStatus: "paid",

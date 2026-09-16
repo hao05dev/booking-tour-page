@@ -1,0 +1,2864 @@
+diff --git a/css/dashboard.css b/css/dashboard.css
+index 6e0673b..fe39b61 100644
+--- a/css/dashboard.css
++++ b/css/dashboard.css
+@@ -1141,3 +1141,281 @@
+   }
+ }
+ 
++/* ======================================================
++   MANAGER - TOUR / MULTI-DEPARTURE WORKSPACE
++   ====================================================== */
++.manager-tour-row-active {
++  background: #f0fdfa;
++}
++
++.manager-departure-count {
++  display: flex;
++  flex-direction: column;
++  align-items: flex-start;
++  gap: 2px;
++  padding: 0;
++  border: 0;
++  background: transparent;
++  color: var(--text-main);
++  text-align: left;
++  cursor: pointer;
++}
++
++.manager-departure-count strong {
++  color: var(--primary);
++  font-size: 0.9rem;
++}
++
++.manager-departure-count span {
++  color: var(--text-muted);
++  font-size: 0.72rem;
++}
++
++.manager-selected-tour {
++  display: flex;
++  align-items: center;
++  justify-content: space-between;
++  gap: 24px;
++  margin: 18px 0;
++  padding: 18px;
++  border: 1px solid #ccfbf1;
++  border-radius: 14px;
++  background: linear-gradient(135deg, #f0fdfa 0%, #ffffff 68%);
++}
++
++.manager-selected-tour-main {
++  min-width: 0;
++  display: flex;
++  align-items: center;
++  gap: 14px;
++}
++
++.manager-selected-tour-main img {
++  width: 78px;
++  height: 58px;
++  flex: 0 0 auto;
++  object-fit: cover;
++  border-radius: 10px;
++}
++
++.manager-selected-label {
++  display: block;
++  margin-bottom: 3px;
++  color: var(--primary);
++  font-size: 0.68rem;
++  font-weight: 800;
++  letter-spacing: 0.06em;
++}
++
++.manager-selected-tour-main h3 {
++  margin: 0;
++  max-width: 620px;
++  font-size: 1rem;
++}
++
++.manager-selected-tour-main p {
++  margin: 4px 0 0;
++  color: var(--text-muted);
++  font-size: 0.78rem;
++}
++
++.manager-selected-tour-stats {
++  flex: 0 0 auto;
++  display: grid;
++  grid-template-columns: repeat(3, minmax(95px, 1fr));
++  gap: 10px;
++}
++
++.manager-selected-tour-stats > div {
++  min-width: 95px;
++  padding: 10px 12px;
++  border: 1px solid var(--border);
++  border-radius: 10px;
++  background: #fff;
++  text-align: center;
++}
++
++.manager-selected-tour-stats strong {
++  display: block;
++  color: var(--primary-dark);
++  font-size: 0.95rem;
++}
++
++.manager-selected-tour-stats span {
++  display: block;
++  margin-top: 2px;
++  color: var(--text-muted);
++  font-size: 0.68rem;
++}
++
++.manager-departure-list {
++  display: flex;
++  flex-direction: column;
++  gap: 10px;
++}
++
++.manager-departure-card {
++  display: grid;
++  grid-template-columns: 160px minmax(0, 1fr) 150px auto;
++  align-items: center;
++  gap: 18px;
++  padding: 15px 16px;
++  border: 1px solid var(--border);
++  border-radius: 12px;
++  background: #fff;
++  transition: var(--transition);
++}
++
++.manager-departure-card:hover {
++  border-color: #99f6e4;
++  box-shadow: var(--shadow-sm);
++}
++
++.manager-departure-date span,
++.manager-departure-date small,
++.manager-departure-price span {
++  display: block;
++  color: var(--text-muted);
++  font-size: 0.72rem;
++}
++
++.manager-departure-date strong {
++  display: block;
++  margin: 2px 0;
++  color: #0f3f73;
++  font-size: 1rem;
++}
++
++.manager-departure-topline {
++  display: flex;
++  align-items: center;
++  flex-wrap: wrap;
++  gap: 8px 14px;
++  margin-bottom: 8px;
++  color: var(--text-muted);
++  font-size: 0.78rem;
++}
++
++.manager-capacity-line {
++  display: grid;
++  grid-template-columns: auto minmax(100px, 1fr) auto;
++  align-items: center;
++  gap: 10px;
++}
++
++.manager-capacity-line > div:first-child {
++  display: flex;
++  align-items: baseline;
++  gap: 5px;
++}
++
++.manager-capacity-line strong {
++  color: var(--text-main);
++  font-size: 0.88rem;
++}
++
++.manager-capacity-line span,
++.manager-capacity-line small {
++  color: var(--text-muted);
++  font-size: 0.7rem;
++}
++
++.manager-capacity-progress {
++  height: 7px;
++  overflow: hidden;
++  border-radius: 999px;
++  background: #e2e8f0;
++}
++
++.manager-capacity-progress span {
++  display: block;
++  height: 100%;
++  border-radius: inherit;
++  background: var(--primary);
++}
++
++.manager-departure-price {
++  text-align: right;
++}
++
++.manager-departure-price strong {
++  display: block;
++  margin-top: 2px;
++  color: #f97316;
++  font-size: 1rem;
++}
++
++.manager-departure-actions {
++  display: flex;
++  gap: 6px;
++}
++
++.manager-departure-empty {
++  min-height: 180px;
++  display: flex;
++  flex-direction: column;
++  align-items: center;
++  justify-content: center;
++  gap: 7px;
++  padding: 28px;
++  border: 1px dashed #cbd5e1;
++  border-radius: 12px;
++  color: var(--text-muted);
++  text-align: center;
++}
++
++.manager-departure-empty i {
++  color: var(--primary);
++  font-size: 2rem;
++}
++
++.manager-departure-empty strong {
++  color: var(--text-main);
++}
++
++@media (max-width: 1100px) {
++  .manager-selected-tour {
++    align-items: stretch;
++    flex-direction: column;
++  }
++
++  .manager-selected-tour-stats {
++    width: 100%;
++  }
++
++  .manager-departure-card {
++    grid-template-columns: 140px minmax(0, 1fr) auto;
++  }
++
++  .manager-departure-price {
++    grid-column: 2;
++    text-align: left;
++  }
++
++  .manager-departure-actions {
++    grid-column: 3;
++    grid-row: 1 / span 2;
++  }
++}
++
++@media (max-width: 720px) {
++  .manager-selected-tour-stats {
++    grid-template-columns: 1fr;
++  }
++
++  .manager-departure-card {
++    grid-template-columns: 1fr;
++    gap: 10px;
++  }
++
++  .manager-departure-price,
++  .manager-departure-actions {
++    grid-column: 1;
++    grid-row: auto;
++    text-align: left;
++  }
++
++  .manager-capacity-line {
++    grid-template-columns: 1fr;
++  }
++}
+diff --git a/css/pages.css b/css/pages.css
+index 5f3b2d0..f1c93f2 100644
+--- a/css/pages.css
++++ b/css/pages.css
+@@ -1418,3 +1418,764 @@
+     grid-template-columns: 1fr;
+   }
+ }
++
++/* ======================================================
++   TOUR DETAIL - DEPARTURE WORKSPACE, RELATED TOURS, ACCORDIONS
++   ====================================================== */
++.tour-booking-workspace {
++  display: grid;
++  grid-template-columns: minmax(0, 1fr) 360px;
++  gap: 24px;
++  align-items: start;
++  margin-bottom: 32px;
++}
++
++.departure-picker-panel,
++.booking-request-panel,
++.tour-related-section,
++.tour-information-section,
++.tour-review-section {
++  background: var(--surface);
++  border: 1px solid var(--border);
++  border-radius: var(--radius-lg);
++  box-shadow: var(--shadow-sm);
++}
++
++.departure-picker-panel,
++.tour-related-section,
++.tour-information-section,
++.tour-review-section {
++  padding: 28px;
++}
++
++.tour-review-section {
++  margin-bottom: 32px;
++}
++
++.tour-section-heading {
++  display: flex;
++  align-items: flex-start;
++  justify-content: space-between;
++  gap: 16px;
++  margin-bottom: 20px;
++}
++
++.tour-section-heading h2 {
++  display: flex;
++  align-items: center;
++  gap: 9px;
++  margin: 0 0 4px;
++  font-size: 1.35rem;
++}
++
++.tour-section-heading p {
++  margin: 0;
++  color: var(--text-muted);
++  font-size: 0.9rem;
++}
++
++.departure-view-switch {
++  display: inline-flex;
++  gap: 4px;
++  padding: 4px;
++  border-radius: 10px;
++  background: var(--surface-alt);
++}
++
++.departure-view-switch span {
++  width: 38px;
++  height: 34px;
++  display: inline-flex;
++  align-items: center;
++  justify-content: center;
++  border-radius: 8px;
++  color: var(--text-muted);
++}
++
++.departure-view-switch span.active {
++  background: #fff;
++  color: var(--primary);
++  box-shadow: var(--shadow-sm);
++}
++
++.departure-month-tabs {
++  display: flex;
++  gap: 10px;
++  overflow-x: auto;
++  padding-bottom: 10px;
++  margin-bottom: 8px;
++  scrollbar-width: thin;
++}
++
++.departure-month-tab {
++  flex: 0 0 auto;
++  padding: 8px 16px;
++  border: 1px solid #cbd5e1;
++  border-radius: var(--radius-full);
++  background: #fff;
++  color: var(--text-main);
++  font-weight: 600;
++  cursor: pointer;
++  transition: var(--transition);
++}
++
++.departure-month-tab:hover,
++.departure-month-tab.active {
++  border-color: #06b6d4;
++  color: #0369a1;
++  background: #ecfeff;
++}
++
++.departure-schedule-list {
++  overflow: hidden;
++  border: 1px solid var(--border);
++  border-radius: 16px;
++}
++
++.departure-schedule-row {
++  display: grid;
++  grid-template-columns: 105px minmax(0, 1fr) 145px 112px;
++  align-items: center;
++  gap: 14px;
++  padding: 10px 14px;
++  background: #fff;
++  border-bottom: 1px solid var(--border);
++  transition: var(--transition);
++}
++
++.departure-schedule-row:last-child {
++  border-bottom: 0;
++}
++
++.departure-schedule-row:hover:not(.disabled) {
++  background: #f8fdff;
++}
++
++.departure-schedule-row.selected {
++  background: #ecfeff;
++  box-shadow: inset 4px 0 0 #06b6d4;
++}
++
++.departure-schedule-row.disabled {
++  opacity: 0.62;
++  background: #f8fafc;
++}
++
++.departure-date-tile {
++  min-height: 58px;
++  display: flex;
++  flex-direction: column;
++  align-items: center;
++  justify-content: center;
++  border-radius: 10px;
++  background: #f8fafc;
++}
++
++.departure-schedule-row.selected .departure-date-tile {
++  background: #cffafe;
++}
++
++.departure-date-tile span {
++  color: var(--text-muted);
++  font-size: 0.78rem;
++}
++
++.departure-date-tile strong {
++  color: #0f3f73;
++  font-size: 1.05rem;
++}
++
++.departure-trip-info {
++  min-width: 0;
++}
++
++.departure-trip-info > strong {
++  display: block;
++  color: var(--text-main);
++  font-size: 0.92rem;
++  line-height: 1.35;
++}
++
++.departure-confirmation {
++  display: inline-flex;
++  align-items: center;
++  gap: 7px;
++  margin-top: 3px;
++  font-size: 0.8rem;
++}
++
++.departure-confirmation i {
++  font-size: 0.42rem;
++}
++
++.departure-confirmation.available { color: #059669; }
++.departure-confirmation.almost-full { color: #ea580c; }
++.departure-confirmation.sold-out { color: #dc2626; }
++
++.departure-row-price {
++  text-align: right;
++}
++
++.departure-row-price strong {
++  display: block;
++  color: #f97316;
++  font-size: 1rem;
++  font-weight: 800;
++}
++
++.departure-row-price span {
++  color: var(--text-muted);
++  font-size: 0.75rem;
++}
++
++.departure-request-btn {
++  min-height: 42px;
++  border: 1.5px solid #06b6d4;
++  border-radius: 12px;
++  background: #fff;
++  color: #075985;
++  font-weight: 700;
++  cursor: pointer;
++  transition: var(--transition);
++}
++
++.departure-request-btn:hover:not(:disabled),
++.departure-request-btn.selected {
++  background: #cffafe;
++}
++
++.departure-request-btn:disabled {
++  border-color: #cbd5e1;
++  color: var(--text-muted);
++  cursor: not-allowed;
++}
++
++.departure-empty-state {
++  display: flex;
++  flex-direction: column;
++  align-items: center;
++  justify-content: center;
++  gap: 6px;
++  padding: 36px 20px;
++  color: var(--text-muted);
++  text-align: center;
++}
++
++.departure-empty-state i {
++  font-size: 1.8rem;
++  color: var(--text-light);
++}
++
++.booking-request-panel {
++  position: sticky;
++  top: 96px;
++  padding: 22px;
++}
++
++.booking-request-header {
++  padding-bottom: 14px;
++  border-bottom: 1px solid var(--border);
++}
++
++.booking-request-header h3 {
++  margin: 0 0 12px;
++  font-size: 1.15rem;
++}
++
++.booking-selected-trip {
++  display: flex;
++  align-items: flex-start;
++  justify-content: space-between;
++  gap: 10px;
++}
++
++.booking-selected-trip strong {
++  color: #0f3f73;
++  font-size: 0.86rem;
++  line-height: 1.45;
++}
++
++.booking-change-date {
++  flex: 0 0 auto;
++  padding: 0;
++  border: 0;
++  background: transparent;
++  color: #0284c7;
++  font-weight: 700;
++  cursor: pointer;
++}
++
++.booking-passenger-list {
++  margin-top: 8px;
++}
++
++.booking-passenger-row {
++  display: flex;
++  align-items: center;
++  justify-content: space-between;
++  gap: 12px;
++  padding: 16px 0;
++  border-bottom: 1px solid var(--border);
++}
++
++.booking-passenger-row > div:first-child {
++  min-width: 0;
++}
++
++.booking-passenger-row strong {
++  display: block;
++  font-size: 0.9rem;
++}
++
++.booking-passenger-row strong small {
++  color: var(--text-muted);
++  font-size: 0.72rem;
++  font-weight: 500;
++}
++
++.booking-passenger-row > div:first-child > span {
++  display: block;
++  margin-top: 2px;
++  color: #f97316;
++  font-size: 0.82rem;
++  font-weight: 700;
++}
++
++.booking-passenger-row .counter-controls {
++  gap: 10px;
++}
++
++.booking-passenger-row .counter-btn {
++  width: 36px;
++  height: 36px;
++  color: #64748b;
++  background: #fff;
++}
++
++.booking-passenger-row .counter-btn:hover:not(:disabled) {
++  background: #ecfeff;
++  color: #0369a1;
++  border-color: #06b6d4;
++}
++
++.booking-request-total {
++  padding: 18px 0 14px;
++}
++
++.booking-request-total > div:first-child,
++.booking-request-status {
++  display: flex;
++  align-items: center;
++  justify-content: space-between;
++  gap: 12px;
++}
++
++.booking-request-total > div:first-child > span {
++  font-weight: 700;
++}
++
++.booking-request-total > div:first-child > strong {
++  color: #f97316;
++  font-size: 1.35rem;
++}
++
++.booking-request-status {
++  margin-top: 8px;
++  color: var(--text-muted);
++  font-size: 0.76rem;
++}
++
++.booking-request-status .text-danger {
++  display: inline-flex;
++  align-items: center;
++  gap: 6px;
++  white-space: nowrap;
++}
++
++.booking-request-status .text-danger i {
++  font-size: 0.45rem;
++}
++
++.booking-request-panel .btn-accent {
++  background: #ff8800;
++  border-color: #ff8800;
++}
++
++.booking-request-panel .btn-accent:hover {
++  background: #ea7c00;
++  border-color: #ea7c00;
++}
++
++.booking-secure-note {
++  margin: 10px 0 0;
++  color: var(--text-muted);
++  font-size: 0.74rem;
++  line-height: 1.45;
++  text-align: center;
++}
++
++.tour-related-section,
++.tour-information-section {
++  margin-bottom: 32px;
++}
++
++.related-tour-grid {
++  display: grid;
++  grid-template-columns: repeat(3, minmax(0, 1fr));
++  gap: 18px;
++}
++
++.related-tour-card {
++  min-width: 0;
++  overflow: hidden;
++  border: 1px solid var(--border);
++  border-radius: 16px;
++  background: #fff;
++  box-shadow: var(--shadow-sm);
++  transition: var(--transition);
++}
++
++.related-tour-card:hover {
++  transform: translateY(-3px);
++  box-shadow: var(--shadow-md);
++}
++
++.related-tour-image {
++  position: relative;
++  height: 180px;
++  overflow: hidden;
++}
++
++.related-tour-image img {
++  width: 100%;
++  height: 100%;
++  object-fit: cover;
++}
++
++.related-tour-image > span {
++  position: absolute;
++  top: 12px;
++  left: 0;
++  padding: 6px 12px;
++  border-radius: 0 8px 8px 0;
++  background: #ef4444;
++  color: #fff;
++  font-size: 0.72rem;
++  font-weight: 800;
++}
++
++.related-tour-body {
++  padding: 14px 16px 16px;
++}
++
++.related-tour-rating {
++  min-height: 28px;
++  display: flex;
++  align-items: center;
++  gap: 7px;
++  font-size: 0.78rem;
++}
++
++.related-tour-rating strong {
++  padding: 4px 8px;
++  border-radius: 7px;
++  background: #3ba44d;
++  color: #fff;
++  font-size: 0.92rem;
++}
++
++.related-tour-rating span:not(.text-muted) {
++  color: #3ba44d;
++  font-weight: 700;
++}
++
++.related-tour-rating small {
++  color: var(--text-muted);
++}
++
++.related-tour-card h3 {
++  min-height: 3.9em;
++  margin: 12px 0 10px;
++  color: #2d3748;
++  font-size: 1rem;
++  line-height: 1.45;
++  display: -webkit-box;
++  -webkit-line-clamp: 3;
++  -webkit-box-orient: vertical;
++  overflow: hidden;
++}
++
++.related-tour-meta {
++  display: flex;
++  flex-wrap: wrap;
++  gap: 8px 12px;
++  color: var(--text-muted);
++  font-size: 0.76rem;
++}
++
++.related-tour-price {
++  display: flex;
++  align-items: baseline;
++  justify-content: flex-end;
++  gap: 7px;
++  margin-top: 12px;
++  padding-top: 12px;
++  border-top: 1px solid var(--border);
++}
++
++.related-tour-price span {
++  color: var(--text-muted);
++  font-size: 0.75rem;
++}
++
++.related-tour-price strong {
++  color: #f97316;
++  font-size: 1.1rem;
++}
++
++.tour-accordion-stack {
++  display: flex;
++  flex-direction: column;
++  gap: 12px;
++}
++
++.tour-accordion {
++  overflow: hidden;
++  border: 1px solid var(--border);
++  border-radius: 14px;
++  background: #fff;
++}
++
++.tour-accordion > summary {
++  list-style: none;
++  display: flex;
++  align-items: center;
++  justify-content: space-between;
++  gap: 12px;
++  padding: 17px 18px;
++  cursor: pointer;
++  font-weight: 800;
++}
++
++.tour-accordion > summary::-webkit-details-marker,
++.itinerary-day-accordion > summary::-webkit-details-marker {
++  display: none;
++}
++
++.tour-accordion > summary > span {
++  display: inline-flex;
++  align-items: center;
++  gap: 10px;
++}
++
++.tour-accordion > summary > i:last-child,
++.itinerary-day-accordion > summary > i:last-child {
++  transition: transform 0.2s ease;
++  color: #0284c7;
++}
++
++.tour-accordion[open] > summary > i:last-child,
++.itinerary-day-accordion[open] > summary > i:last-child {
++  transform: rotate(180deg);
++}
++
++.tour-accordion-content {
++  padding: 0 18px 18px;
++}
++
++.tour-long-description {
++  margin: 0 0 16px;
++  color: var(--text-muted);
++  line-height: 1.75;
++}
++
++.tour-highlight-grid {
++  display: grid;
++  grid-template-columns: repeat(2, minmax(0, 1fr));
++  gap: 10px 18px;
++}
++
++.tour-highlight-grid > div {
++  display: flex;
++  align-items: flex-start;
++  gap: 8px;
++  font-size: 0.9rem;
++}
++
++.tour-highlight-grid i {
++  margin-top: 4px;
++  color: #10b981;
++}
++
++.itinerary-day-list {
++  display: flex;
++  flex-direction: column;
++  gap: 10px;
++}
++
++.itinerary-day-accordion {
++  border: 1px solid var(--border);
++  border-radius: 12px;
++  background: #fbfdff;
++  overflow: hidden;
++}
++
++.itinerary-day-accordion > summary {
++  list-style: none;
++  display: grid;
++  grid-template-columns: 140px minmax(0, 1fr) auto;
++  align-items: center;
++  gap: 16px;
++  padding: 12px 16px;
++  cursor: pointer;
++}
++
++.itinerary-day-accordion img {
++  width: 140px;
++  height: 88px;
++  object-fit: cover;
++  border-radius: 10px;
++}
++
++.itinerary-day-accordion summary div > span {
++  display: block;
++  color: #06a6c8;
++  font-size: 0.78rem;
++  font-weight: 800;
++}
++
++.itinerary-day-accordion summary div > strong {
++  display: block;
++  margin-top: 4px;
++  color: #2d3748;
++  font-size: 1rem;
++}
++
++.itinerary-day-accordion summary div > small {
++  display: block;
++  margin-top: 4px;
++  color: var(--text-muted);
++}
++
++.itinerary-day-content {
++  padding: 0 16px 16px 172px;
++  color: var(--text-muted);
++  font-size: 0.9rem;
++  line-height: 1.7;
++}
++
++.tour-inclusion-grid {
++  display: grid;
++  grid-template-columns: repeat(2, minmax(0, 1fr));
++  gap: 24px;
++}
++
++.tour-inclusion-grid h4 {
++  display: flex;
++  align-items: center;
++  gap: 8px;
++  margin-bottom: 10px;
++}
++
++.tour-inclusion-grid ul {
++  display: flex;
++  flex-direction: column;
++  gap: 7px;
++  padding-left: 18px;
++  list-style: disc;
++  color: var(--text-muted);
++  font-size: 0.88rem;
++}
++
++.tour-policy-note {
++  display: flex;
++  flex-direction: column;
++  gap: 10px;
++  color: var(--text-muted);
++  font-size: 0.9rem;
++  line-height: 1.65;
++}
++
++.tour-policy-note p {
++  margin: 0;
++}
++
++@media (max-width: 1050px) {
++  .tour-booking-workspace {
++    grid-template-columns: 1fr;
++  }
++
++  .booking-request-panel {
++    position: static;
++  }
++
++  .related-tour-grid {
++    grid-template-columns: repeat(2, minmax(0, 1fr));
++  }
++}
++
++@media (max-width: 760px) {
++  .departure-picker-panel,
++  .tour-related-section,
++  .tour-information-section,
++  .tour-review-section,
++  .booking-request-panel {
++    padding: 18px;
++  }
++
++  .departure-schedule-row {
++    grid-template-columns: 78px minmax(0, 1fr) 100px;
++    gap: 10px;
++  }
++
++  .departure-row-price {
++    text-align: left;
++  }
++
++  .departure-request-btn {
++    grid-column: 2 / -1;
++    width: 100%;
++  }
++
++  .related-tour-grid,
++  .tour-highlight-grid,
++  .tour-inclusion-grid {
++    grid-template-columns: 1fr;
++  }
++
++  .itinerary-day-accordion > summary {
++    grid-template-columns: 86px minmax(0, 1fr) auto;
++    gap: 10px;
++    padding: 10px;
++  }
++
++  .itinerary-day-accordion img {
++    width: 86px;
++    height: 72px;
++  }
++
++  .itinerary-day-content {
++    padding: 0 12px 14px;
++  }
++}
++
++@media (max-width: 520px) {
++  .tour-section-heading {
++    align-items: stretch;
++    flex-direction: column;
++  }
++
++  .departure-schedule-row {
++    grid-template-columns: 70px minmax(0, 1fr);
++  }
++
++  .departure-row-price,
++  .departure-request-btn {
++    grid-column: 2;
++  }
++
++  .booking-request-status {
++    align-items: flex-start;
++    flex-direction: column;
++  }
++}
+diff --git a/js/booking.js b/js/booking.js
+index 81b1356..7ff6bbf 100644
+--- a/js/booking.js
++++ b/js/booking.js
+@@ -22,7 +22,12 @@ function initBookingPage() {
+       const data = JSON.parse(rawData);
+       if (document.getElementById('checkoutTourName')) document.getElementById('checkoutTourName').textContent = data.tourTitle;
+       if (document.getElementById('checkoutDate')) document.getElementById('checkoutDate').textContent = data.date;
+-      if (document.getElementById('checkoutGuests')) document.getElementById('checkoutGuests').textContent = `${data.adults} Người lớn${data.children > 0 ? ', ' + data.children + ' Trẻ em' : ''}`;
++      if (document.getElementById('checkoutGuests')) {
++        const guestParts = [`${data.adults} Người lớn`];
++        if (data.children > 0) guestParts.push(`${data.children} Trẻ em`);
++        if (data.infants > 0) guestParts.push(`${data.infants} Em bé`);
++        document.getElementById('checkoutGuests').textContent = guestParts.join(', ');
++      }
+       if (document.getElementById('checkoutTotal')) document.getElementById('checkoutTotal').textContent = formatCurrency(data.totalAmount);
+     } catch (e) {
+       console.error(e);
+@@ -104,10 +109,11 @@ function initPaymentPage() {
+         tourId: draft.tourId || "tour-1",
+         tourTitle: draft.tourTitle,
+         tourImage: draft.tourImage || "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80",
++        departureId: draft.departureId || null,
+         departureDate: draft.date,
+-        returnDate: "28/10/2026",
++        returnDate: draft.returnDate || "Theo lịch trình",
+         bookingDate: "16/09/2026",
+-        guests: { adults: draft.adults || 2, children: draft.children || 0 },
++        guests: { adults: draft.adults || 2, children: draft.children || 0, infants: draft.infants || 0 },
+         totalPrice: draft.totalAmount || 9423000,
+         status: "confirmed",
+         paymentStatus: "paid",
+diff --git a/js/dashboards.js b/js/dashboards.js
+index f325626..c1c1137 100644
+--- a/js/dashboards.js
++++ b/js/dashboards.js
+@@ -545,127 +545,426 @@ function initGuideDashboard() {
+ // 16. MANAGER DASHBOARD LOGIC
+ // ==========================================
+ 
+-function initManagerDashboard() {
+-  const managerTourTable = document.getElementById('managerTourTable');
+-  const formAddTour = document.getElementById('formAddTour');
+-  const formAddDeparture = document.getElementById('formAddDeparture');
+-  if (!managerTourTable && !formAddTour && !formAddDeparture) return;
+-
+-  const db = getMockDatabase();
+-
+-  function renderManagerTours() {
+-    if (!managerTourTable) return;
+-    managerTourTable.innerHTML = db.tours.map(t => `
+-      <tr>
+-        <td>
+-          <div style="display:flex; align-items:center; gap:12px;">
+-            <img src="${t.image}" style="width:50px; height:40px; object-fit:cover; border-radius:var(--radius-sm);" alt="${t.title}">
+-            <div>
+-              <strong style="display:block; font-size:0.9rem;">${t.title}</strong>
+-              <span class="text-muted" style="font-size:0.75rem;"><i class="fa-solid fa-location-dot"></i> ${t.location} • ${t.duration}</span>
+-            </div>
+-          </div>
+-        </td>
+-        <td><strong class="text-primary">${formatCurrency(t.price)}</strong></td>
+-        <td><span class="badge ${t.featured ? 'badge-warning' : 'badge-neutral'}">${t.featured ? 'Nổi bật' : 'Tiêu chuẩn'}</span></td>
+-        <td>
+-          <div style="display:flex; gap:6px;">
+-            <a href="tour-detail.html?id=${t.id}" class="btn btn-outline btn-sm" title="Xem"><i class="fa-regular fa-eye"></i></a>
+-            <button class="btn btn-outline btn-sm text-danger" onclick="deleteTour('${t.id}')" title="Xóa"><i class="fa-regular fa-trash-can"></i></button>
+-          </div>
+-        </td>
+-      </tr>
+-    `).join('');
+-  }
+-
+-  window.deleteTour = (tourId) => {
+-    if (confirm('Bạn có chắc chắn muốn xóa tour này khỏi hệ thống?')) {
+-      db.tours = db.tours.filter(t => t.id !== tourId);
+-      saveMockDatabase(db);
+-      renderManagerTours();
+-      showToast('Đã xóa tour thành công!', 'info');
+-    }
+-  };
+-
+-  if (formAddTour) {
+-    formAddTour.addEventListener('submit', (e) => {
+-      e.preventDefault();
+-      const title = document.getElementById('newTourTitle').value.trim();
+-      const location = document.getElementById('newTourLocation').value.trim();
+-      const region = document.getElementById('newTourRegion').value;
+-      const duration = document.getElementById('newTourDuration').value.trim();
+-      const price = parseInt(document.getElementById('newTourPrice').value, 10);
+-      const desc = document.getElementById('newTourDesc').value.trim();
+-      const img = document.getElementById('newTourImage').value.trim() || 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80';
+-
+-      const newTour = {
+-        id: `tour-${Date.now()}`,
+-        title,
+-        location,
+-        region,
+-        theme: 'nature',
+-        duration,
+-        days: parseInt(duration) || 3,
+-        rating: 5.0,
+-        reviewsCount: 0,
+-        price,
+-        image: img,
+-        featured: false,
+-        popular: true,
+-        topRated: false,
+-        maxGuests: 20,
+-        description: desc
+-      };
+-
+-      db.tours.unshift(newTour);
+-      saveMockDatabase(db);
+-      renderManagerTours();
+-      closeModal('modalAddTour');
+-      formAddTour.reset();
+-      showToast('Đã thêm tour mới thành công!', 'success');
+-    });
+-  }
+-
+-  if (formAddDeparture) {
+-    formAddDeparture.addEventListener('submit', (e) => {
+-      e.preventDefault();
+-      const tourId = document.getElementById('depTourSelect').value;
+-      const depDate = document.getElementById('depStartDate').value;
+-      const guideId = document.getElementById('depGuideSelect').value;
+-      const slots = parseInt(document.getElementById('depSlots').value, 10);
+-      const price = parseInt(document.getElementById('depPrice').value, 10);
+-
+-      const matchedTour = db.tours.find(t => t.id === tourId);
+-      const matchedGuide = db.users.find(u => u.id === guideId);
+-
+-      const newDep = {
+-        id: `dep-${Date.now()}`,
+-        tourId,
+-        tourTitle: matchedTour ? matchedTour.title : 'Tour Mới',
+-        date: depDate,
+-        returnDate: 'Theo lịch trình',
+-        slots: slots,
+-        maxSlots: slots,
+-        status: 'Available',
+-        statusText: 'Còn chỗ',
+-        badgeClass: 'badge-available',
+-        price: price,
+-        guideId: guideId,
+-        guideName: matchedGuide ? matchedGuide.name : 'Chưa phân công',
+-        progressStatus: 'upcoming'
+-      };
+-
+-      db.departures.unshift(newDep);
+-      saveMockDatabase(db);
+-      closeModal('modalAddDeparture');
+-      formAddDeparture.reset();
+-      showToast('Đã tạo lịch khởi hành & phân công HDV thành công!', 'success');
+-    });
+-  }
+-
+-  renderManagerTours();
+-}
+-
++function initManagerDashboard() {
++  const managerTourTable = document.getElementById('managerTourTable');
++  const managerDepartureList = document.getElementById('managerDepartureList');
++  const managerSelectedTourSummary = document.getElementById('managerSelectedTourSummary');
++  const formAddTour = document.getElementById('formAddTour');
++  const formAddDeparture = document.getElementById('formAddDeparture');
++  const depTourSelect = document.getElementById('depTourSelect');
++  const btnAddDepartureForSelectedTour = document.getElementById('btnAddDepartureForSelectedTour');
++  const managerSearchInput = document.getElementById('managerSearchInput');
++
++  if (!managerTourTable && !formAddTour && !formAddDeparture) return;
++
++  const db = getMockDatabase();
++  let selectedManagerTourId = db.tours[0]?.id || null;
++  let tourSearchKeyword = '';
++
++  function parseVnDate(value) {
++    if (!value || value === 'Theo lịch trình') return Number.MAX_SAFE_INTEGER;
++    const [day, month, year] = value.split('/').map(Number);
++    return new Date(year, month - 1, day).getTime();
++  }
++
++  function toInputDate(value) {
++    if (!value || value === 'Theo lịch trình') return '';
++    const [day, month, year] = value.split('/');
++    return `${year}-${month}-${day}`;
++  }
++
++  function fromInputDate(value) {
++    if (!value) return 'Theo lịch trình';
++    const [year, month, day] = value.split('-');
++    return `${day}/${month}/${year}`;
++  }
++
++  function getDepartureStatus(slots, maxSlots) {
++    if (slots <= 0) {
++      return { status: 'Sold Out', statusText: 'Hết chỗ', badgeClass: 'badge-sold-out' };
++    }
++    if (slots <= Math.max(3, Math.ceil(maxSlots * 0.2))) {
++      return { status: 'Almost Full', statusText: 'Sắp hết chỗ', badgeClass: 'badge-almost-full' };
++    }
++    return { status: 'Available', statusText: 'Còn chỗ', badgeClass: 'badge-available' };
++  }
++
++  function getTourDepartures(tourId) {
++    return db.departures
++      .filter(dep => dep.tourId === tourId)
++      .sort((a, b) => parseVnDate(a.date) - parseVnDate(b.date));
++  }
++
++  function getNextDeparture(tourId) {
++    return getTourDepartures(tourId).find(dep => dep.status !== 'Sold Out' && dep.slots > 0) || null;
++  }
++
++  function populateDepartureTourSelect() {
++    if (!depTourSelect) return;
++    depTourSelect.innerHTML = db.tours.map(tour => `
++      <option value="${tour.id}">${tour.title}</option>
++    `).join('');
++    if (selectedManagerTourId && db.tours.some(tour => tour.id === selectedManagerTourId)) {
++      depTourSelect.value = selectedManagerTourId;
++    }
++  }
++
++  function renderManagerTours() {
++    if (!managerTourTable) return;
++
++    const normalizedKeyword = tourSearchKeyword.trim().toLowerCase();
++    const tours = db.tours.filter(tour => {
++      if (!normalizedKeyword) return true;
++      return tour.title.toLowerCase().includes(normalizedKeyword)
++        || tour.location.toLowerCase().includes(normalizedKeyword);
++    });
++
++    if (!tours.length) {
++      managerTourTable.innerHTML = `
++        <tr>
++          <td colspan="5" style="text-align:center; padding:36px;">
++            <span class="text-muted">Không tìm thấy tour phù hợp.</span>
++          </td>
++        </tr>
++      `;
++      return;
++    }
++
++    managerTourTable.innerHTML = tours.map(tour => {
++      const tourDepartures = getTourDepartures(tour.id);
++      const nextDeparture = getNextDeparture(tour.id);
++      const isSelected = tour.id === selectedManagerTourId;
++
++      return `
++        <tr class="${isSelected ? 'manager-tour-row-active' : ''}">
++          <td>
++            <div style="display:flex; align-items:center; gap:12px;">
++              <img src="${tour.image}" style="width:58px; height:44px; object-fit:cover; border-radius:var(--radius-sm);" alt="${tour.title}">
++              <div>
++                <strong style="display:block; font-size:0.9rem;">${tour.title}</strong>
++                <span class="text-muted" style="font-size:0.75rem;"><i class="fa-solid fa-location-dot"></i> ${tour.location} • ${tour.duration}</span>
++              </div>
++            </div>
++          </td>
++          <td><strong class="text-primary">${formatCurrency(tour.price)}</strong></td>
++          <td>
++            <button type="button" class="manager-departure-count" onclick="selectManagerTour('${tour.id}')">
++              <strong>${tourDepartures.length} chuyến</strong>
++              <span>${nextDeparture ? `Gần nhất ${nextDeparture.date}` : 'Chưa có lịch mở bán'}</span>
++            </button>
++          </td>
++          <td><span class="badge ${tour.featured ? 'badge-warning' : 'badge-neutral'}">${tour.featured ? 'Nổi bật' : 'Tiêu chuẩn'}</span></td>
++          <td>
++            <div style="display:flex; gap:6px; flex-wrap:wrap;">
++              <button class="btn ${isSelected ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="selectManagerTour('${tour.id}')" title="Quản lý lịch">
++                <i class="fa-solid fa-calendar-days"></i>
++              </button>
++              <a href="tour-detail.html?id=${tour.id}" class="btn btn-outline btn-sm" title="Xem phía khách hàng"><i class="fa-regular fa-eye"></i></a>
++              <button class="btn btn-outline btn-sm text-danger" onclick="deleteTour('${tour.id}')" title="Xóa"><i class="fa-regular fa-trash-can"></i></button>
++            </div>
++          </td>
++        </tr>
++      `;
++    }).join('');
++  }
++
++  function renderManagerDepartures() {
++    if (!managerDepartureList || !managerSelectedTourSummary) return;
++
++    const tour = db.tours.find(item => item.id === selectedManagerTourId);
++    if (!tour) {
++      managerSelectedTourSummary.innerHTML = '<span class="text-muted">Chưa có tour để quản lý.</span>';
++      managerDepartureList.innerHTML = '';
++      return;
++    }
++
++    const departures = getTourDepartures(tour.id);
++    const nextDeparture = getNextDeparture(tour.id);
++
++    managerSelectedTourSummary.innerHTML = `
++      <div class="manager-selected-tour-main">
++        <img src="${tour.image}" alt="${tour.title}">
++        <div>
++          <span class="manager-selected-label">ĐANG QUẢN LÝ LỊCH</span>
++          <h3>${tour.title}</h3>
++          <p><i class="fa-solid fa-location-dot"></i> ${tour.location} · ${tour.duration}</p>
++        </div>
++      </div>
++      <div class="manager-selected-tour-stats">
++        <div><strong>${departures.length}</strong><span>Tổng chuyến</span></div>
++        <div><strong>${departures.filter(dep => dep.slots > 0).length}</strong><span>Đang mở bán</span></div>
++        <div><strong>${nextDeparture ? nextDeparture.date : '--'}</strong><span>Khởi hành gần nhất</span></div>
++      </div>
++    `;
++
++    if (!departures.length) {
++      managerDepartureList.innerHTML = `
++        <div class="manager-departure-empty">
++          <i class="fa-regular fa-calendar-plus"></i>
++          <strong>Tour này chưa có chuyến khởi hành</strong>
++          <span>Hãy tạo chuyến đầu tiên để khách hàng có thể lựa chọn ngày đi.</span>
++          <button type="button" class="btn btn-primary btn-sm" onclick="openManagerDepartureModal('${tour.id}')">
++            <i class="fa-solid fa-plus"></i> Tạo chuyến đầu tiên
++          </button>
++        </div>
++      `;
++      return;
++    }
++
++    managerDepartureList.innerHTML = departures.map(dep => {
++      const booked = Math.max(0, (dep.maxSlots || 0) - (dep.slots || 0));
++      const fillPercent = dep.maxSlots ? Math.min(100, Math.round((booked / dep.maxSlots) * 100)) : 0;
++      const status = getDepartureStatus(dep.slots, dep.maxSlots || dep.slots || 1);
++
++      return `
++        <article class="manager-departure-card">
++          <div class="manager-departure-date">
++            <span>Ngày đi</span>
++            <strong>${dep.date}</strong>
++            <small>Đến ${dep.returnDate || 'Theo lịch trình'}</small>
++          </div>
++
++          <div class="manager-departure-details">
++            <div class="manager-departure-topline">
++              <span class="badge ${status.badgeClass}">${status.statusText}</span>
++              <span><i class="fa-solid fa-user-tie"></i> ${dep.guideName || 'Chưa phân công HDV'}</span>
++            </div>
++            <div class="manager-capacity-line">
++              <div>
++                <strong>${dep.slots} / ${dep.maxSlots}</strong>
++                <span>chỗ còn mở</span>
++              </div>
++              <div class="manager-capacity-progress"><span style="width:${fillPercent}%"></span></div>
++              <small>${booked} khách đã được giữ chỗ</small>
++            </div>
++          </div>
++
++          <div class="manager-departure-price">
++            <span>Giá / khách</span>
++            <strong>${formatCurrency(dep.price)}</strong>
++          </div>
++
++          <div class="manager-departure-actions">
++            <button type="button" class="btn btn-outline btn-sm" onclick="editManagerDeparture('${dep.id}')" title="Chỉnh sửa chuyến">
++              <i class="fa-solid fa-pen"></i>
++            </button>
++            <button type="button" class="btn btn-outline btn-sm text-danger" onclick="deleteManagerDeparture('${dep.id}')" title="Xóa chuyến">
++              <i class="fa-regular fa-trash-can"></i>
++            </button>
++          </div>
++        </article>
++      `;
++    }).join('');
++  }
++
++  function refreshManagerUI() {
++    if (selectedManagerTourId && !db.tours.some(tour => tour.id === selectedManagerTourId)) {
++      selectedManagerTourId = db.tours[0]?.id || null;
++    }
++    populateDepartureTourSelect();
++    renderManagerTours();
++    renderManagerDepartures();
++  }
++
++  window.selectManagerTour = (tourId) => {
++    if (!db.tours.some(tour => tour.id === tourId)) return;
++    selectedManagerTourId = tourId;
++    refreshManagerUI();
++    document.getElementById('sectionDepartures')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
++  };
++
++  window.openManagerDepartureModal = (tourId = selectedManagerTourId, departureId = null) => {
++    const editIdEl = document.getElementById('depEditId');
++    const titleEl = document.getElementById('departureModalTitle');
++    const submitButton = document.getElementById('departureSubmitButton');
++    const startDateEl = document.getElementById('depStartDate');
++    const returnDateEl = document.getElementById('depReturnDate');
++    const slotsEl = document.getElementById('depSlots');
++    const maxSlotsEl = document.getElementById('depMaxSlots');
++    const priceEl = document.getElementById('depPrice');
++    const guideEl = document.getElementById('depGuideSelect');
++
++    populateDepartureTourSelect();
++    if (tourId && depTourSelect) depTourSelect.value = tourId;
++
++    const dep = departureId ? db.departures.find(item => item.id === departureId) : null;
++    if (editIdEl) editIdEl.value = dep?.id || '';
++
++    if (dep) {
++      if (titleEl) titleEl.innerHTML = '<i class="fa-solid fa-pen-to-square text-warning"></i> Chỉnh Sửa Chuyến Khởi Hành';
++      if (submitButton) submitButton.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Lưu Thay Đổi';
++      if (depTourSelect) depTourSelect.value = dep.tourId;
++      if (startDateEl) startDateEl.value = toInputDate(dep.date);
++      if (returnDateEl) returnDateEl.value = toInputDate(dep.returnDate);
++      if (slotsEl) slotsEl.value = dep.slots;
++      if (maxSlotsEl) maxSlotsEl.value = dep.maxSlots;
++      if (priceEl) priceEl.value = dep.price;
++      if (guideEl) guideEl.value = dep.guideId || '';
++    } else {
++      if (titleEl) titleEl.innerHTML = '<i class="fa-solid fa-calendar-plus text-warning"></i> Thêm Lịch Khởi Hành & Gán HDV';
++      if (submitButton) submitButton.innerHTML = '<i class="fa-solid fa-check"></i> Xác Nhận Tạo Lịch';
++      formAddDeparture?.reset();
++      populateDepartureTourSelect();
++      if (tourId && depTourSelect) depTourSelect.value = tourId;
++      if (editIdEl) editIdEl.value = '';
++    }
++
++    openModal('modalAddDeparture');
++  };
++
++  window.editManagerDeparture = (departureId) => {
++    const dep = db.departures.find(item => item.id === departureId);
++    if (!dep) return;
++    selectedManagerTourId = dep.tourId;
++    window.openManagerDepartureModal(dep.tourId, dep.id);
++  };
++
++  window.deleteManagerDeparture = (departureId) => {
++    const dep = db.departures.find(item => item.id === departureId);
++    if (!dep) return;
++    if (!confirm(`Xóa chuyến khởi hành ${dep.date}?`)) return;
++
++    db.departures = db.departures.filter(item => item.id !== departureId);
++    saveMockDatabase(db);
++    refreshManagerUI();
++    showToast('Đã xóa chuyến khởi hành.', 'info');
++  };
++
++  window.deleteTour = (tourId) => {
++    const tour = db.tours.find(item => item.id === tourId);
++    if (!tour) return;
++    if (!confirm(`Xóa tour "${tour.title}" và toàn bộ lịch khởi hành của tour này?`)) return;
++
++    db.tours = db.tours.filter(item => item.id !== tourId);
++    db.departures = db.departures.filter(dep => dep.tourId !== tourId);
++    saveMockDatabase(db);
++    refreshManagerUI();
++    showToast('Đã xóa tour và các chuyến khởi hành liên quan.', 'info');
++  };
++
++  if (formAddTour) {
++    formAddTour.addEventListener('submit', (event) => {
++      event.preventDefault();
++      const title = document.getElementById('newTourTitle').value.trim();
++      const location = document.getElementById('newTourLocation').value.trim();
++      const region = document.getElementById('newTourRegion').value;
++      const duration = document.getElementById('newTourDuration').value.trim();
++      const price = parseInt(document.getElementById('newTourPrice').value, 10);
++      const desc = document.getElementById('newTourDesc').value.trim();
++      const img = document.getElementById('newTourImage').value.trim() || 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80';
++
++      const newTour = {
++        id: `tour-${Date.now()}`,
++        title,
++        location,
++        region,
++        theme: 'nature',
++        duration,
++        days: parseInt(duration, 10) || 3,
++        rating: 5.0,
++        reviewsCount: 0,
++        price,
++        image: img,
++        featured: false,
++        popular: true,
++        topRated: false,
++        maxGuests: 20,
++        status: 'active',
++        description: desc
++      };
++
++      db.tours.unshift(newTour);
++      selectedManagerTourId = newTour.id;
++      saveMockDatabase(db);
++      refreshManagerUI();
++      closeModal('modalAddTour');
++      formAddTour.reset();
++      showToast('Đã thêm tour mới. Bạn có thể tạo nhiều chuyến khởi hành cho tour này.', 'success');
++      document.getElementById('sectionDepartures')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
++    });
++  }
++
++  if (formAddDeparture) {
++    formAddDeparture.addEventListener('submit', (event) => {
++      event.preventDefault();
++
++      const editId = document.getElementById('depEditId')?.value || '';
++      const tourId = depTourSelect?.value;
++      const startDate = document.getElementById('depStartDate').value;
++      const returnDate = document.getElementById('depReturnDate').value;
++      const guideId = document.getElementById('depGuideSelect').value;
++      const slots = Math.max(0, parseInt(document.getElementById('depSlots').value, 10) || 0);
++      const maxSlots = Math.max(1, parseInt(document.getElementById('depMaxSlots').value, 10) || 1);
++      const price = Math.max(0, parseInt(document.getElementById('depPrice').value, 10) || 0);
++
++      if (slots > maxSlots) {
++        showToast('Số chỗ còn mở không thể lớn hơn sức chứa tối đa.', 'warning');
++        return;
++      }
++
++      const matchedTour = db.tours.find(tour => tour.id === tourId);
++      const matchedGuide = db.users.find(user => user.id === guideId);
++      const status = getDepartureStatus(slots, maxSlots);
++
++      if (editId) {
++        const dep = db.departures.find(item => item.id === editId);
++        if (!dep) return;
++
++        Object.assign(dep, {
++          tourId,
++          tourTitle: matchedTour ? matchedTour.title : dep.tourTitle,
++          date: fromInputDate(startDate),
++          returnDate: fromInputDate(returnDate),
++          slots,
++          maxSlots,
++          price,
++          guideId,
++          guideName: matchedGuide ? matchedGuide.name : 'Chưa phân công',
++          ...status
++        });
++        showToast('Đã cập nhật chuyến khởi hành.', 'success');
++      } else {
++        db.departures.unshift({
++          id: `dep-${Date.now()}`,
++          tourId,
++          tourTitle: matchedTour ? matchedTour.title : 'Tour Mới',
++          date: fromInputDate(startDate),
++          returnDate: fromInputDate(returnDate),
++          slots,
++          maxSlots,
++          price,
++          guideId,
++          guideName: matchedGuide ? matchedGuide.name : 'Chưa phân công',
++          progressStatus: 'upcoming',
++          ...status
++        });
++        showToast('Đã tạo chuyến khởi hành mới cho tour.', 'success');
++      }
++
++      selectedManagerTourId = tourId;
++      saveMockDatabase(db);
++      closeModal('modalAddDeparture');
++      formAddDeparture.reset();
++      refreshManagerUI();
++    });
++  }
++
++  if (btnAddDepartureForSelectedTour) {
++    btnAddDepartureForSelectedTour.addEventListener('click', () => {
++      window.openManagerDepartureModal(selectedManagerTourId);
++    });
++  }
++
++  if (managerSearchInput) {
++    managerSearchInput.addEventListener('input', () => {
++      tourSearchKeyword = managerSearchInput.value;
++      renderManagerTours();
++    });
++  }
++
++  refreshManagerUI();
++}
++
+ // ==========================================
+ // 17. ADMIN DASHBOARD LOGIC
+ // ==========================================
+diff --git a/js/tours.js b/js/tours.js
+index aa95d4e..0a72867 100644
+--- a/js/tours.js
++++ b/js/tours.js
+@@ -249,118 +249,503 @@ function initToursPage() {
+ }
+ 
+ function initTourDetailPage() {
+-  const departureCards = document.querySelectorAll('.departure-card:not(.sold-out)');
+-  const adultCountEl = document.getElementById('adultCount');
+-  const childCountEl = document.getElementById('childCount');
++  const scheduleListEl = document.getElementById('departureScheduleList');
++  const monthTabsEl = document.getElementById('departureMonthTabs');
+   const totalAmountEl = document.getElementById('totalAmount');
+-  const summaryDepartureEl = document.getElementById('summaryDeparture');
++  const summaryDepartureRangeEl = document.getElementById('summaryDepartureRange');
+   const summaryGuestsEl = document.getElementById('summaryGuests');
+   const btnBookTour = document.getElementById('btnBookTour');
+ 
+-  if (!btnBookTour && !totalAmountEl) return;
++  if (!scheduleListEl || !btnBookTour) return;
+ 
+-  const urlParams = new URLSearchParams(window.location.search);
+-  const tourId = urlParams.get('id') || 'tour-1';
+   const db = getMockDatabase();
+-  const currentTour = db.tours.find(t => t.id === tourId) || db.tours[0];
++  const urlParams = new URLSearchParams(window.location.search);
++  const requestedTourId = urlParams.get('id') || 'tour-1';
++  const currentTour = db.tours.find(t => t.id === requestedTourId) || db.tours[0];
++  if (!currentTour) return;
+ 
+-  let currentPrice = currentTour ? currentTour.price : 3490000;
+-  let selectedDate = "25/10/2026";
++  const departures = db.departures
++    .filter(dep => dep.tourId === currentTour.id)
++    .sort((a, b) => parseVnDate(a.date) - parseVnDate(b.date));
++
++  let selectedDeparture = departures.find(dep => dep.status !== 'Sold Out' && dep.slots > 0) || departures[0] || null;
++  let currentMonthFilter = 'all';
+   let adults = 1;
+   let children = 0;
++  let infants = 0;
++
++  function parseVnDate(value) {
++    if (!value || value === 'Theo lịch trình') return Number.MAX_SAFE_INTEGER;
++    const [day, month, year] = value.split('/').map(Number);
++    return new Date(year, month - 1, day).getTime();
++  }
++
++  function getDateParts(value) {
++    if (!value || value === 'Theo lịch trình') return { day: '--', month: '--', weekday: '' };
++    const [day, month, year] = value.split('/').map(Number);
++    const weekdayLabels = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
++    const date = new Date(year, month - 1, day);
++    return {
++      day: String(day).padStart(2, '0'),
++      month: String(month).padStart(2, '0'),
++      year,
++      weekday: weekdayLabels[date.getDay()]
++    };
++  }
++
++  function getMonthKey(value) {
++    const parts = getDateParts(value);
++    return parts.year ? `${parts.year}-${parts.month}` : 'other';
++  }
++
++  function getMonthLabel(value) {
++    const parts = getDateParts(value);
++    return parts.year ? `Tháng ${Number(parts.month)} ${parts.year}` : 'Khác';
++  }
++
++  function getDepartureStatus(dep) {
++    if (dep.status === 'Sold Out' || dep.slots <= 0) {
++      return { text: 'Hết chỗ', className: 'sold-out' };
++    }
++    if (dep.status === 'Almost Full' || dep.slots <= 3) {
++      return { text: `Chỉ còn ${dep.slots} chỗ`, className: 'almost-full' };
++    }
++    return { text: `Còn ${dep.slots} chỗ`, className: 'available' };
++  }
++
++  function updateTourHeader() {
++    document.title = `${currentTour.title} - BookingTour`;
++
++    const titleEl = document.getElementById('tourDetailTitle');
++    const breadcrumbEl = document.getElementById('tourBreadcrumbCurrent');
++    const codeEl = document.getElementById('tourCodeLabel');
++    const ratingEl = document.getElementById('tourDetailRating');
++    const reviewCountEl = document.getElementById('tourDetailReviewCount');
++    const locationEl = document.getElementById('tourDetailLocation');
++    const durationEl = document.getElementById('tourDetailDuration');
++    const maxGuestsEl = document.getElementById('tourDetailMaxGuests');
++    const mainImageEl = document.getElementById('tourMainImage');
++
++    if (titleEl) titleEl.textContent = currentTour.title;
++    if (breadcrumbEl) breadcrumbEl.textContent = currentTour.title;
++    if (codeEl) codeEl.textContent = currentTour.id.toUpperCase();
++    if (ratingEl) ratingEl.textContent = currentTour.rating || '5.0';
++    if (reviewCountEl) reviewCountEl.textContent = `(${currentTour.reviewsCount || 0} đánh giá)`;
++    if (locationEl) locationEl.textContent = currentTour.location;
++    if (durationEl) durationEl.textContent = currentTour.duration;
++    if (maxGuestsEl) maxGuestsEl.textContent = currentTour.maxGuests || 20;
++    if (mainImageEl) {
++      mainImageEl.src = currentTour.image;
++      mainImageEl.alt = currentTour.title;
++    }
++  }
++
++  function renderMonthTabs() {
++    if (!monthTabsEl) return;
++    const uniqueMonths = [];
++    departures.forEach(dep => {
++      const key = getMonthKey(dep.date);
++      if (!uniqueMonths.some(item => item.key === key)) {
++        uniqueMonths.push({ key, label: getMonthLabel(dep.date) });
++      }
++    });
++
++    monthTabsEl.innerHTML = [
++      `<button type="button" class="departure-month-tab ${currentMonthFilter === 'all' ? 'active' : ''}" data-month="all">Tất cả</button>`,
++      ...uniqueMonths.map(month => `
++        <button type="button" class="departure-month-tab ${currentMonthFilter === month.key ? 'active' : ''}" data-month="${month.key}">
++          ${month.label}
++        </button>
++      `)
++    ].join('');
++
++    monthTabsEl.querySelectorAll('.departure-month-tab').forEach(button => {
++      button.addEventListener('click', () => {
++        currentMonthFilter = button.dataset.month || 'all';
++        renderMonthTabs();
++        renderDepartureRows();
++      });
++    });
++  }
++
++  function renderDepartureRows() {
++    const visibleDepartures = departures.filter(dep => currentMonthFilter === 'all' || getMonthKey(dep.date) === currentMonthFilter);
++
++    if (!visibleDepartures.length) {
++      scheduleListEl.innerHTML = `
++        <div class="departure-empty-state">
++          <i class="fa-regular fa-calendar-xmark"></i>
++          <strong>Chưa có lịch khởi hành trong khoảng này</strong>
++          <span>Vui lòng chọn tháng khác hoặc liên hệ tư vấn.</span>
++        </div>
++      `;
++      return;
++    }
++
++    scheduleListEl.innerHTML = visibleDepartures.map(dep => {
++      const dateParts = getDateParts(dep.date);
++      const status = getDepartureStatus(dep);
++      const isSoldOut = status.className === 'sold-out';
++      const isSelected = selectedDeparture && dep.id === selectedDeparture.id;
++
++      return `
++        <article class="departure-schedule-row ${isSelected ? 'selected' : ''} ${isSoldOut ? 'disabled' : ''}" data-departure-id="${dep.id}">
++          <div class="departure-date-tile">
++            <span>${dateParts.weekday}</span>
++            <strong>${dateParts.day}/${dateParts.month}</strong>
++          </div>
++
++          <div class="departure-trip-info">
++            <strong>${dep.date}${dep.returnDate && dep.returnDate !== 'Theo lịch trình' ? ` - ${dep.returnDate}` : ''}</strong>
++            <span class="departure-confirmation ${status.className}">
++              <i class="fa-solid fa-circle"></i> ${status.text}
++            </span>
++          </div>
++
++          <div class="departure-row-price">
++            <strong>${formatCurrency(dep.price)}</strong>
++            <span>/ khách</span>
++          </div>
++
++          <button type="button"
++                  class="departure-request-btn ${isSelected ? 'selected' : ''}"
++                  data-select-departure="${dep.id}"
++                  ${isSoldOut ? 'disabled' : ''}>
++            ${isSoldOut
++              ? 'Hết chỗ'
++              : isSelected
++                ? '<i class="fa-solid fa-check"></i> Đã chọn'
++                : 'Yêu cầu'}
++          </button>
++        </article>
++      `;
++    }).join('');
++
++    scheduleListEl.querySelectorAll('[data-select-departure]').forEach(button => {
++      button.addEventListener('click', () => {
++        const dep = departures.find(item => item.id === button.dataset.selectDeparture);
++        if (!dep || dep.status === 'Sold Out' || dep.slots <= 0) return;
++        selectedDeparture = dep;
++        if ((adults + children + infants) > dep.slots) {
++          adults = Math.min(adults, Math.max(1, dep.slots));
++          children = 0;
++          infants = 0;
++        }
++        renderDepartureRows();
++        updateBookingPanel();
++      });
++    });
++  }
+ 
+-  function updateTotals() {
+-    const childPrice = currentPrice * 0.7;
++  function updateBookingPanel() {
++    const currentPrice = selectedDeparture ? selectedDeparture.price : currentTour.price;
++    const childPrice = Math.round(currentPrice * 0.7);
+     const total = (adults * currentPrice) + (children * childPrice);
+-    
++
++    const adultCountEl = document.getElementById('adultCount');
++    const childCountEl = document.getElementById('childCount');
++    const infantCountEl = document.getElementById('infantCount');
++    const adultUnitPriceEl = document.getElementById('adultUnitPrice');
++    const childUnitPriceEl = document.getElementById('childUnitPrice');
++
++    if (adultCountEl) adultCountEl.textContent = adults;
++    if (childCountEl) childCountEl.textContent = children;
++    if (infantCountEl) infantCountEl.textContent = infants;
++    if (adultUnitPriceEl) adultUnitPriceEl.textContent = formatCurrency(currentPrice);
++    if (childUnitPriceEl) childUnitPriceEl.textContent = formatCurrency(childPrice);
+     if (totalAmountEl) totalAmountEl.textContent = formatCurrency(total);
+-    if (summaryDepartureEl) summaryDepartureEl.textContent = selectedDate;
++
++    if (summaryDepartureRangeEl) {
++      if (selectedDeparture) {
++        summaryDepartureRangeEl.textContent = `${selectedDeparture.date}${selectedDeparture.returnDate && selectedDeparture.returnDate !== 'Theo lịch trình' ? ` - ${selectedDeparture.returnDate}` : ''} · ${currentTour.duration}`;
++      } else {
++        summaryDepartureRangeEl.textContent = 'Chưa có lịch khởi hành';
++      }
++    }
++
+     if (summaryGuestsEl) {
+-      let guestText = `${adults} Người lớn`;
+-      if (children > 0) guestText += `, ${children} Trẻ em`;
+-      summaryGuestsEl.textContent = guestText;
++      const guestParts = [`${adults} người lớn`];
++      if (children) guestParts.push(`${children} trẻ em`);
++      if (infants) guestParts.push(`${infants} em bé`);
++      summaryGuestsEl.textContent = guestParts.join(' · ');
+     }
+ 
++    const minusAdult = document.getElementById('btnMinusAdult');
++    const minusChild = document.getElementById('btnMinusChild');
++    const minusInfant = document.getElementById('btnMinusInfant');
++    if (minusAdult) minusAdult.disabled = adults <= 1;
++    if (minusChild) minusChild.disabled = children <= 0;
++    if (minusInfant) minusInfant.disabled = infants <= 0;
++
++    const totalGuests = adults + children + infants;
++    const maxGuests = Math.min(
++      currentTour.maxGuests || 20,
++      selectedDeparture && selectedDeparture.slots > 0 ? selectedDeparture.slots : currentTour.maxGuests || 20
++    );
++
++    const plusButtons = [
++      document.getElementById('btnPlusAdult'),
++      document.getElementById('btnPlusChild'),
++      document.getElementById('btnPlusInfant')
++    ];
++    plusButtons.forEach(button => {
++      if (button) button.disabled = totalGuests >= maxGuests;
++    });
++
++    btnBookTour.classList.toggle('disabled', !selectedDeparture || selectedDeparture.status === 'Sold Out');
++    btnBookTour.setAttribute('aria-disabled', (!selectedDeparture || selectedDeparture.status === 'Sold Out') ? 'true' : 'false');
++
+     const tourData = {
+       tourId: currentTour.id,
+       tourTitle: currentTour.title,
+       tourImage: currentTour.image,
+-      date: selectedDate,
+-      adults: adults,
+-      children: children,
++      departureId: selectedDeparture ? selectedDeparture.id : null,
++      date: selectedDeparture ? selectedDeparture.date : '',
++      returnDate: selectedDeparture ? selectedDeparture.returnDate : '',
++      adults,
++      children,
++      infants,
+       pricePerAdult: currentPrice,
++      pricePerChild: childPrice,
+       totalAmount: total
+     };
+     localStorage.setItem('booking_draft', JSON.stringify(tourData));
+   }
+ 
+-  departureCards.forEach(card => {
+-    card.addEventListener('click', () => {
+-      departureCards.forEach(c => c.classList.remove('selected'));
+-      card.classList.add('selected');
+-      selectedDate = card.dataset.date || "25/10/2026";
+-      currentPrice = parseInt(card.dataset.price, 10) || (currentTour ? currentTour.price : 3490000);
+-      updateTotals();
+-    });
+-  });
++  function renderRelatedTours() {
++    const container = document.getElementById('relatedToursContainer');
++    if (!container) return;
++
++    const related = db.tours
++      .filter(tour => tour.id !== currentTour.id)
++      .sort((a, b) => {
++        const aSameRegion = a.region === currentTour.region ? 1 : 0;
++        const bSameRegion = b.region === currentTour.region ? 1 : 0;
++        if (aSameRegion !== bSameRegion) return bSameRegion - aSameRegion;
++        return (b.rating || 0) - (a.rating || 0);
++      })
++      .slice(0, 3);
++
++    container.innerHTML = related.map(tour => {
++      const ratingScore = ((tour.rating || 0) * 2).toFixed(1);
++      return `
++        <a class="related-tour-card" href="tour-detail.html?id=${tour.id}">
++          <div class="related-tour-image">
++            <img src="${tour.image}" alt="${tour.title}" loading="lazy">
++            ${tour.featured ? '<span>Tour nổi bật</span>' : tour.popular ? '<span>Được yêu thích</span>' : ''}
++          </div>
++          <div class="related-tour-body">
++            <div class="related-tour-rating">
++              ${tour.reviewsCount
++                ? `<strong>${ratingScore}</strong><span>Tuyệt vời</span><small>(${tour.reviewsCount})</small>`
++                : '<span class="text-muted">Chưa có đánh giá</span>'}
++            </div>
++            <h3>${tour.title}</h3>
++            <div class="related-tour-meta">
++              <span><i class="fa-regular fa-clock"></i> ${tour.duration}</span>
++              <span><i class="fa-solid fa-location-dot"></i> ${tour.location}</span>
++            </div>
++            <div class="related-tour-price">
++              <span>Giá từ</span>
++              <strong>${formatCurrency(tour.price)}</strong>
++            </div>
++          </div>
++        </a>
++      `;
++    }).join('');
++  }
+ 
+-  const btnMinusAdult = document.getElementById('btnMinusAdult');
+-  const btnPlusAdult = document.getElementById('btnPlusAdult');
+-  if (btnMinusAdult && btnPlusAdult && adultCountEl) {
+-    btnMinusAdult.onclick = () => {
+-      if (adults > 1) {
+-        adults--;
+-        adultCountEl.textContent = adults;
+-        btnMinusAdult.disabled = adults <= 1;
+-        updateTotals();
+-      }
+-    };
+-    btnPlusAdult.onclick = () => {
+-      if (adults < 10) {
+-        adults++;
+-        adultCountEl.textContent = adults;
+-        btnMinusAdult.disabled = false;
+-        updateTotals();
+-      }
++  function getDetailContent() {
++    if (currentTour.id === 'tour-1') {
++      return {
++        highlights: [
++          'Du thuyền 5 sao đẳng cấp với phòng hướng vịnh',
++          'Khám phá Hang Sửng Sốt và chèo kayak Hang Luồn',
++          'Sunset Party trên Sundeck và trải nghiệm câu mực đêm',
++          'Trọn gói các bữa ăn chất lượng cao trong hành trình',
++          'Bảo hiểm du lịch và hướng dẫn viên đồng hành'
++        ],
++        itinerary: [
++          {
++            day: 1,
++            title: 'Hà Nội - Vịnh Hạ Long - Hang Sửng Sốt',
++            meal: 'Trưa · Tối',
++            image: currentTour.image,
++            content: 'Xe đón khách tại trung tâm Hà Nội. Đến cảng Tuần Châu, làm thủ tục lên du thuyền, dùng buffet trưa và tham quan Hang Sửng Sốt. Buổi tối dùng Gala Dinner và trải nghiệm câu mực đêm.'
++          },
++          {
++            day: 2,
++            title: 'Đảo Ti Tốp - Hang Luồn - Sunset Party',
++            meal: 'Sáng · Trưa · Tối',
++            image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=500&q=80',
++            content: 'Tập Thái Cực Quyền ngắm bình minh, tham quan đảo Ti Tốp, chèo kayak tại Hang Luồn và thưởng thức Sunset Party trên boong tàu.'
++          },
++          {
++            day: 3,
++            title: 'Làng Chài - Tuần Châu - Trở Về Hà Nội',
++            meal: 'Sáng · Trưa',
++            image: 'https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=500&q=80',
++            content: 'Tham quan khu nuôi cấy ngọc trai, trả phòng, tham gia lớp nấu ăn và dùng bữa trưa sớm trước khi tàu cập bến Tuần Châu. Xe đưa đoàn trở lại Hà Nội.'
++          }
++        ]
++      };
++    }
++
++    const itinerary = Array.from({ length: Math.max(1, currentTour.days || 1) }, (_, index) => ({
++      day: index + 1,
++      title: index === 0
++        ? `Khởi hành - Khám phá ${currentTour.location}`
++        : index === (currentTour.days || 1) - 1
++          ? `${currentTour.location} - Kết thúc hành trình`
++          : `Trải nghiệm nổi bật tại ${currentTour.location}`,
++      meal: index === 0 ? 'Trưa · Tối' : 'Sáng · Trưa · Tối',
++      image: currentTour.image,
++      content: `${currentTour.description} Lịch trình chi tiết có thể được điều chỉnh theo điều kiện thực tế của từng chuyến khởi hành.`
++    }));
++
++    return {
++      highlights: [
++        currentTour.description,
++        `Hành trình ${currentTour.duration} tại ${currentTour.location}`,
++        'Lịch khởi hành linh hoạt với nhiều lựa chọn',
++        'Hướng dẫn viên đồng hành theo từng chuyến'
++      ],
++      itinerary
+     };
+   }
+ 
+-  const btnMinusChild = document.getElementById('btnMinusChild');
+-  const btnPlusChild = document.getElementById('btnPlusChild');
+-  if (btnMinusChild && btnPlusChild && childCountEl) {
+-    btnMinusChild.onclick = () => {
+-      if (children > 0) {
+-        children--;
+-        childCountEl.textContent = children;
+-        btnMinusChild.disabled = children <= 0;
+-        updateTotals();
+-      }
+-    };
+-    btnPlusChild.onclick = () => {
+-      if (children < 5) {
+-        children++;
+-        childCountEl.textContent = children;
+-        btnMinusChild.disabled = false;
+-        updateTotals();
+-      }
+-    };
++  function renderTourInformation() {
++    const detail = getDetailContent();
++    const overviewEl = document.getElementById('tourOverviewContent');
++    const itineraryEl = document.getElementById('tourItineraryContainer');
++    const includesEl = document.getElementById('tourIncludesContent');
++    const policyEl = document.getElementById('tourPolicyContent');
++
++    if (overviewEl) {
++      overviewEl.innerHTML = `
++        <p class="tour-long-description">${currentTour.description}</p>
++        <div class="tour-highlight-grid">
++          ${detail.highlights.map(item => `<div><i class="fa-solid fa-check"></i><span>${item}</span></div>`).join('')}
++        </div>
++      `;
++    }
++
++    if (itineraryEl) {
++      itineraryEl.innerHTML = detail.itinerary.map((item, index) => `
++        <details class="itinerary-day-accordion" ${index === 0 ? 'open' : ''}>
++          <summary>
++            <img src="${item.image}" alt="Ngày ${item.day}">
++            <div>
++              <span>Ngày ${item.day}</span>
++              <strong>${item.title}</strong>
++              <small>${item.meal}</small>
++            </div>
++            <i class="fa-solid fa-chevron-down"></i>
++          </summary>
++          <div class="itinerary-day-content">${item.content}</div>
++        </details>
++      `).join('');
++    }
++
++    if (includesEl) {
++      includesEl.innerHTML = `
++        <div class="tour-inclusion-grid">
++          <div>
++            <h4><i class="fa-solid fa-circle-check text-success"></i> Giá tour bao gồm</h4>
++            <ul>
++              <li>Phương tiện di chuyển theo chương trình.</li>
++              <li>Vé tham quan các điểm có trong lịch trình.</li>
++              <li>Hướng dẫn viên theo đoàn và bảo hiểm du lịch.</li>
++              <li>Các bữa ăn được nêu trong chương trình.</li>
++            </ul>
++          </div>
++          <div>
++            <h4><i class="fa-solid fa-circle-xmark text-danger"></i> Không bao gồm</h4>
++            <ul>
++              <li>Chi phí cá nhân và dịch vụ ngoài chương trình.</li>
++              <li>Đồ uống, phụ thu phòng riêng nếu có.</li>
++              <li>Chi phí phát sinh do thay đổi ngoài kế hoạch.</li>
++            </ul>
++          </div>
++        </div>
++      `;
++    }
++
++    if (policyEl) {
++      policyEl.innerHTML = `
++        <div class="tour-policy-note">
++          <p><strong>Đổi / hủy:</strong> Điều kiện áp dụng phụ thuộc thời điểm xác nhận và chuyến khởi hành đã chọn.</p>
++          <p><strong>Trẻ em:</strong> Giá trẻ em đang được tính ở mức 70% giá người lớn trong bản mô phỏng.</p>
++          <p><strong>Lưu ý:</strong> Thứ tự điểm tham quan có thể thay đổi do thời tiết hoặc điều kiện vận hành nhưng vẫn đảm bảo các nội dung chính của tour.</p>
++        </div>
++      `;
++    }
++
++    const toggleAllButton = document.getElementById('btnToggleAllTourInfo');
++    if (toggleAllButton) {
++      toggleAllButton.addEventListener('click', () => {
++        const accordions = Array.from(document.querySelectorAll('.tour-information-section > .tour-accordion-stack > .tour-accordion'));
++        const shouldOpen = accordions.some(item => !item.open);
++        accordions.forEach(item => { item.open = shouldOpen; });
++        toggleAllButton.textContent = shouldOpen ? 'Thu gọn tất cả' : 'Mở tất cả';
++      });
++    }
+   }
+ 
+-  if (btnBookTour) {
+-    btnBookTour.onclick = (e) => {
+-      e.preventDefault();
+-      const currentUser = typeof getCurrentUser === 'function' ? getCurrentUser() : null;
+-      if (!currentUser) {
+-        showToast('Vui lòng đăng nhập tài khoản Khách hàng để tiến hành đặt tour!', 'warning');
+-        setTimeout(() => {
+-          window.location.href = 'login.html?redirect=booking.html';
+-        }, 1200);
+-        return;
+-      }
+-      updateTotals();
+-      window.location.href = 'booking.html';
++  function bindPassengerControls() {
++    const actions = {
++      btnMinusAdult: () => { if (adults > 1) adults -= 1; },
++      btnPlusAdult: () => { adults += 1; },
++      btnMinusChild: () => { if (children > 0) children -= 1; },
++      btnPlusChild: () => { children += 1; },
++      btnMinusInfant: () => { if (infants > 0) infants -= 1; },
++      btnPlusInfant: () => { infants += 1; }
+     };
++
++    Object.entries(actions).forEach(([id, action]) => {
++      const button = document.getElementById(id);
++      if (!button) return;
++      button.addEventListener('click', () => {
++        if (button.disabled) return;
++        action();
++        updateBookingPanel();
++      });
++    });
++
++    const changeDateButton = document.getElementById('btnChangeDeparture');
++    if (changeDateButton) {
++      changeDateButton.addEventListener('click', () => {
++        scheduleListEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
++      });
++    }
+   }
+ 
+-  updateTotals();
+-}
++  btnBookTour.addEventListener('click', (event) => {
++    event.preventDefault();
++
++    if (!selectedDeparture || selectedDeparture.status === 'Sold Out' || selectedDeparture.slots <= 0) {
++      showToast('Vui lòng chọn một lịch khởi hành còn chỗ.', 'warning');
++      return;
++    }
++
++    const currentUser = typeof getCurrentUser === 'function' ? getCurrentUser() : null;
++    if (!currentUser) {
++      showToast('Vui lòng đăng nhập tài khoản Khách hàng để gửi yêu cầu đặt tour!', 'warning');
++      setTimeout(() => {
++        window.location.href = `login.html?redirect=${encodeURIComponent(`tour-detail.html?id=${currentTour.id}`)}`;
++      }, 1000);
++      return;
++    }
++
++    updateBookingPanel();
++    window.location.href = 'booking.html';
++  });
++
++  updateTourHeader();
++  renderMonthTabs();
++  renderDepartureRows();
++  renderRelatedTours();
++  renderTourInformation();
++  bindPassengerControls();
++  updateBookingPanel();
++}
+diff --git a/manager-dashboard.html b/manager-dashboard.html
+index 63c62b1..2407f15 100644
+--- a/manager-dashboard.html
++++ b/manager-dashboard.html
+@@ -82,7 +82,7 @@
+             </a>
+           </li>
+           <li class="admindek-nav-item">
+-            <a href="javascript:void(0)" onclick="openModal('modalAddDeparture')" class="admindek-nav-link">
++            <a href="javascript:void(0)" onclick="openManagerDepartureModal()" class="admindek-nav-link">
+               <span class="admindek-nav-link-left"><i class="fa-solid fa-calendar-plus"></i> Tạo Ngày Khởi Hành</span>
+             </a>
+           </li>
+@@ -174,7 +174,7 @@
+             <button class="btn btn-warning" onclick="openModal('modalAddTour')" style="font-weight:700;">
+               <i class="fa-solid fa-plus"></i> Tạo Tour Mới
+             </button>
+-            <button class="btn btn-primary" onclick="openModal('modalAddDeparture')" style="font-weight:700;">
++            <button class="btn btn-primary" onclick="openManagerDepartureModal()" style="font-weight:700;">
+               <i class="fa-solid fa-calendar-plus"></i> Tạo Lịch & Gán HDV
+             </button>
+           </div>
+@@ -260,6 +260,7 @@
+                 <tr>
+                   <th>Thông Tin Tour</th>
+                   <th>Giá Tiêu Chuẩn</th>
++                  <th>Lịch Khởi Hành</th>
+                   <th>Phân Loại</th>
+                   <th>Thao Tác</th>
+                 </tr>
+@@ -271,87 +272,27 @@
+           </div>
+         </div>
+ 
+-        <!-- SECTION 2: Departures & Guide Assignment -->
+-        <div class="admindek-box" id="sectionDepartures">
++        <!-- SECTION 2: Departures grouped by selected tour -->
++        <div class="admindek-box manager-departure-workspace" id="sectionDepartures">
+           <div class="admindek-box-header">
+             <div>
+               <h2 class="admindek-box-title">
+                 <i class="fa-solid fa-calendar-check"></i>
+-                <span>Lịch Khởi Hành & Phân Công Hướng Dẫn Viên</span>
++                <span>Lịch Khởi Hành Theo Tour</span>
+               </h2>
+-              <p class="text-muted" style="font-size:0.85rem; margin-top:4px;">Phân bổ nhân sự phụ trách từng chuyến đi và quản lý số lượng chỗ còn trống.</p>
++              <p class="text-muted" style="font-size:0.85rem; margin-top:4px;">Mỗi tour có thể có nhiều chuyến khởi hành. Chọn một tour ở bảng trên để quản lý toàn bộ lịch, giá, số chỗ và HDV của tour đó.</p>
+             </div>
+-            <button class="btn btn-warning btn-sm" onclick="openModal('modalAddDeparture')">
+-              <i class="fa-solid fa-calendar-plus"></i> Thêm Ngày Khởi Hành
++            <button class="btn btn-warning btn-sm" id="btnAddDepartureForSelectedTour">
++              <i class="fa-solid fa-calendar-plus"></i> Thêm Chuyến Khởi Hành
+             </button>
+           </div>
+ 
+-          <div class="table-responsive">
+-            <table class="table-custom">
+-              <thead>
+-                <tr>
+-                  <th>Tên Tour Khởi Hành</th>
+-                  <th>Ngày Đi - Ngày Về</th>
+-                  <th>Chỗ Trống / Tối Đa</th>
+-                  <th>HDV Phụ Trách</th>
+-                  <th>Trạng Thái</th>
+-                  <th>Thao Tác</th>
+-                </tr>
+-              </thead>
+-              <tbody>
+-                <tr>
+-                  <td><strong>Khám Phá Vịnh Hạ Long - Du Thuyền 5 Sao 3N2Đ</strong></td>
+-                  <td><strong class="text-primary">25/10/2026</strong> - 28/10/2026</td>
+-                  <td><span class="badge badge-info">18 / 20 Khách</span></td>
+-                  <td>
+-                    <div style="display:flex; align-items:center; gap:8px;">
+-                      <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80" style="width:28px; height:28px; border-radius:50%; object-fit:cover;" alt="HDV">
+-                      <span>Trần Quốc Hưng</span>
+-                    </div>
+-                  </td>
+-                  <td><span class="badge badge-warning">Đang Chuẩn Bị</span></td>
+-                  <td>
+-                    <button class="btn btn-outline btn-sm" onclick="showToast('Đã mở phân công HDV cho chuyến 25/10/2026', 'info')">
+-                      <i class="fa-solid fa-user-pen"></i> Đổi HDV
+-                    </button>
+-                  </td>
+-                </tr>
+-                <tr>
+-                  <td><strong>Chinh Phục Fansipan & Săn Mây Sa Pa 2N1Đ</strong></td>
+-                  <td><strong class="text-primary">02/11/2026</strong> - 04/11/2026</td>
+-                  <td><span class="badge badge-warning">13 / 15 Khách</span></td>
+-                  <td>
+-                    <div style="display:flex; align-items:center; gap:8px;">
+-                      <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=100&q=80" style="width:28px; height:28px; border-radius:50%; object-fit:cover;" alt="HDV">
+-                      <span>Phạm Minh Tuấn</span>
+-                    </div>
+-                  </td>
+-                  <td><span class="badge badge-neutral">Sắp Diễn Ra</span></td>
+-                  <td>
+-                    <button class="btn btn-outline btn-sm" onclick="showToast('Đã mở phân công HDV cho chuyến 02/11/2026', 'info')">
+-                      <i class="fa-solid fa-user-pen"></i> Đổi HDV
+-                    </button>
+-                  </td>
+-                </tr>
+-                <tr>
+-                  <td><strong>Đà Nẵng - Hội An - Bà Nà Hills Cầu Vàng 4N3Đ</strong></td>
+-                  <td><strong class="text-primary">15/11/2026</strong> - 19/11/2026</td>
+-                  <td><span class="badge badge-sold-out">25 / 25 (Hết Chỗ)</span></td>
+-                  <td>
+-                    <div style="display:flex; align-items:center; gap:8px;">
+-                      <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=100&q=80" style="width:28px; height:28px; border-radius:50%; object-fit:cover;" alt="HDV">
+-                      <span>Hoàng Lan Anh</span>
+-                    </div>
+-                  </td>
+-                  <td><span class="badge badge-neutral">Sắp Diễn Ra</span></td>
+-                  <td>
+-                    <button class="btn btn-outline btn-sm" onclick="showToast('Đã mở phân công HDV cho chuyến 15/11/2026', 'info')">
+-                      <i class="fa-solid fa-user-pen"></i> Đổi HDV
+-                    </button>
+-                  </td>
+-                </tr>
+-              </tbody>
+-            </table>
++          <div class="manager-selected-tour" id="managerSelectedTourSummary">
++            <!-- Rendered by js/dashboards.js -->
++          </div>
++
++          <div class="manager-departure-list" id="managerDepartureList">
++            <!-- Rendered by js/dashboards.js -->
+           </div>
+         </div>
+       </main>
+@@ -416,18 +357,16 @@
+   <div class="modal-backdrop" id="modalAddDeparture">
+     <div class="modal-container" style="max-width:600px;">
+       <div class="modal-header">
+-        <h3 class="modal-title"><i class="fa-solid fa-calendar-plus text-warning"></i> Thêm Lịch Khởi Hành & Gán HDV</h3>
++        <h3 class="modal-title" id="departureModalTitle"><i class="fa-solid fa-calendar-plus text-warning"></i> Thêm Lịch Khởi Hành & Gán HDV</h3>
+         <button class="modal-close" data-close-modal><i class="fa-solid fa-xmark"></i></button>
+       </div>
+       <form id="formAddDeparture">
++        <input type="hidden" id="depEditId" value="">
+         <div class="modal-body">
+           <div class="form-group">
+             <label class="form-label required">Chọn Tour Cần Mở Ngày</label>
+             <select id="depTourSelect" class="form-control" required>
+-              <option value="tour-1">Khám Phá Vịnh Hạ Long - Du Thuyền 5 Sao 3N2Đ</option>
+-              <option value="tour-2">Chinh Phục Fansipan & Săn Mây Sa Pa 2N1Đ</option>
+-              <option value="tour-3">Đà Nẵng - Hội An - Bà Nà Hills Cầu Vàng 4N3Đ</option>
+-              <option value="tour-4">Thiên Đường Biển Đảo Phú Quốc 3N2Đ</option>
++              <!-- Rendered from database by js/dashboards.js -->
+             </select>
+           </div>
+           <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+@@ -436,8 +375,18 @@
+               <input type="date" id="depStartDate" class="form-control" value="2026-11-20" required>
+             </div>
+             <div class="form-group">
+-              <label class="form-label required">Số Chỗ Tối Đa</label>
+-              <input type="number" id="depSlots" class="form-control" value="20" required>
++              <label class="form-label required">Ngày Kết Thúc</label>
++              <input type="date" id="depReturnDate" class="form-control" value="2026-11-23" required>
++            </div>
++          </div>
++          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
++            <div class="form-group">
++              <label class="form-label required">Số Chỗ Còn Mở</label>
++              <input type="number" id="depSlots" class="form-control" value="20" min="0" required>
++            </div>
++            <div class="form-group">
++              <label class="form-label required">Sức Chứa Tối Đa</label>
++              <input type="number" id="depMaxSlots" class="form-control" value="20" min="1" required>
+             </div>
+           </div>
+           <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+@@ -457,7 +406,7 @@
+         </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-secondary btn-sm" data-close-modal>Hủy</button>
+-          <button type="submit" class="btn btn-primary btn-sm"><i class="fa-solid fa-check"></i> Xác Nhận Tạo Lịch</button>
++          <button type="submit" class="btn btn-primary btn-sm" id="departureSubmitButton"><i class="fa-solid fa-check"></i> Xác Nhận Tạo Lịch</button>
+         </div>
+       </form>
+     </div>
+diff --git a/tour-detail.html b/tour-detail.html
+index 9fbbf39..4f0798b 100644
+--- a/tour-detail.html
++++ b/tour-detail.html
+@@ -98,7 +98,7 @@
+       <span class="breadcrumb-separator"><i class="fa-solid fa-chevron-right" style="font-size:0.75rem;"></i></span>
+       <a href="tours.html">Tour du lịch</a>
+       <span class="breadcrumb-separator"><i class="fa-solid fa-chevron-right" style="font-size:0.75rem;"></i></span>
+-      <span class="breadcrumb-current">Vịnh Hạ Long 3N2Đ</span>
++      <span class="breadcrumb-current" id="tourBreadcrumbCurrent">Vịnh Hạ Long 3N2Đ</span>
+     </nav>
+ 
+     <!-- Tour Header / Title -->
+@@ -106,26 +106,26 @@
+       <div style="display:flex; gap:10px; align-items:center; margin-bottom:12px; flex-wrap:wrap;">
+         <span class="badge badge-warning"><i class="fa-solid fa-fire"></i> Best Seller</span>
+         <span class="badge badge-primary"><i class="fa-solid fa-ship"></i> Du Thuyền 5 Sao</span>
+-        <span class="text-muted" style="font-size:0.875rem;"><i class="fa-solid fa-barcode"></i> Mã tour: HL-3N2D-01</span>
++        <span class="text-muted" style="font-size:0.875rem;"><i class="fa-solid fa-barcode"></i> Mã tour: <span id="tourCodeLabel">HL-3N2D-01</span></span>
+       </div>
+-      <h1 class="section-title" style="font-size: 2.2rem; margin-bottom: 12px;">Khám Phá Vịnh Hạ Long - Du Thuyền 5 Sao 3N2Đ</h1>
++      <h1 class="section-title" id="tourDetailTitle" style="font-size: 2.2rem; margin-bottom: 12px;">Khám Phá Vịnh Hạ Long - Du Thuyền 5 Sao 3N2Đ</h1>
+       
+       <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap; font-size:0.95rem; color:var(--text-muted);">
+         <div class="rating-display">
+           <span class="rating-stars"><i class="fa-solid fa-star"></i></span>
+-          <span class="text-main font-bold">4.9</span>
+-          <span class="rating-count">(128 đánh giá)</span>
++          <span class="text-main font-bold" id="tourDetailRating">4.9</span>
++          <span class="rating-count" id="tourDetailReviewCount">(128 đánh giá)</span>
+         </div>
+-        <div><i class="fa-solid fa-location-dot text-primary"></i> Vịnh Hạ Long, Quảng Ninh</div>
+-        <div><i class="fa-regular fa-clock text-primary"></i> 3 Ngày 2 Đêm</div>
+-        <div><i class="fa-solid fa-users text-primary"></i> Tối đa 20 khách</div>
++        <div><i class="fa-solid fa-location-dot text-primary"></i> <span id="tourDetailLocation">Vịnh Hạ Long, Quảng Ninh</span></div>
++        <div><i class="fa-regular fa-clock text-primary"></i> <span id="tourDetailDuration">3 Ngày 2 Đêm</span></div>
++        <div><i class="fa-solid fa-users text-primary"></i> Tối đa <span id="tourDetailMaxGuests">20</span> khách</div>
+       </div>
+     </div>
+ 
+     <!-- Section A: Image Gallery -->
+     <section class="gallery-grid">
+       <div class="gallery-item gallery-main" onclick="openModal('galleryModal')">
+-        <img src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1200&q=80" alt="Hạ Long Du Thuyền">
++        <img id="tourMainImage" src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1200&q=80" alt="Hạ Long Du Thuyền">
+       </div>
+       <div class="gallery-item" onclick="openModal('galleryModal')">
+         <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="Hang Sửng Sốt">
+@@ -144,253 +144,194 @@
+       </div>
+     </section>
+ 
+-    <!-- Two-Column Layout: Tour Info + Sticky Booking Panel -->
+-    <div style="display: grid; grid-template-columns: 1fr 380px; gap: 36px; align-items: start;" class="checkout-grid">
+-      <!-- Left Column: Details, Timeline, Departures, Policies -->
+-      <div>
+-        <!-- Section B: Tour Overview & Highlights -->
+-        <div class="card" style="padding: 28px; margin-bottom: 32px;">
+-          <h2 style="font-size: 1.35rem; margin-bottom: 16px;"><i class="fa-solid fa-circle-info text-primary"></i> Tổng Quan Hành Trình</h2>
+-          <p style="color:var(--text-muted); line-height: 1.7; margin-bottom: 20px;">
+-            Chào mừng bạn đến với kỳ nghỉ dưỡng đỉnh cao trên vịnh di sản thiên nhiên thế giới Hạ Long. Trải nghiệm du thuyền chuẩn 5 sao quốc tế với ban công phòng riêng hướng biển, thưởng thức buffet hải sản tươi sống phong phú và tham gia các hoạt động giải trí: chèo thuyền kayak qua các vòm hang đá vôi kỳ vĩ, ngắm bình minh trên sundeck và lớp học nấu ăn truyền thống.
+-          </p>
+-
+-          <h3 style="font-size: 1.1rem; margin-bottom: 12px;">Điểm Nổi Bật Của Tour:</h3>
+-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 0.95rem;">
+-            <div style="display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-check text-success"></i> Du thuyền 5 sao đẳng cấp</div>
+-            <div style="display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-check text-success"></i> Chèo kayak tại Hang Luồn</div>
+-            <div style="display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-check text-success"></i> Thăm hang Sửng Sốt huyền ảo</div>
+-            <div style="display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-check text-success"></i> Tiệc Sunset Party trên Sundeck</div>
+-            <div style="display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-check text-success"></i> Trọn gói 05 bữa ăn cao cấp</div>
+-            <div style="display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-check text-success"></i> Bảo hiểm du lịch 100.000.000đ</div>
++    <!-- Booking Workspace: Departure schedule + passenger selection -->
++    <section class="tour-booking-workspace" id="departureSection">
++      <div class="departure-picker-panel">
++        <div class="tour-section-heading">
++          <div>
++            <h2><i class="fa-regular fa-calendar-check text-primary"></i> Lịch khởi hành</h2>
++            <p>Chọn chuyến đi và số khách để xem tổng giá chính xác.</p>
++          </div>
++          <div class="departure-view-switch" aria-hidden="true">
++            <span class="active"><i class="fa-solid fa-list"></i></span>
++            <span><i class="fa-regular fa-calendar"></i></span>
+           </div>
+         </div>
+ 
+-        <!-- Section C: Schedule / Itinerary Timeline -->
+-        <div class="card" style="padding: 28px; margin-bottom: 32px;">
+-          <h2 style="font-size: 1.35rem; margin-bottom: 24px;"><i class="fa-solid fa-route text-primary"></i> Lịch Trình Chi Tiết</h2>
+-          
+-          <div class="timeline">
+-            <!-- Day 1 -->
+-            <div class="timeline-item">
+-              <div class="timeline-dot"></div>
+-              <div class="timeline-header">
+-                <span class="timeline-badge">NGÀY 1</span>
+-                <span>Hà Nội - Vịnh Hạ Long - Khám Phá Hang Sửng Sốt</span>
+-              </div>
+-              <div class="timeline-body">
+-                <div><strong>08:30:</strong> Xe đón khách tại trung tâm Hà Nội, khởi hành đi cao tốc Hạ Long.</div>
+-                <div><strong>11:30:</strong> Đến cảng quốc tế Tuần Châu, check-in lên du thuyền và thưởng thức đồ uống chào mừng.</div>
+-                <div><strong>13:00:</strong> Dùng bữa trưa buffet hải sản trong khi du thuyền lướt qua Hòn Đỉnh Hương, Hòn Gà Chọi.</div>
+-                <div><strong>15:30:</strong> Khám phá hang Sửng Sốt - hang động lớn và đẹp bậc nhất vịnh.</div>
+-                <div><strong>19:00:</strong> Tiệc tối Gala Dinner sang trọng và trải nghiệm câu mực đêm.</div>
+-                <p>Nghỉ đêm trên du thuyền chuẩn 5 sao.</p>
+-              </div>
+-            </div>
+-
+-            <!-- Day 2 -->
+-            <div class="timeline-item">
+-              <div class="timeline-dot"></div>
+-              <div class="timeline-header">
+-                <span class="timeline-badge">NGÀY 2</span>
+-                <span>Đảo Ti Tốp - Chèo Kayak Hang Luồn - Sunset Party</span>
+-              </div>
+-              <div class="timeline-body">
+-                <div><strong>06:30:</strong> Tham gia lớp tập Thái Cực Quyền (Tai Chi) ngắm bình minh trên boong tàu.</div>
+-                <div><strong>08:00:</strong> Chinh phục đỉnh núi Ti Tốp ngắm toàn cảnh 360 độ vịnh Hạ Long và tắm biển cát trắng.</div>
+-                <div><strong>14:00:</strong> Chèo thuyền kayak hoặc ngồi đò nan len lỏi vào Hang Luồn.</div>
+-                <div><strong>17:30:</strong> Thưởng thức tiệc trà chiều ngắm hoàng hôn Sunset Party với cocktail & trái cây tươi.</div>
+-                <p>Nghỉ đêm thứ hai trên vịnh.</p>
+-              </div>
+-            </div>
++        <div class="departure-month-tabs" id="departureMonthTabs"></div>
++        <div class="departure-schedule-list" id="departureScheduleList">
++          <!-- Rendered from mock database by js/tours.js -->
++        </div>
++      </div>
+ 
+-            <!-- Day 3 -->
+-            <div class="timeline-item">
+-              <div class="timeline-dot"></div>
+-              <div class="timeline-header">
+-                <span class="timeline-badge">NGÀY 3</span>
+-                <span>Làng Chài Cổ - Tuần Châu - Trở Về Hà Nội</span>
+-              </div>
+-              <div class="timeline-body">
+-                <div><strong>07:30:</strong> Thăm quan khu nuôi cấy ngọc trai truyền thống trên vịnh.</div>
+-                <div><strong>09:30:</strong> Làm thủ tục trả phòng, tham gia lớp hướng dẫn làm nem cuốn Việt Nam.</div>
+-                <div><strong>11:00:</strong> Ăn trưa sớm tại nhà hàng du thuyền.</div>
+-                <div><strong>12:00:</strong> Tàu cập bến Tuần Châu, xe đưa quý khách về lại điểm hẹn tại Hà Nội.</div>
+-              </div>
+-            </div>
++      <aside class="booking-request-panel" id="bookingRequestPanel">
++        <div class="booking-request-header">
++          <h3>Chọn khách</h3>
++          <div class="booking-selected-trip">
++            <strong id="summaryDepartureRange">Chưa chọn lịch</strong>
++            <button type="button" class="booking-change-date" id="btnChangeDeparture">Đổi ngày</button>
+           </div>
+         </div>
+ 
+-        <!-- Section D: Tour Departures -->
+-        <div class="card" style="padding: 28px; margin-bottom: 32px;" id="departureSection">
+-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+-            <h2 style="font-size: 1.35rem; margin:0;"><i class="fa-regular fa-calendar-check text-primary"></i> Chọn Ngày Khởi Hành</h2>
+-            <span class="text-muted" style="font-size:0.875rem;">Nhấp vào thẻ để chọn</span>
++        <div class="booking-passenger-list">
++          <div class="booking-passenger-row">
++            <div>
++              <strong>Người lớn <small>&gt; 11 tuổi</small></strong>
++              <span id="adultUnitPrice">0đ</span>
++            </div>
++            <div class="counter-controls">
++              <button type="button" class="counter-btn" id="btnMinusAdult" disabled><i class="fa-solid fa-minus"></i></button>
++              <span class="counter-val" id="adultCount">1</span>
++              <button type="button" class="counter-btn" id="btnPlusAdult"><i class="fa-solid fa-plus"></i></button>
++            </div>
+           </div>
+ 
+-          <div class="departure-list">
+-            <!-- Dep 1 -->
+-            <div class="departure-card selected" data-date="25/10/2026" data-price="3490000">
+-              <div class="departure-card-header">
+-                <span class="departure-date">25/10/2026</span>
+-                <span class="badge badge-available">Còn chỗ</span>
+-              </div>
+-              <div class="departure-slots"><i class="fa-solid fa-user-group"></i> Còn lại: 6 chỗ</div>
+-              <div class="departure-price">3.490.000đ</div>
++          <div class="booking-passenger-row">
++            <div>
++              <strong>Trẻ em <small>2 - 11 tuổi</small></strong>
++              <span id="childUnitPrice">0đ</span>
+             </div>
+-
+-            <!-- Dep 2 -->
+-            <div class="departure-card" data-date="02/11/2026" data-price="3590000">
+-              <div class="departure-card-header">
+-                <span class="departure-date">02/11/2026</span>
+-                <span class="badge badge-almost-full">Sắp hết chỗ</span>
+-              </div>
+-              <div class="departure-slots"><i class="fa-solid fa-user-group"></i> Còn lại: 2 chỗ</div>
+-              <div class="departure-price">3.590.000đ</div>
++            <div class="counter-controls">
++              <button type="button" class="counter-btn" id="btnMinusChild" disabled><i class="fa-solid fa-minus"></i></button>
++              <span class="counter-val" id="childCount">0</span>
++              <button type="button" class="counter-btn" id="btnPlusChild"><i class="fa-solid fa-plus"></i></button>
+             </div>
++          </div>
+ 
+-            <!-- Dep 3 -->
+-            <div class="departure-card sold-out" data-date="15/11/2026" data-price="3490000">
+-              <div class="departure-card-header">
+-                <span class="departure-date">15/11/2026</span>
+-                <span class="badge badge-sold-out">Hết chỗ</span>
+-              </div>
+-              <div class="departure-slots"><i class="fa-solid fa-user-group"></i> Hết chỗ</div>
+-              <div class="departure-price">3.490.000đ</div>
++          <div class="booking-passenger-row">
++            <div>
++              <strong>Em bé <small>&lt; 2 tuổi</small></strong>
++              <span>Miễn phí</span>
+             </div>
+-
+-            <!-- Dep 4 -->
+-            <div class="departure-card" data-date="28/11/2026" data-price="3390000">
+-              <div class="departure-card-header">
+-                <span class="departure-date">28/11/2026</span>
+-                <span class="badge badge-available">Còn chỗ</span>
+-              </div>
+-              <div class="departure-slots"><i class="fa-solid fa-user-group"></i> Còn lại: 12 chỗ</div>
+-              <div class="departure-price">3.390.000đ</div>
++            <div class="counter-controls">
++              <button type="button" class="counter-btn" id="btnMinusInfant" disabled><i class="fa-solid fa-minus"></i></button>
++              <span class="counter-val" id="infantCount">0</span>
++              <button type="button" class="counter-btn" id="btnPlusInfant"><i class="fa-solid fa-plus"></i></button>
+             </div>
+           </div>
+         </div>
+ 
+-        <!-- Section: Reviews & Customer Feedback -->
+-        <div class="card" style="padding: 28px;">
+-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+-            <h2 style="font-size: 1.35rem; margin:0;"><i class="fa-solid fa-star text-accent"></i> Đánh Giá Từ Khách Hàng</h2>
+-            <a href="review.html" class="btn btn-outline btn-sm"><i class="fa-solid fa-pen"></i> Viết đánh giá</a>
++        <div class="booking-request-total">
++          <div>
++            <span>Tạm tính</span>
++            <strong id="totalAmount">0đ</strong>
++          </div>
++          <div class="booking-request-status">
++            <span id="summaryGuests">1 Người lớn</span>
++            <span class="text-danger"><i class="fa-solid fa-circle"></i> Cần xác nhận chỗ</span>
+           </div>
++        </div>
+ 
+-          <div style="display:flex; flex-direction:column; gap:16px;">
+-            <!-- Review 1 -->
+-            <div style="padding-bottom:16px; border-bottom:1px solid var(--border);">
+-              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+-                <div style="display:flex; align-items:center; gap:10px;">
+-                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80" style="width:36px; height:36px; border-radius:50%; object-fit:cover;" alt="User">
+-                  <div>
+-                    <strong style="font-size:0.95rem;">Trần Thị Mai</strong>
+-                    <div style="font-size:0.75rem; color:var(--text-muted);">Khởi hành ngày 12/09/2026</div>
+-                  </div>
+-                </div>
+-                <div class="rating-display">
+-                  <span class="rating-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
+-                </div>
+-              </div>
+-              <p style="font-size:0.9rem; color:var(--text-main);">
+-                Du thuyền rất đẹp và sạch sẽ, đồ ăn hải sản tươi ngon đầy đặn. Hướng dẫn viên vui tính và nhiệt tình chăm sóc cả đoàn. Rất đáng tiền!
+-              </p>
+-            </div>
++        <a href="booking.html" class="btn btn-accent btn-block btn-lg" id="btnBookTour">
++          <i class="fa-solid fa-paper-plane"></i> Gửi yêu cầu
++        </a>
++        <p class="booking-secure-note"><i class="fa-solid fa-shield-halved"></i> Thông tin chuyến đã chọn sẽ được giữ ở bước tiếp theo.</p>
++      </aside>
++    </section>
+ 
+-            <!-- Review 2 -->
+-            <div>
+-              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+-                <div style="display:flex; align-items:center; gap:10px;">
+-                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80" style="width:36px; height:36px; border-radius:50%; object-fit:cover;" alt="User">
+-                  <div>
+-                    <strong style="font-size:0.95rem;">Lê Hoàng Nam</strong>
+-                    <div style="font-size:0.75rem; color:var(--text-muted);">Khởi hành ngày 01/10/2026</div>
+-                  </div>
+-                </div>
+-                <div class="rating-display">
+-                  <span class="rating-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
+-                </div>
+-              </div>
+-              <p style="font-size:0.9rem; color:var(--text-main);">
+-                Gia đình mình có bé nhỏ đi cùng được các bạn nhân viên hỗ trợ rất chu đáo. View phòng ngủ nhìn thẳng ra vịnh cực kỳ chill. Sẽ ủng hộ tiếp!
+-              </p>
+-            </div>
+-          </div>
++    <!-- Related tours -->
++    <section class="tour-related-section">
++      <div class="tour-section-heading">
++        <div>
++          <h2><i class="fa-solid fa-route text-primary"></i> Tour liên quan</h2>
++          <p>Gợi ý hành trình tương tự để bạn dễ so sánh và lựa chọn.</p>
+         </div>
+       </div>
++      <div class="related-tour-grid" id="relatedToursContainer"></div>
++    </section>
+ 
+-      <!-- Right Column: Section E: Booking Summary Panel (Sticky) -->
+-      <aside>
+-        <div class="booking-summary-panel">
+-          <div class="booking-summary-header">
+-            <span class="text-muted" style="font-size:0.85rem; font-weight:600;">TÓM TẮT ĐẶT TOUR</span>
+-            <h3 style="font-size:1.15rem; margin-top:4px;">Khám Phá Vịnh Hạ Long 3N2Đ</h3>
+-          </div>
++    <!-- Long information is grouped into collapsible sections -->
++    <section class="tour-information-section">
++      <div class="tour-section-heading">
++        <div>
++          <h2><i class="fa-solid fa-circle-info text-primary"></i> Thông tin hành trình</h2>
++          <p>Mở từng mục để xem chi tiết, tránh nội dung quá dài trên một màn hình.</p>
++        </div>
++        <button type="button" class="btn btn-outline btn-sm" id="btnToggleAllTourInfo">Mở tất cả</button>
++      </div>
+ 
+-          <!-- Selected Departure -->
+-          <div class="booking-summary-row">
+-            <span><i class="fa-regular fa-calendar text-primary"></i> Ngày khởi hành:</span>
+-            <strong id="summaryDeparture" class="text-main">25/10/2026</strong>
++      <div class="tour-accordion-stack">
++        <details class="tour-accordion" open>
++          <summary>
++            <span><i class="fa-solid fa-star text-accent"></i> Điểm nổi bật</span>
++            <i class="fa-solid fa-chevron-down"></i>
++          </summary>
++          <div class="tour-accordion-content" id="tourOverviewContent"></div>
++        </details>
++
++        <details class="tour-accordion">
++          <summary>
++            <span><i class="fa-solid fa-map-location-dot text-primary"></i> Lịch trình</span>
++            <i class="fa-solid fa-chevron-down"></i>
++          </summary>
++          <div class="tour-accordion-content">
++            <div class="itinerary-day-list" id="tourItineraryContainer"></div>
+           </div>
++        </details>
++
++        <details class="tour-accordion">
++          <summary>
++            <span><i class="fa-solid fa-circle-check text-success"></i> Bao gồm & không bao gồm</span>
++            <i class="fa-solid fa-chevron-down"></i>
++          </summary>
++          <div class="tour-accordion-content" id="tourIncludesContent"></div>
++        </details>
++
++        <details class="tour-accordion">
++          <summary>
++            <span><i class="fa-solid fa-triangle-exclamation text-warning"></i> Lưu ý & chính sách</span>
++            <i class="fa-solid fa-chevron-down"></i>
++          </summary>
++          <div class="tour-accordion-content" id="tourPolicyContent"></div>
++        </details>
++      </div>
++    </section>
++
++    <!-- Reviews & Customer Feedback -->
++    <section class="card tour-review-section">
++      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; gap:12px; flex-wrap:wrap;">
++        <h2 style="font-size: 1.35rem; margin:0;"><i class="fa-solid fa-star text-accent"></i> Đánh Giá Từ Khách Hàng</h2>
++        <a href="review.html" class="btn btn-outline btn-sm"><i class="fa-solid fa-pen"></i> Viết đánh giá</a>
++      </div>
+ 
+-          <!-- Passenger selection controls -->
+-          <div style="margin: 18px 0 14px;">
+-            <label class="form-label">Chọn số lượng hành khách:</label>
+-            
+-            <!-- Adult Counter -->
+-            <div class="counter-box">
++      <div style="display:flex; flex-direction:column; gap:16px;">
++        <div style="padding-bottom:16px; border-bottom:1px solid var(--border);">
++          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
++            <div style="display:flex; align-items:center; gap:10px;">
++              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80" style="width:36px; height:36px; border-radius:50%; object-fit:cover;" alt="User">
+               <div>
+-                <div class="counter-info-title">Người lớn</div>
+-                <div class="counter-info-desc">> 12 tuổi (100% giá)</div>
+-              </div>
+-              <div class="counter-controls">
+-                <button type="button" class="counter-btn" id="btnMinusAdult" disabled>-</button>
+-                <span class="counter-val" id="adultCount">1</span>
+-                <button type="button" class="counter-btn" id="btnPlusAdult">+</button>
++                <strong style="font-size:0.95rem;">Trần Thị Mai</strong>
++                <div style="font-size:0.75rem; color:var(--text-muted);">Khởi hành ngày 12/09/2026</div>
+               </div>
+             </div>
++            <div class="rating-display">
++              <span class="rating-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
++            </div>
++          </div>
++          <p style="font-size:0.9rem; color:var(--text-main);">
++            Du thuyền rất đẹp và sạch sẽ, đồ ăn hải sản tươi ngon đầy đặn. Hướng dẫn viên vui tính và nhiệt tình chăm sóc cả đoàn. Rất đáng tiền!
++          </p>
++        </div>
+ 
+-            <!-- Child Counter -->
+-            <div class="counter-box">
++        <div>
++          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
++            <div style="display:flex; align-items:center; gap:10px;">
++              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80" style="width:36px; height:36px; border-radius:50%; object-fit:cover;" alt="User">
+               <div>
+-                <div class="counter-info-title">Trẻ em</div>
+-                <div class="counter-info-desc">5 - 11 tuổi (70% giá)</div>
+-              </div>
+-              <div class="counter-controls">
+-                <button type="button" class="counter-btn" id="btnMinusChild" disabled>-</button>
+-                <span class="counter-val" id="childCount">0</span>
+-                <button type="button" class="counter-btn" id="btnPlusChild">+</button>
++                <strong style="font-size:0.95rem;">Lê Hoàng Nam</strong>
++                <div style="font-size:0.75rem; color:var(--text-muted);">Khởi hành ngày 01/10/2026</div>
+               </div>
+             </div>
++            <div class="rating-display">
++              <span class="rating-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
++            </div>
+           </div>
+-
+-          <div class="booking-summary-row">
+-            <span>Số hành khách:</span>
+-            <strong id="summaryGuests" class="text-main">1 Người lớn</strong>
+-          </div>
+-
+-          <div class="booking-summary-row">
+-            <span>Bảo hiểm du lịch:</span>
+-            <span class="text-success font-semibold">Miễn phí</span>
+-          </div>
+-
+-          <!-- Total Calculation -->
+-          <div class="booking-summary-row total">
+-            <span>Tổng cộng:</span>
+-            <span class="price-val" id="totalAmount">3.490.000đ</span>
+-          </div>
+-
+-          <a href="booking.html" class="btn btn-primary btn-block btn-lg" id="btnBookTour">
+-            <i class="fa-solid fa-bolt"></i> Đặt Tour Ngay
+-          </a>
+-
+-          <p style="font-size: 0.78rem; color: var(--text-muted); text-align: center; margin-top: 12px;">
+-            <i class="fa-solid fa-lock"></i> Giữ chỗ tức thì - Không tính phí huỷ trước 7 ngày
++          <p style="font-size:0.9rem; color:var(--text-main);">
++            Gia đình mình có bé nhỏ đi cùng được các bạn nhân viên hỗ trợ rất chu đáo. View phòng ngủ nhìn thẳng ra vịnh cực kỳ chill. Sẽ ủng hộ tiếp!
+           </p>
+         </div>
+-      </aside>
+-    </div>
++      </div>
++    </section>
+   </main>
+ 
+   <!-- Gallery Lightbox Modal -->

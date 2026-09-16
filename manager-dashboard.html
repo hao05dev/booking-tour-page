@@ -82,7 +82,7 @@
             </a>
           </li>
           <li class="admindek-nav-item">
-            <a href="javascript:void(0)" onclick="openModal('modalAddDeparture')" class="admindek-nav-link">
+            <a href="javascript:void(0)" onclick="openManagerDepartureModal()" class="admindek-nav-link">
               <span class="admindek-nav-link-left"><i class="fa-solid fa-calendar-plus"></i> Tạo Ngày Khởi Hành</span>
             </a>
           </li>
@@ -174,7 +174,7 @@
             <button class="btn btn-warning" onclick="openModal('modalAddTour')" style="font-weight:700;">
               <i class="fa-solid fa-plus"></i> Tạo Tour Mới
             </button>
-            <button class="btn btn-primary" onclick="openModal('modalAddDeparture')" style="font-weight:700;">
+            <button class="btn btn-primary" onclick="openManagerDepartureModal()" style="font-weight:700;">
               <i class="fa-solid fa-calendar-plus"></i> Tạo Lịch & Gán HDV
             </button>
           </div>
@@ -260,6 +260,7 @@
                 <tr>
                   <th>Thông Tin Tour</th>
                   <th>Giá Tiêu Chuẩn</th>
+                  <th>Lịch Khởi Hành</th>
                   <th>Phân Loại</th>
                   <th>Thao Tác</th>
                 </tr>
@@ -271,87 +272,27 @@
           </div>
         </div>
 
-        <!-- SECTION 2: Departures & Guide Assignment -->
-        <div class="admindek-box" id="sectionDepartures">
+        <!-- SECTION 2: Departures grouped by selected tour -->
+        <div class="admindek-box manager-departure-workspace" id="sectionDepartures">
           <div class="admindek-box-header">
             <div>
               <h2 class="admindek-box-title">
                 <i class="fa-solid fa-calendar-check"></i>
-                <span>Lịch Khởi Hành & Phân Công Hướng Dẫn Viên</span>
+                <span>Lịch Khởi Hành Theo Tour</span>
               </h2>
-              <p class="text-muted" style="font-size:0.85rem; margin-top:4px;">Phân bổ nhân sự phụ trách từng chuyến đi và quản lý số lượng chỗ còn trống.</p>
+              <p class="text-muted" style="font-size:0.85rem; margin-top:4px;">Mỗi tour có thể có nhiều chuyến khởi hành. Chọn một tour ở bảng trên để quản lý toàn bộ lịch, giá, số chỗ và HDV của tour đó.</p>
             </div>
-            <button class="btn btn-warning btn-sm" onclick="openModal('modalAddDeparture')">
-              <i class="fa-solid fa-calendar-plus"></i> Thêm Ngày Khởi Hành
+            <button class="btn btn-warning btn-sm" id="btnAddDepartureForSelectedTour">
+              <i class="fa-solid fa-calendar-plus"></i> Thêm Chuyến Khởi Hành
             </button>
           </div>
 
-          <div class="table-responsive">
-            <table class="table-custom">
-              <thead>
-                <tr>
-                  <th>Tên Tour Khởi Hành</th>
-                  <th>Ngày Đi - Ngày Về</th>
-                  <th>Chỗ Trống / Tối Đa</th>
-                  <th>HDV Phụ Trách</th>
-                  <th>Trạng Thái</th>
-                  <th>Thao Tác</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><strong>Khám Phá Vịnh Hạ Long - Du Thuyền 5 Sao 3N2Đ</strong></td>
-                  <td><strong class="text-primary">25/10/2026</strong> - 28/10/2026</td>
-                  <td><span class="badge badge-info">18 / 20 Khách</span></td>
-                  <td>
-                    <div style="display:flex; align-items:center; gap:8px;">
-                      <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80" style="width:28px; height:28px; border-radius:50%; object-fit:cover;" alt="HDV">
-                      <span>Trần Quốc Hưng</span>
-                    </div>
-                  </td>
-                  <td><span class="badge badge-warning">Đang Chuẩn Bị</span></td>
-                  <td>
-                    <button class="btn btn-outline btn-sm" onclick="showToast('Đã mở phân công HDV cho chuyến 25/10/2026', 'info')">
-                      <i class="fa-solid fa-user-pen"></i> Đổi HDV
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td><strong>Chinh Phục Fansipan & Săn Mây Sa Pa 2N1Đ</strong></td>
-                  <td><strong class="text-primary">02/11/2026</strong> - 04/11/2026</td>
-                  <td><span class="badge badge-warning">13 / 15 Khách</span></td>
-                  <td>
-                    <div style="display:flex; align-items:center; gap:8px;">
-                      <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=100&q=80" style="width:28px; height:28px; border-radius:50%; object-fit:cover;" alt="HDV">
-                      <span>Phạm Minh Tuấn</span>
-                    </div>
-                  </td>
-                  <td><span class="badge badge-neutral">Sắp Diễn Ra</span></td>
-                  <td>
-                    <button class="btn btn-outline btn-sm" onclick="showToast('Đã mở phân công HDV cho chuyến 02/11/2026', 'info')">
-                      <i class="fa-solid fa-user-pen"></i> Đổi HDV
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td><strong>Đà Nẵng - Hội An - Bà Nà Hills Cầu Vàng 4N3Đ</strong></td>
-                  <td><strong class="text-primary">15/11/2026</strong> - 19/11/2026</td>
-                  <td><span class="badge badge-sold-out">25 / 25 (Hết Chỗ)</span></td>
-                  <td>
-                    <div style="display:flex; align-items:center; gap:8px;">
-                      <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=100&q=80" style="width:28px; height:28px; border-radius:50%; object-fit:cover;" alt="HDV">
-                      <span>Hoàng Lan Anh</span>
-                    </div>
-                  </td>
-                  <td><span class="badge badge-neutral">Sắp Diễn Ra</span></td>
-                  <td>
-                    <button class="btn btn-outline btn-sm" onclick="showToast('Đã mở phân công HDV cho chuyến 15/11/2026', 'info')">
-                      <i class="fa-solid fa-user-pen"></i> Đổi HDV
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <div class="manager-selected-tour" id="managerSelectedTourSummary">
+            <!-- Rendered by js/dashboards.js -->
+          </div>
+
+          <div class="manager-departure-list" id="managerDepartureList">
+            <!-- Rendered by js/dashboards.js -->
           </div>
         </div>
       </main>
@@ -416,18 +357,16 @@
   <div class="modal-backdrop" id="modalAddDeparture">
     <div class="modal-container" style="max-width:600px;">
       <div class="modal-header">
-        <h3 class="modal-title"><i class="fa-solid fa-calendar-plus text-warning"></i> Thêm Lịch Khởi Hành & Gán HDV</h3>
+        <h3 class="modal-title" id="departureModalTitle"><i class="fa-solid fa-calendar-plus text-warning"></i> Thêm Lịch Khởi Hành & Gán HDV</h3>
         <button class="modal-close" data-close-modal><i class="fa-solid fa-xmark"></i></button>
       </div>
       <form id="formAddDeparture">
+        <input type="hidden" id="depEditId" value="">
         <div class="modal-body">
           <div class="form-group">
             <label class="form-label required">Chọn Tour Cần Mở Ngày</label>
             <select id="depTourSelect" class="form-control" required>
-              <option value="tour-1">Khám Phá Vịnh Hạ Long - Du Thuyền 5 Sao 3N2Đ</option>
-              <option value="tour-2">Chinh Phục Fansipan & Săn Mây Sa Pa 2N1Đ</option>
-              <option value="tour-3">Đà Nẵng - Hội An - Bà Nà Hills Cầu Vàng 4N3Đ</option>
-              <option value="tour-4">Thiên Đường Biển Đảo Phú Quốc 3N2Đ</option>
+              <!-- Rendered from database by js/dashboards.js -->
             </select>
           </div>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
@@ -436,8 +375,18 @@
               <input type="date" id="depStartDate" class="form-control" value="2026-11-20" required>
             </div>
             <div class="form-group">
-              <label class="form-label required">Số Chỗ Tối Đa</label>
-              <input type="number" id="depSlots" class="form-control" value="20" required>
+              <label class="form-label required">Ngày Kết Thúc</label>
+              <input type="date" id="depReturnDate" class="form-control" value="2026-11-23" required>
+            </div>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+            <div class="form-group">
+              <label class="form-label required">Số Chỗ Còn Mở</label>
+              <input type="number" id="depSlots" class="form-control" value="20" min="0" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label required">Sức Chứa Tối Đa</label>
+              <input type="number" id="depMaxSlots" class="form-control" value="20" min="1" required>
             </div>
           </div>
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
@@ -457,7 +406,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary btn-sm" data-close-modal>Hủy</button>
-          <button type="submit" class="btn btn-primary btn-sm"><i class="fa-solid fa-check"></i> Xác Nhận Tạo Lịch</button>
+          <button type="submit" class="btn btn-primary btn-sm" id="departureSubmitButton"><i class="fa-solid fa-check"></i> Xác Nhận Tạo Lịch</button>
         </div>
       </form>
     </div>

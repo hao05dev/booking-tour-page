@@ -98,7 +98,7 @@
       <span class="breadcrumb-separator"><i class="fa-solid fa-chevron-right" style="font-size:0.75rem;"></i></span>
       <a href="tours.html">Tour du lịch</a>
       <span class="breadcrumb-separator"><i class="fa-solid fa-chevron-right" style="font-size:0.75rem;"></i></span>
-      <span class="breadcrumb-current">Vịnh Hạ Long 3N2Đ</span>
+      <span class="breadcrumb-current" id="tourBreadcrumbCurrent">Vịnh Hạ Long 3N2Đ</span>
     </nav>
 
     <!-- Tour Header / Title -->
@@ -106,26 +106,26 @@
       <div style="display:flex; gap:10px; align-items:center; margin-bottom:12px; flex-wrap:wrap;">
         <span class="badge badge-warning"><i class="fa-solid fa-fire"></i> Best Seller</span>
         <span class="badge badge-primary"><i class="fa-solid fa-ship"></i> Du Thuyền 5 Sao</span>
-        <span class="text-muted" style="font-size:0.875rem;"><i class="fa-solid fa-barcode"></i> Mã tour: HL-3N2D-01</span>
+        <span class="text-muted" style="font-size:0.875rem;"><i class="fa-solid fa-barcode"></i> Mã tour: <span id="tourCodeLabel">HL-3N2D-01</span></span>
       </div>
-      <h1 class="section-title" style="font-size: 2.2rem; margin-bottom: 12px;">Khám Phá Vịnh Hạ Long - Du Thuyền 5 Sao 3N2Đ</h1>
+      <h1 class="section-title" id="tourDetailTitle" style="font-size: 2.2rem; margin-bottom: 12px;">Khám Phá Vịnh Hạ Long - Du Thuyền 5 Sao 3N2Đ</h1>
       
       <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap; font-size:0.95rem; color:var(--text-muted);">
         <div class="rating-display">
           <span class="rating-stars"><i class="fa-solid fa-star"></i></span>
-          <span class="text-main font-bold">4.9</span>
-          <span class="rating-count">(128 đánh giá)</span>
+          <span class="text-main font-bold" id="tourDetailRating">4.9</span>
+          <span class="rating-count" id="tourDetailReviewCount">(128 đánh giá)</span>
         </div>
-        <div><i class="fa-solid fa-location-dot text-primary"></i> Vịnh Hạ Long, Quảng Ninh</div>
-        <div><i class="fa-regular fa-clock text-primary"></i> 3 Ngày 2 Đêm</div>
-        <div><i class="fa-solid fa-users text-primary"></i> Tối đa 20 khách</div>
+        <div><i class="fa-solid fa-location-dot text-primary"></i> <span id="tourDetailLocation">Vịnh Hạ Long, Quảng Ninh</span></div>
+        <div><i class="fa-regular fa-clock text-primary"></i> <span id="tourDetailDuration">3 Ngày 2 Đêm</span></div>
+        <div><i class="fa-solid fa-users text-primary"></i> Tối đa <span id="tourDetailMaxGuests">20</span> khách</div>
       </div>
     </div>
 
     <!-- Section A: Image Gallery -->
     <section class="gallery-grid">
       <div class="gallery-item gallery-main" onclick="openModal('galleryModal')">
-        <img src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1200&q=80" alt="Hạ Long Du Thuyền">
+        <img id="tourMainImage" src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1200&q=80" alt="Hạ Long Du Thuyền">
       </div>
       <div class="gallery-item" onclick="openModal('galleryModal')">
         <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80" alt="Hang Sửng Sốt">
@@ -144,253 +144,194 @@
       </div>
     </section>
 
-    <!-- Two-Column Layout: Tour Info + Sticky Booking Panel -->
-    <div style="display: grid; grid-template-columns: 1fr 380px; gap: 36px; align-items: start;" class="checkout-grid">
-      <!-- Left Column: Details, Timeline, Departures, Policies -->
-      <div>
-        <!-- Section B: Tour Overview & Highlights -->
-        <div class="card" style="padding: 28px; margin-bottom: 32px;">
-          <h2 style="font-size: 1.35rem; margin-bottom: 16px;"><i class="fa-solid fa-circle-info text-primary"></i> Tổng Quan Hành Trình</h2>
-          <p style="color:var(--text-muted); line-height: 1.7; margin-bottom: 20px;">
-            Chào mừng bạn đến với kỳ nghỉ dưỡng đỉnh cao trên vịnh di sản thiên nhiên thế giới Hạ Long. Trải nghiệm du thuyền chuẩn 5 sao quốc tế với ban công phòng riêng hướng biển, thưởng thức buffet hải sản tươi sống phong phú và tham gia các hoạt động giải trí: chèo thuyền kayak qua các vòm hang đá vôi kỳ vĩ, ngắm bình minh trên sundeck và lớp học nấu ăn truyền thống.
-          </p>
-
-          <h3 style="font-size: 1.1rem; margin-bottom: 12px;">Điểm Nổi Bật Của Tour:</h3>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 0.95rem;">
-            <div style="display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-check text-success"></i> Du thuyền 5 sao đẳng cấp</div>
-            <div style="display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-check text-success"></i> Chèo kayak tại Hang Luồn</div>
-            <div style="display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-check text-success"></i> Thăm hang Sửng Sốt huyền ảo</div>
-            <div style="display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-check text-success"></i> Tiệc Sunset Party trên Sundeck</div>
-            <div style="display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-check text-success"></i> Trọn gói 05 bữa ăn cao cấp</div>
-            <div style="display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-check text-success"></i> Bảo hiểm du lịch 100.000.000đ</div>
+    <!-- Booking Workspace: Departure schedule + passenger selection -->
+    <section class="tour-booking-workspace" id="departureSection">
+      <div class="departure-picker-panel">
+        <div class="tour-section-heading">
+          <div>
+            <h2><i class="fa-regular fa-calendar-check text-primary"></i> Lịch khởi hành</h2>
+            <p>Chọn chuyến đi và số khách để xem tổng giá chính xác.</p>
+          </div>
+          <div class="departure-view-switch" aria-hidden="true">
+            <span class="active"><i class="fa-solid fa-list"></i></span>
+            <span><i class="fa-regular fa-calendar"></i></span>
           </div>
         </div>
 
-        <!-- Section C: Schedule / Itinerary Timeline -->
-        <div class="card" style="padding: 28px; margin-bottom: 32px;">
-          <h2 style="font-size: 1.35rem; margin-bottom: 24px;"><i class="fa-solid fa-route text-primary"></i> Lịch Trình Chi Tiết</h2>
-          
-          <div class="timeline">
-            <!-- Day 1 -->
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-header">
-                <span class="timeline-badge">NGÀY 1</span>
-                <span>Hà Nội - Vịnh Hạ Long - Khám Phá Hang Sửng Sốt</span>
-              </div>
-              <div class="timeline-body">
-                <div><strong>08:30:</strong> Xe đón khách tại trung tâm Hà Nội, khởi hành đi cao tốc Hạ Long.</div>
-                <div><strong>11:30:</strong> Đến cảng quốc tế Tuần Châu, check-in lên du thuyền và thưởng thức đồ uống chào mừng.</div>
-                <div><strong>13:00:</strong> Dùng bữa trưa buffet hải sản trong khi du thuyền lướt qua Hòn Đỉnh Hương, Hòn Gà Chọi.</div>
-                <div><strong>15:30:</strong> Khám phá hang Sửng Sốt - hang động lớn và đẹp bậc nhất vịnh.</div>
-                <div><strong>19:00:</strong> Tiệc tối Gala Dinner sang trọng và trải nghiệm câu mực đêm.</div>
-                <p>Nghỉ đêm trên du thuyền chuẩn 5 sao.</p>
-              </div>
-            </div>
-
-            <!-- Day 2 -->
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-header">
-                <span class="timeline-badge">NGÀY 2</span>
-                <span>Đảo Ti Tốp - Chèo Kayak Hang Luồn - Sunset Party</span>
-              </div>
-              <div class="timeline-body">
-                <div><strong>06:30:</strong> Tham gia lớp tập Thái Cực Quyền (Tai Chi) ngắm bình minh trên boong tàu.</div>
-                <div><strong>08:00:</strong> Chinh phục đỉnh núi Ti Tốp ngắm toàn cảnh 360 độ vịnh Hạ Long và tắm biển cát trắng.</div>
-                <div><strong>14:00:</strong> Chèo thuyền kayak hoặc ngồi đò nan len lỏi vào Hang Luồn.</div>
-                <div><strong>17:30:</strong> Thưởng thức tiệc trà chiều ngắm hoàng hôn Sunset Party với cocktail & trái cây tươi.</div>
-                <p>Nghỉ đêm thứ hai trên vịnh.</p>
-              </div>
-            </div>
-
-            <!-- Day 3 -->
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-header">
-                <span class="timeline-badge">NGÀY 3</span>
-                <span>Làng Chài Cổ - Tuần Châu - Trở Về Hà Nội</span>
-              </div>
-              <div class="timeline-body">
-                <div><strong>07:30:</strong> Thăm quan khu nuôi cấy ngọc trai truyền thống trên vịnh.</div>
-                <div><strong>09:30:</strong> Làm thủ tục trả phòng, tham gia lớp hướng dẫn làm nem cuốn Việt Nam.</div>
-                <div><strong>11:00:</strong> Ăn trưa sớm tại nhà hàng du thuyền.</div>
-                <div><strong>12:00:</strong> Tàu cập bến Tuần Châu, xe đưa quý khách về lại điểm hẹn tại Hà Nội.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Section D: Tour Departures -->
-        <div class="card" style="padding: 28px; margin-bottom: 32px;" id="departureSection">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-            <h2 style="font-size: 1.35rem; margin:0;"><i class="fa-regular fa-calendar-check text-primary"></i> Chọn Ngày Khởi Hành</h2>
-            <span class="text-muted" style="font-size:0.875rem;">Nhấp vào thẻ để chọn</span>
-          </div>
-
-          <div class="departure-list">
-            <!-- Dep 1 -->
-            <div class="departure-card selected" data-date="25/10/2026" data-price="3490000">
-              <div class="departure-card-header">
-                <span class="departure-date">25/10/2026</span>
-                <span class="badge badge-available">Còn chỗ</span>
-              </div>
-              <div class="departure-slots"><i class="fa-solid fa-user-group"></i> Còn lại: 6 chỗ</div>
-              <div class="departure-price">3.490.000đ</div>
-            </div>
-
-            <!-- Dep 2 -->
-            <div class="departure-card" data-date="02/11/2026" data-price="3590000">
-              <div class="departure-card-header">
-                <span class="departure-date">02/11/2026</span>
-                <span class="badge badge-almost-full">Sắp hết chỗ</span>
-              </div>
-              <div class="departure-slots"><i class="fa-solid fa-user-group"></i> Còn lại: 2 chỗ</div>
-              <div class="departure-price">3.590.000đ</div>
-            </div>
-
-            <!-- Dep 3 -->
-            <div class="departure-card sold-out" data-date="15/11/2026" data-price="3490000">
-              <div class="departure-card-header">
-                <span class="departure-date">15/11/2026</span>
-                <span class="badge badge-sold-out">Hết chỗ</span>
-              </div>
-              <div class="departure-slots"><i class="fa-solid fa-user-group"></i> Hết chỗ</div>
-              <div class="departure-price">3.490.000đ</div>
-            </div>
-
-            <!-- Dep 4 -->
-            <div class="departure-card" data-date="28/11/2026" data-price="3390000">
-              <div class="departure-card-header">
-                <span class="departure-date">28/11/2026</span>
-                <span class="badge badge-available">Còn chỗ</span>
-              </div>
-              <div class="departure-slots"><i class="fa-solid fa-user-group"></i> Còn lại: 12 chỗ</div>
-              <div class="departure-price">3.390.000đ</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Section: Reviews & Customer Feedback -->
-        <div class="card" style="padding: 28px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-            <h2 style="font-size: 1.35rem; margin:0;"><i class="fa-solid fa-star text-accent"></i> Đánh Giá Từ Khách Hàng</h2>
-            <a href="review.html" class="btn btn-outline btn-sm"><i class="fa-solid fa-pen"></i> Viết đánh giá</a>
-          </div>
-
-          <div style="display:flex; flex-direction:column; gap:16px;">
-            <!-- Review 1 -->
-            <div style="padding-bottom:16px; border-bottom:1px solid var(--border);">
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                <div style="display:flex; align-items:center; gap:10px;">
-                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80" style="width:36px; height:36px; border-radius:50%; object-fit:cover;" alt="User">
-                  <div>
-                    <strong style="font-size:0.95rem;">Trần Thị Mai</strong>
-                    <div style="font-size:0.75rem; color:var(--text-muted);">Khởi hành ngày 12/09/2026</div>
-                  </div>
-                </div>
-                <div class="rating-display">
-                  <span class="rating-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
-                </div>
-              </div>
-              <p style="font-size:0.9rem; color:var(--text-main);">
-                Du thuyền rất đẹp và sạch sẽ, đồ ăn hải sản tươi ngon đầy đặn. Hướng dẫn viên vui tính và nhiệt tình chăm sóc cả đoàn. Rất đáng tiền!
-              </p>
-            </div>
-
-            <!-- Review 2 -->
-            <div>
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                <div style="display:flex; align-items:center; gap:10px;">
-                  <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80" style="width:36px; height:36px; border-radius:50%; object-fit:cover;" alt="User">
-                  <div>
-                    <strong style="font-size:0.95rem;">Lê Hoàng Nam</strong>
-                    <div style="font-size:0.75rem; color:var(--text-muted);">Khởi hành ngày 01/10/2026</div>
-                  </div>
-                </div>
-                <div class="rating-display">
-                  <span class="rating-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
-                </div>
-              </div>
-              <p style="font-size:0.9rem; color:var(--text-main);">
-                Gia đình mình có bé nhỏ đi cùng được các bạn nhân viên hỗ trợ rất chu đáo. View phòng ngủ nhìn thẳng ra vịnh cực kỳ chill. Sẽ ủng hộ tiếp!
-              </p>
-            </div>
-          </div>
+        <div class="departure-month-tabs" id="departureMonthTabs"></div>
+        <div class="departure-schedule-list" id="departureScheduleList">
+          <!-- Rendered from mock database by js/tours.js -->
         </div>
       </div>
 
-      <!-- Right Column: Section E: Booking Summary Panel (Sticky) -->
-      <aside>
-        <div class="booking-summary-panel">
-          <div class="booking-summary-header">
-            <span class="text-muted" style="font-size:0.85rem; font-weight:600;">TÓM TẮT ĐẶT TOUR</span>
-            <h3 style="font-size:1.15rem; margin-top:4px;">Khám Phá Vịnh Hạ Long 3N2Đ</h3>
+      <aside class="booking-request-panel" id="bookingRequestPanel">
+        <div class="booking-request-header">
+          <h3>Chọn khách</h3>
+          <div class="booking-selected-trip">
+            <strong id="summaryDepartureRange">Chưa chọn lịch</strong>
+            <button type="button" class="booking-change-date" id="btnChangeDeparture">Đổi ngày</button>
           </div>
+        </div>
 
-          <!-- Selected Departure -->
-          <div class="booking-summary-row">
-            <span><i class="fa-regular fa-calendar text-primary"></i> Ngày khởi hành:</span>
-            <strong id="summaryDeparture" class="text-main">25/10/2026</strong>
-          </div>
-
-          <!-- Passenger selection controls -->
-          <div style="margin: 18px 0 14px;">
-            <label class="form-label">Chọn số lượng hành khách:</label>
-            
-            <!-- Adult Counter -->
-            <div class="counter-box">
-              <div>
-                <div class="counter-info-title">Người lớn</div>
-                <div class="counter-info-desc">> 12 tuổi (100% giá)</div>
-              </div>
-              <div class="counter-controls">
-                <button type="button" class="counter-btn" id="btnMinusAdult" disabled>-</button>
-                <span class="counter-val" id="adultCount">1</span>
-                <button type="button" class="counter-btn" id="btnPlusAdult">+</button>
-              </div>
+        <div class="booking-passenger-list">
+          <div class="booking-passenger-row">
+            <div>
+              <strong>Người lớn <small>&gt; 11 tuổi</small></strong>
+              <span id="adultUnitPrice">0đ</span>
             </div>
-
-            <!-- Child Counter -->
-            <div class="counter-box">
-              <div>
-                <div class="counter-info-title">Trẻ em</div>
-                <div class="counter-info-desc">5 - 11 tuổi (70% giá)</div>
-              </div>
-              <div class="counter-controls">
-                <button type="button" class="counter-btn" id="btnMinusChild" disabled>-</button>
-                <span class="counter-val" id="childCount">0</span>
-                <button type="button" class="counter-btn" id="btnPlusChild">+</button>
-              </div>
+            <div class="counter-controls">
+              <button type="button" class="counter-btn" id="btnMinusAdult" disabled><i class="fa-solid fa-minus"></i></button>
+              <span class="counter-val" id="adultCount">1</span>
+              <button type="button" class="counter-btn" id="btnPlusAdult"><i class="fa-solid fa-plus"></i></button>
             </div>
           </div>
 
-          <div class="booking-summary-row">
-            <span>Số hành khách:</span>
-            <strong id="summaryGuests" class="text-main">1 Người lớn</strong>
+          <div class="booking-passenger-row">
+            <div>
+              <strong>Trẻ em <small>2 - 11 tuổi</small></strong>
+              <span id="childUnitPrice">0đ</span>
+            </div>
+            <div class="counter-controls">
+              <button type="button" class="counter-btn" id="btnMinusChild" disabled><i class="fa-solid fa-minus"></i></button>
+              <span class="counter-val" id="childCount">0</span>
+              <button type="button" class="counter-btn" id="btnPlusChild"><i class="fa-solid fa-plus"></i></button>
+            </div>
           </div>
 
-          <div class="booking-summary-row">
-            <span>Bảo hiểm du lịch:</span>
-            <span class="text-success font-semibold">Miễn phí</span>
+          <div class="booking-passenger-row">
+            <div>
+              <strong>Em bé <small>&lt; 2 tuổi</small></strong>
+              <span>Miễn phí</span>
+            </div>
+            <div class="counter-controls">
+              <button type="button" class="counter-btn" id="btnMinusInfant" disabled><i class="fa-solid fa-minus"></i></button>
+              <span class="counter-val" id="infantCount">0</span>
+              <button type="button" class="counter-btn" id="btnPlusInfant"><i class="fa-solid fa-plus"></i></button>
+            </div>
           </div>
+        </div>
 
-          <!-- Total Calculation -->
-          <div class="booking-summary-row total">
-            <span>Tổng cộng:</span>
-            <span class="price-val" id="totalAmount">3.490.000đ</span>
+        <div class="booking-request-total">
+          <div>
+            <span>Tạm tính</span>
+            <strong id="totalAmount">0đ</strong>
           </div>
+          <div class="booking-request-status">
+            <span id="summaryGuests">1 Người lớn</span>
+            <span class="text-danger"><i class="fa-solid fa-circle"></i> Cần xác nhận chỗ</span>
+          </div>
+        </div>
 
-          <a href="booking.html" class="btn btn-primary btn-block btn-lg" id="btnBookTour">
-            <i class="fa-solid fa-bolt"></i> Đặt Tour Ngay
-          </a>
+        <a href="booking.html" class="btn btn-accent btn-block btn-lg" id="btnBookTour">
+          <i class="fa-solid fa-paper-plane"></i> Gửi yêu cầu
+        </a>
+        <p class="booking-secure-note"><i class="fa-solid fa-shield-halved"></i> Thông tin chuyến đã chọn sẽ được giữ ở bước tiếp theo.</p>
+      </aside>
+    </section>
 
-          <p style="font-size: 0.78rem; color: var(--text-muted); text-align: center; margin-top: 12px;">
-            <i class="fa-solid fa-lock"></i> Giữ chỗ tức thì - Không tính phí huỷ trước 7 ngày
+    <!-- Related tours -->
+    <section class="tour-related-section">
+      <div class="tour-section-heading">
+        <div>
+          <h2><i class="fa-solid fa-route text-primary"></i> Tour liên quan</h2>
+          <p>Gợi ý hành trình tương tự để bạn dễ so sánh và lựa chọn.</p>
+        </div>
+      </div>
+      <div class="related-tour-grid" id="relatedToursContainer"></div>
+    </section>
+
+    <!-- Long information is grouped into collapsible sections -->
+    <section class="tour-information-section">
+      <div class="tour-section-heading">
+        <div>
+          <h2><i class="fa-solid fa-circle-info text-primary"></i> Thông tin hành trình</h2>
+          <p>Mở từng mục để xem chi tiết, tránh nội dung quá dài trên một màn hình.</p>
+        </div>
+        <button type="button" class="btn btn-outline btn-sm" id="btnToggleAllTourInfo">Mở tất cả</button>
+      </div>
+
+      <div class="tour-accordion-stack">
+        <details class="tour-accordion" open>
+          <summary>
+            <span><i class="fa-solid fa-star text-accent"></i> Điểm nổi bật</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </summary>
+          <div class="tour-accordion-content" id="tourOverviewContent"></div>
+        </details>
+
+        <details class="tour-accordion">
+          <summary>
+            <span><i class="fa-solid fa-map-location-dot text-primary"></i> Lịch trình</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </summary>
+          <div class="tour-accordion-content">
+            <div class="itinerary-day-list" id="tourItineraryContainer"></div>
+          </div>
+        </details>
+
+        <details class="tour-accordion">
+          <summary>
+            <span><i class="fa-solid fa-circle-check text-success"></i> Bao gồm & không bao gồm</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </summary>
+          <div class="tour-accordion-content" id="tourIncludesContent"></div>
+        </details>
+
+        <details class="tour-accordion">
+          <summary>
+            <span><i class="fa-solid fa-triangle-exclamation text-warning"></i> Lưu ý & chính sách</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </summary>
+          <div class="tour-accordion-content" id="tourPolicyContent"></div>
+        </details>
+      </div>
+    </section>
+
+    <!-- Reviews & Customer Feedback -->
+    <section class="card tour-review-section">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; gap:12px; flex-wrap:wrap;">
+        <h2 style="font-size: 1.35rem; margin:0;"><i class="fa-solid fa-star text-accent"></i> Đánh Giá Từ Khách Hàng</h2>
+        <a href="review.html" class="btn btn-outline btn-sm"><i class="fa-solid fa-pen"></i> Viết đánh giá</a>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <div style="padding-bottom:16px; border-bottom:1px solid var(--border);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=80&q=80" style="width:36px; height:36px; border-radius:50%; object-fit:cover;" alt="User">
+              <div>
+                <strong style="font-size:0.95rem;">Trần Thị Mai</strong>
+                <div style="font-size:0.75rem; color:var(--text-muted);">Khởi hành ngày 12/09/2026</div>
+              </div>
+            </div>
+            <div class="rating-display">
+              <span class="rating-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
+            </div>
+          </div>
+          <p style="font-size:0.9rem; color:var(--text-main);">
+            Du thuyền rất đẹp và sạch sẽ, đồ ăn hải sản tươi ngon đầy đặn. Hướng dẫn viên vui tính và nhiệt tình chăm sóc cả đoàn. Rất đáng tiền!
           </p>
         </div>
-      </aside>
-    </div>
+
+        <div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=80&q=80" style="width:36px; height:36px; border-radius:50%; object-fit:cover;" alt="User">
+              <div>
+                <strong style="font-size:0.95rem;">Lê Hoàng Nam</strong>
+                <div style="font-size:0.75rem; color:var(--text-muted);">Khởi hành ngày 01/10/2026</div>
+              </div>
+            </div>
+            <div class="rating-display">
+              <span class="rating-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
+            </div>
+          </div>
+          <p style="font-size:0.9rem; color:var(--text-main);">
+            Gia đình mình có bé nhỏ đi cùng được các bạn nhân viên hỗ trợ rất chu đáo. View phòng ngủ nhìn thẳng ra vịnh cực kỳ chill. Sẽ ủng hộ tiếp!
+          </p>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- Gallery Lightbox Modal -->

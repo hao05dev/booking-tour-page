@@ -547,49 +547,304 @@ function initGuideDashboard() {
 
 function initManagerDashboard() {
   const managerTourTable = document.getElementById('managerTourTable');
+  const managerDepartureList = document.getElementById('managerDepartureList');
+  const managerSelectedTourSummary = document.getElementById('managerSelectedTourSummary');
   const formAddTour = document.getElementById('formAddTour');
   const formAddDeparture = document.getElementById('formAddDeparture');
+  const depTourSelect = document.getElementById('depTourSelect');
+  const btnAddDepartureForSelectedTour = document.getElementById('btnAddDepartureForSelectedTour');
+  const managerSearchInput = document.getElementById('managerSearchInput');
+
   if (!managerTourTable && !formAddTour && !formAddDeparture) return;
 
   const db = getMockDatabase();
+  let selectedManagerTourId = db.tours[0]?.id || null;
+  let tourSearchKeyword = '';
+
+  function parseVnDate(value) {
+    if (!value || value === 'Theo lịch trình') return Number.MAX_SAFE_INTEGER;
+    const [day, month, year] = value.split('/').map(Number);
+    return new Date(year, month - 1, day).getTime();
+  }
+
+  function toInputDate(value) {
+    if (!value || value === 'Theo lịch trình') return '';
+    const [day, month, year] = value.split('/');
+    return `${year}-${month}-${day}`;
+  }
+
+  function fromInputDate(value) {
+    if (!value) return 'Theo lịch trình';
+    const [year, month, day] = value.split('-');
+    return `${day}/${month}/${year}`;
+  }
+
+  function getDepartureStatus(slots, maxSlots) {
+    if (slots <= 0) {
+      return { status: 'Sold Out', statusText: 'Hết chỗ', badgeClass: 'badge-sold-out' };
+    }
+    if (slots <= Math.max(3, Math.ceil(maxSlots * 0.2))) {
+      return { status: 'Almost Full', statusText: 'Sắp hết chỗ', badgeClass: 'badge-almost-full' };
+    }
+    return { status: 'Available', statusText: 'Còn chỗ', badgeClass: 'badge-available' };
+  }
+
+  function getTourDepartures(tourId) {
+    return db.departures
+      .filter(dep => dep.tourId === tourId)
+      .sort((a, b) => parseVnDate(a.date) - parseVnDate(b.date));
+  }
+
+  function getNextDeparture(tourId) {
+    return getTourDepartures(tourId).find(dep => dep.status !== 'Sold Out' && dep.slots > 0) || null;
+  }
+
+  function populateDepartureTourSelect() {
+    if (!depTourSelect) return;
+    depTourSelect.innerHTML = db.tours.map(tour => `
+      <option value="${tour.id}">${tour.title}</option>
+    `).join('');
+    if (selectedManagerTourId && db.tours.some(tour => tour.id === selectedManagerTourId)) {
+      depTourSelect.value = selectedManagerTourId;
+    }
+  }
 
   function renderManagerTours() {
     if (!managerTourTable) return;
-    managerTourTable.innerHTML = db.tours.map(t => `
-      <tr>
-        <td>
-          <div style="display:flex; align-items:center; gap:12px;">
-            <img src="${t.image}" style="width:50px; height:40px; object-fit:cover; border-radius:var(--radius-sm);" alt="${t.title}">
-            <div>
-              <strong style="display:block; font-size:0.9rem;">${t.title}</strong>
-              <span class="text-muted" style="font-size:0.75rem;"><i class="fa-solid fa-location-dot"></i> ${t.location} • ${t.duration}</span>
+
+    const normalizedKeyword = tourSearchKeyword.trim().toLowerCase();
+    const tours = db.tours.filter(tour => {
+      if (!normalizedKeyword) return true;
+      return tour.title.toLowerCase().includes(normalizedKeyword)
+        || tour.location.toLowerCase().includes(normalizedKeyword);
+    });
+
+    if (!tours.length) {
+      managerTourTable.innerHTML = `
+        <tr>
+          <td colspan="5" style="text-align:center; padding:36px;">
+            <span class="text-muted">Không tìm thấy tour phù hợp.</span>
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    managerTourTable.innerHTML = tours.map(tour => {
+      const tourDepartures = getTourDepartures(tour.id);
+      const nextDeparture = getNextDeparture(tour.id);
+      const isSelected = tour.id === selectedManagerTourId;
+
+      return `
+        <tr class="${isSelected ? 'manager-tour-row-active' : ''}">
+          <td>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <img src="${tour.image}" style="width:58px; height:44px; object-fit:cover; border-radius:var(--radius-sm);" alt="${tour.title}">
+              <div>
+                <strong style="display:block; font-size:0.9rem;">${tour.title}</strong>
+                <span class="text-muted" style="font-size:0.75rem;"><i class="fa-solid fa-location-dot"></i> ${tour.location} • ${tour.duration}</span>
+              </div>
             </div>
-          </div>
-        </td>
-        <td><strong class="text-primary">${formatCurrency(t.price)}</strong></td>
-        <td><span class="badge ${t.featured ? 'badge-warning' : 'badge-neutral'}">${t.featured ? 'Nổi bật' : 'Tiêu chuẩn'}</span></td>
-        <td>
-          <div style="display:flex; gap:6px;">
-            <a href="tour-detail.html?id=${t.id}" class="btn btn-outline btn-sm" title="Xem"><i class="fa-regular fa-eye"></i></a>
-            <button class="btn btn-outline btn-sm text-danger" onclick="deleteTour('${t.id}')" title="Xóa"><i class="fa-regular fa-trash-can"></i></button>
-          </div>
-        </td>
-      </tr>
-    `).join('');
+          </td>
+          <td><strong class="text-primary">${formatCurrency(tour.price)}</strong></td>
+          <td>
+            <button type="button" class="manager-departure-count" onclick="selectManagerTour('${tour.id}')">
+              <strong>${tourDepartures.length} chuyến</strong>
+              <span>${nextDeparture ? `Gần nhất ${nextDeparture.date}` : 'Chưa có lịch mở bán'}</span>
+            </button>
+          </td>
+          <td><span class="badge ${tour.featured ? 'badge-warning' : 'badge-neutral'}">${tour.featured ? 'Nổi bật' : 'Tiêu chuẩn'}</span></td>
+          <td>
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+              <button class="btn ${isSelected ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="selectManagerTour('${tour.id}')" title="Quản lý lịch">
+                <i class="fa-solid fa-calendar-days"></i>
+              </button>
+              <a href="tour-detail.html?id=${tour.id}" class="btn btn-outline btn-sm" title="Xem phía khách hàng"><i class="fa-regular fa-eye"></i></a>
+              <button class="btn btn-outline btn-sm text-danger" onclick="deleteTour('${tour.id}')" title="Xóa"><i class="fa-regular fa-trash-can"></i></button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('');
   }
 
-  window.deleteTour = (tourId) => {
-    if (confirm('Bạn có chắc chắn muốn xóa tour này khỏi hệ thống?')) {
-      db.tours = db.tours.filter(t => t.id !== tourId);
-      saveMockDatabase(db);
-      renderManagerTours();
-      showToast('Đã xóa tour thành công!', 'info');
+  function renderManagerDepartures() {
+    if (!managerDepartureList || !managerSelectedTourSummary) return;
+
+    const tour = db.tours.find(item => item.id === selectedManagerTourId);
+    if (!tour) {
+      managerSelectedTourSummary.innerHTML = '<span class="text-muted">Chưa có tour để quản lý.</span>';
+      managerDepartureList.innerHTML = '';
+      return;
     }
+
+    const departures = getTourDepartures(tour.id);
+    const nextDeparture = getNextDeparture(tour.id);
+
+    managerSelectedTourSummary.innerHTML = `
+      <div class="manager-selected-tour-main">
+        <img src="${tour.image}" alt="${tour.title}">
+        <div>
+          <span class="manager-selected-label">ĐANG QUẢN LÝ LỊCH</span>
+          <h3>${tour.title}</h3>
+          <p><i class="fa-solid fa-location-dot"></i> ${tour.location} · ${tour.duration}</p>
+        </div>
+      </div>
+      <div class="manager-selected-tour-stats">
+        <div><strong>${departures.length}</strong><span>Tổng chuyến</span></div>
+        <div><strong>${departures.filter(dep => dep.slots > 0).length}</strong><span>Đang mở bán</span></div>
+        <div><strong>${nextDeparture ? nextDeparture.date : '--'}</strong><span>Khởi hành gần nhất</span></div>
+      </div>
+    `;
+
+    if (!departures.length) {
+      managerDepartureList.innerHTML = `
+        <div class="manager-departure-empty">
+          <i class="fa-regular fa-calendar-plus"></i>
+          <strong>Tour này chưa có chuyến khởi hành</strong>
+          <span>Hãy tạo chuyến đầu tiên để khách hàng có thể lựa chọn ngày đi.</span>
+          <button type="button" class="btn btn-primary btn-sm" onclick="openManagerDepartureModal('${tour.id}')">
+            <i class="fa-solid fa-plus"></i> Tạo chuyến đầu tiên
+          </button>
+        </div>
+      `;
+      return;
+    }
+
+    managerDepartureList.innerHTML = departures.map(dep => {
+      const booked = Math.max(0, (dep.maxSlots || 0) - (dep.slots || 0));
+      const fillPercent = dep.maxSlots ? Math.min(100, Math.round((booked / dep.maxSlots) * 100)) : 0;
+      const status = getDepartureStatus(dep.slots, dep.maxSlots || dep.slots || 1);
+
+      return `
+        <article class="manager-departure-card">
+          <div class="manager-departure-date">
+            <span>Ngày đi</span>
+            <strong>${dep.date}</strong>
+            <small>Đến ${dep.returnDate || 'Theo lịch trình'}</small>
+          </div>
+
+          <div class="manager-departure-details">
+            <div class="manager-departure-topline">
+              <span class="badge ${status.badgeClass}">${status.statusText}</span>
+              <span><i class="fa-solid fa-user-tie"></i> ${dep.guideName || 'Chưa phân công HDV'}</span>
+            </div>
+            <div class="manager-capacity-line">
+              <div>
+                <strong>${dep.slots} / ${dep.maxSlots}</strong>
+                <span>chỗ còn mở</span>
+              </div>
+              <div class="manager-capacity-progress"><span style="width:${fillPercent}%"></span></div>
+              <small>${booked} khách đã được giữ chỗ</small>
+            </div>
+          </div>
+
+          <div class="manager-departure-price">
+            <span>Giá / khách</span>
+            <strong>${formatCurrency(dep.price)}</strong>
+          </div>
+
+          <div class="manager-departure-actions">
+            <button type="button" class="btn btn-outline btn-sm" onclick="editManagerDeparture('${dep.id}')" title="Chỉnh sửa chuyến">
+              <i class="fa-solid fa-pen"></i>
+            </button>
+            <button type="button" class="btn btn-outline btn-sm text-danger" onclick="deleteManagerDeparture('${dep.id}')" title="Xóa chuyến">
+              <i class="fa-regular fa-trash-can"></i>
+            </button>
+          </div>
+        </article>
+      `;
+    }).join('');
+  }
+
+  function refreshManagerUI() {
+    if (selectedManagerTourId && !db.tours.some(tour => tour.id === selectedManagerTourId)) {
+      selectedManagerTourId = db.tours[0]?.id || null;
+    }
+    populateDepartureTourSelect();
+    renderManagerTours();
+    renderManagerDepartures();
+  }
+
+  window.selectManagerTour = (tourId) => {
+    if (!db.tours.some(tour => tour.id === tourId)) return;
+    selectedManagerTourId = tourId;
+    refreshManagerUI();
+    document.getElementById('sectionDepartures')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  window.openManagerDepartureModal = (tourId = selectedManagerTourId, departureId = null) => {
+    const editIdEl = document.getElementById('depEditId');
+    const titleEl = document.getElementById('departureModalTitle');
+    const submitButton = document.getElementById('departureSubmitButton');
+    const startDateEl = document.getElementById('depStartDate');
+    const returnDateEl = document.getElementById('depReturnDate');
+    const slotsEl = document.getElementById('depSlots');
+    const maxSlotsEl = document.getElementById('depMaxSlots');
+    const priceEl = document.getElementById('depPrice');
+    const guideEl = document.getElementById('depGuideSelect');
+
+    populateDepartureTourSelect();
+    if (tourId && depTourSelect) depTourSelect.value = tourId;
+
+    const dep = departureId ? db.departures.find(item => item.id === departureId) : null;
+    if (editIdEl) editIdEl.value = dep?.id || '';
+
+    if (dep) {
+      if (titleEl) titleEl.innerHTML = '<i class="fa-solid fa-pen-to-square text-warning"></i> Chỉnh Sửa Chuyến Khởi Hành';
+      if (submitButton) submitButton.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Lưu Thay Đổi';
+      if (depTourSelect) depTourSelect.value = dep.tourId;
+      if (startDateEl) startDateEl.value = toInputDate(dep.date);
+      if (returnDateEl) returnDateEl.value = toInputDate(dep.returnDate);
+      if (slotsEl) slotsEl.value = dep.slots;
+      if (maxSlotsEl) maxSlotsEl.value = dep.maxSlots;
+      if (priceEl) priceEl.value = dep.price;
+      if (guideEl) guideEl.value = dep.guideId || '';
+    } else {
+      if (titleEl) titleEl.innerHTML = '<i class="fa-solid fa-calendar-plus text-warning"></i> Thêm Lịch Khởi Hành & Gán HDV';
+      if (submitButton) submitButton.innerHTML = '<i class="fa-solid fa-check"></i> Xác Nhận Tạo Lịch';
+      formAddDeparture?.reset();
+      populateDepartureTourSelect();
+      if (tourId && depTourSelect) depTourSelect.value = tourId;
+      if (editIdEl) editIdEl.value = '';
+    }
+
+    openModal('modalAddDeparture');
+  };
+
+  window.editManagerDeparture = (departureId) => {
+    const dep = db.departures.find(item => item.id === departureId);
+    if (!dep) return;
+    selectedManagerTourId = dep.tourId;
+    window.openManagerDepartureModal(dep.tourId, dep.id);
+  };
+
+  window.deleteManagerDeparture = (departureId) => {
+    const dep = db.departures.find(item => item.id === departureId);
+    if (!dep) return;
+    if (!confirm(`Xóa chuyến khởi hành ${dep.date}?`)) return;
+
+    db.departures = db.departures.filter(item => item.id !== departureId);
+    saveMockDatabase(db);
+    refreshManagerUI();
+    showToast('Đã xóa chuyến khởi hành.', 'info');
+  };
+
+  window.deleteTour = (tourId) => {
+    const tour = db.tours.find(item => item.id === tourId);
+    if (!tour) return;
+    if (!confirm(`Xóa tour "${tour.title}" và toàn bộ lịch khởi hành của tour này?`)) return;
+
+    db.tours = db.tours.filter(item => item.id !== tourId);
+    db.departures = db.departures.filter(dep => dep.tourId !== tourId);
+    saveMockDatabase(db);
+    refreshManagerUI();
+    showToast('Đã xóa tour và các chuyến khởi hành liên quan.', 'info');
   };
 
   if (formAddTour) {
-    formAddTour.addEventListener('submit', (e) => {
-      e.preventDefault();
+    formAddTour.addEventListener('submit', (event) => {
+      event.preventDefault();
       const title = document.getElementById('newTourTitle').value.trim();
       const location = document.getElementById('newTourLocation').value.trim();
       const region = document.getElementById('newTourRegion').value;
@@ -605,7 +860,7 @@ function initManagerDashboard() {
         region,
         theme: 'nature',
         duration,
-        days: parseInt(duration) || 3,
+        days: parseInt(duration, 10) || 3,
         rating: 5.0,
         reviewsCount: 0,
         price,
@@ -614,56 +869,100 @@ function initManagerDashboard() {
         popular: true,
         topRated: false,
         maxGuests: 20,
+        status: 'active',
         description: desc
       };
 
       db.tours.unshift(newTour);
+      selectedManagerTourId = newTour.id;
       saveMockDatabase(db);
-      renderManagerTours();
+      refreshManagerUI();
       closeModal('modalAddTour');
       formAddTour.reset();
-      showToast('Đã thêm tour mới thành công!', 'success');
+      showToast('Đã thêm tour mới. Bạn có thể tạo nhiều chuyến khởi hành cho tour này.', 'success');
+      document.getElementById('sectionDepartures')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   }
 
   if (formAddDeparture) {
-    formAddDeparture.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const tourId = document.getElementById('depTourSelect').value;
-      const depDate = document.getElementById('depStartDate').value;
+    formAddDeparture.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const editId = document.getElementById('depEditId')?.value || '';
+      const tourId = depTourSelect?.value;
+      const startDate = document.getElementById('depStartDate').value;
+      const returnDate = document.getElementById('depReturnDate').value;
       const guideId = document.getElementById('depGuideSelect').value;
-      const slots = parseInt(document.getElementById('depSlots').value, 10);
-      const price = parseInt(document.getElementById('depPrice').value, 10);
+      const slots = Math.max(0, parseInt(document.getElementById('depSlots').value, 10) || 0);
+      const maxSlots = Math.max(1, parseInt(document.getElementById('depMaxSlots').value, 10) || 1);
+      const price = Math.max(0, parseInt(document.getElementById('depPrice').value, 10) || 0);
 
-      const matchedTour = db.tours.find(t => t.id === tourId);
-      const matchedGuide = db.users.find(u => u.id === guideId);
+      if (slots > maxSlots) {
+        showToast('Số chỗ còn mở không thể lớn hơn sức chứa tối đa.', 'warning');
+        return;
+      }
 
-      const newDep = {
-        id: `dep-${Date.now()}`,
-        tourId,
-        tourTitle: matchedTour ? matchedTour.title : 'Tour Mới',
-        date: depDate,
-        returnDate: 'Theo lịch trình',
-        slots: slots,
-        maxSlots: slots,
-        status: 'Available',
-        statusText: 'Còn chỗ',
-        badgeClass: 'badge-available',
-        price: price,
-        guideId: guideId,
-        guideName: matchedGuide ? matchedGuide.name : 'Chưa phân công',
-        progressStatus: 'upcoming'
-      };
+      const matchedTour = db.tours.find(tour => tour.id === tourId);
+      const matchedGuide = db.users.find(user => user.id === guideId);
+      const status = getDepartureStatus(slots, maxSlots);
 
-      db.departures.unshift(newDep);
+      if (editId) {
+        const dep = db.departures.find(item => item.id === editId);
+        if (!dep) return;
+
+        Object.assign(dep, {
+          tourId,
+          tourTitle: matchedTour ? matchedTour.title : dep.tourTitle,
+          date: fromInputDate(startDate),
+          returnDate: fromInputDate(returnDate),
+          slots,
+          maxSlots,
+          price,
+          guideId,
+          guideName: matchedGuide ? matchedGuide.name : 'Chưa phân công',
+          ...status
+        });
+        showToast('Đã cập nhật chuyến khởi hành.', 'success');
+      } else {
+        db.departures.unshift({
+          id: `dep-${Date.now()}`,
+          tourId,
+          tourTitle: matchedTour ? matchedTour.title : 'Tour Mới',
+          date: fromInputDate(startDate),
+          returnDate: fromInputDate(returnDate),
+          slots,
+          maxSlots,
+          price,
+          guideId,
+          guideName: matchedGuide ? matchedGuide.name : 'Chưa phân công',
+          progressStatus: 'upcoming',
+          ...status
+        });
+        showToast('Đã tạo chuyến khởi hành mới cho tour.', 'success');
+      }
+
+      selectedManagerTourId = tourId;
       saveMockDatabase(db);
       closeModal('modalAddDeparture');
       formAddDeparture.reset();
-      showToast('Đã tạo lịch khởi hành & phân công HDV thành công!', 'success');
+      refreshManagerUI();
     });
   }
 
-  renderManagerTours();
+  if (btnAddDepartureForSelectedTour) {
+    btnAddDepartureForSelectedTour.addEventListener('click', () => {
+      window.openManagerDepartureModal(selectedManagerTourId);
+    });
+  }
+
+  if (managerSearchInput) {
+    managerSearchInput.addEventListener('input', () => {
+      tourSearchKeyword = managerSearchInput.value;
+      renderManagerTours();
+    });
+  }
+
+  refreshManagerUI();
 }
 
 // ==========================================
