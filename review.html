@@ -207,6 +207,7 @@
   </footer>
 
   <!-- Scripts -->
+  <script src="js/mock-data.js"></script>
   <script src="js/main.js"></script>
   <script>
     function handleSubmitReview() {
@@ -217,9 +218,26 @@
         return;
       }
 
+      const db = getMockDatabase();
+      const user = getCurrentUser() || { name: 'Nguyễn Văn Hào' };
+      const newRev = {
+        id: `rev-${Date.now()}`,
+        tourId: "tour-1",
+        tourTitle: "Khám Phá Vịnh Hạ Long - Du Thuyền 5 Sao 3N2Đ",
+        userName: user.name,
+        userAvatar: user.avatar || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80",
+        rating: 5,
+        date: "16/09/2026",
+        comment: comment.value.trim(),
+        status: "approved"
+      };
+
+      db.reviews.unshift(newRev);
+      saveMockDatabase(db);
+
       document.getElementById('reviewFormContainer').style.display = 'none';
       document.getElementById('reviewSuccessState').style.display = 'block';
-      showToast('Đánh giá thành công!', 'success');
+      showToast('Đánh giá thành công! Cảm ơn bạn đã đóng góp ý kiến.', 'success');
     }
   </script>
 </body>

@@ -1,0 +1,292 @@
+﻿<!DOCTYPE html>
+<html lang=vi>
+<head>
+  <meta charset=UTF-8>
+  <meta name=viewport content=width=device-width, initial-scale=1.0>
+  <title>Bảng Điều Khiển Hướng Dẫn Viên - BookingTour</title>
+  <!-- Google Fonts & FontAwesome -->
+  <link rel=preconnect href=https://fonts.googleapis.com>
+  <link rel=preconnect href=https://fonts.gstatic.com crossorigin>
+  <link href=https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap rel=stylesheet>
+  <link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css>
+  <!-- Stylesheet -->
+  <link rel=stylesheet href=css/style.css>
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class=site-header>
+    <div class=container navbar>
+      <a href=index.html class=navbar-brand>
+        <i class=fa-solid fa-compass></i>
+        <span>BookingTour</span>
+      </a>
+
+      <nav class=nav-menu>
+        <a href=index.html class=nav-link>Trang chủ</a>
+        <a href=tours.html class=nav-link>Tour du lịch</a>
+        <a href=guide-dashboard.html class=nav-link active>Bảng điều khiển HDV</a>
+      </nav>
+
+      <div class=nav-actions>
+        <!-- Rendered via JS renderRoleBasedNav -->
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class=mobile-nav-overlay id=mobileOverlay></div>
+  <aside class=mobile-nav id=mobileNav>
+    <div class=mobile-nav-header>
+      <a href=index.html class=navbar-brand><i class=fa-solid fa-compass></i><span>BookingTour</span></a>
+      <button class=modal-close id=mobileNavClose><i class=fa-solid fa-xmark></i></button>
+    </div>
+    <div class=mobile-nav-links>
+      <!-- Injected via JS -->
+    </div>
+  </aside>
+
+  <!-- Dashboard Hero Header -->
+  <div class=dashboard-header>
+    <div class=container>
+      <div class=dashboard-title-row>
+        <div>
+          <span class=badge badge-role-guide style=font-size:0.8rem; padding:4px 12px; margin-bottom:8px; display:inline-block;>
+            <i class=fa-solid fa-flag></i> Hướng Dẫn Viên Chuyên Nghiệp
+          </span>
+          <h1 style=font-size:1.8rem; font-weight:800; margin:0;>Bảng Điều Khiển Tour & Đoàn Khách</h1>
+          <p style=opacity:0.9; font-size:0.95rem; margin-top:6px;>Quản lý các chuyến đi được phân công, danh sách hành khách và cập nhật tiến độ thực tế.</p>
+        </div>
+        <div>
+          <button class=btn btn-warning onclick=openModal('modalRosterDemo')>
+            <i class=fa-solid fa-users></i> Danh Sách Khách Đoàn Này
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class=main-content style=padding-top:0;>
+    <div class=container>
+      <!-- 4 KPI Stat Cards -->
+      <div class=dashboard-stats-grid>
+        <div class=stat-card>
+          <div class=stat-icon-box stat-icon-primary><i class=fa-solid fa-map-location-dot></i></div>
+          <div>
+            <div class=stat-value>3N2Đ</div>
+            <div class=stat-label>Vịnh Hạ Long 5 Sao</div>
+          </div>
+        </div>
+        <div class=stat-card>
+          <div class=stat-icon-box stat-icon-warning><i class=fa-solid fa-users></i></div>
+          <div>
+            <div class=stat-value>18 Khách</div>
+            <div class=stat-label>6 Nhóm Đặt Tour</div>
+          </div>
+        </div>
+        <div class=stat-card>
+          <div class=stat-icon-box stat-icon-info><i class=fa-solid fa-route></i></div>
+          <div>
+            <div class=stat-value style=font-size:1.2rem; id=currentTourStatusBadge>Chuẩn bị đoàn</div>
+            <div class=stat-label>Tiến Độ Chuyến Đi</div>
+          </div>
+        </div>
+        <div class=stat-card>
+          <div class=stat-icon-box stat-icon-success><i class=fa-solid fa-star></i></div>
+          <div>
+            <div class=stat-value>4.95 ★</div>
+            <div class=stat-label>88 Lượt Đánh Giá</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Tour Interactive Stepper Card -->
+      <div class=dashboard-card>
+        <div class=dashboard-card-header>
+          <div>
+            <h2 class=dashboard-card-title>
+              <i class=fa-solid fa-compass text-primary></i>
+              <span>Cập Nhật Trạng Thái Đoàn: <strong>Vịnh Hạ Long Du Thuyền 5 Sao (25/10/2026)</strong></span>
+            </h2>
+            <p class=text-muted style=font-size:0.85rem; margin-top:4px;>Nhấp vào từng bước để cập nhật tiến độ đoàn theo thời gian thực.</p>
+          </div>
+          <div>
+            <span class=badge badge-warning><i class=fa-solid fa-clock></i> Khởi hành: 07:30 25/10/2026</span>
+          </div>
+        </div>
+
+        <!-- Tour Stepper -->
+        <div class=tour-progress-stepper id=tourProgressStepper>
+          <!-- Rendered via JS -->
+        </div>
+
+        <!-- Step Action Helper -->
+        <div style=background:var(--surface-alt); border-radius:var(--radius-md); padding:16px 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;>
+          <div>
+            <strong style=font-size:0.9rem; color:var(--text-main); display:block;>Cần cập nhật nhanh cho đoàn?</strong>
+            <span class=text-muted style=font-size:0.8rem;>Thông báo cập nhật sẽ gửi tin nhắn đến các khách hàng trong đoàn.</span>
+          </div>
+          <div style=display:flex; gap:8px;>
+            <button class=btn btn-outline btn-sm onclick=showToast('Đã gửi thông báo tập trung tới 18 hành khách qua SMS & App!', 'success')>
+              <i class=fa-solid fa-bullhorn></i> Nhắc Giờ Tập Trung
+            </button>
+            <button class=btn btn-primary btn-sm onclick=openModal('modalRosterDemo')>
+              <i class=fa-solid fa-clipboard-user></i> Điểm Danh Khách
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Assigned Departures List -->
+      <div class=dashboard-card>
+        <div class=dashboard-card-header>
+          <h2 class=dashboard-card-title>
+            <i class=fa-solid fa-list-check text-primary></i>
+            <span>Lịch Trình Khởi Hành Được Phân Công</span>
+          </h2>
+          <span class=text-muted style=font-size:0.85rem;>Hiển thị 3 chuyến đi sắp tới</span>
+        </div>
+
+        <div class=table-responsive>
+          <table class=table-custom>
+            <thead>
+              <tr>
+                <th>Tên Tour & Lịch Trình</th>
+                <th>Ngày Khởi Hành</th>
+                <th>Số Lượng Khách</th>
+                <th>Trạng Thái Vận Hành</th>
+                <th>Thao Tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <strong style=display:block;>Khám Phá Vịnh Hạ Long - Du Thuyền 5 Sao 3N2Đ</strong>
+                  <span class=text-muted style=font-size:0.75rem;>Mã đoàn: DEP-HL-2510 • Điểm đón: Nhà Hát Lớn</span>
+                </td>
+                <td><strong class=text-primary>25/10/2026</strong> - 28/10/2026</td>
+                <td><span class=badge badge-info><i class=fa-solid fa-users></i> 18 / 20 Khách</span></td>
+                <td><span class=badge badge-warning><i class=fa-solid fa-spinner fa-spin></i> Chuẩn bị đoàn</span></td>
+                <td>
+                  <button class=btn btn-primary btn-sm onclick=openModal('modalRosterDemo')>
+                    <i class=fa-regular fa-id-card></i> Danh Sách Khách
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong style=display:block;>Chinh Phục Fansipan & Săn Mây Sa Pa 2N1Đ</strong>
+                  <span class=text-muted style=font-size:0.75rem;>Mã đoàn: DEP-SP-0211 • Điểm đón: Phố Cổ Hà Nội</span>
+                </td>
+                <td><strong class=text-primary>02/11/2026</strong> - 04/11/2026</td>
+                <td><span class=badge badge-available><i class=fa-solid fa-users></i> 13 / 15 Khách</span></td>
+                <td><span class=badge badge-neutral>Sắp diễn ra</span></td>
+                <td>
+                  <button class=btn btn-outline btn-sm onclick=showToast('Chuyến đi khởi hành ngày 02/11/2026', 'info')>
+                    <i class=fa-regular fa-eye></i> Xem Chi Tiết
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <strong style=display:block;>Đà Nẵng - Hội An - Bà Nà Hills Cầu Vàng 4N3Đ</strong>
+                  <span class=text-muted style=font-size:0.75rem;>Mã đoàn: DEP-DN-1511 • Điểm đón: Sân Bay Đà Nẵng</span>
+                </td>
+                <td><strong class=text-primary>15/11/2026</strong> - 19/11/2026</td>
+                <td><span class=badge badge-available><i class=fa-solid fa-users></i> 25 / 25 Khách</span></td>
+                <td><span class=badge badge-neutral>Sắp diễn ra</span></td>
+                <td>
+                  <button class=btn btn-outline btn-sm onclick=showToast('Chuyến đi đã đủ 25 khách', 'info')>
+                    <i class=fa-regular fa-eye></i> Xem Chi Tiết
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Guest Roster Modal -->
+  <div class=modal-backdrop id=modalRosterDemo>
+    <div class=modal-container style=max-width:850px;>
+      <div class=modal-header>
+        <h3 class=modal-title><i class=fa-solid fa-users-viewfinder text-primary></i> Danh Sách Hành Khách (Vịnh Hạ Long 25/10/2026)</h3>
+        <button class=modal-close data-close-modal><i class=fa-solid fa-xmark></i></button>
+      </div>
+      <div class=modal-body>
+        <div style=margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;>
+          <div><strong>Tổng cộng: 18 khách</strong> (15 người lớn, 3 trẻ em)</div>
+          <button class=btn btn-outline btn-sm onclick=showToast('Đã xuất danh sách đoàn ra file PDF/Excel thành công!')>
+            <i class=fa-solid fa-file-excel text-success></i> Xuất Danh Sách
+          </button>
+        </div>
+
+        <div class=table-responsive>
+          <table class=table-custom>
+            <thead>
+              <tr>
+                <th>Họ Tên Khách</th>
+                <th>Số Điện Thoại</th>
+                <th>Số Khách</th>
+                <th>Điểm Đón / Ghi Chú</th>
+                <th>Điểm Danh</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Nguyễn Văn Hào</strong></td>
+                <td>0912 345 678</td>
+                <td>2 Lớn, 1 Trẻ</td>
+                <td>Nhà Hát Lớn HN (Ăn chay 1 người)</td>
+                <td><button class=btn btn-sm btn-outline text-success onclick=this.className='btn btn-sm btn-success'; this.innerHTML='<i class="fa-solid fa-check"></i> Đã Lên Xe';><i class=fa-regular fa-circle-check></i> Điểm danh</button></td>
+              </tr>
+              <tr>
+                <td><strong>Trần Thị Mai</strong></td>
+                <td>0988 123 456</td>
+                <td>2 Lớn</td>
+                <td>Khách sạn Daewoo Ba Đình</td>
+                <td><button class=btn btn-sm btn-outline text-success onclick=this.className='btn btn-sm btn-success'; this.innerHTML='<i class="fa-solid fa-check"></i> Đã Lên Xe';><i class=fa-regular fa-circle-check></i> Điểm danh</button></td>
+              </tr>
+              <tr>
+                <td><strong>Lê Hoàng Nam</strong></td>
+                <td>0905 678 901</td>
+                <td>4 Lớn, 1 Trẻ</td>
+                <td>Cột 9 Sân Bay Nội Bài</td>
+                <td><button class=btn btn-sm btn-outline text-success onclick=this.className='btn btn-sm btn-success'; this.innerHTML='<i class="fa-solid fa-check"></i> Đã Lên Xe';><i class=fa-regular fa-circle-check></i> Điểm danh</button></td>
+              </tr>
+              <tr>
+                <td><strong>Phạm Quỳnh Trang</strong></td>
+                <td>0934 567 890</td>
+                <td>3 Lớn</td>
+                <td>Bến xe Mỹ Đình</td>
+                <td><button class=btn btn-sm btn-outline text-success onclick=this.className='btn btn-sm btn-success'; this.innerHTML='<i class="fa-solid fa-check"></i> Đã Lên Xe';><i class=fa-regular fa-circle-check></i> Điểm danh</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class=modal-footer>
+        <button class=btn btn-secondary btn-sm data-close-modal>Đóng</button>
+        <button class=btn btn-primary btn-sm onclick=showToast('Đã lưu dữ liệu điểm danh đoàn!', 'success'); closeModal('modalRosterDemo');>Lưu Điểm Danh</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Site Footer -->
+  <footer class=site-footer>
+    <div class=container>
+      <div class=footer-bottom style=border:none; padding-top:0;>
+        <span>© 2026 BookingTour. Prototype HDV Operations.</span>
+        <span>Hỗ trợ khẩn cấp HDV: 1900 6868 (Nhánh 2)</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src=js/mock-data.js></script>
+  <script src=js/main.js></script>
+</body>
+</html>

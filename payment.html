@@ -140,9 +140,9 @@
             Nhấp vào một trong các nút dưới đây để kiểm tra các màn hình kết quả thanh toán tương ứng:
           </p>
           <div style="display: flex; flex-direction: column; gap: 8px;">
-            <a href="payment-result.html?status=success" class="btn btn-primary btn-block">
-              <i class="fa-solid fa-circle-check"></i> Mô Phỏng Thanh Toán Thành Công
-            </a>
+            <button type="button" id="btnConfirmPayment" class="btn btn-primary btn-block">
+              <i class="fa-solid fa-circle-check"></i> Xác Nhận Đã Thanh Toán (VietQR)
+            </button>
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
               <a href="payment-result.html?status=failed" class="btn btn-danger-outline btn-sm">
                 <i class="fa-solid fa-circle-xmark"></i> Mô Phỏng Thất Bại
@@ -168,6 +168,7 @@
   </footer>
 
   <!-- Scripts -->
+  <script src="js/mock-data.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

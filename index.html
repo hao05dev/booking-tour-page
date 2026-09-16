@@ -100,30 +100,30 @@
         <p class="hero-subtitle">Hơn 500+ tour chất lượng cao với lịch trình hấp dẫn, hướng dẫn viên chuyên nghiệp và ưu đãi độc quyền.</p>
 
         <!-- Search Bar -->
-        <div class="search-box-card">
+        <form class="search-box-card" id="homeSearchForm">
           <div class="search-field">
             <span class="search-field-label"><i class="fa-solid fa-location-dot text-primary"></i> Bạn muốn đi đâu?</span>
-            <input type="text" class="search-field-input" placeholder="Hạ Long, Đà Nẵng, Sa Pa...">
+            <input type="text" id="homeSearchKeyword" class="search-field-input" placeholder="Hạ Long, Đà Nẵng, Sa Pa...">
           </div>
           <div class="search-field">
             <span class="search-field-label"><i class="fa-regular fa-calendar text-primary"></i> Thời gian</span>
-            <input type="text" class="search-field-input" placeholder="Chọn ngày khởi hành" onfocus="(this.type='date')" onblur="(this.type='text')">
+            <input type="text" id="homeSearchDate" class="search-field-input" placeholder="Chọn ngày khởi hành" onfocus="(this.type='date')" onblur="(this.type='text')">
           </div>
           <div class="search-field">
             <span class="search-field-label"><i class="fa-solid fa-tag text-primary"></i> Mức giá</span>
-            <select class="search-field-input" style="cursor: pointer;">
+            <select id="homeSearchPrice" class="search-field-input" style="cursor: pointer;">
               <option value="">Tất cả mức giá</option>
-              <option value="1">Dưới 2 triệu</option>
-              <option value="2">2 - 5 triệu</option>
-              <option value="3">Trên 5 triệu</option>
+              <option value="under2m">Dưới 2 triệu</option>
+              <option value="2to5m">2 - 5 triệu</option>
+              <option value="above5m">Trên 5 triệu</option>
             </select>
           </div>
           <div>
-            <a href="tours.html" class="btn btn-primary btn-lg" style="height: 100%;">
+            <button type="submit" id="btnHomeSearch" class="btn btn-primary btn-lg" style="height: 100%; width: 100%;">
               <i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm
-            </a>
+            </button>
           </div>
-        </div>
+        </form>
       </div>
     </section>
 
@@ -402,6 +402,7 @@
   </footer>
 
   <!-- Scripts -->
+  <script src="js/mock-data.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

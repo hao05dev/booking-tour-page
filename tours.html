@@ -100,18 +100,24 @@
       <p class="section-subtitle" style="margin-bottom: 20px;">Tìm kiếm và chọn lọc hơn 50+ hành trình hấp dẫn với giá ưu đãi</p>
 
       <!-- Quick Search Bar -->
-      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+      <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
         <div class="input-icon-wrapper" style="flex:1; min-width:280px;">
           <i class="fa-solid fa-magnifying-glass icon-left"></i>
-          <input type="text" id="searchInput" class="form-control has-icon-left" placeholder="Nhập tên tour, địa điểm du lịch mong muốn...">
+          <input type="text" id="tourSearchInput" class="form-control has-icon-left" placeholder="Nhập tên tour, địa điểm (Hạ Long, Sa Pa, Đà Nẵng...)...">
         </div>
-        <button class="btn btn-primary" onclick="showToast('Đang lọc kết quả tìm kiếm...')">
-          <i class="fa-solid fa-filter"></i> Áp Dụng
-        </button>
+        <span id="activeSearchBadge" class="badge badge-primary" style="display:none; font-size:0.85rem; padding:8px 14px;"></span>
         <!-- Mobile filter toggle button -->
         <button class="btn btn-secondary" id="openMobileFilter" style="display:none;" onclick="openModal('mobileFilterModal')">
           <i class="fa-solid fa-sliders"></i> Bộ Lọc
         </button>
+      </div>
+
+      <!-- Region Category Tabs -->
+      <div style="display:flex; gap:8px; margin-top:16px; overflow-x:auto; padding-bottom:4px;">
+        <button class="btn btn-sm btn-outline tour-category-tab active" data-region="all">Tất cả vùng miền</button>
+        <button class="btn btn-sm btn-outline tour-category-tab" data-region="north">Miền Bắc</button>
+        <button class="btn btn-sm btn-outline tour-category-tab" data-region="central">Miền Trung</button>
+        <button class="btn btn-sm btn-outline tour-category-tab" data-region="south">Miền Nam</button>
       </div>
     </div>
 
@@ -122,61 +128,19 @@
         <div class="filter-section">
           <div class="filter-title">
             <span>Bộ Lọc Tìm Kiếm</span>
-            <button class="btn btn-sm btn-outline" style="padding:2px 8px; font-size:0.75rem;" onclick="resetFilters()">Đặt lại</button>
+            <button class="btn btn-sm btn-outline" style="padding:2px 8px; font-size:0.75rem;" onclick="resetAllFilters()">Đặt lại</button>
           </div>
         </div>
 
-        <!-- Filter Location -->
+        <!-- Filter Price Range Slider -->
         <div class="filter-section">
-          <div class="filter-title">Địa Điểm / Vùng Miền</div>
-          <div class="filter-options">
-            <label class="form-check">
-              <input type="checkbox" checked>
-              <span>Tất cả địa điểm</span>
-            </label>
-            <label class="form-check">
-              <input type="checkbox">
-              <span>Miền Bắc (Hạ Long, Sa Pa, Hà Nội)</span>
-            </label>
-            <label class="form-check">
-              <input type="checkbox">
-              <span>Miền Trung (Đà Nẵng, Hội An, Huế)</span>
-            </label>
-            <label class="form-check">
-              <input type="checkbox">
-              <span>Miền Nam (Phú Quốc, Côn Đảo, Cần Thơ)</span>
-            </label>
-            <label class="form-check">
-              <input type="checkbox">
-              <span>Tây Nguyên (Đà Lạt, Buôn Ma Thuột)</span>
-            </label>
-          </div>
-        </div>
-
-        <!-- Filter Price Range -->
-        <div class="filter-section">
-          <div class="filter-title">Mức Giá (VND)</div>
-          <div class="filter-options">
-            <label class="form-check">
-              <input type="radio" name="price_filter" checked>
-              <span>Tất cả mức giá</span>
-            </label>
-            <label class="form-check">
-              <input type="radio" name="price_filter">
-              <span>Dưới 2.000.000đ</span>
-            </label>
-            <label class="form-check">
-              <input type="radio" name="price_filter">
-              <span>2.000.000đ - 4.000.000đ</span>
-            </label>
-            <label class="form-check">
-              <input type="radio" name="price_filter">
-              <span>4.000.000đ - 6.000.000đ</span>
-            </label>
-            <label class="form-check">
-              <input type="radio" name="price_filter">
-              <span>Trên 6.000.000đ</span>
-            </label>
+          <div class="filter-title">Mức Giá Tối Đa (VND)</div>
+          <div style="padding: 6px 0;">
+            <input type="range" id="priceRangeSlider" min="500000" max="10000000" step="500000" value="10000000" style="width:100%; accent-color:var(--primary); cursor:pointer;">
+            <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:var(--text-muted); margin-top:4px;">
+              <span>500.000đ</span>
+              <strong id="priceRangeValue" class="text-primary">10.000.000đ</strong>
+            </div>
           </div>
         </div>
 
@@ -185,62 +149,56 @@
           <div class="filter-title">Thời Lượng Tour</div>
           <div class="filter-options">
             <label class="form-check">
-              <input type="checkbox">
+              <input type="checkbox" name="duration" value="1">
               <span>Trong ngày (1 Ngày)</span>
             </label>
             <label class="form-check">
-              <input type="checkbox" checked>
+              <input type="checkbox" name="duration" value="2-3">
               <span>2 - 3 Ngày</span>
             </label>
             <label class="form-check">
-              <input type="checkbox">
-              <span>4 - 7 Ngày</span>
-            </label>
-            <label class="form-check">
-              <input type="checkbox">
-              <span>Trên 7 Ngày</span>
+              <input type="checkbox" name="duration" value="4+">
+              <span>4 Ngày trở lên</span>
             </label>
           </div>
         </div>
 
-        <!-- Filter Departure Date -->
+        <!-- Filter Rating -->
         <div class="filter-section">
-          <div class="filter-title">Thời Gian Khởi Hành</div>
-          <input type="date" class="form-control" value="2026-10-25">
+          <div class="filter-title">Đánh Giá</div>
+          <div class="filter-options">
+            <label class="form-check">
+              <input type="checkbox" name="rating" value="4.8">
+              <span><i class="fa-solid fa-star text-warning"></i> Từ 4.8 sao trở lên</span>
+            </label>
+            <label class="form-check">
+              <input type="checkbox" name="rating" value="4.5">
+              <span><i class="fa-solid fa-star text-warning"></i> Từ 4.5 sao trở lên</span>
+            </label>
+          </div>
         </div>
       </aside>
 
       <!-- Tour Content Area -->
       <section>
-        <!-- Header Bar: Count + Sort + View Prototype States -->
+        <!-- Header Bar: Count + Sort -->
         <div class="listing-header-bar">
           <div>
-            <strong>Hiển thị <span class="text-primary">6 / 24</span> tour phù hợp</strong>
+            <strong id="tourResultCount">Đang tải danh sách tour...</strong>
           </div>
           <div style="display:flex; align-items:center; gap:12px;">
             <label style="font-size:0.875rem; color:var(--text-muted); font-weight:600;">Sắp xếp theo:</label>
-            <select class="form-control" style="width:auto; padding:6px 12px; font-size:0.875rem;">
-              <option>Được đặt nhiều nhất</option>
-              <option>Đánh giá cao nhất</option>
-              <option>Giá: Thấp đến Cao</option>
-              <option>Giá: Cao đến Thấp</option>
-              <option>Mới nhất</option>
+            <select id="tourSortSelect" class="form-control" style="width:auto; padding:6px 12px; font-size:0.875rem; cursor:pointer;">
+              <option value="popular">Được đặt nhiều nhất</option>
+              <option value="rating">Đánh giá cao nhất</option>
+              <option value="price-asc">Giá: Thấp đến Cao</option>
+              <option value="price-desc">Giá: Cao đến Thấp</option>
             </select>
           </div>
         </div>
 
-        <!-- Prototype State Controls (Demo Switcher) -->
-        <div style="background:var(--surface-alt); padding:10px 16px; border-radius:var(--radius-md); margin-bottom:20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:0.85rem;">
-          <span style="font-weight:600; color:var(--text-muted);"><i class="fa-solid fa-code"></i> Prototype UI States:</span>
-          <div style="display:flex; gap:8px;">
-            <button class="btn btn-sm btn-secondary" onclick="toggleTourState('normal')">Danh Sách Chuẩn</button>
-            <button class="btn btn-sm btn-secondary" onclick="toggleTourState('empty')">Empty State</button>
-            <button class="btn btn-sm btn-secondary" onclick="toggleTourState('error')">Error State</button>
-          </div>
-        </div>
-
-        <!-- Normal State Grid -->
-        <div id="tourGridNormal" class="tour-grid">
+        <!-- Dynamic Tour List Grid -->
+        <div id="toursListContainer" class="tour-grid">
           <!-- Card 1 -->
           <div class="tour-card">
             <div class="tour-card-img-wrap">
@@ -513,6 +471,7 @@
   </footer>
 
   <!-- Scripts -->
+  <script src="js/mock-data.js"></script>
   <script src="js/main.js"></script>
   <script>
     function toggleTourState(state) {

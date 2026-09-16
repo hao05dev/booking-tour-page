@@ -1,0 +1,341 @@
+﻿<!DOCTYPE html>
+<html lang=vi>
+<head>
+  <meta charset=UTF-8>
+  <meta name=viewport content=width=device-width, initial-scale=1.0>
+  <title>Bảng Quản Lý Tour & Lịch Trình - BookingTour</title>
+  <!-- Google Fonts & FontAwesome -->
+  <link rel=preconnect href=https://fonts.googleapis.com>
+  <link rel=preconnect href=https://fonts.gstatic.com crossorigin>
+  <link href=https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap rel=stylesheet>
+  <link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css>
+  <!-- Stylesheet -->
+  <link rel=stylesheet href=css/style.css>
+</head>
+<body>
+
+  <!-- Site Header -->
+  <header class=site-header>
+    <div class=container navbar>
+      <a href=index.html class=navbar-brand>
+        <i class=fa-solid fa-compass></i>
+        <span>BookingTour</span>
+      </a>
+
+      <nav class=nav-menu>
+        <a href=index.html class=nav-link>Trang chủ</a>
+        <a href=tours.html class=nav-link>Tour du lịch</a>
+        <a href=manager-dashboard.html class=nav-link active>Quản Lý Vận Hành</a>
+      </nav>
+
+      <div class=nav-actions>
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class=mobile-nav-overlay id=mobileOverlay></div>
+  <aside class=mobile-nav id=mobileNav>
+    <div class=mobile-nav-header>
+      <a href=index.html class=navbar-brand><i class=fa-solid fa-compass></i><span>BookingTour</span></a>
+      <button class=modal-close id=mobileNavClose><i class=fa-solid fa-xmark></i></button>
+    </div>
+    <div class=mobile-nav-links></div>
+  </aside>
+
+  <!-- Dashboard Hero Header -->
+  <div class=dashboard-header>
+    <div class=container>
+      <div class=dashboard-title-row>
+        <div>
+          <span class=badge badge-role-manager style=font-size:0.8rem; padding:4px 12px; margin-bottom:8px; display:inline-block;>
+            <i class=fa-solid fa-clipboard-list></i> Ban Quản Lý Vận Hành & Lịch Trình
+          </span>
+          <h1 style=font-size:1.8rem; font-weight:800; margin:0;>Trung Tâm Điều Hành Tour & Phân Công HDV</h1>
+          <p style=opacity:0.9; font-size:0.95rem; margin-top:6px;>Quản lý kho tour, tạo lịch khởi hành mới, phân công hướng dẫn viên và điều phối đơn đặt chỗ.</p>
+        </div>
+        <div style=display:flex; gap:10px; flex-wrap:wrap;>
+          <button class=btn btn-warning onclick=openModal('modalAddTour')>
+            <i class=fa-solid fa-plus></i> Tạo Tour Mới
+          </button>
+          <button class=btn btn-secondary style=background:rgba(255,255,255,0.2); color:#fff; border-color:rgba(255,255,255,0.4); onclick=openModal('modalAddDeparture')>
+            <i class=fa-solid fa-calendar-plus></i> Tạo Lịch & Gán HDV
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class=main-content style=padding-top:0;>
+    <div class=container>
+      <!-- 4 KPI Stat Cards -->
+      <div class=dashboard-stats-grid>
+        <div class=stat-card>
+          <div class=stat-icon-box stat-icon-primary><i class=fa-solid fa-map-location-dot></i></div>
+          <div>
+            <div class=stat-value>12 Tour</div>
+            <div class=stat-label>Đang Mở Bán</div>
+          </div>
+        </div>
+        <div class=stat-card>
+          <div class=stat-icon-box stat-icon-warning><i class=fa-solid fa-calendar-days></i></div>
+          <div>
+            <div class=stat-value>25 Đoàn</div>
+            <div class=stat-label>Lịch Khởi Hành Tháng 10-11</div>
+          </div>
+        </div>
+        <div class=stat-card>
+          <div class=stat-icon-box stat-icon-info><i class=fa-solid fa-user-tie></i></div>
+          <div>
+            <div class=stat-value>6 HDV</div>
+            <div class=stat-label>Sẵn Sàng Nhận Đoàn</div>
+          </div>
+        </div>
+        <div class=stat-card>
+          <div class=stat-icon-box stat-icon-success><i class=fa-solid fa-ticket></i></div>
+          <div>
+            <div class=stat-value>142 Đơn</div>
+            <div class=stat-label>Đã Xác Nhận Đặt Chỗ</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION 1: Tour Catalog Management -->
+      <div class=dashboard-card>
+        <div class=dashboard-card-header>
+          <div>
+            <h2 class=dashboard-card-title>
+              <i class=fa-solid fa-compass text-primary></i>
+              <span>Danh Mục Tour Du Lịch Trong Hệ Thống</span>
+            </h2>
+            <p class=text-muted style=font-size:0.85rem; margin-top:4px;>Danh sách tất cả các tour đang hoạt động trên giao diện đặt tour của khách hàng.</p>
+          </div>
+          <button class=btn btn-primary btn-sm onclick=openModal('modalAddTour')>
+            <i class=fa-solid fa-plus></i> Thêm Tour Mới
+          </button>
+        </div>
+
+        <div class=table-responsive>
+          <table class=table-custom>
+            <thead>
+              <tr>
+                <th>Thông Tin Tour</th>
+                <th>Giá Tiêu Chuẩn</th>
+                <th>Phân Loại</th>
+                <th>Thao Tác</th>
+              </tr>
+            </thead>
+            <tbody id=managerTourTable>
+              <!-- Dynamically populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SECTION 2: Departures & Guide Assignment -->
+      <div class=dashboard-card>
+        <div class=dashboard-card-header>
+          <div>
+            <h2 class=dashboard-card-title>
+              <i class=fa-solid fa-calendar-check text-primary></i>
+              <span>Lịch Khởi Hành & Phân Công Hướng Dẫn Viên</span>
+            </h2>
+            <p class=text-muted style=font-size:0.85rem; margin-top:4px;>Phân bổ nhân sự phụ trách từng chuyến đi và quản lý số lượng chỗ còn trống.</p>
+          </div>
+          <button class=btn btn-warning btn-sm onclick=openModal('modalAddDeparture')>
+            <i class=fa-solid fa-calendar-plus></i> Thêm Ngày Khởi Hành
+          </button>
+        </div>
+
+        <div class=table-responsive>
+          <table class=table-custom>
+            <thead>
+              <tr>
+                <th>Tên Tour Khởi Hành</th>
+                <th>Ngày Đi - Ngày Về</th>
+                <th>Chỗ Trống / Tối Đa</th>
+                <th>HDV Phụ Trách</th>
+                <th>Trạng Thái</th>
+                <th>Thao Tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Khám Phá Vịnh Hạ Long - Du Thuyền 5 Sao 3N2Đ</strong></td>
+                <td><strong class=text-primary>25/10/2026</strong> - 28/10/2026</td>
+                <td><span class=badge badge-info>18 / 20 Khách</span></td>
+                <td>
+                  <div style=display:flex; align-items:center; gap:8px;>
+                    <img src=https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&q=80 style=width:28px; height:28px; border-radius:50%; object-fit:cover; alt=HDV>
+                    <span>Trần Quốc Hưng</span>
+                  </div>
+                </td>
+                <td><span class=badge badge-warning>Đang Chuẩn Bị</span></td>
+                <td>
+                  <button class=btn btn-outline btn-sm onclick=showToast('Đã mở phân công HDV cho chuyến 25/10/2026', 'info')>
+                    <i class=fa-solid fa-user-pen></i> Đổi HDV
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Chinh Phục Fansipan & Săn Mây Sa Pa 2N1Đ</strong></td>
+                <td><strong class=text-primary>02/11/2026</strong> - 04/11/2026</td>
+                <td><span class=badge badge-warning>13 / 15 Khách</span></td>
+                <td>
+                  <div style=display:flex; align-items:center; gap:8px;>
+                    <img src=https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=100&q=80 style=width:28px; height:28px; border-radius:50%; object-fit:cover; alt=HDV>
+                    <span>Phạm Minh Tuấn</span>
+                  </div>
+                </td>
+                <td><span class=badge badge-neutral>Sắp Diễn Ra</span></td>
+                <td>
+                  <button class=btn btn-outline btn-sm onclick=showToast('Đã mở phân công HDV cho chuyến 02/11/2026', 'info')>
+                    <i class=fa-solid fa-user-pen></i> Đổi HDV
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Đà Nẵng - Hội An - Bà Nà Hills Cầu Vàng 4N3Đ</strong></td>
+                <td><strong class=text-primary>15/11/2026</strong> - 19/11/2026</td>
+                <td><span class=badge badge-sold-out>25 / 25 (Hết Chỗ)</span></td>
+                <td>
+                  <div style=display:flex; align-items:center; gap:8px;>
+                    <img src=https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=100&q=80 style=width:28px; height:28px; border-radius:50%; object-fit:cover; alt=HDV>
+                    <span>Hoàng Lan Anh</span>
+                  </div>
+                </td>
+                <td><span class=badge badge-neutral>Sắp Diễn Ra</span></td>
+                <td>
+                  <button class=btn btn-outline btn-sm onclick=showToast('Đã mở phân công HDV cho chuyến 15/11/2026', 'info')>
+                    <i class=fa-solid fa-user-pen></i> Đổi HDV
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal: Tạo Tour Mới -->
+  <div class=modal-backdrop id=modalAddTour>
+    <div class=modal-container style=max-width:650px;>
+      <div class=modal-header>
+        <h3 class=modal-title><i class=fa-solid fa-plus-circle text-primary></i> Tạo Tour Du Lịch Mới</h3>
+        <button class=modal-close data-close-modal><i class=fa-solid fa-xmark></i></button>
+      </div>
+      <form id=formAddTour>
+        <div class=modal-body>
+          <div class=form-group>
+            <label class=form-label required>Tên Tour Du Lịch</label>
+            <input type=text id=newTourTitle class=form-control placeholder=Ví dụ: Du Lịch Quy Nhơn - Kỳ Co Eo Gió 3N2Đ required>
+          </div>
+          <div style=display:grid; grid-template-columns:1fr 1fr; gap:12px;>
+            <div class=form-group>
+              <label class=form-label required>Địa Điểm / Tỉnh Thành</label>
+              <input type=text id=newTourLocation class=form-control placeholder=Bình Định required>
+            </div>
+            <div class=form-group>
+              <label class=form-label required>Vùng Miền</label>
+              <select id=newTourRegion class=form-control>
+                <option value=north>Miền Bắc</option>
+                <option value=central selected>Miền Trung</option>
+                <option value=south>Miền Nam</option>
+              </select>
+            </div>
+          </div>
+          <div style=display:grid; grid-template-columns:1fr 1fr; gap:12px;>
+            <div class=form-group>
+              <label class=form-label required>Thời Lượng Tour</label>
+              <input type=text id=newTourDuration class=form-control placeholder=3 Ngày 2 Đêm required>
+            </div>
+            <div class=form-group>
+              <label class=form-label required>Giá Tour (VND)</label>
+              <input type=number id=newTourPrice class=form-control placeholder=3200000 value=3200000 required>
+            </div>
+          </div>
+          <div class=form-group>
+            <label class=form-label>Link Ảnh Đại Diện (URL)</label>
+            <input type=url id=newTourImage class=form-control placeholder=https://images.unsplash.com/... value=https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80>
+          </div>
+          <div class=form-group>
+            <label class=form-label required>Mô Tả Tóm Tắt</label>
+            <textarea id=newTourDesc class=form-control rows=3 placeholder=Giới thiệu hành trình, điểm tham quan nổi bật... required>Khám phá thiên đường biển đảo Kỳ Co, Eo Gió lộng gió và thưởng thức hải sản Nhơn Lý tươi ngon đặc sắc.</textarea>
+          </div>
+        </div>
+        <div class=modal-footer>
+          <button type=button class=btn btn-secondary btn-sm data-close-modal>Hủy</button>
+          <button type=submit class=btn btn-primary btn-sm><i class=fa-solid fa-floppy-disk></i> Lưu & Mở Bán Tour</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Thêm Lịch Khởi Hành & Phân Công HDV -->
+  <div class=modal-backdrop id=modalAddDeparture>
+    <div class=modal-container style=max-width:600px;>
+      <div class=modal-header>
+        <h3 class=modal-title><i class=fa-solid fa-calendar-plus text-warning></i> Thêm Lịch Khởi Hành & Gán HDV</h3>
+        <button class=modal-close data-close-modal><i class=fa-solid fa-xmark></i></button>
+      </div>
+      <form id=formAddDeparture>
+        <div class=modal-body>
+          <div class=form-group>
+            <label class=form-label required>Chọn Tour Cần Mở Ngày</label>
+            <select id=depTourSelect class=form-control required>
+              <option value=tour-1>Khám Phá Vịnh Hạ Long - Du Thuyền 5 Sao 3N2Đ</option>
+              <option value=tour-2>Chinh Phục Fansipan & Săn Mây Sa Pa 2N1Đ</option>
+              <option value=tour-3>Đà Nẵng - Hội An - Bà Nà Hills Cầu Vàng 4N3Đ</option>
+              <option value=tour-4>Thiên Đường Biển Đảo Phú Quốc 3N2Đ</option>
+            </select>
+          </div>
+          <div style=display:grid; grid-template-columns:1fr 1fr; gap:12px;>
+            <div class=form-group>
+              <label class=form-label required>Ngày Khởi Hành</label>
+              <input type=date id=depStartDate class=form-control value=2026-11-20 required>
+            </div>
+            <div class=form-group>
+              <label class=form-label required>Số Chỗ Tối Đa</label>
+              <input type=number id=depSlots class=form-control value=20 required>
+            </div>
+          </div>
+          <div style=display:grid; grid-template-columns:1fr 1fr; gap:12px;>
+            <div class=form-group>
+              <label class=form-label required>Phân Công Hướng Dẫn Viên</label>
+              <select id=depGuideSelect class=form-control required>
+                <option value=usr-guide-1>Trần Quốc Hưng (8 năm KN, 4.95★)</option>
+                <option value=usr-guide-2>Phạm Minh Tuấn (5 năm KN, 4.88★)</option>
+                <option value=usr-guide-3>Hoàng Lan Anh (6 năm KN, 4.92★)</option>
+              </select>
+            </div>
+            <div class=form-group>
+              <label class=form-label required>Giá Vé Đợt Này (VND)</label>
+              <input type=number id=depPrice class=form-control value=3490000 required>
+            </div>
+          </div>
+        </div>
+        <div class=modal-footer>
+          <button type=button class=btn btn-secondary btn-sm data-close-modal>Hủy</button>
+          <button type=submit class=btn btn-primary btn-sm><i class=fa-solid fa-check></i> Xác Nhận Tạo Lịch</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Site Footer -->
+  <footer class=site-footer>
+    <div class=container>
+      <div class=footer-bottom style=border:none; padding-top:0;>
+        <span>© 2026 BookingTour. Prototype Quản Lý Điều Hành.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src=js/mock-data.js></script>
+  <script src=js/main.js></script>
+</body>
+</html>

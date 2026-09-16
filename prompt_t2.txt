@@ -1,0 +1,617 @@
+# ADDITIONAL REQUIREMENTS – MOCKUP UI & PROTOTYPE
+
+Hãy tiếp tục phát triển dựa trên **14 trang và toàn bộ design system đã được xây dựng trong prompt trước đó**.
+
+**KHÔNG xây dựng lại từ đầu và KHÔNG thay đổi kiến trúc UI hiện tại nếu không cần thiết.**
+
+## 1. XÁC NHẬN PHẠM VI
+
+Tôi muốn nhấn mạnh rằng dự án này **CHỈ LÀ FRONTEND MOCKUP UI / INTERACTIVE PROTOTYPE** để demo giao diện và user flow.
+
+Không cần và KHÔNG được tự ý triển khai:
+
+* Backend
+* Database
+* REST API
+* Authentication thật
+* Payment Gateway thật
+* Server
+* Business logic phức tạp phía backend
+
+Mọi dữ liệu đều sử dụng **mock data**.
+
+Các chức năng chỉ cần mô phỏng ở frontend bằng:
+
+* JavaScript
+* Frontend state
+* LocalStorage nếu cần
+* Mock data
+
+Mục tiêu là:
+
+> Người dùng có thể click, nhập dữ liệu, chuyển trang và trải nghiệm được các user flow chính giống như một website booking tour thực tế.
+
+Không cần dữ liệu thật.
+
+---
+
+# 2. ACTOR & ROLE MOCK
+
+Bổ sung hệ thống mock role cho **5 actor**:
+
+1. Guest – Khách vãng lai
+2. Customer – Khách hàng đã đăng nhập
+3. Tour Guide – Hướng dẫn viên du lịch
+4. Tour Manager – Người quản lý tour
+5. Admin – Quản trị viên
+
+Đây chỉ là **mock role**, không phải hệ thống authorization/authentication thật.
+
+## Guest
+
+Khi người dùng chưa đăng nhập:
+
+* Có thể xem Home.
+* Xem Tour Listing.
+* Search tour.
+* Filter tour.
+* Xem Tour Detail.
+* Xem Explore.
+* Xem About Us.
+* Xem Review của tour.
+* Register.
+* Login.
+
+Không cho phép Guest thực hiện:
+
+* Booking
+* Payment
+* Xem Booking History
+* Review tour
+* Các chức năng dashboard riêng
+
+Nếu Guest click vào chức năng yêu cầu đăng nhập:
+
+→ chuyển đến Login hoặc hiển thị login prompt.
+
+---
+
+# 3. MOCK LOGIN / REGISTER
+
+Bổ sung flow đăng nhập giả lập.
+
+## Login
+
+Login page hiện tại vẫn giữ design đã có.
+
+Khi nhập:
+
+* Email
+* Password
+
+và click Login:
+
+→ frontend kiểm tra mock account.
+
+Không cần xác thực thật.
+
+Có thể tạo các tài khoản demo:
+
+```text
+Customer:
+customer@example.com
+
+Tour Guide:
+guide@example.com
+
+Tour Manager:
+manager@example.com
+
+Admin:
+admin@example.com
+```
+
+Có thể sử dụng một password mock chung.
+
+Sau khi login:
+
+→ lưu mock session/role bằng frontend state hoặc localStorage.
+
+Ví dụ:
+
+```text
+currentUser = {
+    name: "Nguyen Van A",
+    role: "customer"
+}
+```
+
+Khi refresh browser:
+
+→ nếu có mock session thì giữ trạng thái đăng nhập.
+
+Khi Logout:
+
+→ xóa mock session.
+
+**Quan trọng:**
+
+Khi người dùng mở website lần đầu và chưa có session:
+
+→ mặc định phải là **Guest**.
+
+Không được mặc định người dùng là Customer.
+
+---
+
+# 4. ROLE-BASED UI
+
+Sau khi login, UI phải thay đổi dựa trên role.
+
+## Guest
+
+Navbar:
+
+Home | Tours | Explore | About | Login | Register
+
+## Customer
+
+Navbar:
+
+Home | Tours | Explore | My Bookings | Profile | Logout
+
+## Tour Guide
+
+Navbar/dashboard:
+
+Dashboard | Assigned Tours | Customers | Tour Progress | Profile | Logout
+
+## Tour Manager
+
+Navbar/dashboard:
+
+Dashboard | Tours | Departures | Bookings | Guides | Profile | Logout
+
+## Admin
+
+Navbar/dashboard:
+
+Dashboard | Users | Tours | Bookings | Reviews | Logout
+
+Không cần tạo backend permission.
+
+Chỉ cần mô phỏng frontend navigation và hiển thị UI tương ứng với role.
+
+---
+
+# 5. SEARCH FLOW – BỔ SUNG CHO HOME
+
+Đây là yêu cầu quan trọng cần bổ sung vào Home hiện tại.
+
+Home đã có Search Bar.
+
+Hãy làm Search Bar **có interaction thật ở frontend**.
+
+Search Bar cần cho phép nhập:
+
+* Tên tour
+* Địa điểm
+* Từ khóa
+
+Ví dụ:
+
+```text
+"Đà Nẵng"
+```
+
+Khi người dùng nhấn:
+
+**Enter**
+
+hoặc click:
+
+**Search**
+
+→ chuyển đến Tour Listing/Search Results page.
+
+Ví dụ mock URL:
+
+```text
+tours.html?search=Da%20Nang
+```
+
+Trang Tour Listing đọc query search và hiển thị các tour liên quan từ mock data.
+
+Ví dụ:
+
+Search:
+
+```text
+Đà Nẵng
+```
+
+Kết quả:
+
+```text
+Đà Nẵng 3N2Đ
+Khám phá Bà Nà Hills
+Đà Nẵng – Hội An
+Đà Nẵng Premium Tour
+```
+
+Nếu không có kết quả:
+
+→ hiển thị Empty State:
+
+```text
+Không tìm thấy tour phù hợp.
+
+Thử tìm kiếm với từ khóa khác.
+```
+
+---
+
+# 6. SEARCH RESULTS UI
+
+Khi người dùng đến Tour Listing thông qua Search:
+
+Phải hiển thị:
+
+```text
+Search Results
+
+Kết quả tìm kiếm cho:
+"Đà Nẵng"
+
+24 tours found
+```
+
+Search bar vẫn phải giữ keyword đã nhập.
+
+Người dùng có thể tiếp tục:
+
+* Search lại.
+* Filter.
+* Sort.
+
+Search + Filter + Sort phải hoạt động trên mock data ở frontend.
+
+---
+
+# 7. CUSTOMER BOOKING FLOW
+
+Nếu Customer:
+
+```text
+Home
+→ Search
+→ Tour Listing
+→ Tour Detail
+→ Select Departure
+→ Select Number of Guests
+→ Booking Tour
+→ Payment
+→ Payment Result
+→ Booking Detail
+```
+
+Tất cả chỉ là **mock interaction**.
+
+Không kết nối payment gateway.
+
+Payment chỉ cần mô phỏng:
+
+```text
+Payment Success
+Payment Failed
+Payment Expired
+```
+
+Sau khi mock payment success:
+
+→ cập nhật mock booking thành `CONFIRMED`.
+
+---
+
+# 8. TOUR GUIDE MOCK FLOW
+
+Khi login bằng:
+
+```text
+guide@example.com
+```
+
+→ hiển thị Tour Guide UI.
+
+Mock data có các tour được phân công.
+
+Tour Guide có thể:
+
+* Xem tour được phân công.
+* Xem departure.
+* Xem danh sách khách.
+* Xem thông tin booking.
+* Cập nhật progress.
+
+Ví dụ:
+
+```text
+Upcoming
+      ↓
+Preparing
+      ↓
+Picking Up Guests
+      ↓
+In Progress
+      ↓
+Completed
+```
+
+Khi click update:
+
+→ frontend cập nhật trạng thái mock.
+
+---
+
+# 9. TOUR MANAGER MOCK FLOW
+
+Khi login bằng:
+
+```text
+manager@example.com
+```
+
+→ hiển thị Tour Manager Dashboard.
+
+Tour Manager có thể mô phỏng:
+
+* Xem danh sách tour.
+* Create Tour.
+* Edit Tour.
+* Delete/Deactivate Tour.
+* Create Departure.
+* Edit Departure.
+* Xem Booking.
+* Assign Tour Guide.
+
+Các thao tác CRUD chỉ cập nhật mock data/frontend state.
+
+Không lưu database.
+
+Một tour có thể có nhiều departure.
+
+Ví dụ:
+
+```text
+Tour: Đà Nẵng 3N2Đ
+
+Departure:
+20/10/2026
+25/10/2026
+01/11/2026
+```
+
+---
+
+# 10. ADMIN MOCK FLOW
+
+Khi login bằng:
+
+```text
+admin@example.com
+```
+
+→ hiển thị Admin Dashboard.
+
+Admin có thể xem mock:
+
+* Users
+* Customers
+* Tour Guides
+* Tour Managers
+* Tours
+* Bookings
+* Reviews
+
+Có thể mô phỏng:
+
+* View
+* Edit
+* Activate/Deactivate
+* Delete
+
+Không cần backend.
+
+---
+
+# 11. MOCK DATA
+
+Tạo đủ mock data để các màn hình không bị trống.
+
+Tối thiểu:
+
+```text
+Tours: 10–15
+Departures: 20+
+Customers: 5+
+Tour Guides: 3+
+Tour Managers: 2+
+Bookings: 10+
+Reviews: 15+
+```
+
+Mock data phải liên kết logic với nhau.
+
+Ví dụ:
+
+```text
+Tour
+  ↓
+Departure
+  ↓
+Booking
+  ↓
+Customer
+  ↓
+Payment
+```
+
+và:
+
+```text
+Departure
+  ↓
+Tour Guide
+```
+
+---
+
+# 12. IMPORTANT UX RULE
+
+Đừng chỉ tạo các trang HTML tĩnh.
+
+Tôi cần một **interactive prototype**.
+
+Các button chính phải hoạt động.
+
+Ví dụ:
+
+```text
+Search
+→ Search Results
+
+Login
+→ Role-based UI
+
+Logout
+→ Guest
+
+View Detail
+→ Tour Detail
+
+Book Tour
+→ Booking
+
+Confirm Booking
+→ Payment
+
+Payment Success
+→ Payment Result
+
+View Booking
+→ Booking Detail
+
+Cancel
+→ Confirmation Modal
+
+Review
+→ Review Modal
+
+Update Tour Progress
+→ UI thay đổi trạng thái
+```
+
+---
+
+# 13. GIỮ NGUYÊN 14 TRANG HIỆN TẠI
+
+Không tự ý xóa các trang đã xây dựng.
+
+14 trang hiện tại vẫn là core UI:
+
+1. Home
+2. Tour Listing
+3. Tour Detail
+4. Explore
+5. About Us
+6. Login
+7. Register
+8. Booking Tour
+9. Payment
+10. Payment Result
+11. Booking History
+12. Booking Detail
+13. Review Tour
+14. My Profile
+
+Nếu cần thêm dashboard cho:
+
+* Tour Guide
+* Tour Manager
+* Admin
+
+thì có thể tạo thêm các trang dashboard cần thiết, nhưng phải **giữ nguyên 14 trang hiện tại**.
+
+---
+
+# 14. FINAL OBJECTIVE
+
+Sau khi bổ sung các yêu cầu trên, prototype phải cho phép demo các flow sau:
+
+### Guest
+
+```text
+Home
+→ Search Tour
+→ Search Results
+→ Tour Detail
+→ View Reviews
+→ Login/Register
+```
+
+### Customer
+
+```text
+Login
+→ Home
+→ Search
+→ Tour Detail
+→ Booking
+→ Payment
+→ Payment Result
+→ Booking History
+→ Booking Detail
+→ Review
+```
+
+### Tour Guide
+
+```text
+Login
+→ Guide Dashboard
+→ Assigned Tour
+→ Customer List
+→ Update Tour Progress
+```
+
+### Tour Manager
+
+```text
+Login
+→ Manager Dashboard
+→ Create/Edit Tour
+→ Create Departure
+→ Assign Guide
+→ Manage Booking
+```
+
+### Admin
+
+```text
+Login
+→ Admin Dashboard
+→ Users
+→ Tours
+→ Bookings
+→ Reviews
+```
+
+Tất cả đều chỉ là **FRONTEND MOCKUP / INTERACTIVE PROTOTYPE**.
+
+**Không xây dựng Backend, Database, API hoặc Authentication/Payment thật.**
+
+Ưu tiên:
+
+**UI/UX → Visual consistency → User flow → Interaction → Mock data**
+
+Không ưu tiên backend architecture vì backend **không nằm trong scope của prototype này**.

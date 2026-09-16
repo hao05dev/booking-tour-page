@@ -40,13 +40,34 @@
         <p class="auth-subtitle">Đăng nhập để quản lý lịch trình và nhận ưu đãi riêng của bạn</p>
       </div>
 
-      <form id="loginForm" onsubmit="handleLogin(event)">
+      <!-- 1-Click Demo Login Box -->
+      <div style="background:var(--primary-50); border:1px solid var(--primary-100); border-radius:var(--radius-md); padding:16px; margin-bottom:24px;">
+        <div style="font-size:0.82rem; font-weight:700; color:var(--primary-800); margin-bottom:10px; display:flex; align-items:center; gap:6px;">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> Chọn Nhanh Tài Khoản Demo Để Thử Nghiệm:
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+          <button type="button" class="btn btn-sm btn-outline" style="font-size:0.8rem; text-align:left; background:#fff;" onclick="switchRole('customer', true)">
+            <i class="fa-solid fa-user text-primary"></i> <strong>Khách Hàng</strong>
+          </button>
+          <button type="button" class="btn btn-sm btn-outline" style="font-size:0.8rem; text-align:left; background:#fff;" onclick="switchRole('guide', true)">
+            <i class="fa-solid fa-flag text-warning"></i> <strong>HDV Đoàn</strong>
+          </button>
+          <button type="button" class="btn btn-sm btn-outline" style="font-size:0.8rem; text-align:left; background:#fff;" onclick="switchRole('manager', true)">
+            <i class="fa-solid fa-clipboard-list text-info"></i> <strong>Quản Lý Tour</strong>
+          </button>
+          <button type="button" class="btn btn-sm btn-outline" style="font-size:0.8rem; text-align:left; background:#fff;" onclick="switchRole('admin', true)">
+            <i class="fa-solid fa-shield-halved text-danger"></i> <strong>Admin Hệ Thống</strong>
+          </button>
+        </div>
+      </div>
+
+      <form id="loginForm">
         <!-- Email Input -->
         <div class="form-group">
-          <label class="form-label required" for="loginEmail">Email</label>
+          <label class="form-label required" for="email">Email</label>
           <div class="input-icon-wrapper">
             <i class="fa-regular fa-envelope icon-left"></i>
-            <input type="email" id="loginEmail" class="form-control has-icon-left" placeholder="name@example.com" value="hao.nguyen@example.com" required>
+            <input type="email" id="email" class="form-control has-icon-left" placeholder="name@example.com" value="customer@example.com" required>
           </div>
           <div class="invalid-feedback" id="emailError">Vui lòng nhập địa chỉ email hợp lệ.</div>
         </div>
@@ -54,13 +75,13 @@
         <!-- Password Input -->
         <div class="form-group">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-            <label class="form-label required" for="loginPassword" style="margin-bottom:0;">Mật khẩu</label>
+            <label class="form-label required" for="password" style="margin-bottom:0;">Mật khẩu</label>
             <a href="#" onclick="showToast('Chức năng quên mật khẩu: Vui lòng kiểm tra email reset', 'info')" style="font-size:0.8rem; color:var(--primary); font-weight:600;">Quên mật khẩu?</a>
           </div>
           <div class="input-icon-wrapper">
             <i class="fa-solid fa-lock icon-left"></i>
-            <input type="password" id="loginPassword" class="form-control has-icon-left has-icon-right" placeholder="••••••••" value="12345678" required>
-            <i class="fa-regular fa-eye icon-right" id="togglePassword" onclick="togglePasswordVisibility('loginPassword', this)"></i>
+            <input type="password" id="password" class="form-control has-icon-left has-icon-right" placeholder="••••••••" value="12345678" required>
+            <i class="fa-regular fa-eye icon-right" id="togglePassword" onclick="togglePasswordVisibility('password', this)"></i>
           </div>
           <div class="invalid-feedback" id="passwordError">Mật khẩu phải có ít nhất 6 ký tự.</div>
         </div>
@@ -99,6 +120,7 @@
   </div>
 
   <!-- Scripts -->
+  <script src="js/mock-data.js"></script>
   <script src="js/main.js"></script>
   <script>
     function togglePasswordVisibility(inputId, iconEl) {
@@ -109,34 +131,6 @@
       } else {
         input.type = 'password';
         iconEl.className = 'fa-regular fa-eye icon-right';
-      }
-    }
-
-    function handleLogin(e) {
-      e.preventDefault();
-      const email = document.getElementById('loginEmail');
-      const pass = document.getElementById('loginPassword');
-
-      let valid = true;
-      if (!email.value.includes('@')) {
-        email.classList.add('is-invalid');
-        valid = false;
-      } else {
-        email.classList.remove('is-invalid');
-      }
-
-      if (pass.value.length < 6) {
-        pass.classList.add('is-invalid');
-        valid = false;
-      } else {
-        pass.classList.remove('is-invalid');
-      }
-
-      if (valid) {
-        showToast('Đăng nhập thành công! Đang chuyển hướng...', 'success');
-        setTimeout(() => {
-          window.location.href = 'index.html';
-        }, 800);
       }
     }
   </script>

@@ -1,0 +1,680 @@
+Bạn là một Senior UI/UX Designer và Frontend Prototype Developer.
+
+Tôi đang xây dựng một Website Booking Tour và hiện tại tôi CHỈ cần thiết kế giao diện và prototype để trình bày, chưa cần backend và chưa cần kết nối API.
+
+==================================================
+MỤC TIÊU
+==================================================
+
+Hãy xây dựng một prototype website Booking Tour bằng:
+
+- HTML5
+- CSS3
+- JavaScript thuần nếu cần cho các tương tác đơn giản
+
+KHÔNG sử dụng:
+- React
+- Next.js
+- Vue
+- Tailwind
+- Backend
+- Database
+- API
+
+Mục tiêu là tạo giao diện đẹp, hiện đại, responsive và có thể chạy trực tiếp bằng cách mở file HTML trên trình duyệt.
+
+Không cần xử lý nghiệp vụ thật.
+Chỉ cần mô phỏng UI/UX và các interaction cơ bản.
+
+==================================================
+CÁC TRANG CẦN THIẾT KẾ
+==================================================
+
+1. Home
+2. Tour Listing
+3. Tour Detail
+4. Explore
+5. About Us
+6. Login
+7. Register
+8. Booking Tour
+9. Payment
+10. Payment Result
+11. Booking History
+12. Booking Detail
+13. Review Tour
+14. My Profile
+
+==================================================
+1. HOME
+==================================================
+
+Navbar gồm:
+
+- Logo BookingTour
+- Trang chủ
+- Tour
+- Khám phá
+- Về chúng tôi
+- Đăng nhập
+- Tên người dùng/avatar khi đã đăng nhập
+
+Hero section:
+
+- Swiper/banner hình ảnh du lịch
+- Tiêu đề nổi bật
+- Mô tả ngắn
+- Thanh tìm kiếm tour
+
+Thanh tìm kiếm gồm:
+
+- Địa điểm
+- Thời gian
+- Khoảng giá
+- Nút Tìm kiếm
+
+Bên dưới:
+
+- Tour nổi bật
+- Tour được đặt nhiều
+- Tour được đánh giá cao
+- Điểm đến nổi bật
+- CTA khám phá tour
+- Footer
+
+Thiết kế Home có tính trực quan cao, sử dụng hình ảnh du lịch lớn và tạo cảm giác chuyên nghiệp như một website booking thực tế.
+
+==================================================
+2. TOUR LISTING
+==================================================
+
+Hiển thị danh sách các tour.
+
+Bao gồm:
+
+- Search bar
+- Bộ lọc
+- Danh sách Tour Card
+- Sort
+
+Bộ lọc:
+
+- Địa điểm
+- Giá
+- Thời lượng
+- Thời gian khởi hành
+
+Tour Card gồm:
+
+- Hình ảnh
+- Tên tour
+- Địa điểm
+- Thời lượng
+- Rating
+- Số lượt đánh giá
+- Giá
+- Nút Xem chi tiết
+
+Có:
+
+- Loading state
+- Empty state
+- Error state
+- Pagination
+
+Desktop sử dụng sidebar filter.
+Mobile sử dụng filter drawer/modal.
+
+==================================================
+3. TOUR DETAIL
+==================================================
+
+Đây là trang quan trọng nhất.
+
+Bao gồm:
+
+A. Image Gallery
+
+- Một ảnh lớn
+- Các ảnh nhỏ dạng grid
+- Nút xem tất cả ảnh
+
+B. Thông tin tour
+
+- Tên tour
+- Rating
+- Địa điểm
+- Thời lượng
+- Số người tối đa
+- Mô tả
+
+C. Lịch trình
+
+Hiển thị dạng timeline:
+
+Day 1
+Day 2
+Day 3
+
+Mỗi ngày có:
+
+- Thời gian
+- Địa điểm
+- Hoạt động
+- Mô tả
+
+D. Tour Departure
+
+Hiển thị các chuyến khởi hành.
+
+Mỗi departure card gồm:
+
+- Ngày khởi hành
+- Số chỗ còn lại
+- Giá
+- Trạng thái
+
+Trạng thái:
+
+- Available
+- Almost Full
+- Sold Out
+
+Cho phép prototype:
+
+- Chọn departure
+- Chọn số lượng hành khách
+- Tự động cập nhật tổng tạm tính
+
+E. Booking Summary
+
+Hiển thị:
+
+- Tour
+- Departure
+- Số hành khách
+- Giá
+- Tổng tiền
+
+Nút:
+
+"Đặt tour"
+
+==================================================
+4. EXPLORE
+==================================================
+
+Trang khám phá các điểm đến.
+
+Hiển thị:
+
+- Điểm đến nổi bật
+- Miền Bắc
+- Miền Trung
+- Miền Nam
+- Chủ đề du lịch
+
+Ví dụ:
+
+- Biển
+- Thiên nhiên
+- Văn hóa
+- Ẩm thực
+- Nghỉ dưỡng
+- Gia đình
+
+Sử dụng hình ảnh lớn và card đẹp.
+
+==================================================
+5. ABOUT US
+==================================================
+
+Bao gồm:
+
+- Hero
+- Giới thiệu BookingTour
+- Sứ mệnh
+- Tầm nhìn
+- Vì sao chọn BookingTour
+- Một số thống kê
+- Thông tin liên hệ
+- Footer
+
+==================================================
+6. LOGIN
+==================================================
+
+Form:
+
+- Email
+- Password
+- Login button
+
+Có:
+
+- Show/hide password
+- Validation UI
+- Error message
+- Link Register
+
+Không cần authentication thật.
+
+==================================================
+7. REGISTER
+==================================================
+
+Form:
+
+- Email
+- Số điện thoại
+- Password
+- Confirm Password
+
+Có validation UI.
+
+Không cần xử lý đăng ký thật.
+
+==================================================
+8. BOOKING TOUR
+==================================================
+
+Thiết kế checkout page.
+
+Bao gồm:
+
+1. Thông tin liên hệ
+2. Chi tiết khách hàng
+3. Chi tiết đặt chỗ
+4. Phương thức thanh toán
+5. Tổng thanh toán
+
+Chỉ có:
+
+"Thanh toán online"
+
+Booking summary nên sticky ở desktop.
+
+Nút:
+
+"Xác nhận đặt tour"
+
+Prototype button có thể chuyển sang Payment page.
+
+==================================================
+9. PAYMENT
+==================================================
+
+Hiển thị:
+
+- Mã booking
+- Tour
+- Ngày khởi hành
+- Số hành khách
+- Tổng tiền
+- QR Code
+
+Có countdown:
+
+10:00
+
+Hiển thị hướng dẫn:
+
+"Vui lòng hoàn tất thanh toán trong vòng 10 phút."
+
+Prototype:
+
+- Countdown có thể chạy bằng JavaScript
+- Khi hết thời gian hiển thị Payment Expired
+- Có trạng thái Payment Success
+
+Không cần kết nối hệ thống thanh toán thật.
+
+==================================================
+10. PAYMENT RESULT
+==================================================
+
+Tạo 3 trạng thái UI:
+
+SUCCESS:
+
+✓ Thanh toán thành công
+
+- Booking code
+- Tour
+- Ngày khởi hành
+- Tổng tiền
+
+Nút:
+
+- Xem booking
+- Về trang chủ
+
+FAILED:
+
+- Thanh toán thất bại
+- Thử lại
+
+EXPIRED:
+
+- Phiên thanh toán đã hết hạn
+- Đặt tour lại
+- Xem lịch sử booking
+
+==================================================
+11. BOOKING HISTORY
+==================================================
+
+Dashboard khách hàng.
+
+Tabs:
+
+- Sắp khởi hành
+- Đã tham gia
+- Đã hủy
+
+Booking Card:
+
+- Tour image
+- Tour name
+- Departure date
+- Number of guests
+- Total price
+- Booking status
+- Payment status
+
+Upcoming:
+
+- Xem chi tiết
+- Hủy đặt tour
+
+Completed:
+
+- Xem chi tiết
+- Đánh giá tour
+
+Cancelled:
+
+- Xem chi tiết
+
+==================================================
+12. BOOKING DETAIL
+==================================================
+
+Hiển thị:
+
+- Booking ID
+- Booking status
+- Tour
+- Tour image
+- Departure date
+- Tour Guide
+- Number of passengers
+- Customer information
+- Payment information
+- Total amount
+
+Nếu đủ điều kiện:
+
+- Hủy đặt tour
+- Đánh giá tour
+
+==================================================
+13. REVIEW TOUR
+==================================================
+
+Tạo giao diện đánh giá:
+
+- 5 sao
+- Textarea
+- Submit button
+
+Có thể thiết kế dưới dạng modal.
+
+Sau khi submit:
+
+"Đánh giá thành công."
+
+==================================================
+14. MY PROFILE
+==================================================
+
+Hiển thị:
+
+- Avatar
+- Full name
+- Email
+- Phone
+- Address
+
+Buttons:
+
+- Chỉnh sửa
+- Đổi mật khẩu
+- Đăng xuất
+
+==================================================
+DESIGN STYLE
+==================================================
+
+Thiết kế theo phong cách:
+
+- Modern travel booking
+- Clean
+- Professional
+- Friendly
+- Trustworthy
+- Premium nhưng không quá sang trọng
+- Nhiều khoảng trắng
+- Typography rõ ràng
+- Hình ảnh du lịch chất lượng cao
+- Card hiện đại
+- Shadow nhẹ
+- Border radius vừa phải
+
+Không làm giao diện quá màu mè.
+
+Không sử dụng quá nhiều gradient.
+
+Không sử dụng quá nhiều animation.
+
+Ưu tiên UX hơn hiệu ứng.
+
+==================================================
+COLOR SYSTEM
+==================================================
+
+Sử dụng một bảng màu nhất quán.
+
+Primary:
+#0F766E
+
+Primary Dark:
+#115E59
+
+Accent:
+#F59E0B
+
+Background:
+#F8FAFC
+
+Text:
+#0F172A
+
+Secondary Text:
+#64748B
+
+White:
+#FFFFFF
+
+Có thể điều chỉnh màu nếu cần để đảm bảo contrast và thẩm mỹ.
+
+==================================================
+RESPONSIVE
+==================================================
+
+Website phải responsive:
+
+Desktop:
+1440px
+1280px
+1024px
+
+Tablet:
+768px
+
+Mobile:
+390px
+375px
+
+Không chỉ thu nhỏ giao diện desktop.
+
+Phải thay đổi layout phù hợp mobile.
+
+Ví dụ:
+
+Desktop:
+Sidebar filter + Tour Grid
+
+Mobile:
+Filter button + Filter modal + Single column
+
+Desktop:
+Navbar đầy đủ
+
+Mobile:
+Hamburger menu
+
+==================================================
+COMPONENT CONSISTENCY
+==================================================
+
+Các component phải có thiết kế thống nhất:
+
+- Navbar
+- Footer
+- Button
+- Input
+- Search bar
+- Filter
+- Tour Card
+- Departure Card
+- Booking Summary
+- Rating
+- Badge
+- Modal
+- Toast
+- Tabs
+- Breadcrumb
+
+Không thiết kế mỗi trang một phong cách khác nhau.
+
+==================================================
+PROTOTYPE INTERACTION
+==================================================
+
+Chỉ cần các interaction nhẹ để demo.
+
+Ví dụ:
+
+Home
+→ click Tour
+→ Tour Listing
+
+Tour Card
+→ Tour Detail
+
+Tour Detail
+→ chọn Departure
+→ chọn số lượng
+→ cập nhật tổng tiền
+→ click Đặt tour
+→ Booking
+
+Booking
+→ click Xác nhận
+→ Payment
+
+Payment
+→ countdown
+→ Success / Expired
+
+Booking History
+→ Booking Detail
+
+Booking Detail
+→ Cancel Booking
+→ Confirmation Modal
+
+Booking Detail
+→ Review
+→ Review Modal
+
+Navbar
+→ Profile
+
+Không cần backend.
+
+Không cần API.
+
+Không cần database.
+
+==================================================
+FILE STRUCTURE
+==================================================
+
+Tạo code theo cấu trúc đơn giản:
+
+/booking-tour-ui
+│
+├── index.html
+├── tours.html
+├── tour-detail.html
+├── explore.html
+├── about.html
+├── login.html
+├── register.html
+├── booking.html
+├── payment.html
+├── payment-result.html
+├── booking-history.html
+├── booking-detail.html
+├── review.html
+├── profile.html
+│
+├── css/
+│   └── style.css
+│
+├── js/
+│   └── main.js
+│
+└── assets/
+    └── images/
+
+Có thể sử dụng một CSS chung cho toàn bộ website.
+
+Ưu tiên reusable CSS classes và tránh duplicate code.
+
+==================================================
+IMPORTANT
+==================================================
+
+Đây là UI PROTOTYPE.
+
+Không cần:
+- Backend
+- Database
+- API
+- Authentication thật
+- Payment Gateway thật
+
+Chỉ cần:
+- HTML
+- CSS
+- JavaScript nhẹ
+- Mock data
+- Navigation giữa các trang
+- UI interaction cơ bản
+
+Hãy ưu tiên tạo một prototype có tính thẩm mỹ cao, UX rõ ràng và nhất quán.
+
+Trước khi code, hãy kiểm tra toàn bộ page list và user flow để đảm bảo không thiếu màn hình.
