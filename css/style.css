@@ -515,9 +515,11 @@ h1, h2, h3, h4, h5, h6 {
 .user-dropdown-wrapper {
   position: relative;
   display: inline-block;
+  z-index: 1020;
 }
 
-.user-profile-btn {
+.user-profile-btn,
+.user-avatar-btn {
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -529,21 +531,29 @@ h1, h2, h3, h4, h5, h6 {
   transition: var(--transition);
   text-decoration: none;
   font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-main);
+  user-select: none;
 }
 
 .user-profile-btn:hover,
-.user-dropdown-wrapper.active .user-profile-btn {
+.user-avatar-btn:hover,
+.user-dropdown-wrapper.active .user-profile-btn,
+.user-dropdown-wrapper.active .user-avatar-btn {
   border-color: var(--primary);
   background-color: var(--primary-50);
 }
 
-.user-dropdown-wrapper .dropdown-arrow {
+.user-dropdown-wrapper .dropdown-arrow,
+.user-dropdown-wrapper .user-dropdown-icon {
   font-size: 0.75rem;
   color: var(--text-muted);
   transition: transform 0.25s ease;
 }
 
-.user-dropdown-wrapper.active .dropdown-arrow {
+.user-dropdown-wrapper.active .dropdown-arrow,
+.user-dropdown-wrapper.active .user-dropdown-icon {
   transform: rotate(180deg);
 }
 
@@ -1498,7 +1508,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .hero-content {
-  max-width: 760px;
+  max-width: 1100px;
+  width: 100%;
   text-align: center;
   margin: 0 auto;
 }
@@ -1509,26 +1520,33 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.2;
   margin-bottom: 16px;
   color: #FFFFFF;
+  max-width: 820px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .hero-subtitle {
   font-size: 1.15rem;
   opacity: 0.95;
   margin-bottom: 32px;
+  max-width: 780px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Search Bar Component */
 .search-box-card {
   background-color: var(--surface);
-  border-radius: var(--radius-xl);
-  padding: 16px 24px;
-  box-shadow: var(--shadow-xl);
+  border-radius: 20px;
+  padding: 18px 28px;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.28);
   display: grid;
-  grid-template-columns: 1.5fr 1.2fr 1.2fr auto;
-  gap: 16px;
+  grid-template-columns: 2fr 1.3fr 1.3fr auto;
+  gap: 20px;
   align-items: center;
-  border: 1px solid rgba(226, 232, 240, 0.8);
-  margin-top: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  margin-top: 28px;
+  width: 100%;
 }
 
 .search-field {
@@ -1536,12 +1554,13 @@ h1, h2, h3, h4, h5, h6 {
   flex-direction: column;
   text-align: left;
   position: relative;
+  padding: 2px 8px;
 }
 
 .search-field:not(:last-child)::after {
   content: '';
   position: absolute;
-  right: -8px;
+  right: -10px;
   top: 15%;
   height: 70%;
   width: 1px;
@@ -1549,12 +1568,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .search-field-label {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 700;
   text-transform: uppercase;
   color: var(--text-muted);
   letter-spacing: 0.5px;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -1563,10 +1582,11 @@ h1, h2, h3, h4, h5, h6 {
 .search-field-input {
   border: none;
   outline: none;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   font-weight: 600;
   color: var(--text-main);
   background: transparent;
+  width: 100%;
 }
 
 /* --- Section Features / Value Props --- */

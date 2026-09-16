@@ -233,11 +233,11 @@ function renderRoleBasedNav() {
 
     navActions.innerHTML = `
       <div class="user-dropdown-wrapper">
-        <button class="user-avatar-btn" id="userDropdownToggle" aria-expanded="false">
-          <img src="${user.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'}" alt="${user.name}" class="nav-user-avatar">
-          <span class="nav-user-name">${user.name}</span>
+        <button class="user-profile-btn" id="userDropdownToggle" type="button" aria-expanded="false">
+          <img src="${user.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'}" alt="${user.name}" class="user-avatar">
+          <span class="user-name">${user.name}</span>
           ${roleBadges[user.role] || ''}
-          <i class="fa-solid fa-chevron-down user-dropdown-icon"></i>
+          <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
         </button>
         <div class="user-dropdown-menu" id="userDropdownMenu">
           <div class="dropdown-user-header">
@@ -281,6 +281,47 @@ function renderRoleBasedNav() {
 
   attachNavInteractions();
   highlightActiveNavLink();
+}
+
+// ==========================================
+// 4. NAVBAR INTERACTIONS & MOBILE DRAWER
+// ==========================================
+
+function attachNavInteractions() {
+  const navToggle = document.getElementById('navToggle');
+  const mobileNav = document.getElementById('mobileNav');
+  const mobileNavClose = document.getElementById('mobileNavClose');
+  const mobileOverlay = document.getElementById('mobileOverlay');
+
+  if (navToggle && mobileNav && mobileOverlay) {
+    navToggle.onclick = (e) => {
+      e.stopPropagation();
+      mobileNav.classList.add('active');
+      mobileOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    };
+  }
+
+  const closeMobileNav = () => {
+    if (mobileNav) mobileNav.classList.remove('active');
+    if (mobileOverlay) mobileOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  if (mobileNavClose) mobileNavClose.onclick = closeMobileNav;
+  if (mobileOverlay) mobileOverlay.onclick = closeMobileNav;
+}
+
+function highlightActiveNavLink() {
+  const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-menu .nav-link, .mobile-nav-links .nav-link').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href && (href === currentPath || (currentPath === '' && href === 'index.html'))) {
+      link.classList.add('active');
+    } else if (href && href !== currentPath) {
+      link.classList.remove('active');
+    }
+  });
 }
 
 // ==========================================
@@ -890,8 +931,9 @@ function initLoginPage() {
     let matchedUser = db.users.find(u => u.email.toLowerCase() === email && u.status === 'active');
 
     if (!matchedUser) {
-      if (email.includes('guide')) matchedUser = db.users.find(u => u.role === 'guide');
-      else if (email.includes('manager') || email.includes('admin')) matchedUser = db.users.find(u => u.role === 'manager');
+      if (email.includes('admin')) matchedUser = db.users.find(u => u.role === 'admin');
+      else if (email.includes('guide')) matchedUser = db.users.find(u => u.role === 'guide');
+      else if (email.includes('manager')) matchedUser = db.users.find(u => u.role === 'manager');
       else matchedUser = db.users.find(u => u.role === 'customer');
     }
 
@@ -1212,4 +1254,83 @@ function initAdminDashboard() {
   renderAdminUsers();
   renderAdminReviews();
 }
+
+// ==========================================
+// 18. GLOBAL DROPDOWN & PAGE INITIALIZATION
+// ==========================================
+
+// Global dropdown click & outside click handler
+document.addEventListener('click', (e) => {
+  const toggleBtn = e.target.closest('#userDropdownToggle, .user-profile-btn, .user-avatar-btn');
+  const wrapper = e.target.closest('.user-dropdown-wrapper');
+  
+  if (toggleBtn) {
+    e.preventDefault();
+    e.stopPropagation();
+    const currentWrapper = toggleBtn.closest('.user-dropdown-wrapper');
+    if (currentWrapper) {
+      const isCurrentlyActive = currentWrapper.classList.contains('active');
+      document.querySelectorAll('.user-dropdown-wrapper.active').forEach(w => w.classList.remove('active'));
+      if (!isCurrentlyActive) {
+        currentWrapper.classList.add('active');
+        toggleBtn.setAttribute('aria-expanded', 'true');
+      } else {
+        toggleBtn.setAttribute('aria-expanded', 'false');
+      }
+    }
+    return;
+  }
+
+  // If clicked inside dropdown menu on a link or button, close dropdown
+  if (e.target.closest('.dropdown-item')) {
+    document.querySelectorAll('.user-dropdown-wrapper.active').forEach(w => {
+      w.classList.remove('active');
+      const btn = w.querySelector('#userDropdownToggle, .user-profile-btn, .user-avatar-btn');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    });
+    return;
+  }
+
+  // If clicked outside any dropdown wrapper, close all dropdowns
+  if (!wrapper) {
+    document.querySelectorAll('.user-dropdown-wrapper.active').forEach(w => {
+      w.classList.remove('active');
+      const btn = w.querySelector('#userDropdownToggle, .user-profile-btn, .user-avatar-btn');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+    });
+  }
+});
+
+// Modal close button delegation
+document.addEventListener('click', (e) => {
+  if (e.target.matches('[data-close-modal]') || e.target.closest('[data-close-modal]')) {
+    const modal = e.target.closest('.modal-backdrop');
+    if (modal) {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+  if (e.target.classList && e.target.classList.contains('modal-backdrop')) {
+    e.target.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+});
+
+// Auto-run when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  renderRoleBasedNav();
+  initHomePageSearch();
+  initToursPage();
+  initTourDetailPage();
+  initBookingPage();
+  initPaymentPage();
+  initPaymentResultPage();
+  initBookingHistoryPage();
+  initProfilePage();
+  initLoginPage();
+  initGuideDashboard();
+  initManagerDashboard();
+  initAdminDashboard();
+});
+
 
