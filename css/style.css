@@ -2352,10 +2352,19 @@ h1, h2, h3, h4, h5, h6 {
 /* Dashboard Layout */
 .dashboard-header {
   background: linear-gradient(135deg, var(--primary-900) 0%, var(--primary) 100%);
-  color: #FFFFFF;
+  color: #FFFFFF !important;
   padding: 40px 0 30px;
   position: relative;
   overflow: hidden;
+}
+.dashboard-header h1,
+.dashboard-header h2,
+.dashboard-header h3 {
+  color: #FFFFFF !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+.dashboard-header p {
+  color: #E2E8F0 !important;
 }
 .dashboard-header::after {
   content: '';
@@ -2580,6 +2589,110 @@ h1, h2, h3, h4, h5, h6 {
   .progress-line-fill {
     top: 16px;
   }
+}
+
+/* Guide Schedule & Timeline Component */
+.timeline-schedule {
+  position: relative;
+  padding-left: 28px;
+  margin-top: 20px;
+}
+.timeline-schedule::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 8px;
+  width: 2px;
+  background: var(--border);
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 18px;
+}
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+.timeline-dot {
+  position: absolute;
+  left: -28px;
+  top: 12px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 3px solid var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: var(--transition);
+}
+.timeline-item.completed .timeline-dot {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+.timeline-item.active .timeline-dot {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-light);
+}
+.timeline-content {
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  transition: var(--transition);
+}
+.timeline-content:hover {
+  border-color: var(--primary-light);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+.timeline-time {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.timeline-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-heading);
+  margin-top: 2px;
+}
+.timeline-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+.tour-day-tab {
+  padding: 8px 18px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: var(--transition);
+  color: var(--text-muted);
+}
+.tour-day-tab:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.tour-day-tab.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.3);
 }
 
 /* ======================================================
