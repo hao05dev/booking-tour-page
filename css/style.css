@@ -1,6 +1,5 @@
 /* ==========================================================================
    BOOKING TOUR - MASTER STYLESHEET BUNDLE
-   Generated from modular CSS files
    ========================================================================== */
 
 
@@ -2531,6 +2530,246 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
+/* ======================================================
+   TOUR LISTING - 3 COLUMNS COMPACT CARD GRID (tours.html)
+   ====================================================== */
+.listing-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+#toursListContainer {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
+}
+
+#toursListContainer .tour-card-reference {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #ffffff;
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+#toursListContainer .tour-card-reference:hover {
+  transform: translateY(-3px);
+  border-color: #cbd5e1;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+}
+
+#toursListContainer .tour-card-reference .tour-card-image-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #f1f5f9;
+}
+
+#toursListContainer .tour-card-reference .tour-card-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+#toursListContainer .tour-card-reference:hover .tour-card-img {
+  transform: scale(1.05);
+}
+
+#toursListContainer .tour-promo-badge {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 4px 8px;
+  border-radius: 0 6px 6px 0;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 0 2px 5px rgba(15, 23, 42, 0.15);
+}
+
+#toursListContainer .tour-card-reference .tour-card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  padding: 12px 12px 10px;
+}
+
+#toursListContainer .tour-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 24px;
+  margin-bottom: 8px;
+}
+
+#toursListContainer .tour-rating-score {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 24px;
+  padding: 0 6px;
+  border-radius: 6px;
+  background: #34a853;
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+#toursListContainer .tour-rating-label {
+  color: #2f9e44;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+#toursListContainer .tour-rating-count {
+  color: #64748b;
+  font-size: 0.78rem;
+}
+
+#toursListContainer .tour-card-reference .tour-title {
+  display: -webkit-box;
+  min-height: calc(1.35em * 2);
+  margin: 0 0 8px;
+  overflow: hidden;
+  color: #1e293b;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.35;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+#toursListContainer .tour-info-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  margin-bottom: 8px;
+  color: #64748b;
+  font-size: 0.78rem;
+}
+
+#toursListContainer .tour-info-row span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+#toursListContainer .tour-info-row i {
+  color: #8b95a5;
+  font-size: 0.75rem;
+}
+
+#toursListContainer .tour-tag-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+#toursListContainer .tour-tag {
+  display: block;
+  min-width: 0;
+  padding: 5px 6px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: #f8fafc;
+  color: #475569;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#toursListContainer .tour-card-footer-reference {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid #f1f5f9;
+}
+
+#toursListContainer .tour-price-reference {
+  width: 100%;
+  text-align: right;
+}
+
+#toursListContainer .tour-price-line {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 6px;
+  color: #64748b;
+  font-size: 0.78rem;
+}
+
+#toursListContainer .tour-price-line strong {
+  color: #f97316;
+  font-size: 1.08rem;
+  font-weight: 800;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+#toursListContainer .tour-departure-date {
+  margin-top: 2px;
+  color: #64748b;
+  font-size: 0.75rem;
+}
+
+/* Responsive Grid for Tours Page */
+@media (max-width: 1200px) {
+  #toursListContainer {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .listing-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  #toursListContainer {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  #toursListContainer {
+    grid-template-columns: 1fr;
+  }
+}
+
+
 /* ==========================================================================
    BOOKING TOUR - DASHBOARD STYLES (ADMINDEK SAAS)
    Guide, Manager & Admin Dashboards, Sidebar, Topbar, Stat Cards, Stepper
@@ -3051,238 +3290,6 @@ h1, h2, h3, h4, h5, h6 {
     height: 220px;
   }
 }
-/* ======================================================
-   TOUR LISTING - REFERENCE CARD V2
-   Card layout matched to the supplied reference design.
-   ====================================================== */
-#toursListContainer {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px;
-  align-items: stretch;
-}
-
-#toursListContainer .tour-card-reference {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  height: 100%;
-  overflow: hidden;
-  border: 1px solid #d8dee8;
-  border-radius: 20px;
-  background: #ffffff;
-  color: inherit;
-  text-decoration: none;
-  box-shadow: 0 3px 12px rgba(15, 23, 42, 0.11);
-  cursor: pointer;
-  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
-}
-
-#toursListContainer .tour-card-reference:hover {
-  transform: translateY(-4px);
-  border-color: #cbd5e1;
-  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.15);
-}
-
-#toursListContainer .tour-card-reference .tour-card-image-wrap {
-  position: relative;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 10;
-  overflow: hidden;
-  flex-shrink: 0;
-  border-radius: 0;
-  background: #e2e8f0;
-}
-
-#toursListContainer .tour-card-reference .tour-card-img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.45s ease;
-}
-
-#toursListContainer .tour-card-reference:hover .tour-card-img {
-  transform: scale(1.035);
-}
-
-#toursListContainer .tour-promo-badge {
-  position: absolute;
-  top: 18px;
-  left: 0;
-  z-index: 2;
-  display: inline-flex;
-  align-items: center;
-  min-height: 34px;
-  padding: 7px 13px;
-  border-radius: 0 7px 7px 0;
-  background: #ef4444;
-  color: #ffffff;
-  font-size: 0.82rem;
-  font-weight: 800;
-  line-height: 1;
-  box-shadow: 0 2px 7px rgba(15, 23, 42, 0.18);
-}
-
-#toursListContainer .tour-card-reference .tour-card-body {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  min-width: 0;
-  padding: 18px 18px 16px;
-}
-
-#toursListContainer .tour-rating-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 32px;
-  margin-bottom: 14px;
-}
-
-#toursListContainer .tour-rating-score {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 54px;
-  height: 31px;
-  padding: 0 10px;
-  border-radius: 9px;
-  background: #34a853;
-  color: #ffffff;
-  font-size: 1rem;
-  font-weight: 800;
-  line-height: 1;
-}
-
-#toursListContainer .tour-rating-label {
-  color: #2f9e44;
-  font-size: 0.95rem;
-  font-weight: 700;
-}
-
-#toursListContainer .tour-rating-count {
-  color: #64748b;
-  font-size: 0.92rem;
-}
-
-#toursListContainer .tour-card-reference .tour-title {
-  display: -webkit-box;
-  min-height: calc(1.42em * 2);
-  margin: 0 0 16px;
-  overflow: hidden;
-  color: #1e293b;
-  font-size: 1.17rem;
-  font-weight: 700;
-  line-height: 1.42;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-
-#toursListContainer .tour-info-row {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px 18px;
-  margin-bottom: 16px;
-  color: #64748b;
-  font-size: 0.88rem;
-}
-
-#toursListContainer .tour-info-row span {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-width: 0;
-}
-
-#toursListContainer .tour-info-row i {
-  color: #8b95a5;
-}
-
-#toursListContainer .tour-tag-row {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin-bottom: 18px;
-}
-
-#toursListContainer .tour-tag {
-  display: block;
-  min-width: 0;
-  padding: 8px 10px;
-  overflow: hidden;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  background: #f8fafc;
-  color: #334155;
-  font-size: 0.86rem;
-  line-height: 1.2;
-  text-align: center;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-#toursListContainer .tour-card-footer-reference {
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-  margin-top: auto;
-  padding-top: 16px;
-  border-top: 1px solid #e2e8f0;
-}
-
-#toursListContainer .tour-price-reference {
-  width: 100%;
-  text-align: right;
-}
-
-#toursListContainer .tour-price-line {
-  display: flex;
-  align-items: baseline;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  gap: 8px;
-  color: #64748b;
-  font-size: 0.91rem;
-}
-
-#toursListContainer .tour-price-line strong {
-  color: #f97316;
-  font-size: 1.28rem;
-  font-weight: 800;
-  line-height: 1.2;
-  white-space: nowrap;
-}
-
-#toursListContainer .tour-departure-date {
-  margin-top: 4px;
-  color: #64748b;
-  font-size: 0.86rem;
-}
-
-@media (max-width: 900px) {
-  #toursListContainer {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 600px) {
-  #toursListContainer .tour-card-reference .tour-card-image-wrap {
-    aspect-ratio: 16 / 10;
-    height: auto;
-  }
-
-  #toursListContainer .tour-card-reference .tour-title {
-    min-height: 0;
-    font-size: 1.08rem;
-  }
-
-  #toursListContainer .tour-tag-row {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
 /* ==========================================================================
    ADMINDEK SAAS DASHBOARD & SIDEBAR LAYOUT SYSTEM
    ========================================================================== */
