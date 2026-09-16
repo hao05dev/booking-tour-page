@@ -242,6 +242,22 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileOverlay.addEventListener('click', closeNav);
   }
 
+  // User Dropdown Toggle
+  const userDropdownToggle = document.getElementById('userDropdownToggle');
+  const userDropdownWrapper = document.querySelector('.user-dropdown-wrapper');
+  if (userDropdownToggle && userDropdownWrapper) {
+    userDropdownToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      userDropdownWrapper.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!userDropdownWrapper.contains(e.target)) {
+        userDropdownWrapper.classList.remove('active');
+      }
+    });
+  }
+
   // Modal Backdrop Click to close
   document.querySelectorAll('.modal-backdrop').forEach(modal => {
     modal.addEventListener('click', (e) => {

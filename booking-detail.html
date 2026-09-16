@@ -30,12 +30,60 @@
       </nav>
 
       <div class="nav-actions">
-        <a href="booking-history.html" class="btn btn-secondary btn-sm">
-          <i class="fa-solid fa-arrow-left"></i> Về Lịch Sử Đặt Tour
-        </a>
+        <!-- User Dropdown Menu -->
+        <div class="user-dropdown-wrapper">
+          <button class="user-profile-btn" id="userDropdownToggle" type="button" aria-expanded="false">
+            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80" alt="Avatar" class="user-avatar">
+            <span class="user-name">Nguyễn Hào</span>
+            <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+          </button>
+          <div class="user-dropdown-menu" id="userDropdownMenu">
+            <div class="dropdown-user-header">
+              <strong>Nguyễn Văn Hào</strong>
+              <span class="text-muted" style="font-size:0.8rem;">hao.nguyen@example.com</span>
+            </div>
+            <div class="dropdown-divider"></div>
+            <a href="profile.html" class="dropdown-item">
+              <i class="fa-regular fa-user text-primary"></i>
+              <span>Hồ sơ cá nhân</span>
+            </a>
+            <a href="booking-history.html" class="dropdown-item">
+              <i class="fa-solid fa-ticket text-primary"></i>
+              <span>Xem tour của tôi</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="login.html" class="dropdown-item text-danger" onclick="showToast('Đã đăng xuất', 'info')">
+              <i class="fa-solid fa-right-from-bracket"></i>
+              <span>Đăng xuất</span>
+            </a>
+          </div>
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
       </div>
     </div>
   </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-nav-overlay" id="mobileOverlay"></div>
+  <aside class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-header">
+      <a href="index.html" class="navbar-brand">
+        <i class="fa-solid fa-compass"></i>
+        <span>BookingTour</span>
+      </a>
+      <button class="modal-close" id="mobileNavClose"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="mobile-nav-links">
+      <a href="index.html" class="nav-link"><i class="fa-solid fa-house" style="margin-right:8px;"></i> Trang chủ</a>
+      <a href="tours.html" class="nav-link"><i class="fa-solid fa-map-location-dot" style="margin-right:8px;"></i> Tour du lịch</a>
+      <a href="explore.html" class="nav-link"><i class="fa-solid fa-mountain-sun" style="margin-right:8px;"></i> Khám phá</a>
+      <a href="about.html" class="nav-link"><i class="fa-solid fa-circle-info" style="margin-right:8px;"></i> Về chúng tôi</a>
+      <a href="booking-history.html" class="nav-link"><i class="fa-solid fa-ticket" style="margin-right:8px;"></i> Xem tour của tôi</a>
+      <a href="profile.html" class="nav-link"><i class="fa-solid fa-user" style="margin-right:8px;"></i> Hồ sơ cá nhân</a>
+    </div>
+  </aside>
 
   <!-- Main Content -->
   <main class="main-content container" style="padding-top: 24px;">

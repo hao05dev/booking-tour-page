@@ -30,10 +30,34 @@
       </nav>
 
       <div class="nav-actions">
-        <a href="profile.html" class="user-profile-btn" title="Tài khoản của tôi">
-          <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80" alt="Avatar" class="user-avatar">
-          <span class="user-name">Nguyễn Hào</span>
-        </a>
+        <!-- User Dropdown Menu -->
+        <div class="user-dropdown-wrapper">
+          <button class="user-profile-btn" id="userDropdownToggle" type="button" aria-expanded="false">
+            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80" alt="Avatar" class="user-avatar">
+            <span class="user-name">Nguyễn Hào</span>
+            <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+          </button>
+          <div class="user-dropdown-menu" id="userDropdownMenu">
+            <div class="dropdown-user-header">
+              <strong>Nguyễn Văn Hào</strong>
+              <span class="text-muted" style="font-size:0.8rem;">hao.nguyen@example.com</span>
+            </div>
+            <div class="dropdown-divider"></div>
+            <a href="profile.html" class="dropdown-item">
+              <i class="fa-regular fa-user text-primary"></i>
+              <span>Hồ sơ cá nhân</span>
+            </a>
+            <a href="booking-history.html" class="dropdown-item">
+              <i class="fa-solid fa-ticket text-primary"></i>
+              <span>Xem tour của tôi</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="login.html" class="dropdown-item text-danger" onclick="showToast('Đã đăng xuất', 'info')">
+              <i class="fa-solid fa-right-from-bracket"></i>
+              <span>Đăng xuất</span>
+            </a>
+          </div>
+        </div>
         <button class="nav-toggle" id="navToggle" aria-label="Menu">
           <i class="fa-solid fa-bars"></i>
         </button>
@@ -56,7 +80,7 @@
       <a href="tours.html" class="nav-link"><i class="fa-solid fa-map-location-dot" style="margin-right:8px;"></i> Tour du lịch</a>
       <a href="explore.html" class="nav-link"><i class="fa-solid fa-mountain-sun" style="margin-right:8px;"></i> Khám phá</a>
       <a href="about.html" class="nav-link"><i class="fa-solid fa-circle-info" style="margin-right:8px;"></i> Về chúng tôi</a>
-      <a href="booking-history.html" class="nav-link active"><i class="fa-solid fa-ticket" style="margin-right:8px;"></i> Đơn tour của tôi</a>
+      <a href="booking-history.html" class="nav-link active"><i class="fa-solid fa-ticket" style="margin-right:8px;"></i> Xem tour của tôi</a>
       <a href="profile.html" class="nav-link"><i class="fa-solid fa-user" style="margin-right:8px;"></i> Hồ sơ cá nhân</a>
     </div>
   </aside>
