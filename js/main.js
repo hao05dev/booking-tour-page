@@ -247,13 +247,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const userDropdownWrapper = document.querySelector('.user-dropdown-wrapper');
   if (userDropdownToggle && userDropdownWrapper) {
     userDropdownToggle.addEventListener('click', (e) => {
+      e.preventDefault();
       e.stopPropagation();
-      userDropdownWrapper.classList.toggle('active');
+      const isActive = userDropdownWrapper.classList.toggle('active');
+      userDropdownToggle.setAttribute('aria-expanded', isActive ? 'true' : 'false');
     });
 
     document.addEventListener('click', (e) => {
       if (!userDropdownWrapper.contains(e.target)) {
         userDropdownWrapper.classList.remove('active');
+        userDropdownToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        userDropdownWrapper.classList.remove('active');
+        userDropdownToggle.setAttribute('aria-expanded', 'false');
       }
     });
   }

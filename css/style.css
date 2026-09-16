@@ -552,26 +552,32 @@ h1, h2, h3, h4, h5, h6 {
   top: calc(100% + 8px);
   right: 0;
   width: 240px;
+  max-width: calc(100vw - 32px);
   background-color: #FFFFFF !important;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
-  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.15), 0 8px 10px -6px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.16);
   padding: 8px;
   z-index: 1050;
-  display: flex !important;
+  display: none !important;
   flex-direction: column !important;
   gap: 2px;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(8px);
-  transition: all 0.2s ease-in-out;
 }
 
-.user-dropdown-wrapper.active .user-dropdown-menu,
-.user-dropdown-wrapper:hover .user-dropdown-menu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
+.user-dropdown-wrapper.active .user-dropdown-menu {
+  display: flex !important;
+  animation: dropdownFadeIn 0.15s ease-out forwards;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .dropdown-user-header {
