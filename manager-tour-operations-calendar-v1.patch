@@ -1,0 +1,1547 @@
+diff --git a/css/dashboard.css b/css/dashboard.css
+index 2ff17984dfda7d5760edc95c155a493428a69453..423ab92e4c329ca2cc290a14766ddf5eaf1a001f 100644
+--- a/css/dashboard.css
++++ b/css/dashboard.css
+@@ -1554,3 +1554,786 @@
+     grid-template-columns: 1fr;
+   }
+ }
++
++/* ==========================================================================
++   MANAGER OPERATIONS CALENDAR
++   ========================================================================== */
++.manager-calendar-page {
++  display: flex;
++  flex-direction: column;
++  gap: 18px;
++}
++
++.manager-calendar-page-header {
++  margin-bottom: 0;
++}
++
++.manager-calendar-page-header h1 {
++  display: flex;
++  align-items: center;
++  gap: 10px;
++}
++
++.manager-calendar-subtitle {
++  margin-top: 10px;
++  color: var(--text-muted);
++  font-size: 0.92rem;
++}
++
++.manager-calendar-header-actions {
++  display: flex;
++  gap: 10px;
++  flex-wrap: wrap;
++}
++
++.manager-calendar-toolbar,
++.manager-calendar-filter-card,
++.manager-calendar-shell {
++  border: 1px solid var(--border);
++  border-radius: 18px;
++  background: var(--surface);
++  box-shadow: var(--shadow-sm);
++}
++
++.manager-calendar-toolbar {
++  padding: 14px 16px;
++  display: flex;
++  align-items: center;
++  justify-content: space-between;
++  gap: 16px;
++}
++
++.manager-calendar-navigation,
++.manager-calendar-view-switch {
++  display: flex;
++  align-items: center;
++  gap: 8px;
++}
++
++.calendar-nav-btn {
++  width: 38px;
++  height: 38px;
++  border-radius: 10px;
++  border: 1px solid var(--border);
++  background: #fff;
++  color: var(--text-main);
++  display: inline-flex;
++  align-items: center;
++  justify-content: center;
++  cursor: pointer;
++  transition: var(--transition);
++}
++
++.calendar-nav-btn:hover {
++  border-color: var(--primary);
++  color: var(--primary);
++  background: var(--primary-50);
++}
++
++.manager-calendar-period-title {
++  min-width: 250px;
++  padding-left: 6px;
++  font-size: 1.06rem;
++  font-weight: 800;
++  color: var(--text-main);
++}
++
++.manager-calendar-view-switch {
++  padding: 4px;
++  border-radius: 12px;
++  background: var(--surface-alt);
++}
++
++.calendar-view-btn {
++  min-height: 36px;
++  padding: 7px 12px;
++  border: none;
++  border-radius: 9px;
++  background: transparent;
++  color: var(--text-muted);
++  font-size: 0.82rem;
++  font-weight: 700;
++  cursor: pointer;
++  display: inline-flex;
++  align-items: center;
++  gap: 6px;
++  transition: var(--transition);
++}
++
++.calendar-view-btn:hover {
++  color: var(--primary);
++}
++
++.calendar-view-btn.active {
++  background: #fff;
++  color: var(--primary);
++  box-shadow: 0 1px 5px rgba(15, 23, 42, 0.12);
++}
++
++.manager-calendar-filter-card {
++  padding: 14px 16px 16px;
++}
++
++.manager-calendar-filter-heading {
++  display: flex;
++  align-items: center;
++  justify-content: space-between;
++  gap: 12px;
++  margin-bottom: 12px;
++  color: var(--text-main);
++}
++
++.manager-calendar-filter-heading > div {
++  display: flex;
++  align-items: center;
++  gap: 8px;
++}
++
++.manager-calendar-filter-heading i {
++  color: var(--primary);
++}
++
++.calendar-filter-reset {
++  border: none;
++  background: transparent;
++  color: var(--primary);
++  font-size: 0.8rem;
++  font-weight: 700;
++  cursor: pointer;
++}
++
++.manager-calendar-filters {
++  display: grid;
++  grid-template-columns: repeat(3, minmax(0, 1fr));
++  gap: 12px;
++}
++
++.manager-calendar-filters label {
++  display: flex;
++  flex-direction: column;
++  gap: 6px;
++}
++
++.manager-calendar-filters label > span {
++  font-size: 0.74rem;
++  font-weight: 700;
++  color: var(--text-muted);
++}
++
++.manager-calendar-filters .form-control {
++  min-height: 40px;
++  padding: 8px 10px;
++  font-size: 0.84rem;
++}
++
++.manager-calendar-kpi-grid {
++  display: grid;
++  grid-template-columns: repeat(4, minmax(0, 1fr));
++  gap: 14px;
++}
++
++.manager-calendar-kpi {
++  min-width: 0;
++  padding: 16px;
++  border: 1px solid var(--border);
++  border-radius: 16px;
++  background: #fff;
++  display: flex;
++  align-items: center;
++  gap: 12px;
++  box-shadow: var(--shadow-sm);
++}
++
++.manager-calendar-kpi-icon {
++  flex: 0 0 44px;
++  width: 44px;
++  height: 44px;
++  border-radius: 13px;
++  display: inline-flex;
++  align-items: center;
++  justify-content: center;
++  font-size: 1.05rem;
++}
++
++.manager-calendar-kpi-icon.kpi-teal { background: #ccfbf1; color: #0f766e; }
++.manager-calendar-kpi-icon.kpi-blue { background: #dbeafe; color: #2563eb; }
++.manager-calendar-kpi-icon.kpi-amber { background: #fef3c7; color: #d97706; }
++.manager-calendar-kpi-icon.kpi-rose { background: #ffe4e6; color: #e11d48; }
++
++.manager-calendar-kpi > div:last-child {
++  min-width: 0;
++  display: flex;
++  flex-direction: column;
++}
++
++.manager-calendar-kpi span {
++  color: var(--text-muted);
++  font-size: 0.73rem;
++  font-weight: 700;
++}
++
++.manager-calendar-kpi strong {
++  margin-top: 2px;
++  color: var(--text-main);
++  font-size: 1.35rem;
++  line-height: 1.2;
++}
++
++.manager-calendar-kpi small {
++  margin-top: 3px;
++  color: var(--text-light);
++  font-size: 0.68rem;
++  white-space: nowrap;
++  overflow: hidden;
++  text-overflow: ellipsis;
++}
++
++.manager-calendar-shell {
++  overflow: hidden;
++}
++
++.manager-calendar-shell-header {
++  padding: 18px 20px;
++  border-bottom: 1px solid var(--border);
++  display: flex;
++  align-items: center;
++  justify-content: space-between;
++  gap: 18px;
++}
++
++.manager-calendar-shell-header h2 {
++  margin: 0 0 3px;
++  font-size: 1.05rem;
++}
++
++.manager-calendar-shell-header p {
++  margin: 0;
++  color: var(--text-muted);
++  font-size: 0.78rem;
++}
++
++.manager-calendar-legend {
++  display: flex;
++  align-items: center;
++  justify-content: flex-end;
++  flex-wrap: wrap;
++  gap: 12px;
++  font-size: 0.7rem;
++  font-weight: 700;
++  color: var(--text-muted);
++}
++
++.manager-calendar-legend span {
++  display: inline-flex;
++  align-items: center;
++  gap: 5px;
++}
++
++.legend-line {
++  width: 18px;
++  height: 5px;
++  border-radius: 999px;
++}
++
++.legend-start { background: #0f766e; }
++.legend-running { background: #60a5fa; }
++.legend-dot {
++  width: 8px;
++  height: 8px;
++  border-radius: 50%;
++}
++.legend-warning { background: #f59e0b; }
++.legend-danger { background: #ef4444; }
++
++.manager-calendar-root {
++  min-width: 0;
++}
++
++/* Month view */
++.manager-month-calendar {
++  overflow-x: auto;
++}
++
++.manager-month-weekdays,
++.manager-month-grid {
++  min-width: 910px;
++  display: grid;
++  grid-template-columns: repeat(7, minmax(130px, 1fr));
++}
++
++.manager-month-weekdays {
++  background: #f8fafc;
++  border-bottom: 1px solid var(--border);
++}
++
++.manager-month-weekdays > div {
++  padding: 10px 12px;
++  text-align: center;
++  color: var(--text-muted);
++  font-size: 0.72rem;
++  font-weight: 800;
++  border-right: 1px solid var(--border);
++}
++
++.manager-month-weekdays > div:last-child {
++  border-right: none;
++}
++
++.manager-month-day {
++  position: relative;
++  min-height: 132px;
++  padding: 9px;
++  border-right: 1px solid var(--border);
++  border-bottom: 1px solid var(--border);
++  background: #fff;
++  transition: background 0.2s ease;
++}
++
++.manager-month-day:nth-child(7n) {
++  border-right: none;
++}
++
++.manager-month-day.is-outside {
++  background: #f8fafc;
++}
++
++.manager-month-day.calendar-load-low { box-shadow: inset 3px 0 0 #99f6e4; }
++.manager-month-day.calendar-load-medium { box-shadow: inset 3px 0 0 #fbbf24; }
++.manager-month-day.calendar-load-high { box-shadow: inset 3px 0 0 #f97316; }
++
++.manager-month-day.is-today {
++  background: #f0fdfa;
++}
++
++.manager-month-day-header {
++  min-height: 26px;
++  display: flex;
++  align-items: center;
++  justify-content: space-between;
++  gap: 6px;
++  margin-bottom: 7px;
++}
++
++.manager-calendar-day-number {
++  width: 27px;
++  height: 27px;
++  border: none;
++  border-radius: 8px;
++  background: transparent;
++  color: var(--text-main);
++  font-size: 0.78rem;
++  font-weight: 800;
++  cursor: pointer;
++}
++
++.manager-month-day.is-outside .manager-calendar-day-number {
++  color: #94a3b8;
++}
++
++.manager-month-day.is-today .manager-calendar-day-number {
++  background: var(--primary);
++  color: #fff;
++}
++
++.manager-calendar-day-count {
++  padding: 3px 6px;
++  border-radius: 999px;
++  background: #eef2ff;
++  color: #4338ca;
++  font-size: 0.6rem;
++  font-weight: 800;
++  white-space: nowrap;
++}
++
++.manager-month-day-events,
++.manager-week-events {
++  display: flex;
++  flex-direction: column;
++  gap: 5px;
++}
++
++.calendar-event {
++  width: 100%;
++  min-width: 0;
++  padding: 7px 8px;
++  border: 1px solid transparent;
++  border-left-width: 3px;
++  border-radius: 8px;
++  background: #f8fafc;
++  display: flex;
++  align-items: flex-start;
++  gap: 6px;
++  text-align: left;
++  cursor: pointer;
++  transition: var(--transition);
++}
++
++.calendar-event:hover {
++  transform: translateY(-1px);
++  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
++}
++
++.calendar-event-start {
++  border-left-color: #0f766e;
++  background: #f0fdfa;
++}
++
++.calendar-event-running {
++  border-left-color: #60a5fa;
++  background: #eff6ff;
++}
++
++.calendar-event-dot {
++  flex: 0 0 7px;
++  width: 7px;
++  height: 7px;
++  margin-top: 4px;
++  border-radius: 50%;
++  background: #10b981;
++}
++
++.calendar-event.calendar-status-almost-full .calendar-event-dot { background: #f59e0b; }
++.calendar-event.calendar-status-sold-out .calendar-event-dot { background: #ef4444; }
++
++.calendar-event-copy {
++  min-width: 0;
++  display: flex;
++  flex-direction: column;
++  gap: 2px;
++}
++
++.calendar-event-copy strong {
++  min-width: 0;
++  color: var(--text-main);
++  font-size: 0.68rem;
++  line-height: 1.25;
++  white-space: nowrap;
++  overflow: hidden;
++  text-overflow: ellipsis;
++}
++
++.calendar-event-copy small {
++  color: var(--text-muted);
++  font-size: 0.61rem;
++  white-space: nowrap;
++  overflow: hidden;
++  text-overflow: ellipsis;
++}
++
++.calendar-event.is-compact {
++  padding: 5px 6px;
++}
++
++.calendar-event.is-compact .calendar-event-copy strong {
++  font-size: 0.63rem;
++}
++
++.manager-calendar-more {
++  padding: 2px 4px;
++  border: none;
++  background: transparent;
++  color: var(--primary);
++  font-size: 0.62rem;
++  font-weight: 800;
++  text-align: left;
++  cursor: pointer;
++}
++
++/* Week view */
++.manager-week-calendar {
++  min-width: 980px;
++  display: grid;
++  grid-template-columns: repeat(7, minmax(140px, 1fr));
++  overflow-x: auto;
++}
++
++.manager-week-day {
++  min-height: 520px;
++  padding: 10px;
++  border-right: 1px solid var(--border);
++  background: #fff;
++}
++
++.manager-week-day:last-child { border-right: none; }
++.manager-week-day.is-today { background: #f0fdfa; }
++
++.manager-week-day-header {
++  width: 100%;
++  padding: 8px 6px 12px;
++  border: none;
++  border-bottom: 1px solid var(--border);
++  background: transparent;
++  display: flex;
++  flex-direction: column;
++  align-items: center;
++  cursor: pointer;
++}
++
++.manager-week-day-header span {
++  color: var(--text-muted);
++  font-size: 0.65rem;
++  font-weight: 800;
++}
++
++.manager-week-day-header strong {
++  margin: 3px 0;
++  font-size: 1.2rem;
++  color: var(--text-main);
++}
++
++.manager-week-day.is-today .manager-week-day-header strong {
++  width: 34px;
++  height: 34px;
++  border-radius: 50%;
++  display: inline-flex;
++  align-items: center;
++  justify-content: center;
++  background: var(--primary);
++  color: #fff;
++}
++
++.manager-week-day-header small {
++  color: var(--primary);
++  font-size: 0.63rem;
++  font-weight: 800;
++}
++
++.manager-week-events {
++  padding-top: 10px;
++}
++
++.manager-calendar-empty-mini {
++  padding: 18px 6px;
++  color: #94a3b8;
++  font-size: 0.68rem;
++  text-align: center;
++}
++
++/* Day view */
++.manager-day-summary {
++  padding: 14px 18px;
++  border-bottom: 1px solid var(--border);
++  background: #f8fafc;
++  display: grid;
++  grid-template-columns: repeat(3, minmax(0, 1fr));
++  gap: 12px;
++}
++
++.manager-day-summary > div {
++  padding: 10px 12px;
++  border: 1px solid var(--border);
++  border-radius: 10px;
++  background: #fff;
++  display: flex;
++  flex-direction: column;
++  gap: 2px;
++}
++
++.manager-day-summary span {
++  color: var(--text-muted);
++  font-size: 0.68rem;
++  font-weight: 700;
++}
++
++.manager-day-summary strong {
++  color: var(--text-main);
++  font-size: 1rem;
++}
++
++.manager-day-list {
++  padding: 14px;
++  display: flex;
++  flex-direction: column;
++  gap: 10px;
++}
++
++.manager-day-departure-card {
++  padding: 12px;
++  border: 1px solid var(--border);
++  border-radius: 13px;
++  background: #fff;
++  display: grid;
++  grid-template-columns: 74px minmax(0, 1fr) 150px;
++  gap: 14px;
++  align-items: center;
++}
++
++.manager-day-departure-card > img {
++  width: 74px;
++  height: 62px;
++  border-radius: 10px;
++  object-fit: cover;
++}
++
++.manager-day-departure-main {
++  min-width: 0;
++}
++
++.manager-day-departure-kicker,
++.manager-day-departure-meta {
++  display: flex;
++  align-items: center;
++  flex-wrap: wrap;
++  gap: 8px;
++}
++
++.manager-day-departure-kicker span {
++  padding: 3px 7px;
++  border-radius: 999px;
++  font-size: 0.61rem;
++  font-weight: 800;
++}
++
++.manager-day-departure-kicker .is-start { background: #ccfbf1; color: #0f766e; }
++.manager-day-departure-kicker .is-running { background: #dbeafe; color: #2563eb; }
++.manager-day-departure-kicker .calendar-status-available { background: #dcfce7; color: #15803d; }
++.manager-day-departure-kicker .calendar-status-almost-full { background: #fef3c7; color: #b45309; }
++.manager-day-departure-kicker .calendar-status-sold-out { background: #fee2e2; color: #b91c1c; }
++
++.manager-day-departure-main h3 {
++  margin: 6px 0 3px;
++  font-size: 0.9rem;
++  white-space: nowrap;
++  overflow: hidden;
++  text-overflow: ellipsis;
++}
++
++.manager-day-departure-main p,
++.manager-day-departure-meta {
++  color: var(--text-muted);
++  font-size: 0.69rem;
++}
++
++.manager-day-departure-meta {
++  margin-top: 6px;
++}
++
++.manager-day-capacity {
++  height: 5px;
++  margin-top: 8px;
++  border-radius: 999px;
++  background: #e2e8f0;
++  overflow: hidden;
++}
++
++.manager-day-capacity span {
++  display: block;
++  height: 100%;
++  border-radius: inherit;
++  background: linear-gradient(90deg, #0f766e, #14b8a6);
++}
++
++.manager-day-departure-side {
++  display: flex;
++  flex-direction: column;
++  align-items: flex-end;
++  gap: 5px;
++}
++
++.manager-day-departure-side > span {
++  color: var(--text-muted);
++  font-size: 0.66rem;
++}
++
++.manager-day-departure-side > strong {
++  color: #ea580c;
++  font-size: 0.95rem;
++}
++
++.manager-calendar-day-empty {
++  min-height: 360px;
++  padding: 50px 20px;
++  display: flex;
++  flex-direction: column;
++  align-items: center;
++  justify-content: center;
++  text-align: center;
++}
++
++.manager-calendar-day-empty-icon {
++  width: 58px;
++  height: 58px;
++  margin-bottom: 12px;
++  border-radius: 16px;
++  background: #f1f5f9;
++  color: #64748b;
++  display: inline-flex;
++  align-items: center;
++  justify-content: center;
++  font-size: 1.4rem;
++}
++
++.manager-calendar-day-empty h3 {
++  margin-bottom: 5px;
++  font-size: 1rem;
++}
++
++.manager-calendar-day-empty p {
++  margin-bottom: 14px;
++  color: var(--text-muted);
++  font-size: 0.8rem;
++}
++
++@media (max-width: 1100px) {
++  .manager-calendar-kpi-grid {
++    grid-template-columns: repeat(2, minmax(0, 1fr));
++  }
++
++  .manager-calendar-toolbar,
++  .manager-calendar-shell-header {
++    align-items: flex-start;
++    flex-direction: column;
++  }
++
++  .manager-calendar-legend {
++    justify-content: flex-start;
++  }
++}
++
++@media (max-width: 760px) {
++  .manager-calendar-filters,
++  .manager-day-summary {
++    grid-template-columns: 1fr;
++  }
++
++  .manager-calendar-kpi-grid {
++    grid-template-columns: 1fr;
++  }
++
++  .manager-calendar-navigation {
++    width: 100%;
++    flex-wrap: wrap;
++  }
++
++  .manager-calendar-period-title {
++    min-width: 0;
++    width: 100%;
++    order: 10;
++    padding: 6px 0 0;
++  }
++
++  .manager-calendar-view-switch {
++    width: 100%;
++  }
++
++  .calendar-view-btn {
++    flex: 1;
++    justify-content: center;
++  }
++
++  .manager-day-departure-card {
++    grid-template-columns: 62px minmax(0, 1fr);
++  }
++
++  .manager-day-departure-card > img {
++    width: 62px;
++    height: 58px;
++  }
++
++  .manager-day-departure-side {
++    grid-column: 1 / -1;
++    padding-top: 10px;
++    border-top: 1px solid var(--border);
++    align-items: flex-start;
++  }
++}
+diff --git a/js/dashboards.js b/js/dashboards.js
+index 8fcab927a723c9df8c5c7b558c0828d9a1c1331c..ceae8326effdf3f6fc37d2dc0cba36744cd446ca 100644
+--- a/js/dashboards.js
++++ b/js/dashboards.js
+@@ -555,8 +555,13 @@ function initManagerDashboard() {
+   if (!managerTourTable && !formAddTour && !formAddDeparture) return;
+ 
+   const db = getMockDatabase();
+-  let selectedManagerTourId = db.tours[0]?.id || null;
+-  let isManagerDepartureDropdownOpen = false;
++  const managerParams = new URLSearchParams(window.location.search);
++  const requestedTourId = managerParams.get('tour');
++  const requestedAction = managerParams.get('action');
++  let selectedManagerTourId = db.tours.some(tour => tour.id === requestedTourId)
++    ? requestedTourId
++    : (db.tours[0]?.id || null);
++  let isManagerDepartureDropdownOpen = managerParams.get('schedule') === '1';
+   let tourSearchKeyword = '';
+ 
+   function parseVnDate(value) {
+@@ -1022,6 +1027,16 @@ function initManagerDashboard() {
+   }
+ 
+   refreshManagerUI();
++
++  if (isManagerDepartureDropdownOpen) {
++    scrollDepartureDropdownIntoView();
++  }
++
++  if (requestedAction === 'new-departure') {
++    window.setTimeout(() => window.openManagerDepartureModal(selectedManagerTourId), 80);
++  } else if (requestedAction === 'new-tour') {
++    window.setTimeout(() => openModal('modalAddTour'), 80);
++  }
+ }
+ 
+ // ==========================================
+diff --git a/js/main.js b/js/main.js
+index 08faffbdd13a4aaeedacd8e81f5fd929633ee2aa..d56e24e466ae2d69e6b8a8e53293710f7dd5844f 100644
+--- a/js/main.js
++++ b/js/main.js
+@@ -72,5 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
+   // 3. Initialize Dashboards (Guide, Manager, Admin)
+   if (typeof initGuideDashboard === 'function') initGuideDashboard();
+   if (typeof initManagerDashboard === 'function') initManagerDashboard();
++  if (typeof initManagerCalendar === 'function') initManagerCalendar();
+   if (typeof initAdminDashboard === 'function') initAdminDashboard();
+ });
+diff --git a/js/manager-calendar.js b/js/manager-calendar.js
+new file mode 100644
+index 0000000000000000000000000000000000000000..d704141c751d96111c2a797d375666d98ec03275
+--- /dev/null
++++ b/js/manager-calendar.js
+@@ -0,0 +1,432 @@
++/* ==========================================================================
++   BOOKING TOUR - MANAGER OPERATIONS CALENDAR
++   Month / Week / Day visualization based on db.departures
++   ========================================================================== */
++
++function initManagerCalendar() {
++  const root = document.getElementById('managerCalendarRoot');
++  if (!root) return;
++
++  const db = getMockDatabase();
++  const periodTitle = document.getElementById('calendarPeriodTitle');
++  const tourFilter = document.getElementById('calendarTourFilter');
++  const guideFilter = document.getElementById('calendarGuideFilter');
++  const statusFilter = document.getElementById('calendarStatusFilter');
++  const searchInput = document.getElementById('calendarSearchInput');
++  const sidebarCount = document.getElementById('calendarSidebarDepartures');
++  const viewButtons = Array.from(document.querySelectorAll('[data-calendar-view]'));
++
++  const state = {
++    view: 'month',
++    focusDate: getInitialFocusDate(),
++    tourId: '',
++    guideId: '',
++    status: '',
++    keyword: ''
++  };
++
++  function parseVnDate(value) {
++    if (!value || value === 'Theo lịch trình') return null;
++    const [day, month, year] = value.split('/').map(Number);
++    if (!day || !month || !year) return null;
++    return new Date(year, month - 1, day, 12, 0, 0, 0);
++  }
++
++  function normalizeDate(date) {
++    return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12, 0, 0, 0);
++  }
++
++  function startOfWeek(date) {
++    const result = normalizeDate(date);
++    const day = result.getDay();
++    const diff = day === 0 ? -6 : 1 - day;
++    result.setDate(result.getDate() + diff);
++    return result;
++  }
++
++  function addDays(date, days) {
++    const result = normalizeDate(date);
++    result.setDate(result.getDate() + days);
++    return result;
++  }
++
++  function sameDay(a, b) {
++    return a && b
++      && a.getFullYear() === b.getFullYear()
++      && a.getMonth() === b.getMonth()
++      && a.getDate() === b.getDate();
++  }
++
++  function toIsoDate(date) {
++    const year = date.getFullYear();
++    const month = String(date.getMonth() + 1).padStart(2, '0');
++    const day = String(date.getDate()).padStart(2, '0');
++    return `${year}-${month}-${day}`;
++  }
++
++  function fromIsoDate(value) {
++    const [year, month, day] = value.split('-').map(Number);
++    return new Date(year, month - 1, day, 12, 0, 0, 0);
++  }
++
++  function formatDate(date) {
++    return new Intl.DateTimeFormat('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' }).format(date);
++  }
++
++  function formatShortDate(date) {
++    return new Intl.DateTimeFormat('vi-VN', { day: '2-digit', month: '2-digit' }).format(date);
++  }
++
++  function formatWeekday(date, long = false) {
++    return new Intl.DateTimeFormat('vi-VN', { weekday: long ? 'long' : 'short' }).format(date);
++  }
++
++  function getInitialFocusDate() {
++    const today = normalizeDate(new Date());
++    const futureDepartures = db.departures
++      .map(dep => parseVnDate(dep.date))
++      .filter(Boolean)
++      .filter(date => date >= today)
++      .sort((a, b) => a - b);
++    return futureDepartures[0] || today;
++  }
++
++  function getTour(dep) {
++    return db.tours.find(tour => tour.id === dep.tourId) || null;
++  }
++
++  function getDepartureStatus(dep) {
++    const slots = Number(dep.slots || 0);
++    const maxSlots = Math.max(1, Number(dep.maxSlots || slots || 1));
++    if (slots <= 0) return { key: 'sold-out', label: 'Hết chỗ', className: 'calendar-status-sold-out' };
++    if (slots <= Math.max(3, Math.ceil(maxSlots * 0.2))) {
++      return { key: 'almost-full', label: 'Sắp hết chỗ', className: 'calendar-status-almost-full' };
++    }
++    return { key: 'available', label: 'Còn chỗ', className: 'calendar-status-available' };
++  }
++
++  function getDepartureRange(dep) {
++    const start = parseVnDate(dep.date);
++    const end = parseVnDate(dep.returnDate) || start;
++    return { start, end };
++  }
++
++  function overlapsDay(dep, date) {
++    const { start, end } = getDepartureRange(dep);
++    if (!start || !end) return false;
++    const target = normalizeDate(date).getTime();
++    return target >= start.getTime() && target <= end.getTime();
++  }
++
++  function overlapsRange(dep, rangeStart, rangeEnd) {
++    const { start, end } = getDepartureRange(dep);
++    if (!start || !end) return false;
++    return start <= rangeEnd && end >= rangeStart;
++  }
++
++  function populateFilters() {
++    if (tourFilter) {
++      tourFilter.innerHTML = '<option value="">Tất cả tour</option>' + db.tours
++        .map(tour => `<option value="${tour.id}">${tour.title}</option>`)
++        .join('');
++    }
++
++    if (guideFilter) {
++      const guides = new Map();
++      db.departures.forEach(dep => {
++        if (dep.guideId || dep.guideName) guides.set(dep.guideId || dep.guideName, dep.guideName || 'Chưa phân công');
++      });
++      guideFilter.innerHTML = '<option value="">Tất cả HDV</option>' + Array.from(guides.entries())
++        .map(([id, name]) => `<option value="${id}">${name}</option>`)
++        .join('');
++    }
++
++    if (sidebarCount) {
++      sidebarCount.textContent = `${db.departures.length} chuyến`;
++      sidebarCount.title = `${db.departures.length} chuyến khởi hành`;
++    }
++  }
++
++  function getFilteredDepartures() {
++    const keyword = state.keyword.trim().toLowerCase();
++    return db.departures.filter(dep => {
++      const tour = getTour(dep);
++      const status = getDepartureStatus(dep);
++      if (state.tourId && dep.tourId !== state.tourId) return false;
++      if (state.guideId && (dep.guideId || dep.guideName) !== state.guideId) return false;
++      if (state.status && status.key !== state.status) return false;
++      if (keyword) {
++        const searchable = `${tour?.title || ''} ${tour?.location || ''} ${dep.guideName || ''}`.toLowerCase();
++        if (!searchable.includes(keyword)) return false;
++      }
++      return true;
++    });
++  }
++
++  function getPeriodRange() {
++    if (state.view === 'day') {
++      const day = normalizeDate(state.focusDate);
++      return { start: day, end: day };
++    }
++    if (state.view === 'week') {
++      const start = startOfWeek(state.focusDate);
++      return { start, end: addDays(start, 6) };
++    }
++    return {
++      start: new Date(state.focusDate.getFullYear(), state.focusDate.getMonth(), 1, 12, 0, 0, 0),
++      end: new Date(state.focusDate.getFullYear(), state.focusDate.getMonth() + 1, 0, 12, 0, 0, 0)
++    };
++  }
++
++  function getPeriodTitle() {
++    if (state.view === 'day') {
++      const weekday = formatWeekday(state.focusDate, true);
++      return `${weekday.charAt(0).toUpperCase()}${weekday.slice(1)}, ${formatDate(state.focusDate)}`;
++    }
++    if (state.view === 'week') {
++      const { start, end } = getPeriodRange();
++      return `${formatShortDate(start)} - ${formatDate(end)}`;
++    }
++    return new Intl.DateTimeFormat('vi-VN', { month: 'long', year: 'numeric' }).format(state.focusDate)
++      .replace(/^./, char => char.toUpperCase());
++  }
++
++  function getActiveDeparturesOnDate(date, departures = getFilteredDepartures()) {
++    return departures
++      .filter(dep => overlapsDay(dep, date))
++      .sort((a, b) => {
++        const aStart = parseVnDate(a.date);
++        const bStart = parseVnDate(b.date);
++        const aStartsToday = sameDay(aStart, date) ? 0 : 1;
++        const bStartsToday = sameDay(bStart, date) ? 0 : 1;
++        return aStartsToday - bStartsToday || (aStart - bStart);
++      });
++  }
++
++  function updateKpis() {
++    const departures = getFilteredDepartures();
++    const { start, end } = getPeriodRange();
++    const periodDepartures = departures.filter(dep => overlapsRange(dep, start, end));
++    const tourCount = new Set(periodDepartures.map(dep => dep.tourId)).size;
++    const booked = periodDepartures.reduce((sum, dep) => sum + Math.max(0, Number(dep.maxSlots || 0) - Number(dep.slots || 0)), 0);
++    const capacity = periodDepartures.reduce((sum, dep) => sum + Number(dep.maxSlots || 0), 0);
++
++    let peakDate = null;
++    let peakCount = 0;
++    for (let cursor = normalizeDate(start); cursor <= end; cursor = addDays(cursor, 1)) {
++      const count = getActiveDeparturesOnDate(cursor, departures).length;
++      if (count > peakCount) {
++        peakCount = count;
++        peakDate = normalizeDate(cursor);
++      }
++    }
++
++    document.getElementById('calendarKpiDepartures').textContent = periodDepartures.length;
++    document.getElementById('calendarKpiDeparturesHint').textContent = `${periodDepartures.filter(dep => {
++      const startDate = parseVnDate(dep.date);
++      return startDate && startDate >= start && startDate <= end;
++    }).length} chuyến khởi hành trong kỳ`;
++    document.getElementById('calendarKpiTours').textContent = tourCount;
++    document.getElementById('calendarKpiBooked').textContent = booked;
++    document.getElementById('calendarKpiCapacity').textContent = `${capacity} tổng sức chứa`;
++    document.getElementById('calendarKpiPeak').textContent = peakDate ? formatShortDate(peakDate) : '--';
++    document.getElementById('calendarKpiPeakHint').textContent = peakDate ? `${peakCount} đoàn hoạt động cùng ngày` : 'Chưa có lịch trong kỳ';
++  }
++
++  function eventMarkup(dep, date, compact = false) {
++    const tour = getTour(dep);
++    const status = getDepartureStatus(dep);
++    const startDate = parseVnDate(dep.date);
++    const isStart = sameDay(startDate, date);
++    const capacityText = `${Math.max(0, Number(dep.maxSlots || 0) - Number(dep.slots || 0))}/${dep.maxSlots || 0}`;
++    const title = tour?.title || dep.tourTitle || 'Tour';
++    const location = tour?.location || 'Chưa cập nhật';
++
++    return `
++      <button type="button" class="calendar-event ${isStart ? 'calendar-event-start' : 'calendar-event-running'} ${status.className} ${compact ? 'is-compact' : ''}"
++        onclick="managerCalendarOpenDeparture('${dep.tourId}')" title="${title} · ${dep.date} - ${dep.returnDate || dep.date}">
++        <span class="calendar-event-dot"></span>
++        <span class="calendar-event-copy">
++          <strong>${isStart ? 'Khởi hành' : 'Đang tour'} · ${location}</strong>
++          ${compact ? '' : `<small>${capacityText} khách · ${dep.guideName || 'Chưa có HDV'}</small>`}
++        </span>
++      </button>
++    `;
++  }
++
++  function renderMonthView() {
++    const departures = getFilteredDepartures();
++    const monthStart = new Date(state.focusDate.getFullYear(), state.focusDate.getMonth(), 1, 12, 0, 0, 0);
++    const gridStart = startOfWeek(monthStart);
++    const today = normalizeDate(new Date());
++    const weekdayLabels = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'];
++
++    let html = `<div class="manager-month-calendar"><div class="manager-month-weekdays">${weekdayLabels.map(label => `<div>${label}</div>`).join('')}</div><div class="manager-month-grid">`;
++
++    for (let index = 0; index < 42; index += 1) {
++      const date = addDays(gridStart, index);
++      const active = getActiveDeparturesOnDate(date, departures);
++      const inMonth = date.getMonth() === state.focusDate.getMonth();
++      const loadClass = active.length >= 4 ? 'calendar-load-high' : active.length >= 2 ? 'calendar-load-medium' : active.length === 1 ? 'calendar-load-low' : '';
++      const visibleEvents = active.slice(0, 2);
++
++      html += `
++        <div class="manager-month-day ${inMonth ? '' : 'is-outside'} ${sameDay(date, today) ? 'is-today' : ''} ${loadClass}">
++          <div class="manager-month-day-header">
++            <button type="button" onclick="managerCalendarOpenDay('${toIsoDate(date)}')" class="manager-calendar-day-number">${date.getDate()}</button>
++            ${active.length ? `<span class="manager-calendar-day-count">${active.length} đoàn</span>` : ''}
++          </div>
++          <div class="manager-month-day-events">
++            ${visibleEvents.map(dep => eventMarkup(dep, date, true)).join('')}
++            ${active.length > 2 ? `<button type="button" class="manager-calendar-more" onclick="managerCalendarOpenDay('${toIsoDate(date)}')">+${active.length - 2} đoàn khác</button>` : ''}
++          </div>
++        </div>
++      `;
++    }
++
++    html += '</div></div>';
++    root.innerHTML = html;
++  }
++
++  function renderWeekView() {
++    const departures = getFilteredDepartures();
++    const start = startOfWeek(state.focusDate);
++    const today = normalizeDate(new Date());
++    let html = '<div class="manager-week-calendar">';
++
++    for (let index = 0; index < 7; index += 1) {
++      const date = addDays(start, index);
++      const active = getActiveDeparturesOnDate(date, departures);
++      html += `
++        <section class="manager-week-day ${sameDay(date, today) ? 'is-today' : ''}">
++          <button type="button" class="manager-week-day-header" onclick="managerCalendarOpenDay('${toIsoDate(date)}')">
++            <span>${formatWeekday(date).toUpperCase()}</span>
++            <strong>${date.getDate()}</strong>
++            <small>${active.length} đoàn</small>
++          </button>
++          <div class="manager-week-events">
++            ${active.length ? active.map(dep => eventMarkup(dep, date)).join('') : '<div class="manager-calendar-empty-mini">Không có đoàn</div>'}
++          </div>
++        </section>
++      `;
++    }
++
++    html += '</div>';
++    root.innerHTML = html;
++  }
++
++  function renderDayView() {
++    const departures = getActiveDeparturesOnDate(state.focusDate);
++    const totalBooked = departures.reduce((sum, dep) => sum + Math.max(0, Number(dep.maxSlots || 0) - Number(dep.slots || 0)), 0);
++
++    if (!departures.length) {
++      root.innerHTML = `
++        <div class="manager-calendar-day-empty">
++          <div class="manager-calendar-day-empty-icon"><i class="fa-regular fa-calendar-xmark"></i></div>
++          <h3>Không có đoàn hoạt động trong ngày ${formatDate(state.focusDate)}</h3>
++          <p>Chuyển sang ngày khác hoặc tạo một chuyến khởi hành mới.</p>
++          <a href="manager-dashboard.html?action=new-departure" class="btn btn-primary btn-sm"><i class="fa-solid fa-plus"></i> Tạo chuyến khởi hành</a>
++        </div>
++      `;
++      return;
++    }
++
++    root.innerHTML = `
++      <div class="manager-day-summary">
++        <div><span>Ngày đang xem</span><strong>${formatDate(state.focusDate)}</strong></div>
++        <div><span>Đoàn hoạt động</span><strong>${departures.length}</strong></div>
++        <div><span>Khách đã giữ chỗ</span><strong>${totalBooked}</strong></div>
++      </div>
++      <div class="manager-day-list">
++        ${departures.map(dep => {
++          const tour = getTour(dep);
++          const status = getDepartureStatus(dep);
++          const { start } = getDepartureRange(dep);
++          const isStart = sameDay(start, state.focusDate);
++          const booked = Math.max(0, Number(dep.maxSlots || 0) - Number(dep.slots || 0));
++          const fill = dep.maxSlots ? Math.min(100, Math.round((booked / dep.maxSlots) * 100)) : 0;
++          return `
++            <article class="manager-day-departure-card">
++              <img src="${tour?.image || ''}" alt="${tour?.title || 'Tour'}">
++              <div class="manager-day-departure-main">
++                <div class="manager-day-departure-kicker"><span class="${isStart ? 'is-start' : 'is-running'}">${isStart ? 'Khởi hành hôm nay' : 'Đang trong hành trình'}</span><span class="${status.className}">${status.label}</span></div>
++                <h3>${tour?.title || dep.tourTitle || 'Tour'}</h3>
++                <p><i class="fa-solid fa-location-dot"></i> ${tour?.location || 'Chưa cập nhật'} · ${dep.date} → ${dep.returnDate || dep.date}</p>
++                <div class="manager-day-departure-meta"><span><i class="fa-solid fa-user-tie"></i> ${dep.guideName || 'Chưa phân công HDV'}</span><span><i class="fa-solid fa-users"></i> ${booked}/${dep.maxSlots || 0} khách</span></div>
++                <div class="manager-day-capacity"><span style="width:${fill}%"></span></div>
++              </div>
++              <div class="manager-day-departure-side">
++                <span>Giá / khách</span>
++                <strong>${formatCurrency(dep.price)}</strong>
++                <button type="button" class="btn btn-outline btn-sm" onclick="managerCalendarOpenDeparture('${dep.tourId}')">Quản lý <i class="fa-solid fa-arrow-right"></i></button>
++              </div>
++            </article>
++          `;
++        }).join('')}
++      </div>
++    `;
++  }
++
++  function render() {
++    if (periodTitle) periodTitle.textContent = getPeriodTitle();
++    viewButtons.forEach(button => button.classList.toggle('active', button.dataset.calendarView === state.view));
++    updateKpis();
++    if (state.view === 'week') renderWeekView();
++    else if (state.view === 'day') renderDayView();
++    else renderMonthView();
++  }
++
++  function movePeriod(direction) {
++    const next = normalizeDate(state.focusDate);
++    if (state.view === 'month') next.setMonth(next.getMonth() + direction);
++    else if (state.view === 'week') next.setDate(next.getDate() + (direction * 7));
++    else next.setDate(next.getDate() + direction);
++    state.focusDate = next;
++    render();
++  }
++
++  window.managerCalendarOpenDay = (isoDate) => {
++    state.focusDate = fromIsoDate(isoDate);
++    state.view = 'day';
++    render();
++    window.scrollTo({ top: document.getElementById('managerCalendarPage')?.offsetTop || 0, behavior: 'smooth' });
++  };
++
++  window.managerCalendarOpenDeparture = (tourId) => {
++    window.location.href = `manager-dashboard.html?tour=${encodeURIComponent(tourId)}&schedule=1#sectionTours`;
++  };
++
++  document.getElementById('calendarPrevBtn')?.addEventListener('click', () => movePeriod(-1));
++  document.getElementById('calendarNextBtn')?.addEventListener('click', () => movePeriod(1));
++  document.getElementById('calendarTodayBtn')?.addEventListener('click', () => {
++    state.focusDate = normalizeDate(new Date());
++    render();
++  });
++
++  viewButtons.forEach(button => {
++    button.addEventListener('click', () => {
++      state.view = button.dataset.calendarView;
++      render();
++    });
++  });
++
++  tourFilter?.addEventListener('change', () => { state.tourId = tourFilter.value; render(); });
++  guideFilter?.addEventListener('change', () => { state.guideId = guideFilter.value; render(); });
++  statusFilter?.addEventListener('change', () => { state.status = statusFilter.value; render(); });
++  searchInput?.addEventListener('input', () => { state.keyword = searchInput.value; render(); });
++
++  document.getElementById('calendarFilterReset')?.addEventListener('click', () => {
++    state.tourId = '';
++    state.guideId = '';
++    state.status = '';
++    state.keyword = '';
++    if (tourFilter) tourFilter.value = '';
++    if (guideFilter) guideFilter.value = '';
++    if (statusFilter) statusFilter.value = '';
++    if (searchInput) searchInput.value = '';
++    render();
++  });
++
++  populateFilters();
++  render();
++}
+diff --git a/manager-calendar.html b/manager-calendar.html
+new file mode 100644
+index 0000000000000000000000000000000000000000..bca93c58502be125f6cbdf5f4a6d33c317f3551f
+--- /dev/null
++++ b/manager-calendar.html
+@@ -0,0 +1,247 @@
++<!DOCTYPE html>
++<html lang="vi">
++<head>
++  <meta charset="UTF-8">
++  <meta name="viewport" content="width=device-width, initial-scale=1.0">
++  <title>Lịch Điều Hành Tour - BookingTour Manager</title>
++  <link rel="preconnect" href="https://fonts.googleapis.com">
++  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
++  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
++  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
++  <link rel="stylesheet" href="css/variables.css">
++  <link rel="stylesheet" href="css/components.css">
++  <link rel="stylesheet" href="css/navbar.css">
++  <link rel="stylesheet" href="css/pages.css">
++  <link rel="stylesheet" href="css/dashboard.css">
++</head>
++<body class="admindek-body">
++  <div class="admindek-sidebar-overlay" id="admindekOverlay" onclick="toggleAdmindekSidebar()"></div>
++
++  <div class="admindek-app">
++    <aside class="admindek-sidebar" id="admindekSidebar">
++      <a href="index.html" class="admindek-brand">
++        <div class="admindek-brand-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 4px 10px rgba(245, 158, 11, 0.4);">
++          <i class="fa-solid fa-clipboard-check"></i>
++        </div>
++        <div class="admindek-brand-text">
++          <span class="admindek-brand-title">BookingTour</span>
++          <span class="admindek-brand-subtitle" style="color:#f59e0b;">Operations Manager</span>
++        </div>
++      </a>
++
++      <div class="admindek-sidebar-user">
++        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80" alt="Manager Avatar" class="admindek-sidebar-avatar" style="border-color:#f59e0b;">
++        <div class="admindek-sidebar-user-info">
++          <span class="admindek-sidebar-name">Nguyễn Thu Hà</span>
++          <span class="admindek-sidebar-role"><i class="fa-solid fa-circle" style="color:#f59e0b; font-size:0.55rem;"></i> Trưởng Phòng Vận Hành</span>
++        </div>
++      </div>
++
++      <div class="admindek-nav-body">
++        <div class="admindek-section-title">Điều Hành & Vận Hành</div>
++        <ul class="admindek-nav-list">
++          <li class="admindek-nav-item">
++            <a href="manager-dashboard.html" class="admindek-nav-link">
++              <span class="admindek-nav-link-left"><i class="fa-solid fa-gauge-high"></i> Tổng Quan Điều Hành</span>
++            </a>
++          </li>
++          <li class="admindek-nav-item">
++            <a href="manager-calendar.html" class="admindek-nav-link active">
++              <span class="admindek-nav-link-left"><i class="fa-solid fa-calendar-days"></i> Lịch Điều Hành</span>
++              <span class="admindek-nav-badge badge-blue" id="calendarSidebarDepartures">0 chuyến</span>
++            </a>
++          </li>
++          <li class="admindek-nav-item">
++            <a href="manager-dashboard.html#sectionTours" class="admindek-nav-link">
++              <span class="admindek-nav-link-left"><i class="fa-solid fa-calendar-check"></i> Lịch Khởi Hành & Đoàn</span>
++            </a>
++          </li>
++          <li class="admindek-nav-item">
++            <a href="manager-dashboard.html#sectionTours" class="admindek-nav-link">
++              <span class="admindek-nav-link-left"><i class="fa-solid fa-user-tag"></i> Phân Công HDV</span>
++            </a>
++          </li>
++        </ul>
++
++        <div class="admindek-section-title">Kho Sản Phẩm Tour</div>
++        <ul class="admindek-nav-list">
++          <li class="admindek-nav-item">
++            <a href="manager-dashboard.html#sectionTours" class="admindek-nav-link">
++              <span class="admindek-nav-link-left"><i class="fa-solid fa-compass"></i> Danh Mục Tour Mở Bán</span>
++              <span class="admindek-nav-badge badge-emerald">12 Tour</span>
++            </a>
++          </li>
++          <li class="admindek-nav-item">
++            <a href="manager-dashboard.html?action=new-tour" class="admindek-nav-link">
++              <span class="admindek-nav-link-left"><i class="fa-solid fa-plus-circle"></i> Thêm Tour Mới</span>
++            </a>
++          </li>
++          <li class="admindek-nav-item">
++            <a href="manager-dashboard.html?action=new-departure" class="admindek-nav-link">
++              <span class="admindek-nav-link-left"><i class="fa-solid fa-calendar-plus"></i> Tạo Ngày Khởi Hành</span>
++            </a>
++          </li>
++        </ul>
++
++        <div class="admindek-section-title">Đơn Hàng & Khách Đoàn</div>
++        <ul class="admindek-nav-list">
++          <li class="admindek-nav-item">
++            <a href="admin-dashboard.html#sectionBookings" class="admindek-nav-link">
++              <span class="admindek-nav-link-left"><i class="fa-solid fa-ticket"></i> Quản Lý Đơn Đặt Chỗ</span>
++              <span class="admindek-nav-badge badge-amber">142</span>
++            </a>
++          </li>
++          <li class="admindek-nav-item">
++            <a href="guide-dashboard.html" class="admindek-nav-link">
++              <span class="admindek-nav-link-left"><i class="fa-solid fa-clipboard-user"></i> Xem Tiến Độ HDV Dẫn</span>
++            </a>
++          </li>
++        </ul>
++
++        <div class="admindek-section-title">Hệ Thống</div>
++        <ul class="admindek-nav-list">
++          <li class="admindek-nav-item">
++            <a href="profile.html" class="admindek-nav-link">
++              <span class="admindek-nav-link-left"><i class="fa-solid fa-user-gear"></i> Hồ Sơ Quản Lý</span>
++            </a>
++          </li>
++        </ul>
++      </div>
++
++      <div class="admindek-sidebar-footer">
++        <button type="button" onclick="logout()" class="btn btn-outline btn-block text-danger" style="font-size:0.84rem; padding:8px 12px; border-color:rgba(239, 68, 68, 0.4);">
++          <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất Quản Lý
++        </button>
++      </div>
++    </aside>
++
++    <div class="admindek-main-wrapper">
++      <header class="admindek-topbar">
++        <div class="admindek-topbar-left">
++          <button type="button" class="admindek-toggle-btn" onclick="toggleAdmindekSidebar()" title="Toggle Sidebar">
++            <i class="fa-solid fa-bars-staggered"></i>
++          </button>
++          <div class="admindek-topbar-search">
++            <i class="fa-solid fa-magnifying-glass"></i>
++            <input type="text" placeholder="Tìm tour trong lịch điều hành..." id="calendarSearchInput">
++            <span class="admindek-search-badge">Ctrl K</span>
++          </div>
++        </div>
++        <div class="admindek-topbar-right">
++          <a href="index.html" class="admindek-btn-site">
++            <i class="fa-solid fa-arrow-left"></i>
++            <span>Về Trang Chủ Khách Hàng</span>
++          </a>
++          <button type="button" class="admindek-icon-btn" onclick="showToast('Lịch điều hành đang đồng bộ với dữ liệu chuyến khởi hành.', 'success')" title="Thông báo">
++            <i class="fa-regular fa-bell"></i>
++            <span class="admindek-icon-badge"></span>
++          </button>
++          <div class="nav-actions" style="margin-left: 6px;"></div>
++        </div>
++      </header>
++
++      <main class="admindek-content manager-calendar-page" id="managerCalendarPage">
++        <div class="admindek-page-header manager-calendar-page-header">
++          <div class="admindek-page-title-wrap">
++            <h1><i class="fa-regular fa-calendar-days text-primary"></i> Lịch Điều Hành Tour</h1>
++            <div class="admindek-breadcrumb">
++              <a href="index.html">Trang chủ</a><span>/</span><a href="manager-dashboard.html">Quản lý tour</a><span>/</span><span style="color:#0f172a; font-weight:600;">Lịch điều hành</span>
++            </div>
++            <p class="manager-calendar-subtitle">Theo dõi mật độ đoàn, chuyến khởi hành và hướng dẫn viên theo tháng, tuần hoặc ngày.</p>
++          </div>
++          <div class="manager-calendar-header-actions">
++            <a href="manager-dashboard.html?action=new-departure" class="btn btn-primary">
++              <i class="fa-solid fa-calendar-plus"></i> Tạo Chuyến Khởi Hành
++            </a>
++          </div>
++        </div>
++
++        <section class="manager-calendar-toolbar admindek-box">
++          <div class="manager-calendar-navigation">
++            <button type="button" class="calendar-nav-btn" id="calendarPrevBtn" aria-label="Khoảng thời gian trước"><i class="fa-solid fa-chevron-left"></i></button>
++            <button type="button" class="btn btn-outline btn-sm" id="calendarTodayBtn">Hôm nay</button>
++            <button type="button" class="calendar-nav-btn" id="calendarNextBtn" aria-label="Khoảng thời gian sau"><i class="fa-solid fa-chevron-right"></i></button>
++            <div class="manager-calendar-period-title" id="calendarPeriodTitle">--</div>
++          </div>
++          <div class="manager-calendar-view-switch" role="group" aria-label="Chế độ hiển thị lịch">
++            <button type="button" class="calendar-view-btn active" data-calendar-view="month"><i class="fa-regular fa-calendar"></i> Tháng</button>
++            <button type="button" class="calendar-view-btn" data-calendar-view="week"><i class="fa-solid fa-table-columns"></i> Tuần</button>
++            <button type="button" class="calendar-view-btn" data-calendar-view="day"><i class="fa-regular fa-calendar-day"></i> Ngày</button>
++          </div>
++        </section>
++
++        <section class="manager-calendar-filter-card admindek-box">
++          <div class="manager-calendar-filter-heading">
++            <div><i class="fa-solid fa-filter"></i><strong>Bộ lọc điều hành</strong></div>
++            <button type="button" class="calendar-filter-reset" id="calendarFilterReset">Đặt lại</button>
++          </div>
++          <div class="manager-calendar-filters">
++            <label>
++              <span>Tour</span>
++              <select class="form-control" id="calendarTourFilter"><option value="">Tất cả tour</option></select>
++            </label>
++            <label>
++              <span>Hướng dẫn viên</span>
++              <select class="form-control" id="calendarGuideFilter"><option value="">Tất cả HDV</option></select>
++            </label>
++            <label>
++              <span>Tình trạng chỗ</span>
++              <select class="form-control" id="calendarStatusFilter">
++                <option value="">Tất cả trạng thái</option>
++                <option value="available">Còn chỗ</option>
++                <option value="almost-full">Sắp hết chỗ</option>
++                <option value="sold-out">Hết chỗ</option>
++              </select>
++            </label>
++          </div>
++        </section>
++
++        <section class="manager-calendar-kpi-grid" aria-label="Thống kê lịch điều hành">
++          <article class="manager-calendar-kpi">
++            <div class="manager-calendar-kpi-icon kpi-teal"><i class="fa-solid fa-route"></i></div>
++            <div><span>Đoàn trong kỳ</span><strong id="calendarKpiDepartures">0</strong><small id="calendarKpiDeparturesHint">0 chuyến khởi hành</small></div>
++          </article>
++          <article class="manager-calendar-kpi">
++            <div class="manager-calendar-kpi-icon kpi-blue"><i class="fa-solid fa-map-location-dot"></i></div>
++            <div><span>Tour đang vận hành</span><strong id="calendarKpiTours">0</strong><small>Tour khác nhau trong kỳ</small></div>
++          </article>
++          <article class="manager-calendar-kpi">
++            <div class="manager-calendar-kpi-icon kpi-amber"><i class="fa-solid fa-users"></i></div>
++            <div><span>Khách đã giữ chỗ</span><strong id="calendarKpiBooked">0</strong><small id="calendarKpiCapacity">0 tổng sức chứa</small></div>
++          </article>
++          <article class="manager-calendar-kpi">
++            <div class="manager-calendar-kpi-icon kpi-rose"><i class="fa-solid fa-fire-flame-curved"></i></div>
++            <div><span>Ngày cao điểm</span><strong id="calendarKpiPeak">--</strong><small id="calendarKpiPeakHint">Chưa có lịch</small></div>
++          </article>
++        </section>
++
++        <section class="manager-calendar-shell admindek-box">
++          <div class="manager-calendar-shell-header">
++            <div>
++              <h2>Thời Gian Biểu Tour</h2>
++              <p>Số trên mỗi ngày là số đoàn đang diễn ra, bao gồm đoàn khởi hành và đoàn đang trong hành trình.</p>
++            </div>
++            <div class="manager-calendar-legend">
++              <span><i class="legend-line legend-start"></i> Khởi hành</span>
++              <span><i class="legend-line legend-running"></i> Đang tour</span>
++              <span><i class="legend-dot legend-warning"></i> Sắp hết chỗ</span>
++              <span><i class="legend-dot legend-danger"></i> Hết chỗ</span>
++            </div>
++          </div>
++          <div id="managerCalendarRoot" class="manager-calendar-root"></div>
++        </section>
++      </main>
++    </div>
++  </div>
++
++  <script src="js/mock-data.js"></script>
++  <script src="js/utils.js"></script>
++  <script src="js/auth.js"></script>
++  <script src="js/navbar.js"></script>
++  <script src="js/tours.js"></script>
++  <script src="js/booking.js"></script>
++  <script src="js/dashboards.js"></script>
++  <script src="js/manager-calendar.js"></script>
++  <script src="js/main.js"></script>
++</body>
++</html>
+diff --git a/manager-dashboard.html b/manager-dashboard.html
+index 1a7e59de112fc13bb5d160c1c5e0696952ea6be6..544ddd8f57ced1feba5e468bb3fe67d58962652f 100644
+--- a/manager-dashboard.html
++++ b/manager-dashboard.html
+@@ -55,6 +55,12 @@
+               <span class="admindek-nav-badge badge-amber">Active</span>
+             </a>
+           </li>
++          <li class="admindek-nav-item">
++            <a href="manager-calendar.html" class="admindek-nav-link">
++              <span class="admindek-nav-link-left"><i class="fa-solid fa-calendar-days"></i> Lịch Điều Hành</span>
++              <span class="admindek-nav-badge badge-blue">Lịch</span>
++            </a>
++          </li>
+           <li class="admindek-nav-item">
+             <a href="#sectionTours" class="admindek-nav-link" onclick="openSelectedManagerTourSchedule()">
+               <span class="admindek-nav-link-left"><i class="fa-solid fa-calendar-check"></i> Lịch Khởi Hành & Đoàn</span>

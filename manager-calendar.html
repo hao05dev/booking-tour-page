@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lịch Điều Hành Tour - BookingTour Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/manager-calendar.css">
+</head>
+<body class="admindek-body">
+  <div class="admindek-sidebar-overlay" id="admindekOverlay" onclick="toggleAdmindekSidebar()"></div>
+
+  <div class="admindek-app">
+    <aside class="admindek-sidebar" id="admindekSidebar">
+      <a href="index.html" class="admindek-brand">
+        <div class="admindek-brand-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 4px 10px rgba(245, 158, 11, 0.4);">
+          <i class="fa-solid fa-clipboard-check"></i>
+        </div>
+        <div class="admindek-brand-text">
+          <span class="admindek-brand-title">BookingTour</span>
+          <span class="admindek-brand-subtitle" style="color:#f59e0b;">Operations Manager</span>
+        </div>
+      </a>
+
+      <div class="admindek-sidebar-user">
+        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80" alt="Manager Avatar" class="admindek-sidebar-avatar" style="border-color:#f59e0b;">
+        <div class="admindek-sidebar-user-info">
+          <span class="admindek-sidebar-name">Nguyễn Thu Hà</span>
+          <span class="admindek-sidebar-role"><i class="fa-solid fa-circle" style="color:#f59e0b; font-size:0.55rem;"></i> Trưởng Phòng Vận Hành</span>
+        </div>
+      </div>
+
+      <div class="admindek-nav-body">
+        <div class="admindek-section-title">Điều Hành & Vận Hành</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="manager-dashboard.html" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-gauge-high"></i> Tổng Quan Điều Hành</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="manager-calendar.html" class="admindek-nav-link active">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-calendar-days"></i> Lịch Điều Hành</span>
+              <span class="admindek-nav-badge badge-amber" id="calendarNavDepartureBadge">0 Đoàn</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="manager-dashboard.html#sectionTours" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-calendar-check"></i> Lịch Khởi Hành & Đoàn</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="manager-dashboard.html#sectionTours" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-user-tag"></i> Phân Công HDV</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="admindek-section-title">Kho Sản Phẩm Tour</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="manager-dashboard.html#sectionTours" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-compass"></i> Danh Mục Tour Mở Bán</span>
+              <span class="admindek-nav-badge badge-emerald" id="calendarNavTourBadge">0 Tour</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="manager-dashboard.html" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-plus-circle"></i> Thêm Tour Mới</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="manager-dashboard.html" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-calendar-plus"></i> Tạo Ngày Khởi Hành</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="admindek-section-title">Đơn Hàng & Khách Đoàn</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="admin-dashboard.html#sectionBookings" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-ticket"></i> Quản Lý Đơn Đặt Chỗ</span>
+              <span class="admindek-nav-badge badge-amber">142</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="guide-dashboard.html" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-clipboard-user"></i> Xem Tiến Độ HDV Dẫn</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="admindek-section-title">Hệ Thống</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="profile.html" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-user-gear"></i> Hồ Sơ Quản Lý</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="admindek-sidebar-footer">
+        <button type="button" onclick="logout()" class="btn btn-outline btn-block text-danger" style="font-size:0.84rem; padding:8px 12px; border-color:rgba(239, 68, 68, 0.4);">
+          <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất Quản Lý
+        </button>
+      </div>
+    </aside>
+
+    <div class="admindek-main-wrapper">
+      <header class="admindek-topbar">
+        <div class="admindek-topbar-left">
+          <button type="button" class="admindek-toggle-btn" onclick="toggleAdmindekSidebar()" title="Đóng/mở menu">
+            <i class="fa-solid fa-bars-staggered"></i>
+          </button>
+          <div class="admindek-topbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Tìm tour, địa điểm, HDV..." id="calendarSearchInput">
+            <span class="admindek-search-badge">Ctrl K</span>
+          </div>
+        </div>
+
+        <div class="admindek-topbar-right">
+          <a href="manager-dashboard.html" class="admindek-btn-site">
+            <i class="fa-solid fa-table-columns"></i>
+            <span>Quản Lý Tour</span>
+          </a>
+          <a href="index.html" class="admindek-btn-site">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Trang Khách Hàng</span>
+          </a>
+          <div class="nav-actions" style="margin-left:6px;"></div>
+        </div>
+      </header>
+
+      <main class="admindek-content manager-calendar-page">
+        <div class="admindek-page-header calendar-page-heading">
+          <div class="admindek-page-title-wrap">
+            <h1>Lịch Điều Hành Tour</h1>
+            <div class="admindek-breadcrumb">
+              <a href="manager-dashboard.html">Quản lý tour</a>
+              <span>/</span>
+              <span style="color:#0f172a; font-weight:600;">Lịch điều hành</span>
+            </div>
+            <p class="calendar-heading-description">Theo dõi mật độ đoàn, thời gian tour và phân bổ hướng dẫn viên theo tháng, tuần hoặc từng ngày.</p>
+          </div>
+          <div class="calendar-heading-actions">
+            <a href="manager-dashboard.html#sectionTours" class="btn btn-outline">
+              <i class="fa-solid fa-list-check"></i> Danh sách chuyến
+            </a>
+            <a href="manager-dashboard.html" class="btn btn-primary">
+              <i class="fa-solid fa-calendar-plus"></i> Tạo chuyến khởi hành
+            </a>
+          </div>
+        </div>
+
+        <section class="calendar-kpi-grid" aria-label="Tổng quan lịch vận hành">
+          <article class="calendar-kpi-card kpi-primary">
+            <div class="calendar-kpi-icon"><i class="fa-solid fa-route"></i></div>
+            <div>
+              <span>Đoàn trong kỳ</span>
+              <strong id="calendarKpiDepartures">0</strong>
+              <small id="calendarKpiDeparturesSub">Không có đoàn</small>
+            </div>
+          </article>
+          <article class="calendar-kpi-card kpi-blue">
+            <div class="calendar-kpi-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+            <div>
+              <span>Tour đang vận hành</span>
+              <strong id="calendarKpiTours">0</strong>
+              <small>Loại tour có lịch trong kỳ</small>
+            </div>
+          </article>
+          <article class="calendar-kpi-card kpi-amber">
+            <div class="calendar-kpi-icon"><i class="fa-solid fa-users"></i></div>
+            <div>
+              <span>Khách đã giữ chỗ</span>
+              <strong id="calendarKpiGuests">0</strong>
+              <small id="calendarKpiCapacitySub">0 chỗ đang mở</small>
+            </div>
+          </article>
+          <article class="calendar-kpi-card kpi-rose">
+            <div class="calendar-kpi-icon"><i class="fa-solid fa-fire-flame-curved"></i></div>
+            <div>
+              <span>Ngày cao điểm</span>
+              <strong id="calendarKpiPeak">--/--</strong>
+              <small id="calendarKpiPeakSub">Chưa có lịch</small>
+            </div>
+          </article>
+        </section>
+
+        <section class="calendar-workspace-card">
+          <div class="calendar-workspace-toolbar">
+            <div class="calendar-navigation">
+              <button type="button" class="calendar-icon-btn" id="calendarPrevBtn" title="Kỳ trước"><i class="fa-solid fa-chevron-left"></i></button>
+              <button type="button" class="calendar-icon-btn" id="calendarNextBtn" title="Kỳ sau"><i class="fa-solid fa-chevron-right"></i></button>
+              <button type="button" class="calendar-today-btn" id="calendarTodayBtn">Hôm nay</button>
+              <button type="button" class="calendar-upcoming-btn" id="calendarUpcomingBtn"><i class="fa-solid fa-forward-step"></i> Lịch gần nhất</button>
+              <div class="calendar-period-title" id="calendarPeriodTitle">--</div>
+            </div>
+
+            <div class="calendar-view-switch" role="tablist" aria-label="Chế độ xem lịch">
+              <button type="button" class="calendar-view-btn active" data-calendar-view="month"><i class="fa-regular fa-calendar"></i> Tháng</button>
+              <button type="button" class="calendar-view-btn" data-calendar-view="week"><i class="fa-solid fa-table-columns"></i> Tuần</button>
+              <button type="button" class="calendar-view-btn" data-calendar-view="day"><i class="fa-regular fa-calendar-day"></i> Ngày</button>
+            </div>
+          </div>
+
+          <div class="calendar-filter-bar">
+            <label class="calendar-filter-field">
+              <span>Tour</span>
+              <select id="calendarTourFilter" class="form-control">
+                <option value="all">Tất cả tour</option>
+              </select>
+            </label>
+            <label class="calendar-filter-field">
+              <span>Hướng dẫn viên</span>
+              <select id="calendarGuideFilter" class="form-control">
+                <option value="all">Tất cả HDV</option>
+              </select>
+            </label>
+            <label class="calendar-filter-field">
+              <span>Tình trạng chỗ</span>
+              <select id="calendarStatusFilter" class="form-control">
+                <option value="all">Tất cả trạng thái</option>
+                <option value="Available">Còn chỗ</option>
+                <option value="Almost Full">Sắp hết chỗ</option>
+                <option value="Sold Out">Hết chỗ</option>
+              </select>
+            </label>
+            <button type="button" class="calendar-reset-filter" id="calendarResetFilters"><i class="fa-solid fa-rotate-left"></i> Đặt lại</button>
+            <div class="calendar-legend">
+              <span><i class="legend-dot legend-start"></i> Khởi hành</span>
+              <span><i class="legend-dot legend-running"></i> Đang tour</span>
+              <span><i class="legend-dot legend-end"></i> Kết thúc</span>
+            </div>
+          </div>
+
+          <div class="calendar-density-note">
+            <span><strong>Mật độ:</strong></span>
+            <span><i class="density-box density-low"></i> 1 đoàn</span>
+            <span><i class="density-box density-medium"></i> 2–3 đoàn</span>
+            <span><i class="density-box density-high"></i> 4+ đoàn</span>
+          </div>
+
+          <div class="calendar-view-container" id="managerCalendarView" aria-live="polite"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/mock-data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/manager-calendar.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
