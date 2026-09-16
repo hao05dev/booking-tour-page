@@ -4,6 +4,24 @@ Bộ Prototype giao diện hoàn chỉnh gồm **17 màn hình tương tác** ch
 
 ---
 
+## 🔑 Danh Sách Tài Khoản Demo Để Kiểm Thử (Test Accounts)
+
+Bạn có thể đăng nhập bằng **2 cách**:
+- **Cách 1 (Nhanh nhất)**: Nhấp vào thanh **Demo Vai Trò** cố định ở **góc dưới bên trái** màn hình trên bất kỳ trang nào.
+- **Cách 2**: Truy cập trang [login.html](login.html) và nhấp vào các nút Demo 1-Click hoặc nhập Email & Mật khẩu từ bảng bên dưới:
+
+| STT | Vai Trò (Role) | Email Đăng Nhập | Mật Khẩu Demo | Tên Người Dùng | Quyền Hạn & Tính Năng Trọng Tâm Để Test |
+|:---:|:---|:---|:---:|:---|:---|
+| 1 | 👤 **Khách Vãng Lai**<br>guest | *(Không cần đăng nhập)* | *(Trống)* | Khách Vãng Lai | • Trạng thái mặc định khi mới vào web.<br>• Tìm kiếm & xem chi tiết tour.<br>• Kiểm tra popup/toast nhắc đăng nhập khi bấm *Đặt Tour*. |
+| 2 | 🎒 **Khách Hàng**<br>customer | customer@example.com<br>*(hoặc hao.nguyen@example.com)* | 12345678 | Nguyễn Văn Hào | • Đặt tour, điền thông tin hành khách tự động.<br>• Thanh toán VietQR với đồng hồ đếm ngược 10:00.<br>• Xem lịch sử đơn đặt tour ([ooking-history.html](booking-history.html)).<br>• Xem chi tiết vé & mã QR ([ooking-detail.html](booking-detail.html)).<br>• Gửi đánh giá tour ([eview.html](review.html)).<br>• Chỉnh sửa hồ sơ ([profile.html](profile.html)). |
+| 3 | 🎒 **Khách Hàng 2**<br>customer | mai.tran@example.com | 12345678 | Trần Thị Mai | • Tài khoản khách hàng phụ để thử nghiệm dữ liệu đa người dùng. |
+| 4 | 🚩 **Hướng Dẫn Viên**<br>guide | guide@example.com | 12345678 | Trần Quốc Hưng | • Bảng điều khiển HDV ([guide-dashboard.html](guide-dashboard.html)).<br>• Xem lịch khởi hành được phân công (Vịnh Hạ Long 25/10/2026).<br>• Xem danh sách 18 khách đoàn & điểm danh từng khách lên xe.<br>• **Cập nhật tiến độ tour 5 bước** qua Stepper tương tác (*Sắp diễn ra ➔ Chuẩn bị ➔ Đón khách ➔ Đang diễn ra ➔ Hoàn thành*). |
+| 5 | 🚩 **Hướng Dẫn Viên 2**<br>guide | 	uan.guide@example.com | 12345678 | Phạm Minh Tuấn | • HDV phụ trách tuyến Sa Pa (5 năm kinh nghiệm, 4.88★). |
+| 6 | 📋 **Quản Lý Tour**<br>manager | manager@example.com | 12345678 | Nguyễn Thu Hà | • Bảng quản lý tour & lịch trình ([manager-dashboard.html](manager-dashboard.html)).<br>• **Thêm Tour Mới** qua Modal & lưu vào hệ thống.<br>• **Tạo Lịch Khởi Hành & Phân Công HDV** phụ trách.<br>• Xóa tour và theo dõi các chỉ số KPI vận hành. |
+| 7 | 🛡️ **Quản Trị Viên**<br>dmin | dmin@example.com | 12345678 | Lê Hoàng Long | • Bảng quản trị hệ thống ([dmin-dashboard.html](admin-dashboard.html)).<br>• **Thay đổi phân quyền vai trò (Role)** của người dùng theo thời gian thực.<br>• **Khóa / Mở khóa** tài khoản người dùng.<br>• **Kiểm duyệt đánh giá (Review Moderation)**: Duyệt hoặc ẩn nhận xét.<br>• Xem tổng quan đơn đặt tour & doanh thu toàn sàn. |
+
+---
+
 ## 🎭 Hệ Thống 5 Vai Trò (Actor & Roles) & Dynamic Navbar
 
 Hệ thống hỗ trợ chuyển đổi linh hoạt giữa 5 vai trò mô phỏng qua thanh **Floating Demo Role Switcher** (góc dưới bên trái) hoặc qua trang [login.html](login.html):
