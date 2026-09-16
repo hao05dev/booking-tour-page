@@ -382,6 +382,44 @@ function initToursPage() {
   const db = getMockDatabase();
   let allTours = [...db.tours];
 
+  const regionLabels = {
+    north: 'Miền Bắc',
+    central: 'Miền Trung',
+    south: 'Miền Nam'
+  };
+
+  const themeLabels = {
+    sea: 'Biển đảo',
+    nature: 'Thiên nhiên',
+    culture: 'Văn hóa'
+  };
+
+  function parseVnDate(value) {
+    if (!value) return Number.MAX_SAFE_INTEGER;
+    const [day, month, year] = value.split('/').map(Number);
+    return new Date(year, month - 1, day).getTime();
+  }
+
+  function getNextDeparture(tourId) {
+    return db.departures
+      .filter(dep => dep.tourId === tourId && dep.status !== 'Sold Out')
+      .sort((a, b) => parseVnDate(a.date) - parseVnDate(b.date))[0] || null;
+  }
+
+  function getRatingLabel(rating) {
+    if (rating >= 4.8) return 'Tuyệt vời';
+    if (rating >= 4.6) return 'Xuất sắc';
+    if (rating >= 4.4) return 'Rất tốt';
+    return 'Tốt';
+  }
+
+  function getPromoLabel(tour) {
+    if (tour.featured) return 'Giá ưu đãi';
+    if (tour.popular) return 'Tour bán chạy';
+    if (tour.topRated) return 'Được yêu thích';
+    return '';
+  }
+
   function filterAndRenderTours() {
     const keyword = inputSearch ? inputSearch.value.trim().toLowerCase() : searchKeyword.toLowerCase();
     const currentRegion = document.querySelector('.tour-category-tab.active')?.dataset.region || 'all';
@@ -467,37 +505,54 @@ function initToursPage() {
       return;
     }
 
-    toursGrid.innerHTML = filtered.map(tour => `
-      <article class="tour-card">
-        <div class="tour-card-image-wrap">
-          <img src="${tour.image}" alt="${tour.title}" class="tour-card-img" loading="lazy">
-          <div class="tour-card-badges">
-            ${tour.featured ? '<span class="badge badge-warning"><i class="fa-solid fa-fire"></i> Nổi bật</span>' : ''}
-            <span class="badge badge-neutral"><i class="fa-solid fa-location-dot"></i> ${tour.location}</span>
+    toursGrid.innerHTML = filtered.map(tour => {
+      const nextDeparture = getNextDeparture(tour.id);
+      const promoLabel = getPromoLabel(tour);
+      const ratingScore = (tour.rating * 2).toFixed(1);
+      const regionLabel = regionLabels[tour.region] || tour.location;
+      const themeLabel = themeLabels[tour.theme] || 'Khám phá';
+
+      return `
+        <a class="tour-card tour-card-reference" href="tour-detail.html?id=${tour.id}" aria-label="Xem chi tiết ${tour.title}">
+          <div class="tour-card-image-wrap">
+            <img src="${tour.image}" alt="${tour.title}" class="tour-card-img" loading="lazy">
+            ${promoLabel ? `<span class="tour-promo-badge">${promoLabel}</span>` : ''}
           </div>
-          <button class="tour-wishlist-btn" aria-label="Yêu thích" onclick="toggleWishlist(this, '${tour.id}')">
-            <i class="fa-regular fa-heart"></i>
-          </button>
-        </div>
-        <div class="tour-card-body">
-          <div class="tour-meta">
-            <span class="tour-duration"><i class="fa-regular fa-clock"></i> ${tour.duration}</span>
-            <span class="tour-rating"><i class="fa-solid fa-star text-warning"></i> <strong>${tour.rating}</strong> (${tour.reviewsCount})</span>
-          </div>
-          <h3 class="tour-title">
-            <a href="tour-detail.html?id=${tour.id}">${tour.title}</a>
-          </h3>
-          <p class="tour-description">${tour.description}</p>
-          <div class="tour-card-footer">
-            <div class="tour-price-box">
-              <span class="tour-price-label">Giá từ</span>
-              <span class="tour-price-val">${formatCurrency(tour.price)}</span>
+
+          <div class="tour-card-body">
+            <div class="tour-rating-row">
+              <span class="tour-rating-score">${ratingScore}</span>
+              <strong class="tour-rating-label">${getRatingLabel(tour.rating)}</strong>
+              <span class="tour-rating-count">(${tour.reviewsCount})</span>
             </div>
-            <a href="tour-detail.html?id=${tour.id}" class="btn btn-outline btn-sm">Chi tiết <i class="fa-solid fa-arrow-right"></i></a>
+
+            <h3 class="tour-title">${tour.title}</h3>
+
+            <div class="tour-info-row">
+              <span><i class="fa-regular fa-clock"></i> ${tour.days} ngày</span>
+              <span><i class="fa-solid fa-location-dot"></i> Điểm đến ${tour.location}</span>
+            </div>
+
+            <div class="tour-tag-row">
+              <span class="tour-tag">${themeLabel}</span>
+              <span class="tour-tag">${regionLabel}</span>
+            </div>
+
+            <div class="tour-card-footer-reference">
+              <div class="tour-price-reference">
+                <div class="tour-price-line">
+                  <span>Giá chỉ</span>
+                  <strong>${formatCurrency(tour.price)}</strong>
+                </div>
+                <div class="tour-departure-date">
+                  ${nextDeparture ? `Khởi hành ngày ${nextDeparture.date.slice(0, 5)}` : 'Liên hệ lịch khởi hành'}
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </article>
-    `).join('');
+        </a>
+      `;
+    }).join('');
   }
 
   window.clearSearchKeyword = () => {
