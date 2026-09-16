@@ -265,6 +265,7 @@
               <thead>
                 <tr>
                   <th>Thông Tin Tour</th>
+                  <th>Mùa Vụ & Giai Đoạn</th>
                   <th>Giá Tiêu Chuẩn</th>
                   <th>Lịch Khởi Hành</th>
                   <th>Phân Loại</th>
@@ -283,18 +284,21 @@
 
   <!-- Modal: Tạo Tour Mới -->
   <div class="modal-backdrop" id="modalAddTour">
-    <div class="modal-container" style="max-width:650px;">
+    <div class="modal-container" style="max-width:720px;">
       <div class="modal-header">
         <h3 class="modal-title"><i class="fa-solid fa-plus-circle text-primary"></i> Tạo Tour Du Lịch Mới</h3>
         <button class="modal-close" data-close-modal><i class="fa-solid fa-xmark"></i></button>
       </div>
       <form id="formAddTour">
-        <div class="modal-body">
+        <div class="modal-body" style="max-height:75vh; overflow-y:auto; padding:20px 24px;">
+          <!-- Tên Tour -->
           <div class="form-group">
             <label class="form-label required">Tên Tour Du Lịch</label>
             <input type="text" id="newTourTitle" class="form-control" placeholder="Ví dụ: Du Lịch Quy Nhơn - Kỳ Co Eo Gió 3N2Đ" required>
           </div>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+
+          <!-- Địa Điểm & Vùng Miền -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
             <div class="form-group">
               <label class="form-label required">Địa Điểm / Tỉnh Thành</label>
               <input type="text" id="newTourLocation" class="form-control" placeholder="Bình Định" required>
@@ -308,21 +312,77 @@
               </select>
             </div>
           </div>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+
+          <!-- Mùa Trong Năm & Giai Đoạn Vận Hành -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
             <div class="form-group">
-              <label class="form-label required">Thời Lượng Tour</label>
-              <input type="text" id="newTourDuration" class="form-control" placeholder="3 Ngày 2 Đêm" required>
+              <label class="form-label required">
+                <i class="fa-solid fa-cloud-sun text-warning"></i> Mùa Trong Năm (Seasonality)
+              </label>
+              <select id="newTourSeason" class="form-control" onchange="autoFillSeasonDates(this.value)">
+                <option value="autumn" selected>Mùa Thu (Tháng 9 - Tháng 11)</option>
+                <option value="summer">Mùa Hè (Tháng 4 - Tháng 8)</option>
+                <option value="spring">Mùa Xuân (Tháng 1 - Tháng 3)</option>
+                <option value="winter">Mùa Đông (Tháng 12 - Tháng 2)</option>
+                <option value="festival">Mùa Lễ Hội / Tết</option>
+                <option value="all_year">Quanh Năm (4 Mùa)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label required">
+                <i class="fa-solid fa-chart-pie text-primary"></i> Giai Đoạn Tour Hiện Tại
+              </label>
+              <select id="newTourStage" class="form-control">
+                <option value="peak" selected>⚡ Mùa Cao Điểm (Đang chạy nhiều đoàn)</option>
+                <option value="regular">✅ Đang Mở Bán Bình Thường</option>
+                <option value="early_bird">🎁 Mở Bán Sớm (Early Bird)</option>
+                <option value="low_season">🏷️ Mùa Thấp Điểm / Kích Cầu</option>
+                <option value="closing">⏳ Sắp Đóng Mùa Bán</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Khung Thời Gian Xuất Hiện Trong Năm (Bắt Đầu & Kết Thúc Mùa Bán) -->
+          <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px; margin-bottom:16px;">
+            <div style="font-size:0.82rem; font-weight:700; color:#0f766e; margin-bottom:8px;">
+              <i class="fa-regular fa-calendar-range"></i> Khung Thời Gian Xuất Hiện / Vận Hành Trong Năm
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label required">Ngày Bắt Đầu Mùa Bán</label>
+                <input type="date" id="newTourSeasonStart" class="form-control" value="2026-09-01" required>
+              </div>
+              <div class="form-group" style="margin-bottom:0;">
+                <label class="form-label required">Ngày Kết Thúc Mùa Bán</label>
+                <input type="date" id="newTourSeasonEnd" class="form-control" value="2026-11-30" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- Thời Lượng & Giá Tour -->
+          <div style="display:grid; grid-template-columns:1fr 1.2fr 1fr; gap:14px;">
+            <div class="form-group">
+              <label class="form-label required">Số Ngày Đi</label>
+              <input type="number" id="newTourDays" class="form-control" value="3" min="1" max="30" onchange="autoFormatDuration(this.value)" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label required">Thời Lượng Hiển Thị</label>
+              <input type="text" id="newTourDuration" class="form-control" value="3 Ngày 2 Đêm" required>
             </div>
             <div class="form-group">
               <label class="form-label required">Giá Tour (VND)</label>
               <input type="number" id="newTourPrice" class="form-control" placeholder="3200000" value="3200000" required>
             </div>
           </div>
+
+          <!-- Link Ảnh Đại Diện -->
           <div class="form-group">
             <label class="form-label">Link Ảnh Đại Diện (URL)</label>
             <input type="url" id="newTourImage" class="form-control" placeholder="https://images.unsplash.com/..." value="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80">
           </div>
-          <div class="form-group">
+
+          <!-- Mô Tả -->
+          <div class="form-group" style="margin-bottom:0;">
             <label class="form-label required">Mô Tả Tóm Tắt</label>
             <textarea id="newTourDesc" class="form-control" rows="3" placeholder="Giới thiệu hành trình, điểm tham quan nổi bật..." required>Khám phá thiên đường biển đảo Kỳ Co, Eo Gió lộng gió và thưởng thức hải sản Nhơn Lý tươi ngon đặc sắc.</textarea>
           </div>

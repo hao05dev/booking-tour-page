@@ -615,6 +615,73 @@ function initManagerDashboard() {
     return { status: 'Available', statusText: 'Còn chỗ', badgeClass: 'badge-available' };
   }
 
+  // Global helpers for Tour Creation Form
+  window.autoFillSeasonDates = function(seasonVal) {
+    const startEl = document.getElementById('newTourSeasonStart');
+    const endEl = document.getElementById('newTourSeasonEnd');
+    if (!startEl || !endEl) return;
+    const map = {
+      autumn: { start: '2026-09-01', end: '2026-11-30' },
+      summer: { start: '2026-04-01', end: '2026-08-31' },
+      spring: { start: '2026-01-01', end: '2026-03-31' },
+      winter: { start: '2026-12-01', end: '2027-02-28' },
+      festival: { start: '2026-12-15', end: '2027-02-15' },
+      all_year: { start: '2026-01-01', end: '2026-12-31' }
+    };
+    if (map[seasonVal]) {
+      startEl.value = map[seasonVal].start;
+      endEl.value = map[seasonVal].end;
+    }
+  };
+
+  window.autoFormatDuration = function(days) {
+    const d = Math.max(1, parseInt(days, 10) || 1);
+    const durationEl = document.getElementById('newTourDuration');
+    if (durationEl) {
+      if (d === 1) {
+        durationEl.value = '1 Ngày';
+      } else {
+        durationEl.value = `${d} Ngày ${d - 1} Đêm`;
+      }
+    }
+  };
+
+  function getSeasonBadge(season, seasonLabel) {
+    const map = {
+      spring: { icon: 'fa-seedling', class: 'badge-success', text: seasonLabel || 'Mùa Xuân' },
+      summer: { icon: 'fa-sun', class: 'badge-danger', text: seasonLabel || 'Mùa Hè' },
+      autumn: { icon: 'fa-leaf', class: 'badge-warning', text: seasonLabel || 'Mùa Thu' },
+      winter: { icon: 'fa-snowflake', class: 'badge-info', text: seasonLabel || 'Mùa Đông' },
+      festival: { icon: 'fa-gift', class: 'badge-primary', text: seasonLabel || 'Mùa Lễ Hội / Tết' },
+      all_year: { icon: 'fa-globe', class: 'badge-neutral', text: seasonLabel || 'Quanh Năm' }
+    };
+    const conf = map[season] || map.all_year;
+    return `<span class="badge ${conf.class}" style="font-size:0.75rem; display:inline-flex; align-items:center; gap:4px;"><i class="fa-solid ${conf.icon}"></i> ${conf.text}</span>`;
+  }
+
+  function getStageBadge(stage, stageLabel) {
+    const map = {
+      peak: { icon: 'fa-bolt', style: 'background:#fef2f2; color:#b91c1c; border:1px solid #fecaca;', text: stageLabel || 'Mùa Cao Điểm' },
+      regular: { icon: 'fa-circle-check', style: 'background:#ecfdf5; color:#047857; border:1px solid #a7f3d0;', text: stageLabel || 'Đang Mở Bán' },
+      early_bird: { icon: 'fa-gift', style: 'background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe;', text: stageLabel || 'Mở Bán Sớm' },
+      low_season: { icon: 'fa-tag', style: 'background:#f8fafc; color:#475569; border:1px solid #cbd5e1;', text: stageLabel || 'Mùa Thấp Điểm' },
+      closing: { icon: 'fa-hourglass-half', style: 'background:#fffbeb; color:#b45309; border:1px solid #fde68a;', text: stageLabel || 'Sắp Đóng Mùa' }
+    };
+    const conf = map[stage] || map.regular;
+    return `<span class="badge" style="${conf.style} font-size:0.75rem; display:inline-flex; align-items:center; gap:4px;"><i class="fa-solid ${conf.icon}"></i> ${conf.text}</span>`;
+  }
+
+  function formatSeasonDates(startDate, endDate) {
+    if (!startDate || !endDate) return 'Quanh năm';
+    const formatIsoToVn = (iso) => {
+      if (!iso) return '';
+      const parts = iso.split('-');
+      if (parts.length === 3) return `${parts[2]}/${parts[1]}/${parts[0]}`;
+      return iso;
+    };
+    return `${formatIsoToVn(startDate)} → ${formatIsoToVn(endDate)}`;
+  }
+
   function getTourDepartures(tourId) {
     return db.departures
       .filter(dep => dep.tourId === tourId)
@@ -700,13 +767,15 @@ function initManagerDashboard() {
     const tours = db.tours.filter(tour => {
       if (!normalizedKeyword) return true;
       return tour.title.toLowerCase().includes(normalizedKeyword)
-        || tour.location.toLowerCase().includes(normalizedKeyword);
+        || tour.location.toLowerCase().includes(normalizedKeyword)
+        || (tour.seasonLabel && tour.seasonLabel.toLowerCase().includes(normalizedKeyword))
+        || (tour.stageLabel && tour.stageLabel.toLowerCase().includes(normalizedKeyword));
     });
 
     if (!tours.length) {
       managerTourTable.innerHTML = `
         <tr>
-          <td colspan="5" style="text-align:center; padding:36px;">
+          <td colspan="6" style="text-align:center; padding:36px;">
             <span class="text-muted">Không tìm thấy tour phù hợp với từ khóa "${tourSearchKeyword}".</span>
           </td>
         </tr>
@@ -729,18 +798,35 @@ function initManagerDashboard() {
 
       return `
         <tr class="manager-tour-row ${isExpanded ? 'is-expanded' : ''}" id="tour-row-${tour.id}">
+          <!-- Cột 1: Thông Tin Tour -->
           <td>
             <div style="display:flex; align-items:center; gap:12px;">
-              <img src="${tour.image}" style="width:58px; height:44px; object-fit:cover; border-radius:var(--radius-sm);" alt="${tour.title}">
+              <img src="${tour.image}" style="width:58px; height:44px; object-fit:cover; border-radius:var(--radius-sm); box-shadow:0 2px 6px rgba(0,0,0,0.08);" alt="${tour.title}">
               <div>
-                <strong style="display:block; font-size:0.9rem;">${tour.title}</strong>
-                <span class="text-muted" style="font-size:0.75rem;"><i class="fa-solid fa-location-dot"></i> ${tour.location} • ${tour.duration}</span>
+                <strong style="display:block; font-size:0.9rem; color:#0f172a;">${tour.title}</strong>
+                <span class="text-muted" style="font-size:0.75rem;"><i class="fa-solid fa-location-dot text-danger"></i> ${tour.location} • <i class="fa-regular fa-clock text-primary"></i> ${tour.duration}</span>
               </div>
             </div>
           </td>
-          <td><strong class="text-primary">${formatCurrency(tour.price)}</strong></td>
+
+          <!-- Cột 2: Mùa Vụ & Giai Đoạn -->
           <td>
-            <!-- Prominent Ergonomic Toggle Button -->
+            <div style="display:flex; flex-direction:column; gap:4px; align-items:flex-start;">
+              <div style="display:flex; gap:4px; flex-wrap:wrap;">
+                ${getSeasonBadge(tour.season, tour.seasonLabel)}
+                ${getStageBadge(tour.stage, tour.stageLabel)}
+              </div>
+              <div style="font-size:0.72rem; color:#64748b; font-weight:500; display:flex; align-items:center; gap:4px;">
+                <i class="fa-regular fa-calendar-range" style="color:#0f766e;"></i> ${formatSeasonDates(tour.seasonStart, tour.seasonEnd)}
+              </div>
+            </div>
+          </td>
+
+          <!-- Cột 3: Giá Tiêu Chuẩn -->
+          <td><strong class="text-primary" style="font-size:0.92rem;">${formatCurrency(tour.price)}</strong></td>
+
+          <!-- Cột 4: Lịch Khởi Hành -->
+          <td>
             <button type="button" 
                     class="manager-schedule-toggle-btn ${isExpanded ? 'is-active' : ''}" 
                     id="btn-toggle-${tour.id}" 
@@ -757,7 +843,11 @@ function initManagerDashboard() {
               <i class="fa-solid fa-chevron-down toggle-chevron"></i>
             </button>
           </td>
+
+          <!-- Cột 5: Phân Loại -->
           <td><span class="badge ${tour.featured ? 'badge-warning' : 'badge-neutral'}">${tour.featured ? 'Nổi bật' : 'Tiêu chuẩn'}</span></td>
+
+          <!-- Cột 6: Thao Tác -->
           <td>
             <div style="display:flex; gap:6px; flex-wrap:wrap;">
               <button class="btn ${isExpanded ? 'btn-primary' : 'btn-outline'} btn-sm" onclick="toggleManagerTourDrawer('${tour.id}')" title="${isExpanded ? 'Thu gọn lịch' : 'Quản lý lịch'}">
@@ -771,17 +861,26 @@ function initManagerDashboard() {
 
         <!-- IN-PLACE EXPANDABLE DRAWER ROW -->
         <tr class="manager-drawer-row ${isExpanded ? 'is-open' : ''}" id="drawer-${tour.id}">
-          <td colspan="5" class="manager-drawer-cell">
+          <td colspan="6" class="manager-drawer-cell">
             <div class="manager-drawer-content">
               
-              <!-- Tour Summary Banner -->
+              <!-- Tour Summary Banner with Season & Stage Meta -->
               <div class="manager-drawer-tour-banner">
                 <div class="manager-drawer-tour-info">
                   <img src="${tour.image}" alt="${tour.title}">
                   <div>
-                    <span class="badge badge-primary" style="font-size:0.7rem; padding:3px 8px; margin-bottom:4px; display:inline-block;">QUẢN LÝ LỊCH KHỞI HÀNH</span>
+                    <div style="display:flex; gap:6px; align-items:center; margin-bottom:6px; flex-wrap:wrap;">
+                      <span class="badge badge-primary" style="font-size:0.7rem; padding:3px 8px;">QUẢN LÝ LỊCH KHỞI HÀNH</span>
+                      ${getSeasonBadge(tour.season, tour.seasonLabel)}
+                      ${getStageBadge(tour.stage, tour.stageLabel)}
+                    </div>
                     <h3>${tour.title}</h3>
-                    <p><i class="fa-solid fa-location-dot"></i> ${tour.location} • ${tour.duration} • Giá chuẩn: ${formatCurrency(tour.price)}</p>
+                    <p>
+                      <i class="fa-solid fa-location-dot text-danger"></i> ${tour.location} • 
+                      <i class="fa-regular fa-clock text-primary"></i> ${tour.duration} • 
+                      <i class="fa-regular fa-calendar-check text-success"></i> Khung vận hành: <strong>${formatSeasonDates(tour.seasonStart, tour.seasonEnd)}</strong> • 
+                      Giá chuẩn: <strong class="text-primary">${formatCurrency(tour.price)}</strong>
+                    </p>
                   </div>
                 </div>
                 <div class="manager-drawer-stats">
@@ -1122,15 +1221,24 @@ function initManagerDashboard() {
     });
   }
 
-  // Create New Tour Form
+  // Create New Tour Form (Enhanced with Seasonality, Stage & Date Range)
   if (formAddTour) {
     formAddTour.addEventListener('submit', (event) => {
       event.preventDefault();
       const title = document.getElementById('newTourTitle').value.trim();
       const location = document.getElementById('newTourLocation').value.trim();
       const region = document.getElementById('newTourRegion').value;
-      const duration = document.getElementById('newTourDuration').value.trim();
-      const price = parseInt(document.getElementById('newTourPrice').value, 10);
+      const seasonSelect = document.getElementById('newTourSeason');
+      const season = seasonSelect ? seasonSelect.value : 'all_year';
+      const seasonLabel = seasonSelect ? seasonSelect.options[seasonSelect.selectedIndex].text.split('(')[0].trim() : 'Quanh Năm';
+      const stageSelect = document.getElementById('newTourStage');
+      const stage = stageSelect ? stageSelect.value : 'regular';
+      const stageLabel = stageSelect ? stageSelect.options[stageSelect.selectedIndex].text.replace(/^[^\w\s\u00C0-\u1EF9]+/g, '').trim() : 'Đang Mở Bán';
+      const seasonStart = document.getElementById('newTourSeasonStart')?.value || '2026-01-01';
+      const seasonEnd = document.getElementById('newTourSeasonEnd')?.value || '2026-12-31';
+      const days = parseInt(document.getElementById('newTourDays')?.value, 10) || 3;
+      const duration = document.getElementById('newTourDuration')?.value.trim() || `${days} Ngày ${days > 1 ? (days - 1) + ' Đêm' : ''}`;
+      const price = parseInt(document.getElementById('newTourPrice').value, 10) || 3000000;
       const desc = document.getElementById('newTourDesc').value.trim();
       const img = document.getElementById('newTourImage').value.trim() || 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80';
 
@@ -1141,7 +1249,13 @@ function initManagerDashboard() {
         region,
         theme: 'nature',
         duration,
-        days: parseInt(duration, 10) || 3,
+        days,
+        season,
+        seasonLabel,
+        stage,
+        stageLabel,
+        seasonStart,
+        seasonEnd,
         rating: 5.0,
         reviewsCount: 0,
         price,
@@ -1160,7 +1274,7 @@ function initManagerDashboard() {
       renderManagerTours();
       closeModal('modalAddTour');
       formAddTour.reset();
-      showToast('Đã thêm tour mới thành công! Lịch khởi hành đã mở sẵn để bạn tạo chuyến.', 'success');
+      showToast('Đã thêm tour mới thành công với đầy đủ mùa vụ và giai đoạn!', 'success');
     });
   }
 
