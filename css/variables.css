@@ -1,7 +1,9 @@
-﻿/* ==========================================================================
-   BOOKING TOUR - VARIABLES & BASE SYSTEM
+/* ==========================================================================
+   BOOKING TOUR - MASTER DESIGN SYSTEM & STYLESHEET
+   Style: Modern Travel Booking | Clean | Professional | Responsive
    ========================================================================== */
 
+/* --- Google Fonts & CSS Custom Properties --- */
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 :root {
@@ -65,6 +67,7 @@
   --container-max: 1240px;
 }
 
+/* --- Base & Reset --- */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -108,9 +111,46 @@ button, input, select, textarea {
   font-size: inherit;
 }
 
+/* --- Layout Container --- */
 .container {
   width: 100%;
   max-width: var(--container-max);
   margin: 0 auto;
   padding: 0 20px;
+}
+
+.main-content {
+  flex: 1;
+  padding-bottom: 60px;
+}
+
+/* --- Typography Helpers --- */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--text-main);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.text-primary { color: var(--primary); }
+.text-accent { color: var(--accent); }
+.text-muted { color: var(--text-muted); }
+.text-success { color: var(--success); }
+.text-danger { color: var(--danger); }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.font-bold { font-weight: 700; }
+.font-semibold { font-weight: 600; }
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
+}
+
+.section-subtitle {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  margin-bottom: 32px;
 }

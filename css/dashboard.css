@@ -1,5 +1,757 @@
-﻿/* ==========================================================================
-   BOOKING TOUR - ADMINDEK SAAS DASHBOARD & SIDEBAR LAYOUT SYSTEM
+/* ==========================================================================
+   BOOKING TOUR - DASHBOARD STYLES (ADMINDEK SAAS)
+   Guide, Manager & Admin Dashboards, Sidebar, Topbar, Stat Cards, Stepper
+   ========================================================================== */
+
+
+/* Tour Progress Stepper */
+.tour-progress-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  margin: 25px 0 35px;
+  padding: 0 10px;
+}
+.tour-progress-stepper::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  right: 30px;
+  height: 4px;
+  background: var(--border);
+  z-index: 1;
+}
+.progress-line-fill {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  height: 4px;
+  background: var(--primary);
+  z-index: 2;
+  transition: width 0.4s ease;
+}
+.step-item {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+}
+.step-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 3px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  transition: var(--transition);
+}
+.step-item.active .step-circle {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: #FFFFFF;
+  box-shadow: 0 0 0 6px var(--primary-100);
+}
+.step-item.completed .step-circle {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: #FFFFFF;
+}
+.step-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-top: 8px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.step-item.active .step-title,
+.step-item.completed .step-title {
+  color: var(--primary-800);
+  font-weight: 700;
+}
+@media (max-width: 768px) {
+  .step-title {
+    font-size: 0.72rem;
+  }
+  .step-circle {
+    width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
+  }
+  .tour-progress-stepper::before,
+  .progress-line-fill {
+    top: 16px;
+  }
+}
+
+/* Guide Schedule & Timeline Component */
+.timeline-schedule {
+  position: relative;
+  padding-left: 28px;
+  margin-top: 20px;
+}
+.timeline-schedule::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 8px;
+  width: 2px;
+  background: var(--border);
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 18px;
+}
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+.timeline-dot {
+  position: absolute;
+  left: -28px;
+  top: 12px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 3px solid var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: var(--transition);
+}
+.timeline-item.completed .timeline-dot {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+.timeline-item.active .timeline-dot {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-light);
+}
+.timeline-content {
+  background: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  transition: var(--transition);
+}
+.timeline-content:hover {
+  border-color: var(--primary-light);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+.timeline-time {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.timeline-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-heading);
+  margin-top: 2px;
+}
+.timeline-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+.tour-day-tab {
+  padding: 8px 18px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: var(--transition);
+  color: var(--text-muted);
+}
+.tour-day-tab:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.tour-day-tab.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.3);
+}
+
+/* ======================================================
+   FIX TOUR CARD - TOURS PAGE
+   ====================================================== */
+
+#toursListContainer {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
+}
+
+/* CARD */
+#toursListContainer .tour-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+  height: 100%;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+#toursListContainer .tour-card:hover {
+  transform: translateY(-5px);
+  border-color: #cbd5e1;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.10);
+}
+
+
+/* ======================================================
+   IMAGE
+   ====================================================== */
+
+#toursListContainer .tour-card-image-wrap {
+  position: relative;
+
+  width: 100%;
+  height: 220px;
+
+  overflow: hidden;
+  flex-shrink: 0;
+
+  background: #f1f5f9;
+}
+
+#toursListContainer .tour-card-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transition: transform 0.4s ease;
+}
+
+#toursListContainer .tour-card:hover .tour-card-img {
+  transform: scale(1.05);
+}
+
+
+/* ======================================================
+   BADGE
+   ====================================================== */
+
+#toursListContainer .tour-card-badges {
+  position: absolute;
+
+  top: 14px;
+  left: 14px;
+
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  max-width: calc(100% - 70px);
+}
+
+#toursListContainer .tour-card-badges .badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  white-space: nowrap;
+}
+
+
+/* ======================================================
+   WISHLIST BUTTON
+   ====================================================== */
+
+#toursListContainer .tour-wishlist-btn {
+  position: absolute;
+
+  top: 14px;
+  right: 14px;
+
+  z-index: 3;
+
+  width: 38px;
+  height: 38px;
+
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255, 255, 255, 0.95);
+
+  color: #64748b;
+  font-size: 1rem;
+
+  cursor: pointer;
+
+  box-shadow: 0 3px 12px rgba(15, 23, 42, 0.12);
+
+  transition: 0.2s ease;
+}
+
+#toursListContainer .tour-wishlist-btn:hover {
+  color: #ef4444;
+  transform: scale(1.08);
+}
+
+
+/* ======================================================
+   CARD BODY
+   ====================================================== */
+
+#toursListContainer .tour-card-body {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 18px 18px 16px;
+}
+
+
+/* ======================================================
+   META - DURATION + RATING
+   ====================================================== */
+
+#toursListContainer .tour-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-bottom: 10px;
+
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+#toursListContainer .tour-duration,
+#toursListContainer .tour-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  white-space: nowrap;
+}
+
+#toursListContainer .tour-rating i {
+  color: #f59e0b;
+}
+
+
+/* ======================================================
+   TITLE
+   ====================================================== */
+
+#toursListContainer .tour-title {
+  margin: 0 0 10px;
+
+  font-size: 1.05rem;
+  line-height: 1.45;
+  font-weight: 700;
+
+  color: #0f172a;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+
+  min-height: calc(1.45em * 2);
+}
+
+#toursListContainer .tour-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#toursListContainer .tour-title a:hover {
+  color: #0f766e;
+}
+
+
+/* ======================================================
+   DESCRIPTION
+   ====================================================== */
+
+#toursListContainer .tour-description {
+  margin: 0 0 16px;
+
+  color: #64748b;
+
+  font-size: 0.9rem;
+  line-height: 1.6;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+
+  min-height: calc(1.6em * 3);
+}
+
+
+/* ======================================================
+   FOOTER
+   ====================================================== */
+
+#toursListContainer .tour-card-footer {
+  margin-top: auto;
+
+  padding-top: 16px;
+
+  border-top: 1px solid #e2e8f0;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 12px;
+}
+
+#toursListContainer .tour-price-box {
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+}
+
+#toursListContainer .tour-price-label {
+  margin-bottom: 2px;
+
+  color: #64748b;
+
+  font-size: 0.75rem;
+}
+
+#toursListContainer .tour-price-val {
+  color: #0f766e;
+
+  font-size: 1.12rem;
+  line-height: 1.2;
+
+  font-weight: 800;
+
+  white-space: nowrap;
+}
+
+#toursListContainer .tour-card-footer .btn {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+
+/* ======================================================
+   RESPONSIVE
+   ====================================================== */
+
+@media (max-width: 1200px) {
+  #toursListContainer {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1024px) {
+  #toursListContainer {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  #toursListContainer .tour-card-image-wrap {
+    height: 200px;
+  }
+}
+
+@media (max-width: 900px) {
+  #toursListContainer {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  #toursListContainer {
+    grid-template-columns: 1fr;
+  }
+
+  #toursListContainer .tour-card-image-wrap {
+    height: 220px;
+  }
+}
+/* ======================================================
+   TOUR LISTING - REFERENCE CARD V2
+   Card layout matched to the supplied reference design.
+   ====================================================== */
+#toursListContainer {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
+}
+
+#toursListContainer .tour-card-reference {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid #d8dee8;
+  border-radius: 20px;
+  background: #ffffff;
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 3px 12px rgba(15, 23, 42, 0.11);
+  cursor: pointer;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+#toursListContainer .tour-card-reference:hover {
+  transform: translateY(-4px);
+  border-color: #cbd5e1;
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.15);
+}
+
+#toursListContainer .tour-card-reference .tour-card-image-wrap {
+  position: relative;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  flex-shrink: 0;
+  border-radius: 0;
+  background: #e2e8f0;
+}
+
+#toursListContainer .tour-card-reference .tour-card-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.45s ease;
+}
+
+#toursListContainer .tour-card-reference:hover .tour-card-img {
+  transform: scale(1.035);
+}
+
+#toursListContainer .tour-promo-badge {
+  position: absolute;
+  top: 18px;
+  left: 0;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 7px 13px;
+  border-radius: 0 7px 7px 0;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1;
+  box-shadow: 0 2px 7px rgba(15, 23, 42, 0.18);
+}
+
+#toursListContainer .tour-card-reference .tour-card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  padding: 18px 18px 16px;
+}
+
+#toursListContainer .tour-rating-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 32px;
+  margin-bottom: 14px;
+}
+
+#toursListContainer .tour-rating-score {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 54px;
+  height: 31px;
+  padding: 0 10px;
+  border-radius: 9px;
+  background: #34a853;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+#toursListContainer .tour-rating-label {
+  color: #2f9e44;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+#toursListContainer .tour-rating-count {
+  color: #64748b;
+  font-size: 0.92rem;
+}
+
+#toursListContainer .tour-card-reference .tour-title {
+  display: -webkit-box;
+  min-height: calc(1.42em * 2);
+  margin: 0 0 16px;
+  overflow: hidden;
+  color: #1e293b;
+  font-size: 1.17rem;
+  font-weight: 700;
+  line-height: 1.42;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+#toursListContainer .tour-info-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin-bottom: 16px;
+  color: #64748b;
+  font-size: 0.88rem;
+}
+
+#toursListContainer .tour-info-row span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+#toursListContainer .tour-info-row i {
+  color: #8b95a5;
+}
+
+#toursListContainer .tour-tag-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+#toursListContainer .tour-tag {
+  display: block;
+  min-width: 0;
+  padding: 8px 10px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #334155;
+  font-size: 0.86rem;
+  line-height: 1.2;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#toursListContainer .tour-card-footer-reference {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+}
+
+#toursListContainer .tour-price-reference {
+  width: 100%;
+  text-align: right;
+}
+
+#toursListContainer .tour-price-line {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  color: #64748b;
+  font-size: 0.91rem;
+}
+
+#toursListContainer .tour-price-line strong {
+  color: #f97316;
+  font-size: 1.28rem;
+  font-weight: 800;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+#toursListContainer .tour-departure-date {
+  margin-top: 4px;
+  color: #64748b;
+  font-size: 0.86rem;
+}
+
+@media (max-width: 900px) {
+  #toursListContainer {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  #toursListContainer .tour-card-reference .tour-card-image-wrap {
+    aspect-ratio: 16 / 10;
+    height: auto;
+  }
+
+  #toursListContainer .tour-card-reference .tour-title {
+    min-height: 0;
+    font-size: 1.08rem;
+  }
+
+  #toursListContainer .tour-tag-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ==========================================================================
+   ADMINDEK SAAS DASHBOARD & SIDEBAR LAYOUT SYSTEM
    ========================================================================== */
 
 .admindek-app {
@@ -517,183 +1269,6 @@
   padding: 22px;
 }
 
-/* --- Tour Stepper Component --- */
-.tour-progress-stepper {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
-  margin: 20px 0 24px 0;
-  padding: 0 10px;
-}
-
-.tour-progress-stepper::before {
-  content: '';
-  position: absolute;
-  top: 20px;
-  left: 30px;
-  right: 30px;
-  height: 4px;
-  background-color: var(--border);
-  z-index: 1;
-}
-
-.progress-line-fill {
-  position: absolute;
-  top: 20px;
-  left: 30px;
-  height: 4px;
-  background-color: var(--primary);
-  z-index: 2;
-  transition: width 0.3s ease;
-}
-
-.step-item {
-  position: relative;
-  z-index: 3;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-}
-
-.step-circle {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: var(--surface);
-  border: 3px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 0.95rem;
-  color: var(--text-muted);
-  transition: all 0.25s;
-}
-
-.step-item.active .step-circle {
-  border-color: var(--primary);
-  background-color: var(--primary);
-  color: #FFFFFF;
-  box-shadow: 0 0 0 5px rgba(15, 118, 110, 0.2);
-}
-
-.step-item.completed .step-circle {
-  border-color: var(--success);
-  background-color: var(--success);
-  color: #FFFFFF;
-}
-
-.step-title {
-  margin-top: 8px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  white-space: nowrap;
-}
-
-.step-item.active .step-title {
-  color: var(--primary);
-  font-weight: 700;
-}
-
-/* --- Timeline Schedule Component --- */
-.timeline-schedule {
-  position: relative;
-  padding-left: 28px;
-  margin-top: 14px;
-}
-
-.timeline-schedule::before {
-  content: '';
-  position: absolute;
-  top: 6px;
-  bottom: 6px;
-  left: 8px;
-  width: 2px;
-  background-color: var(--border);
-}
-
-.timeline-item {
-  position: relative;
-  margin-bottom: 20px;
-}
-
-.timeline-item:last-child {
-  margin-bottom: 0;
-}
-
-.timeline-dot {
-  position: absolute;
-  top: 4px;
-  left: -28px;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background-color: var(--surface);
-  border: 3px solid var(--primary);
-}
-
-.timeline-item.completed .timeline-dot {
-  border-color: var(--success);
-  background-color: var(--success);
-}
-
-.timeline-item.active .timeline-dot {
-  border-color: var(--warning);
-  background-color: var(--warning);
-  box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.25);
-}
-
-.timeline-content {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 14px 18px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.timeline-time {
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: var(--primary);
-  margin-bottom: 4px;
-}
-
-.timeline-title {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--text-main);
-  margin-bottom: 4px;
-}
-
-.timeline-desc {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-}
-
-.tour-day-tab {
-  padding: 6px 14px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.tour-day-tab:hover, .tour-day-tab.active {
-  background: var(--primary);
-  color: #FFFFFF;
-  border-color: var(--primary);
-}
-
 /* Mobile Overlay for Sidebar */
 .admindek-sidebar-overlay {
   position: fixed;
@@ -797,3 +1372,4 @@
     background: #f0fdfa;
   }
 }
+
