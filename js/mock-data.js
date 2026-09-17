@@ -658,6 +658,146 @@ const DEFAULT_MOCK_DATA = {
       comment: "Thời tiết se lạnh săn được biển mây Fansipan tuyệt vời. Đồ ăn đặc sản Tây Bắc rất hợp khẩu vị.",
       status: "approved"
     }
+  ],
+
+  roles: [
+    { id: "role-admin", code: "admin", name: "Quản Trị Viên (Admin)", badgeClass: "badge-danger", description: "Toàn quyền quản trị hệ thống, tài khoản, phân quyền và danh mục." },
+    { id: "role-manager", code: "manager", name: "Quản Lý Tour (Manager)", badgeClass: "badge-primary", description: "Quản lý kho tour, tạo lịch khởi hành, phân công HDV và kiểm tra đơn đặt." },
+    { id: "role-guide", code: "guide", name: "Hướng Dẫn Viên (Guide)", badgeClass: "badge-success", description: "Dẫn đoàn, xem danh sách khách, điểm danh và cập nhật trạng thái tour." },
+    { id: "role-customer", code: "customer", name: "Khách Hàng (Customer)", badgeClass: "badge-info", description: "Tìm kiếm, đặt tour, thanh toán và gửi đánh giá nhận xét sau chuyến đi." },
+    { id: "role-guest", code: "guest", name: "Khách Vãng Lai (Guest)", badgeClass: "badge-neutral", description: "Người dùng chưa đăng nhập, xem danh mục và thông tin tour công khai." }
+  ],
+
+  modules: [
+    { code: "users", name: "Quản Lý Người Dùng", icon: "fa-users-gear", desc: "Tạo, sửa, khóa, xóa tài khoản" },
+    { code: "roles_permissions", name: "Phân Quyền & Vai Trò", icon: "fa-shield-halved", desc: "Ma trận CRUD và gán quyền hạn" },
+    { code: "tour_categories", name: "Danh Mục Tour", icon: "fa-tags", desc: "Phân loại nhóm tour du lịch" },
+    { code: "tours", name: "Kho Sản Phẩm Tour", icon: "fa-compass", desc: "Quản lý thông tin tour, giá, mùa vụ" },
+    { code: "departures", name: "Lịch Khởi Hành & HDV", icon: "fa-calendar-days", desc: "Tạo chuyến, phân công HDV, sức chứa" },
+    { code: "bookings", name: "Đơn Đặt Chỗ & Thanh Toán", icon: "fa-receipt", desc: "Quản lý vé, khách hàng, doanh thu" },
+    { code: "reviews", name: "Đánh Giá & Nhận Xét", icon: "fa-star-half-stroke", desc: "Kiểm duyệt nhận xét công khai" },
+    { code: "reports", name: "Báo Cáo & Thống Kê", icon: "fa-chart-pie", desc: "Biểu đồ tài chính và hiệu suất vận hành" }
+  ],
+
+  role_permissions: [
+    // Admin: Full CRUD on all modules
+    { roleCode: "admin", moduleCode: "users", canCreate: true, canRead: true, canUpdate: true, canDelete: true },
+    { roleCode: "admin", moduleCode: "roles_permissions", canCreate: true, canRead: true, canUpdate: true, canDelete: true },
+    { roleCode: "admin", moduleCode: "tour_categories", canCreate: true, canRead: true, canUpdate: true, canDelete: true },
+    { roleCode: "admin", moduleCode: "tours", canCreate: true, canRead: true, canUpdate: true, canDelete: true },
+    { roleCode: "admin", moduleCode: "departures", canCreate: true, canRead: true, canUpdate: true, canDelete: true },
+    { roleCode: "admin", moduleCode: "bookings", canCreate: true, canRead: true, canUpdate: true, canDelete: true },
+    { roleCode: "admin", moduleCode: "reviews", canCreate: true, canRead: true, canUpdate: true, canDelete: true },
+    { roleCode: "admin", moduleCode: "reports", canCreate: true, canRead: true, canUpdate: true, canDelete: true },
+
+    // Manager
+    { roleCode: "manager", moduleCode: "users", canCreate: false, canRead: true, canUpdate: false, canDelete: false },
+    { roleCode: "manager", moduleCode: "roles_permissions", canCreate: false, canRead: true, canUpdate: false, canDelete: false },
+    { roleCode: "manager", moduleCode: "tour_categories", canCreate: true, canRead: true, canUpdate: true, canDelete: false },
+    { roleCode: "manager", moduleCode: "tours", canCreate: true, canRead: true, canUpdate: true, canDelete: true },
+    { roleCode: "manager", moduleCode: "departures", canCreate: true, canRead: true, canUpdate: true, canDelete: true },
+    { roleCode: "manager", moduleCode: "bookings", canCreate: false, canRead: true, canUpdate: true, canDelete: false },
+    { roleCode: "manager", moduleCode: "reviews", canCreate: false, canRead: true, canUpdate: false, canDelete: false },
+    { roleCode: "manager", moduleCode: "reports", canCreate: false, canRead: true, canUpdate: false, canDelete: false },
+
+    // Guide
+    { roleCode: "guide", moduleCode: "users", canCreate: false, canRead: false, canUpdate: false, canDelete: false },
+    { roleCode: "guide", moduleCode: "roles_permissions", canCreate: false, canRead: false, canUpdate: false, canDelete: false },
+    { roleCode: "guide", moduleCode: "tour_categories", canCreate: false, canRead: true, canUpdate: false, canDelete: false },
+    { roleCode: "guide", moduleCode: "tours", canCreate: false, canRead: true, canUpdate: false, canDelete: false },
+    { roleCode: "guide", moduleCode: "departures", canCreate: false, canRead: true, canUpdate: true, canDelete: false },
+    { roleCode: "guide", moduleCode: "bookings", canCreate: false, canRead: true, canUpdate: false, canDelete: false },
+    { roleCode: "guide", moduleCode: "reviews", canCreate: false, canRead: true, canUpdate: false, canDelete: false },
+    { roleCode: "guide", moduleCode: "reports", canCreate: false, canRead: false, canUpdate: false, canDelete: false },
+
+    // Customer
+    { roleCode: "customer", moduleCode: "users", canCreate: false, canRead: true, canUpdate: true, canDelete: false },
+    { roleCode: "customer", moduleCode: "roles_permissions", canCreate: false, canRead: false, canUpdate: false, canDelete: false },
+    { roleCode: "customer", moduleCode: "tour_categories", canCreate: false, canRead: true, canUpdate: false, canDelete: false },
+    { roleCode: "customer", moduleCode: "tours", canCreate: false, canRead: true, canUpdate: false, canDelete: false },
+    { roleCode: "customer", moduleCode: "departures", canCreate: false, canRead: true, canUpdate: false, canDelete: false },
+    { roleCode: "customer", moduleCode: "bookings", canCreate: true, canRead: true, canUpdate: true, canDelete: false },
+    { roleCode: "customer", moduleCode: "reviews", canCreate: true, canRead: true, canUpdate: false, canDelete: false },
+    { roleCode: "customer", moduleCode: "reports", canCreate: false, canRead: false, canUpdate: false, canDelete: false },
+
+    // Guest
+    { roleCode: "guest", moduleCode: "users", canCreate: false, canRead: false, canUpdate: false, canDelete: false },
+    { roleCode: "guest", moduleCode: "roles_permissions", canCreate: false, canRead: false, canUpdate: false, canDelete: false },
+    { roleCode: "guest", moduleCode: "tour_categories", canCreate: false, canRead: true, canUpdate: false, canDelete: false },
+    { roleCode: "guest", moduleCode: "tours", canCreate: false, canRead: true, canUpdate: false, canDelete: false },
+    { roleCode: "guest", moduleCode: "departures", canCreate: false, canRead: true, canUpdate: false, canDelete: false },
+    { roleCode: "guest", moduleCode: "bookings", canCreate: false, canRead: false, canUpdate: false, canDelete: false },
+    { roleCode: "guest", moduleCode: "reviews", canCreate: false, canRead: true, canUpdate: false, canDelete: false },
+    { roleCode: "guest", moduleCode: "reports", canCreate: false, canRead: false, canUpdate: false, canDelete: false }
+  ],
+
+  categories: [
+    {
+      id: "cat-1",
+      name: "Tour Biển Đảo & Vịnh Biển",
+      code: "sea",
+      icon: "fa-umbrella-beach",
+      color: "#0284c7",
+      description: "Khám phá các vùng vịnh, bãi biển và đảo ngọc hàng đầu Việt Nam như Hạ Long, Phú Quốc, Kỳ Co.",
+      tourCount: 4,
+      featured: true,
+      status: "active"
+    },
+    {
+      id: "cat-2",
+      name: "Khám Phá Thiên Nhiên & Núi Rừng",
+      code: "nature",
+      icon: "fa-mountain-sun",
+      color: "#16a34a",
+      description: "Hành trình săn mây, trekking và hòa mình vào thiên nhiên Sa Pa, Fansipan, Tây Bắc.",
+      tourCount: 3,
+      featured: true,
+      status: "active"
+    },
+    {
+      id: "cat-3",
+      name: "Văn Hóa, Di Sản & Cố Đô",
+      code: "culture",
+      icon: "fa-landmark-dome",
+      color: "#d97706",
+      description: "Tìm hiểu di tích lịch sử, cố đô, phố cổ Hội An, Tràng An và các lễ hội truyền thống.",
+      tourCount: 3,
+      featured: true,
+      status: "active"
+    },
+    {
+      id: "cat-4",
+      name: "Nghỉ Dưỡng Thượng Lưu (Luxury)",
+      code: "luxury",
+      icon: "fa-gem",
+      color: "#9333ea",
+      description: "Trải nghiệm du thuyền 5 sao, resort biệt lập đẳng cấp và tiện ích cao cấp dành cho gia đình.",
+      tourCount: 2,
+      featured: false,
+      status: "active"
+    },
+    {
+      id: "cat-5",
+      name: "Trekking, Thám Hiểm & Thể Thao",
+      code: "adventure",
+      icon: "fa-person-hiking",
+      color: "#ea580c",
+      description: "Chinh phục các cung đường thử thách mạo hiểm, vượt thác và khám phá hang động kỳ vĩ.",
+      tourCount: 2,
+      featured: false,
+      status: "active"
+    },
+    {
+      id: "cat-6",
+      name: "Ẩm Thực Vùng Miền & Chợ Đêm",
+      code: "culinary",
+      icon: "fa-utensils",
+      color: "#e11d48",
+      description: "Thưởng thức tinh hoa ẩm thực ba miền, hải sản đặc sản và các khu chợ đêm sầm uất.",
+      tourCount: 1,
+      featured: false,
+      status: "active"
+    }
   ]
 };
 
@@ -666,7 +806,17 @@ function getMockDatabase() {
   const localDb = localStorage.getItem('bookingtour_db');
   if (localDb) {
     try {
-      return JSON.parse(localDb);
+      const parsed = JSON.parse(localDb);
+      // Auto-migrate missing tables if needed
+      let changed = false;
+      if (!parsed.roles) { parsed.roles = DEFAULT_MOCK_DATA.roles; changed = true; }
+      if (!parsed.modules) { parsed.modules = DEFAULT_MOCK_DATA.modules; changed = true; }
+      if (!parsed.role_permissions) { parsed.role_permissions = DEFAULT_MOCK_DATA.role_permissions; changed = true; }
+      if (!parsed.categories) { parsed.categories = DEFAULT_MOCK_DATA.categories; changed = true; }
+      if (changed) {
+        saveMockDatabase(parsed);
+      }
+      return parsed;
     } catch (e) {
       console.error("Error parsing local database, resetting to default:", e);
     }

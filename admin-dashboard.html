@@ -38,66 +38,58 @@
 
       <!-- Sidebar User Summary -->
       <div class="admindek-sidebar-user">
-        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80" alt="Admin Avatar" class="admindek-sidebar-avatar">
+        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=150&q=80" alt="Admin Avatar" class="admindek-sidebar-avatar">
         <div class="admindek-sidebar-user-info">
-          <span class="admindek-sidebar-name">Lê Hoàng Long</span>
+          <span class="admindek-sidebar-name" id="sidebarAdminName">Admin Quản Trị Viên</span>
           <span class="admindek-sidebar-role"><i class="fa-solid fa-circle" style="color:#10b981; font-size:0.55rem;"></i> Super Admin</span>
         </div>
       </div>
 
-      <!-- Navigation Sections -->
+      <!-- Navigation Sections (Streamlined for Admin Role) -->
       <div class="admindek-nav-body">
-        <div class="admindek-section-title">Tổng Quan & Phân Tích</div>
+        <div class="admindek-section-title">Tổng Quan & Hệ Thống</div>
         <ul class="admindek-nav-list">
           <li class="admindek-nav-item">
-            <a href="admin-dashboard.html" class="admindek-nav-link active">
+            <a href="#sectionOverview" class="admindek-nav-link active">
               <span class="admindek-nav-link-left"><i class="fa-solid fa-chart-pie"></i> Bảng Điều Khiển</span>
               <span class="admindek-nav-badge badge-blue">Live</span>
             </a>
           </li>
+        </ul>
+
+        <div class="admindek-section-title">Tài Khoản & Phân Quyền</div>
+        <ul class="admindek-nav-list">
           <li class="admindek-nav-item">
-            <a href="#sectionBookings" class="admindek-nav-link">
-              <span class="admindek-nav-link-left"><i class="fa-solid fa-sack-dollar"></i> Báo Cáo Doanh Thu</span>
+            <a href="#sectionUsers" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-users-gear"></i> Quản Lý Tài Khoản</span>
+              <span class="admindek-nav-badge badge-emerald" id="sidebarUsersCountBadge">10 Users</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="#sectionPermissions" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-shield-halved"></i> Phân Quyền & CRUD</span>
+              <span class="admindek-nav-badge badge-amber">5 Roles</span>
             </a>
           </li>
         </ul>
 
-        <div class="admindek-section-title">Quản Lý Tài Khoản & Phân Quyền</div>
+        <div class="admindek-section-title">Sản Phẩm & Nội Dung</div>
         <ul class="admindek-nav-list">
           <li class="admindek-nav-item">
-            <a href="#sectionUsers" class="admindek-nav-link">
-              <span class="admindek-nav-link-left"><i class="fa-solid fa-users-gear"></i> Tài Khoản & Vai Trò</span>
-              <span class="admindek-nav-badge badge-emerald">4 Roles</span>
-            </a>
-          </li>
-          <li class="admindek-nav-item">
-            <a href="#sectionUsers" class="admindek-nav-link">
-              <span class="admindek-nav-link-left"><i class="fa-solid fa-id-badge"></i> Hướng Dẫn Viên</span>
-            </a>
-          </li>
-        </ul>
-
-        <div class="admindek-section-title">Dịch Vụ & Vận Hành</div>
-        <ul class="admindek-nav-list">
-          <li class="admindek-nav-item">
-            <a href="manager-dashboard.html" class="admindek-nav-link">
-              <span class="admindek-nav-link-left"><i class="fa-solid fa-compass"></i> Quản Lý Kho Tour</span>
-            </a>
-          </li>
-          <li class="admindek-nav-item">
-            <a href="#sectionBookings" class="admindek-nav-link">
-              <span class="admindek-nav-link-left"><i class="fa-solid fa-receipt"></i> Đơn Đặt Chỗ Booking</span>
-              <span class="admindek-nav-badge badge-amber">142</span>
+            <a href="#sectionCategories" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-tags"></i> Danh Mục Tour</span>
+              <span class="admindek-nav-badge badge-blue" id="sidebarCategoriesCountBadge">6 Nhóm</span>
             </a>
           </li>
           <li class="admindek-nav-item">
             <a href="#sectionReviews" class="admindek-nav-link">
               <span class="admindek-nav-link-left"><i class="fa-solid fa-star-half-stroke"></i> Kiểm Duyệt Đánh Giá</span>
+              <span class="admindek-nav-badge badge-emerald">Duyệt</span>
             </a>
           </li>
         </ul>
 
-        <div class="admindek-section-title">Hệ Thống</div>
+        <div class="admindek-section-title">Hệ Thống & Dữ Liệu</div>
         <ul class="admindek-nav-list">
           <li class="admindek-nav-item">
             <a href="javascript:void(0)" onclick="resetMockDatabase(); showToast('Đã làm mới và đồng bộ dữ liệu hệ thống!', 'info'); setTimeout(()=>location.reload(), 600);" class="admindek-nav-link">
@@ -157,99 +149,102 @@
 
       <!-- Main Content Container -->
       <main class="admindek-content">
-        <!-- Page Header & Breadcrumb -->
+        <!-- Page Header & Quick Actions -->
         <div class="admindek-page-header">
           <div class="admindek-page-title-wrap">
-            <h1>Bảng Quản Trị Hệ Thống (Analytics)</h1>
+            <h1>Bảng Quản Trị Hệ Thống (Admin Console)</h1>
             <div class="admindek-breadcrumb">
               <a href="index.html">Trang chủ</a>
               <span>/</span>
               <span>Quản trị viên</span>
               <span>/</span>
-              <span style="color:#0f172a; font-weight:600;">Tổng quan hệ thống</span>
+              <span style="color:#0f172a; font-weight:600;">Quản lý người dùng, phân quyền & danh mục</span>
             </div>
           </div>
-          <div style="display:flex; gap:10px;">
-            <button class="btn btn-warning btn-sm" onclick="resetMockDatabase(); showToast('Đã làm mới và đồng bộ dữ liệu hệ thống!', 'info'); setTimeout(()=>location.reload(), 600);">
-              <i class="fa-solid fa-arrows-rotate"></i> Đồng Bộ Dữ Liệu
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="btn btn-primary btn-sm" onclick="openAdminUserModal()">
+              <i class="fa-solid fa-user-plus"></i> + Thêm Người Dùng
+            </button>
+            <button class="btn btn-secondary btn-sm" onclick="openAdminCategoryModal()">
+              <i class="fa-solid fa-folder-plus"></i> + Thêm Danh Mục
             </button>
           </div>
         </div>
 
-        <!-- 4 Stat KPI Cards (Admindek Gradient Style) -->
+        <!-- 4 Stat KPI Cards -->
         <div class="admindek-stats-grid">
           <div class="admindek-stat-card stat-blue">
             <div class="admindek-stat-top">
               <div>
-                <div class="admindek-stat-label">Tổng Doanh Thu</div>
-                <div class="admindek-stat-value">158,4 Tr</div>
+                <div class="admindek-stat-label">Tổng Người Dùng</div>
+                <div class="admindek-stat-value" id="kpiTotalUsers">10 Tài Khoản</div>
               </div>
-              <div class="admindek-stat-icon"><i class="fa-solid fa-sack-dollar"></i></div>
+              <div class="admindek-stat-icon"><i class="fa-solid fa-users-gear"></i></div>
             </div>
             <div class="admindek-stat-bottom">
-              <i class="fa-solid fa-arrow-trend-up"></i>
-              <span>+18.5% so với tháng trước</span>
+              <i class="fa-solid fa-user-check"></i>
+              <span>Quản lý 4 nhóm vai trò hệ thống</span>
             </div>
           </div>
 
           <div class="admindek-stat-card stat-emerald">
             <div class="admindek-stat-top">
               <div>
-                <div class="admindek-stat-label">Tổng Thành Viên</div>
-                <div class="admindek-stat-value">18 Người</div>
+                <div class="admindek-stat-label">Ma Trận CRUD Role</div>
+                <div class="admindek-stat-value" id="kpiRolesCount">5 Vai Trò</div>
               </div>
-              <div class="admindek-stat-icon"><i class="fa-solid fa-users-gear"></i></div>
+              <div class="admindek-stat-icon"><i class="fa-solid fa-shield-halved"></i></div>
             </div>
             <div class="admindek-stat-bottom">
-              <i class="fa-solid fa-user-check"></i>
-              <span>4 vai trò hoạt động ổn định</span>
+              <i class="fa-solid fa-lock"></i>
+              <span>Bảng trung gian role_permission chuẩn hóa</span>
             </div>
           </div>
 
           <div class="admindek-stat-card stat-amber">
             <div class="admindek-stat-top">
               <div>
-                <div class="admindek-stat-label">Tour Đang Mở Bán</div>
-                <div class="admindek-stat-value">12 Tour</div>
+                <div class="admindek-stat-label">Danh Mục Tour</div>
+                <div class="admindek-stat-value" id="kpiCategoriesCount">6 Danh Mục</div>
               </div>
-              <div class="admindek-stat-icon"><i class="fa-solid fa-compass"></i></div>
+              <div class="admindek-stat-icon"><i class="fa-solid fa-tags"></i></div>
             </div>
             <div class="admindek-stat-bottom">
-              <i class="fa-solid fa-calendar-check"></i>
-              <span>25 đoàn khởi hành tháng 10-11</span>
+              <i class="fa-solid fa-compass"></i>
+              <span>Phân loại 12 tour du lịch toàn quốc</span>
             </div>
           </div>
 
           <div class="admindek-stat-card stat-teal">
             <div class="admindek-stat-top">
               <div>
-                <div class="admindek-stat-label">Đánh Giá Công Khai</div>
-                <div class="admindek-stat-value">4 Đánh Giá</div>
+                <div class="admindek-stat-label">Đánh Giá Khách Hàng</div>
+                <div class="admindek-stat-value" id="kpiReviewsCount">4 Đánh Giá</div>
               </div>
               <div class="admindek-stat-icon"><i class="fa-solid fa-comments"></i></div>
             </div>
             <div class="admindek-stat-bottom">
               <i class="fa-solid fa-star" style="color:#fef08a;"></i>
-              <span>Điểm trung bình 4.9 / 5.0</span>
+              <span>100% đã được kiểm duyệt nội dung</span>
             </div>
           </div>
         </div>
 
-        <!-- Analytical Wave Mock Chart & Overview Widget -->
-        <div class="admindek-box">
+        <!-- SECTION 1: SYSTEM OVERVIEW & ANALYTICAL WAVE -->
+        <div class="admindek-box" id="sectionOverview">
           <div class="admindek-box-header">
             <h2 class="admindek-box-title">
               <i class="fa-solid fa-chart-line"></i>
-              <span>Biểu Đồ Lượng Khách & Đơn Đặt Chỗ (Real-time Analytics)</span>
+              <span>Tổng Quan Vận Hành & Hoạt Động Hệ Thống</span>
             </h2>
             <div style="display:flex; gap:6px;">
-              <span class="badge badge-role-customer" style="font-size:0.75rem;"><i class="fa-solid fa-circle" style="color:#3b82f6; font-size:0.5rem;"></i> Lượt truy cập</span>
-              <span class="badge badge-role-guide" style="font-size:0.75rem;"><i class="fa-solid fa-circle" style="color:#10b981; font-size:0.5rem;"></i> Đơn hoàn tất</span>
+              <span class="badge badge-role-customer" style="font-size:0.75rem;"><i class="fa-solid fa-circle" style="color:#3b82f6; font-size:0.5rem;"></i> Tài khoản hoạt động</span>
+              <span class="badge badge-role-guide" style="font-size:0.75rem;"><i class="fa-solid fa-circle" style="color:#10b981; font-size:0.5rem;"></i> Phân quyền an toàn</span>
             </div>
           </div>
           <div class="admindek-box-body">
-            <!-- Simulated High-Tech SVG Wave Chart -->
-            <div style="width:100%; height:180px; position:relative; overflow:hidden; background:linear-gradient(180deg, #f8fafc 0%, #ffffff 100%); border-radius:8px; display:flex; align-items:flex-end;">
+            <!-- High-Tech SVG Wave Chart -->
+            <div style="width:100%; height:160px; position:relative; overflow:hidden; background:linear-gradient(180deg, #f8fafc 0%, #ffffff 100%); border-radius:8px; display:flex; align-items:flex-end;">
               <svg viewBox="0 0 800 160" style="width:100%; height:100%;" preserveAspectRatio="none">
                 <defs>
                   <linearGradient id="gradBlue" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -274,43 +269,166 @@
           </div>
         </div>
 
-        <!-- SECTION 1: User & Role Management Table -->
+        <!-- SECTION 2: USER ACCOUNTS MANAGEMENT (FULL CRUD) -->
         <div class="admindek-box" id="sectionUsers">
           <div class="admindek-box-header">
             <div>
               <h2 class="admindek-box-title">
-                <i class="fa-solid fa-user-shield"></i>
-                <span>Quản Lý Người Dùng & Phân Quyền Vai Trò (Roles)</span>
+                <i class="fa-solid fa-users-gear text-primary"></i>
+                <span>Quản Lý Tài Khoản Người Dùng (User Accounts)</span>
               </h2>
-              <p class="text-muted" style="font-size:0.85rem; margin-top:4px;">Thay đổi vai trò (Customer, Guide, Manager, Admin) hoặc tạm khóa tài khoản tức thời.</p>
+              <p class="text-muted" style="font-size:0.85rem; margin-top:4px;">Tạo mới, chỉnh sửa thông tin, phân vai trò, khóa hoặc xóa tài khoản thành viên trong hệ thống.</p>
             </div>
-            <span class="badge badge-info"><i class="fa-solid fa-bolt"></i> Cập nhật theo thời gian thực</span>
+            <button class="btn btn-primary btn-sm" onclick="openAdminUserModal()">
+              <i class="fa-solid fa-user-plus"></i> + Thêm Tài Khoản Mới
+            </button>
+          </div>
+
+          <!-- Filter & Search Toolbar -->
+          <div class="admin-toolbar">
+            <div class="admin-filter-group">
+              <input type="text" class="form-control" style="width:240px; font-size:0.85rem;" placeholder="Tìm theo tên, email, sđt..." id="adminUserFilterKeyword" oninput="filterAdminUsers()">
+              <select class="form-control" style="width:160px; font-size:0.85rem;" id="adminUserFilterRole" onchange="filterAdminUsers()">
+                <option value="all">Tất cả vai trò</option>
+                <option value="customer">Khách Hàng</option>
+                <option value="guide">Hướng Dẫn Viên</option>
+                <option value="manager">Quản Lý Tour</option>
+                <option value="admin">Quản Trị Viên</option>
+              </select>
+              <select class="form-control" style="width:140px; font-size:0.85rem;" id="adminUserFilterStatus" onchange="filterAdminUsers()">
+                <option value="all">Tất cả trạng thái</option>
+                <option value="active">Đang hoạt động</option>
+                <option value="inactive">Tạm khóa</option>
+              </select>
+            </div>
+            <div class="text-muted" style="font-size:0.82rem;">
+              Hiển thị: <strong id="adminUsersCountDisplay" class="text-primary">0</strong> tài khoản
+            </div>
           </div>
 
           <div class="table-responsive">
             <table class="table-custom">
               <thead>
                 <tr>
-                  <th>Thông Tin Thành Viên</th>
-                  <th>Phân Quyền Vai Trò</th>
+                  <th>Thành Viên & Email</th>
+                  <th>Vai Trò (Role)</th>
+                  <th>Thông Tin / Phòng Ban</th>
                   <th>Trạng Thái</th>
-                  <th>Hành Động</th>
+                  <th>Thao Tác</th>
                 </tr>
               </thead>
               <tbody id="adminUsersTable">
-                <!-- Dynamically populated via JS -->
+                <!-- Populated by JS -->
               </tbody>
             </table>
           </div>
         </div>
 
-        <!-- SECTION 2: Review Moderation Table -->
+        <!-- SECTION 3: ROLE & PERMISSION MATRIX (CRUD MA TRẬN) -->
+        <div class="admindek-box" id="sectionPermissions">
+          <div class="admindek-box-header">
+            <div>
+              <h2 class="admindek-box-title">
+                <i class="fa-solid fa-shield-halved text-warning"></i>
+                <span>Phân Quyền Người Dùng & Ma Trận CRUD (Role-Permission Matrix)</span>
+              </h2>
+              <p class="text-muted" style="font-size:0.85rem; margin-top:4px;">Quản lý quyền thao tác <strong>[C] Tạo, [R] Đọc, [U] Sửa, [D] Xóa</strong> của từng vai trò (Actor) qua bảng trung gian <code>role_permission</code>.</p>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button class="btn btn-primary btn-sm" onclick="saveCurrentRolePermissions()">
+                <i class="fa-solid fa-floppy-disk"></i> Lưu Ma Trận Phân Quyền
+              </button>
+            </div>
+          </div>
+
+          <!-- Actor Role Selector Tabs -->
+          <div style="margin-bottom:12px;">
+            <label style="font-size:0.82rem; font-weight:700; color:#475569; margin-bottom:6px; display:block;">Chọn Vai Trò (Actor) Cần Cấu Hình Quyền:</label>
+            <div class="admin-role-selector" id="adminRolePills">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+
+          <!-- Matrix Action Quick Buttons -->
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; background:#f8fafc; padding:10px 14px; border-radius:8px; border:1px solid #e2e8f0; flex-wrap:wrap; gap:10px;">
+            <div style="font-size:0.85rem; color:#0f766e; font-weight:600; display:flex; align-items:center; gap:6px;">
+              <i class="fa-solid fa-circle-info"></i> Đang phân quyền cho vai trò: <span id="matrixActiveRoleLabel" style="color:#0f172a; text-decoration:underline;">Quản Trị Viên</span>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button type="button" class="btn btn-outline btn-sm" onclick="setAllPermissionsForActiveRole(true)">
+                <i class="fa-solid fa-square-check text-success"></i> Bật Toàn Bộ CRUD
+              </button>
+              <button type="button" class="btn btn-outline btn-sm" onclick="setAllPermissionsForActiveRole(false)">
+                <i class="fa-regular fa-square text-danger"></i> Bỏ Toàn Bộ
+              </button>
+              <button type="button" class="btn btn-outline btn-sm" onclick="resetPermissionsForActiveRole()">
+                <i class="fa-solid fa-rotate-left"></i> Khôi Phục Mặc Định
+              </button>
+            </div>
+          </div>
+
+          <!-- Interactive Matrix Table -->
+          <div class="matrix-table-wrap">
+            <table class="matrix-table">
+              <thead>
+                <tr>
+                  <th style="width:32%;">Module Nghiệp Vụ</th>
+                  <th style="text-align:center; width:14%;"><span class="badge badge-success">[C] Create</span><br><small>Tạo Mới</small></th>
+                  <th style="text-align:center; width:14%;"><span class="badge badge-info">[R] Read</span><br><small>Xem / Đọc</small></th>
+                  <th style="text-align:center; width:14%;"><span class="badge badge-warning">[U] Update</span><br><small>Chỉnh Sửa</small></th>
+                  <th style="text-align:center; width:14%;"><span class="badge badge-danger">[D] Delete</span><br><small>Xóa Bỏ</small></th>
+                  <th style="text-align:center; width:12%;">Tóm Tắt Quyền</th>
+                </tr>
+              </thead>
+              <tbody id="adminMatrixTableBody">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- SECTION 4: TOUR CATEGORIES MANAGEMENT (CRUD) -->
+        <div class="admindek-box" id="sectionCategories">
+          <div class="admindek-box-header">
+            <div>
+              <h2 class="admindek-box-title">
+                <i class="fa-solid fa-tags text-teal"></i>
+                <span>Quản Lý Danh Mục Tour (Tour Categories)</span>
+              </h2>
+              <p class="text-muted" style="font-size:0.85rem; margin-top:4px;">Quản lý các danh mục phân loại tour (Biển đảo, Văn hóa, Nghỉ dưỡng, Trekking...) dùng để lọc và phân nhóm trên giao diện khách hàng.</p>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="openAdminCategoryModal()">
+              <i class="fa-solid fa-folder-plus"></i> + Thêm Danh Mục Mới
+            </button>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table-custom">
+              <thead>
+                <tr>
+                  <th>Danh Mục & Biểu Tượng</th>
+                  <th>Mã Code (Slug)</th>
+                  <th>Mô Tả Phân Loại</th>
+                  <th>Số Tour Thuộc Nhóm</th>
+                  <th>Nổi Bật</th>
+                  <th>Trạng Thái</th>
+                  <th>Thao Tác</th>
+                </tr>
+              </thead>
+              <tbody id="adminCategoriesTable">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- SECTION 5: REVIEW MODERATION TABLE -->
         <div class="admindek-box" id="sectionReviews">
           <div class="admindek-box-header">
             <div>
               <h2 class="admindek-box-title">
                 <i class="fa-solid fa-star-half-stroke text-warning"></i>
-                <span>Kiểm Duyệt Đánh Giá Khách Hàng (Reviews)</span>
+                <span>Kiểm Duyệt Đánh Giá Khách Hàng (Reviews Moderation)</span>
               </h2>
               <p class="text-muted" style="font-size:0.85rem; margin-top:4px;">Duyệt hiển thị hoặc ẩn các nhận xét của khách hàng trên trang chi tiết tour.</p>
             </div>
@@ -329,69 +447,166 @@
                 </tr>
               </thead>
               <tbody id="adminReviewsTable">
-                <!-- Dynamically populated via JS -->
+                <!-- Populated by JS -->
               </tbody>
             </table>
           </div>
         </div>
 
-        <!-- SECTION 3: System All Bookings Overview -->
-        <div class="admindek-box" id="sectionBookings">
-          <div class="admindek-box-header">
-            <div>
-              <h2 class="admindek-box-title">
-                <i class="fa-solid fa-receipt"></i>
-                <span>Tổng Hợp Đơn Đặt Tour Toàn Hệ Thống</span>
-              </h2>
-              <p class="text-muted" style="font-size:0.85rem; margin-top:4px;">Theo dõi tiến độ thanh toán và giao dịch đặt vé của tất cả khách hàng.</p>
-            </div>
-            <button class="btn btn-outline btn-sm" onclick="showToast('Đang xuất báo cáo tài chính...')">
-              <i class="fa-solid fa-download"></i> Xuất Báo Cáo
-            </button>
-          </div>
-
-          <div class="table-responsive">
-            <table class="table-custom">
-              <thead>
-                <tr>
-                  <th>Mã Đơn & Tour</th>
-                  <th>Khách Hàng</th>
-                  <th>Ngày Đi</th>
-                  <th>Số Tiền</th>
-                  <th>Thanh Toán</th>
-                  <th>Trạng Thái</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><strong>BK-892347</strong><br><span class="text-muted" style="font-size:0.75rem;">Vịnh Hạ Long 5 Sao 3N2Đ</span></td>
-                  <td><strong>Nguyễn Văn Hào</strong><br><span class="text-muted" style="font-size:0.75rem;">0912 345 678</span></td>
-                  <td>25/10/2026</td>
-                  <td><strong class="text-primary">3.490.000đ</strong></td>
-                  <td><span class="badge badge-success">VietQR (Đã thanh toán)</span></td>
-                  <td><span class="badge badge-available">Đã xác nhận</span></td>
-                </tr>
-                <tr>
-                  <td><strong>BK-784192</strong><br><span class="text-muted" style="font-size:0.75rem;">Đà Nẵng - Hội An - Bà Nà Hills 4N3Đ</span></td>
-                  <td><strong>Trần Thị Mai</strong><br><span class="text-muted" style="font-size:0.75rem;">0988 123 456</span></td>
-                  <td>15/11/2026</td>
-                  <td><strong class="text-primary">9.180.000đ</strong></td>
-                  <td><span class="badge badge-success">Thẻ Visa/Mastercard</span></td>
-                  <td><span class="badge badge-available">Đã xác nhận</span></td>
-                </tr>
-                <tr>
-                  <td><strong>BK-655210</strong><br><span class="text-muted" style="font-size:0.75rem;">Fansipan & Săn Mây Sa Pa 2N1Đ</span></td>
-                  <td><strong>Lê Hoàng Nam</strong><br><span class="text-muted" style="font-size:0.75rem;">0905 678 901</span></td>
-                  <td>20/06/2026</td>
-                  <td><strong class="text-primary">2.190.000đ</strong></td>
-                  <td><span class="badge badge-success">VietQR</span></td>
-                  <td><span class="badge badge-secondary">Đã hoàn thành</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
       </main>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 1: CREATE / EDIT USER ACCOUNT
+       ========================================== -->
+  <div class="modal-backdrop" id="modalAdminUser">
+    <div class="modal-container" style="max-width:620px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="userModalTitle"><i class="fa-solid fa-user-gear text-primary"></i> Thêm Tài Khoản Người Dùng</h3>
+        <button class="modal-close" data-close-modal><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="formAdminUser">
+        <input type="hidden" id="adminUserId" value="">
+        <div class="modal-body">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <div class="form-group">
+              <label class="form-label required">Họ và Tên</label>
+              <input type="text" id="adminUserName" class="form-control" placeholder="Ví dụ: Nguyễn Văn An" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label required">Email Đăng Nhập</label>
+              <input type="email" id="adminUserEmail" class="form-control" placeholder="user@example.com" required>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <div class="form-group">
+              <label class="form-label required">Số Điện Thoại</label>
+              <input type="text" id="adminUserPhone" class="form-control" placeholder="0912 345 678" value="0912 345 678" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label required">Vai Trò (Role)</label>
+              <select id="adminUserRole" class="form-control" required>
+                <option value="customer">Khách Hàng (Customer)</option>
+                <option value="guide">Hướng Dẫn Viên (Guide)</option>
+                <option value="manager">Quản Lý Tour (Manager)</option>
+                <option value="admin">Quản Trị Viên (Admin)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <div class="form-group">
+              <label class="form-label required">Trạng Thái</label>
+              <select id="adminUserStatus" class="form-control">
+                <option value="active">Hoạt động</option>
+                <option value="inactive">Tạm khóa</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Phòng Ban / Ghi Chú</label>
+              <input type="text" id="adminUserDepartment" class="form-control" placeholder="Ví dụ: Điều Hành Tour Miền Nam">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Link Ảnh Đại Diện (Avatar URL)</label>
+            <input type="url" id="adminUserAvatar" class="form-control" placeholder="https://images.unsplash.com/..." value="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80">
+          </div>
+
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label">Địa Chỉ / Thông Tin Bổ Sung</label>
+            <input type="text" id="adminUserAddress" class="form-control" placeholder="Số 123 Lê Lợi, Quận 1, TP. Hồ Chí Minh">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-close-modal>Hủy</button>
+          <button type="submit" class="btn btn-primary btn-sm" id="btnSubmitUser"><i class="fa-solid fa-floppy-disk"></i> Lưu Tài Khoản</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MODAL 2: CREATE / EDIT TOUR CATEGORY
+       ========================================== -->
+  <div class="modal-backdrop" id="modalAdminCategory">
+    <div class="modal-container" style="max-width:580px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="categoryModalTitle"><i class="fa-solid fa-folder-plus text-secondary"></i> Thêm Danh Mục Tour Mới</h3>
+        <button class="modal-close" data-close-modal><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="formAdminCategory">
+        <input type="hidden" id="adminCategoryId" value="">
+        <div class="modal-body">
+          <div style="display:grid; grid-template-columns:1.4fr 1fr; gap:14px;">
+            <div class="form-group">
+              <label class="form-label required">Tên Danh Mục Tour</label>
+              <input type="text" id="adminCategoryName" class="form-control" placeholder="Ví dụ: Tour Sinh Thái & Wellness" required oninput="autoGenerateCategoryCode(this.value)">
+            </div>
+            <div class="form-group">
+              <label class="form-label required">Mã Code (Slug)</label>
+              <input type="text" id="adminCategoryCode" class="form-control" placeholder="wellness" required>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <div class="form-group">
+              <label class="form-label required">Biểu Tượng (FontAwesome Icon)</label>
+              <select id="adminCategoryIcon" class="form-control">
+                <option value="fa-umbrella-beach">🏖️ fa-umbrella-beach (Biển)</option>
+                <option value="fa-mountain-sun">🏔️ fa-mountain-sun (Núi & Mây)</option>
+                <option value="fa-landmark-dome">🏛️ fa-landmark-dome (Di sản)</option>
+                <option value="fa-gem">💎 fa-gem (Luxury)</option>
+                <option value="fa-person-hiking">🥾 fa-person-hiking (Trekking)</option>
+                <option value="fa-utensils">🍲 fa-utensils (Ẩm thực)</option>
+                <option value="fa-tree">🌲 fa-tree (Sinh thái)</option>
+                <option value="fa-ship">🚢 fa-ship (Du thuyền)</option>
+                <option value="fa-gift">🎁 fa-gift (Lễ hội)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label required">Màu Chủ Đạo</label>
+              <select id="adminCategoryColor" class="form-control">
+                <option value="#0284c7">Xanh Biển (#0284c7)</option>
+                <option value="#16a34a">Xanh Lá (#16a34a)</option>
+                <option value="#d97706">Vàng Cam (#d97706)</option>
+                <option value="#9333ea">Tím Luxury (#9333ea)</option>
+                <option value="#ea580c">Cam Đậm (#ea580c)</option>
+                <option value="#e11d48">Đỏ Hồng (#e11d48)</option>
+                <option value="#0f766e">Xanh Teal (#0f766e)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label required">Mô Tả Danh Mục</label>
+            <textarea id="adminCategoryDesc" class="form-control" rows="3" placeholder="Mô tả đặc điểm loại hình tour, trải nghiệm nổi bật..." required></textarea>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:0;">
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label required">Trạng Thái</label>
+              <select id="adminCategoryStatus" class="form-control">
+                <option value="active">Hoạt động</option>
+                <option value="inactive">Tạm ẩn</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label">Đánh Dấu Nổi Bật</label>
+              <select id="adminCategoryFeatured" class="form-control">
+                <option value="true">Có (Hiển thị nổi bật)</option>
+                <option value="false" selected>Không (Bình thường)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-close-modal>Hủy</button>
+          <button type="submit" class="btn btn-secondary btn-sm" id="btnSubmitCategory"><i class="fa-solid fa-floppy-disk"></i> Lưu Danh Mục</button>
+        </div>
+      </form>
     </div>
   </div>
 

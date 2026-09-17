@@ -1290,84 +1290,247 @@ function initManagerDashboard() {
 }
 
 
-// 17. ADMIN DASHBOARD LOGIC
+// 17. ADMIN DASHBOARD LOGIC (USERS CRUD, ROLE-PERMISSION MATRIX, CATEGORIES CRUD)
 // ==========================================
 
 function initAdminDashboard() {
   const adminUsersTable = document.getElementById('adminUsersTable');
+  const adminMatrixTableBody = document.getElementById('adminMatrixTableBody');
+  const adminCategoriesTable = document.getElementById('adminCategoriesTable');
   const adminReviewsTable = document.getElementById('adminReviewsTable');
-  if (!adminUsersTable && !adminReviewsTable) return;
+  const formAdminUser = document.getElementById('formAdminUser');
+  const formAdminCategory = document.getElementById('formAdminCategory');
+
+  if (!adminUsersTable && !adminMatrixTableBody && !adminCategoriesTable) return;
 
   const db = getMockDatabase();
+  let activeRoleCode = 'admin';
+  let userKeyword = '';
+  let userRoleFilter = 'all';
+  let userStatusFilter = 'all';
 
+  // --- 1. UPDATE KPIS ---
+  function updateAdminKPIs() {
+    const kpiTotalUsers = document.getElementById('kpiTotalUsers');
+    const kpiRolesCount = document.getElementById('kpiRolesCount');
+    const kpiCategoriesCount = document.getElementById('kpiCategoriesCount');
+    const kpiReviewsCount = document.getElementById('kpiReviewsCount');
+    const sidebarUsersCountBadge = document.getElementById('sidebarUsersCountBadge');
+    const sidebarCategoriesCountBadge = document.getElementById('sidebarCategoriesCountBadge');
+
+    if (kpiTotalUsers) kpiTotalUsers.textContent = `${db.users.length} Tài Khoản`;
+    if (kpiRolesCount) kpiRolesCount.textContent = `${db.roles ? db.roles.length : 5} Vai Trò`;
+    if (kpiCategoriesCount) kpiCategoriesCount.textContent = `${db.categories ? db.categories.length : 6} Danh Mục`;
+    if (kpiReviewsCount) kpiReviewsCount.textContent = `${db.reviews.length} Đánh Giá`;
+    if (sidebarUsersCountBadge) sidebarUsersCountBadge.textContent = `${db.users.length} Users`;
+    if (sidebarCategoriesCountBadge) sidebarCategoriesCountBadge.textContent = `${db.categories ? db.categories.length : 6} Nhóm`;
+  }
+
+  // --- 2. USER MANAGEMENT CRUD ---
   function renderAdminUsers() {
     if (!adminUsersTable) return;
-    adminUsersTable.innerHTML = db.users.map(u => `
-      <tr>
-        <td>
-          <div style="display:flex; align-items:center; gap:10px;">
-            <img src="${u.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'}" style="width:36px; height:36px; border-radius:50%; object-fit:cover;" alt="${u.name}">
-            <div>
-              <strong>${u.name}</strong>
-              <span class="text-muted" style="display:block; font-size:0.75rem;">${u.email}</span>
+
+    const kw = userKeyword.trim().toLowerCase();
+    const filteredUsers = db.users.filter(u => {
+      const matchKw = !kw || (u.name && u.name.toLowerCase().includes(kw))
+        || (u.email && u.email.toLowerCase().includes(kw))
+        || (u.phone && u.phone.includes(kw));
+      const matchRole = userRoleFilter === 'all' || u.role === userRoleFilter;
+      const matchStatus = userStatusFilter === 'all' || u.status === userStatusFilter;
+      return matchKw && matchRole && matchStatus;
+    });
+
+    const countDisplay = document.getElementById('adminUsersCountDisplay');
+    if (countDisplay) countDisplay.textContent = filteredUsers.length;
+
+    if (!filteredUsers.length) {
+      adminUsersTable.innerHTML = `
+        <tr>
+          <td colspan="5" style="text-align:center; padding:32px;">
+            <span class="text-muted">Không tìm thấy tài khoản người dùng phù hợp với bộ lọc.</span>
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    adminUsersTable.innerHTML = filteredUsers.map(u => {
+      const roleMap = {
+        admin: { label: 'Quản Trị Viên', class: 'badge-danger', icon: 'fa-shield-halved' },
+        manager: { label: 'Quản Lý Tour', class: 'badge-primary', icon: 'fa-user-tie' },
+        guide: { label: 'Hướng Dẫn Viên', class: 'badge-success', icon: 'fa-id-badge' },
+        customer: { label: 'Khách Hàng', class: 'badge-info', icon: 'fa-user' },
+        guest: { label: 'Khách Vãng Lai', class: 'badge-neutral', icon: 'fa-globe' }
+      };
+      const roleConf = roleMap[u.role] || roleMap.customer;
+
+      return `
+        <tr>
+          <td>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <img src="${u.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80'}" style="width:40px; height:40px; border-radius:50%; object-fit:cover; box-shadow:0 2px 6px rgba(0,0,0,0.1);" alt="${u.name}">
+              <div>
+                <strong style="display:block; font-size:0.9rem; color:#0f172a;">${u.name}</strong>
+                <span class="text-muted" style="font-size:0.75rem;"><i class="fa-regular fa-envelope"></i> ${u.email}</span>
+              </div>
             </div>
-          </div>
-        </td>
-        <td>
-          <select class="form-control form-control-sm" style="font-size:0.8rem; padding:4px 8px;" onchange="changeUserRole('${u.id}', this.value)">
-            <option value="customer" ${u.role === 'customer' ? 'selected' : ''}>Khách Hàng</option>
-            <option value="guide" ${u.role === 'guide' ? 'selected' : ''}>Hướng Dẫn Viên</option>
-            <option value="manager" ${u.role === 'manager' ? 'selected' : ''}>Quản Lý Tour</option>
-            <option value="admin" ${u.role === 'admin' ? 'selected' : ''}>Quản Trị Viên</option>
-          </select>
-        </td>
-        <td>
-          <span class="badge ${u.status === 'active' ? 'badge-success' : 'badge-danger'}">
-            ${u.status === 'active' ? 'Hoạt động' : 'Tạm khóa'}
-          </span>
-        </td>
-        <td>
-          <button class="btn btn-outline btn-sm ${u.status === 'active' ? 'text-danger' : 'text-success'}" onclick="toggleUserStatus('${u.id}')">
-            ${u.status === 'active' ? '<i class="fa-solid fa-lock"></i> Khóa' : '<i class="fa-solid fa-lock-open"></i> Mở khóa'}
-          </button>
-        </td>
-      </tr>
-    `).join('');
+          </td>
+          <td>
+            <div style="display:flex; flex-direction:column; gap:4px; align-items:flex-start;">
+              <span class="badge ${roleConf.class}" style="font-size:0.75rem; display:inline-flex; align-items:center; gap:4px;">
+                <i class="fa-solid ${roleConf.icon}"></i> ${roleConf.label}
+              </span>
+              <select class="form-control form-control-sm" style="font-size:0.75rem; padding:2px 6px; width:130px; margin-top:2px;" onchange="changeUserRole('${u.id}', this.value)">
+                <option value="customer" ${u.role === 'customer' ? 'selected' : ''}>Khách Hàng</option>
+                <option value="guide" ${u.role === 'guide' ? 'selected' : ''}>Hướng Dẫn Viên</option>
+                <option value="manager" ${u.role === 'manager' ? 'selected' : ''}>Quản Lý Tour</option>
+                <option value="admin" ${u.role === 'admin' ? 'selected' : ''}>Quản Trị Viên</option>
+              </select>
+            </div>
+          </td>
+          <td>
+            <div style="font-size:0.82rem;">
+              <div><i class="fa-solid fa-phone text-muted" style="font-size:0.75rem;"></i> <strong>${u.phone || 'Chưa cập nhật'}</strong></div>
+              <small class="text-muted">${u.department || u.address || (u.experience ? `${u.experience}` : 'Tham gia: ' + (u.joinedDate || '2026'))}</small>
+            </div>
+          </td>
+          <td>
+            <span class="badge ${u.status === 'active' ? 'badge-success' : 'badge-danger'}">
+              ${u.status === 'active' ? '<i class="fa-solid fa-circle-check"></i> Hoạt động' : '<i class="fa-solid fa-lock"></i> Tạm khóa'}
+            </span>
+          </td>
+          <td>
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+              <button type="button" class="btn btn-outline btn-sm" onclick="openAdminUserModal('${u.id}')" title="Chỉnh sửa thông tin">
+                <i class="fa-solid fa-pen"></i> Sửa
+              </button>
+              <button type="button" class="btn btn-outline btn-sm ${u.status === 'active' ? 'text-warning' : 'text-success'}" onclick="toggleUserStatus('${u.id}')" title="${u.status === 'active' ? 'Tạm khóa tài khoản' : 'Kích hoạt lại'}">
+                ${u.status === 'active' ? '<i class="fa-solid fa-lock"></i> Khóa' : '<i class="fa-solid fa-lock-open"></i> Mở'}
+              </button>
+              <button type="button" class="btn btn-outline btn-sm text-danger" onclick="deleteAdminUser('${u.id}')" title="Xóa vĩnh viễn tài khoản">
+                <i class="fa-regular fa-trash-can"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('');
   }
 
-  function renderAdminReviews() {
-    if (!adminReviewsTable) return;
-    adminReviewsTable.innerHTML = db.reviews.map(r => `
-      <tr>
-        <td>
-          <strong>${r.userName}</strong>
-          <span class="text-muted" style="display:block; font-size:0.75rem;">${r.tourTitle}</span>
-        </td>
-        <td>
-          <div class="text-warning" style="font-size:0.8rem;">
-            ${Array(r.rating).fill('<i class="fa-solid fa-star"></i>').join('')}
-          </div>
-        </td>
-        <td style="max-width:300px; font-size:0.85rem;">"${r.comment}"</td>
-        <td>
-          <span class="badge ${r.status === 'approved' ? 'badge-success' : 'badge-warning'}">
-            ${r.status === 'approved' ? 'Đã duyệt' : 'Chờ duyệt'}
-          </span>
-        </td>
-        <td>
-          ${r.status === 'approved' 
-            ? `<button class="btn btn-outline btn-sm text-danger" onclick="toggleReviewStatus('${r.id}', 'pending')"><i class="fa-regular fa-eye-slash"></i> Ẩn</button>` 
-            : `<button class="btn btn-outline btn-sm text-success" onclick="toggleReviewStatus('${r.id}', 'approved')"><i class="fa-solid fa-check"></i> Duyệt</button>`}
-        </td>
-      </tr>
-    `).join('');
+  window.filterAdminUsers = () => {
+    const kwInput = document.getElementById('adminUserFilterKeyword');
+    const roleSelect = document.getElementById('adminUserFilterRole');
+    const statusSelect = document.getElementById('adminUserFilterStatus');
+    if (kwInput) userKeyword = kwInput.value;
+    if (roleSelect) userRoleFilter = roleSelect.value;
+    if (statusSelect) userStatusFilter = statusSelect.value;
+    renderAdminUsers();
+  };
+
+  window.openAdminUserModal = (userId = null) => {
+    const idEl = document.getElementById('adminUserId');
+    const nameEl = document.getElementById('adminUserName');
+    const emailEl = document.getElementById('adminUserEmail');
+    const phoneEl = document.getElementById('adminUserPhone');
+    const roleEl = document.getElementById('adminUserRole');
+    const statusEl = document.getElementById('adminUserStatus');
+    const deptEl = document.getElementById('adminUserDepartment');
+    const avatarEl = document.getElementById('adminUserAvatar');
+    const addressEl = document.getElementById('adminUserAddress');
+    const titleEl = document.getElementById('userModalTitle');
+    const submitBtn = document.getElementById('btnSubmitUser');
+
+    if (userId) {
+      const u = db.users.find(item => item.id === userId);
+      if (!u) return;
+      if (idEl) idEl.value = u.id;
+      if (nameEl) nameEl.value = u.name || '';
+      if (emailEl) emailEl.value = u.email || '';
+      if (phoneEl) phoneEl.value = u.phone || '';
+      if (roleEl) roleEl.value = u.role || 'customer';
+      if (statusEl) statusEl.value = u.status || 'active';
+      if (deptEl) deptEl.value = u.department || '';
+      if (avatarEl) avatarEl.value = u.avatar || '';
+      if (addressEl) addressEl.value = u.address || '';
+      if (titleEl) titleEl.innerHTML = '<i class="fa-solid fa-user-pen text-primary"></i> Chỉnh Sửa Tài Khoản Người Dùng';
+      if (submitBtn) submitBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Cập Nhật Tài Khoản';
+    } else {
+      if (formAdminUser) formAdminUser.reset();
+      if (idEl) idEl.value = '';
+      if (avatarEl) avatarEl.value = 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80';
+      if (titleEl) titleEl.innerHTML = '<i class="fa-solid fa-user-plus text-primary"></i> Thêm Tài Khoản Người Dùng Mới';
+      if (submitBtn) submitBtn.innerHTML = '<i class="fa-solid fa-check"></i> Lưu Tài Khoản';
+    }
+
+    openModal('modalAdminUser');
+  };
+
+  if (formAdminUser) {
+    formAdminUser.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = document.getElementById('adminUserId')?.value || '';
+      const name = document.getElementById('adminUserName').value.trim();
+      const email = document.getElementById('adminUserEmail').value.trim();
+      const phone = document.getElementById('adminUserPhone').value.trim();
+      const role = document.getElementById('adminUserRole').value;
+      const status = document.getElementById('adminUserStatus').value;
+      const department = document.getElementById('adminUserDepartment').value.trim();
+      const avatar = document.getElementById('adminUserAvatar').value.trim() || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80';
+      const address = document.getElementById('adminUserAddress').value.trim();
+
+      if (id) {
+        const u = db.users.find(item => item.id === id);
+        if (u) {
+          Object.assign(u, { name, email, phone, role, status, department, avatar, address });
+          showToast(`Đã cập nhật thông tin tài khoản ${name}!`, 'success');
+        }
+      } else {
+        const newUser = {
+          id: `usr-${Date.now()}`,
+          name,
+          email,
+          phone,
+          role,
+          status,
+          department,
+          avatar,
+          address,
+          joinedDate: new Date().toLocaleDateString('vi-VN')
+        };
+        db.users.unshift(newUser);
+        showToast(`Đã tạo tài khoản người dùng mới cho ${name}!`, 'success');
+      }
+
+      saveMockDatabase(db);
+      closeModal('modalAdminUser');
+      renderAdminUsers();
+      updateAdminKPIs();
+      renderRoleBasedNav();
+    });
   }
+
+  window.deleteAdminUser = (userId) => {
+    const user = db.users.find(u => u.id === userId);
+    if (!user) return;
+    if (user.role === 'admin' && db.users.filter(u => u.role === 'admin').length <= 1) {
+      showToast('Không thể xóa Quản trị viên duy nhất của hệ thống.', 'warning');
+      return;
+    }
+    if (!confirm(`Bạn có chắc chắn muốn xóa vĩnh viễn tài khoản "${user.name}" (${user.email})?`)) return;
+
+    db.users = db.users.filter(u => u.id !== userId);
+    saveMockDatabase(db);
+    renderAdminUsers();
+    updateAdminKPIs();
+    showToast(`Đã xóa tài khoản ${user.name} thành công.`, 'info');
+  };
 
   window.changeUserRole = (userId, newRole) => {
     const user = db.users.find(u => u.id === userId);
     if (user) {
       user.role = newRole;
       saveMockDatabase(db);
+      renderAdminUsers();
       showToast(`Đã thay đổi vai trò của ${user.name} thành "${newRole}"!`, 'success');
       renderRoleBasedNav();
     }
@@ -1383,6 +1546,351 @@ function initAdminDashboard() {
     }
   };
 
+  // --- 3. ROLE-PERMISSION CRUD MATRIX ---
+  function renderRolePills() {
+    const pillsContainer = document.getElementById('adminRolePills');
+    if (!pillsContainer) return;
+
+    const rolesList = db.roles || DEFAULT_MOCK_DATA.roles;
+    pillsContainer.innerHTML = rolesList.map(r => `
+      <button type="button" class="admin-role-pill ${r.code === activeRoleCode ? 'active' : ''}" onclick="selectMatrixRole('${r.code}')">
+        <span>${r.name}</span>
+        <span class="badge ${r.badgeClass}" style="font-size:0.68rem; padding:2px 6px;">${r.code}</span>
+      </button>
+    `).join('');
+  }
+
+  window.selectMatrixRole = (roleCode) => {
+    activeRoleCode = roleCode;
+    renderRolePills();
+    const roleObj = (db.roles || DEFAULT_MOCK_DATA.roles).find(r => r.code === roleCode);
+    const activeLabelEl = document.getElementById('matrixActiveRoleLabel');
+    if (activeLabelEl) activeLabelEl.textContent = roleObj ? roleObj.name : roleCode;
+    renderRolePermissionMatrix();
+  };
+
+  function renderRolePermissionMatrix() {
+    if (!adminMatrixTableBody) return;
+
+    const modulesList = db.modules || DEFAULT_MOCK_DATA.modules;
+    if (!db.role_permissions) db.role_permissions = DEFAULT_MOCK_DATA.role_permissions;
+
+    adminMatrixTableBody.innerHTML = modulesList.map(mod => {
+      let perm = db.role_permissions.find(p => p.roleCode === activeRoleCode && p.moduleCode === mod.code);
+      if (!perm) {
+        perm = { roleCode: activeRoleCode, moduleCode: mod.code, canCreate: false, canRead: false, canUpdate: false, canDelete: false };
+        db.role_permissions.push(perm);
+      }
+
+      // Summary label
+      let summaryHtml = '';
+      if (perm.canCreate && perm.canRead && perm.canUpdate && perm.canDelete) {
+        summaryHtml = '<span class="badge badge-success" style="font-size:0.75rem;"><i class="fa-solid fa-shield-check"></i> Toàn quyền (Full CRUD)</span>';
+      } else if (!perm.canCreate && perm.canRead && !perm.canUpdate && !perm.canDelete) {
+        summaryHtml = '<span class="badge badge-info" style="font-size:0.75rem;"><i class="fa-regular fa-eye"></i> Chỉ xem (Read-only)</span>';
+      } else if (!perm.canCreate && !perm.canRead && !perm.canUpdate && !perm.canDelete) {
+        summaryHtml = '<span class="badge badge-neutral" style="font-size:0.75rem;"><i class="fa-solid fa-ban"></i> Không có quyền</span>';
+      } else {
+        const parts = [];
+        if (perm.canCreate) parts.push('C');
+        if (perm.canRead) parts.push('R');
+        if (perm.canUpdate) parts.push('U');
+        if (perm.canDelete) parts.push('D');
+        summaryHtml = `<span class="badge badge-warning" style="font-size:0.75rem;">${parts.join(' - ')}</span>`;
+      }
+
+      return `
+        <tr>
+          <td>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div style="width:34px; height:34px; border-radius:8px; background:#f0fdfa; color:#0f766e; display:flex; align-items:center; justify-content:center; font-size:1rem;">
+                <i class="fa-solid ${mod.icon}"></i>
+              </div>
+              <div>
+                <strong style="color:#0f172a; font-size:0.9rem;">${mod.name}</strong>
+                <small class="text-muted" style="display:block; font-size:0.75rem;"><code>${mod.code}</code> • ${mod.desc}</small>
+              </div>
+            </div>
+          </td>
+          <td style="text-align:center;">
+            <label class="matrix-checkbox-label ${perm.canCreate ? 'is-checked' : ''}">
+              <input type="checkbox" ${perm.canCreate ? 'checked' : ''} onchange="updatePermissionCheckbox('${mod.code}', 'canCreate', this.checked)">
+              <span>Tạo</span>
+            </label>
+          </td>
+          <td style="text-align:center;">
+            <label class="matrix-checkbox-label ${perm.canRead ? 'is-checked' : ''}">
+              <input type="checkbox" ${perm.canRead ? 'checked' : ''} onchange="updatePermissionCheckbox('${mod.code}', 'canRead', this.checked)">
+              <span>Đọc</span>
+            </label>
+          </td>
+          <td style="text-align:center;">
+            <label class="matrix-checkbox-label ${perm.canUpdate ? 'is-checked' : ''}">
+              <input type="checkbox" ${perm.canUpdate ? 'checked' : ''} onchange="updatePermissionCheckbox('${mod.code}', 'canUpdate', this.checked)">
+              <span>Sửa</span>
+            </label>
+          </td>
+          <td style="text-align:center;">
+            <label class="matrix-checkbox-label ${perm.canDelete ? 'is-checked' : ''}">
+              <input type="checkbox" ${perm.canDelete ? 'checked' : ''} onchange="updatePermissionCheckbox('${mod.code}', 'canDelete', this.checked)">
+              <span>Xóa</span>
+            </label>
+          </td>
+          <td style="text-align:center;">
+            ${summaryHtml}
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  window.updatePermissionCheckbox = (moduleCode, action, checked) => {
+    let perm = db.role_permissions.find(p => p.roleCode === activeRoleCode && p.moduleCode === moduleCode);
+    if (!perm) {
+      perm = { roleCode: activeRoleCode, moduleCode: moduleCode, canCreate: false, canRead: false, canUpdate: false, canDelete: false };
+      db.role_permissions.push(perm);
+    }
+    perm[action] = checked;
+    renderRolePermissionMatrix();
+  };
+
+  window.saveCurrentRolePermissions = () => {
+    saveMockDatabase(db);
+    showToast(`Đã lưu cấu hình ma trận phân quyền cho vai trò "${activeRoleCode}" vào hệ thống!`, 'success');
+  };
+
+  window.setAllPermissionsForActiveRole = (enabled) => {
+    const modulesList = db.modules || DEFAULT_MOCK_DATA.modules;
+    modulesList.forEach(mod => {
+      let perm = db.role_permissions.find(p => p.roleCode === activeRoleCode && p.moduleCode === mod.code);
+      if (!perm) {
+        perm = { roleCode: activeRoleCode, moduleCode: mod.code, canCreate: enabled, canRead: enabled, canUpdate: enabled, canDelete: enabled };
+        db.role_permissions.push(perm);
+      } else {
+        perm.canCreate = enabled;
+        perm.canRead = enabled;
+        perm.canUpdate = enabled;
+        perm.canDelete = enabled;
+      }
+    });
+    saveMockDatabase(db);
+    renderRolePermissionMatrix();
+    showToast(`Đã ${enabled ? 'bật toàn bộ quyền CRUD' : 'bỏ toàn bộ quyền'} cho vai trò "${activeRoleCode}"!`, 'info');
+  };
+
+  window.resetPermissionsForActiveRole = () => {
+    const defaultPerms = DEFAULT_MOCK_DATA.role_permissions.filter(p => p.roleCode === activeRoleCode);
+    db.role_permissions = db.role_permissions.filter(p => p.roleCode !== activeRoleCode).concat(JSON.parse(JSON.stringify(defaultPerms)));
+    saveMockDatabase(db);
+    renderRolePermissionMatrix();
+    showToast(`Đã khôi phục ma trận phân quyền mặc định cho vai trò "${activeRoleCode}"!`, 'success');
+  };
+
+  // --- 4. TOUR CATEGORIES MANAGEMENT CRUD ---
+  function renderAdminCategories() {
+    if (!adminCategoriesTable) return;
+
+    if (!db.categories) db.categories = DEFAULT_MOCK_DATA.categories;
+
+    adminCategoriesTable.innerHTML = db.categories.map(cat => {
+      // Calculate active tour count in this category
+      const matchedToursCount = db.tours.filter(t => t.theme === cat.code || (t.title && t.title.toLowerCase().includes(cat.name.toLowerCase()))).length;
+
+      return `
+        <tr>
+          <td>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div class="category-icon-box" style="background:${cat.color}15; color:${cat.color};">
+                <i class="fa-solid ${cat.icon || 'fa-tag'}"></i>
+              </div>
+              <div>
+                <strong style="color:#0f172a; font-size:0.9rem;">${cat.name}</strong>
+                <span class="text-muted" style="display:block; font-size:0.75rem;">Màu nhận diện: <span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${cat.color}; vertical-align:middle;"></span> ${cat.color}</span>
+              </div>
+            </div>
+          </td>
+          <td><code>${cat.code}</code></td>
+          <td style="max-width:280px; font-size:0.84rem; color:#475569;">${cat.description || 'Chưa có mô tả'}</td>
+          <td>
+            <span class="badge badge-primary" style="font-size:0.75rem;">
+              <i class="fa-solid fa-compass"></i> ${matchedToursCount || cat.tourCount || 0} Tour
+            </span>
+          </td>
+          <td>
+            <span class="badge ${cat.featured ? 'badge-warning' : 'badge-neutral'}">
+              ${cat.featured ? '<i class="fa-solid fa-star"></i> Nổi bật' : 'Bình thường'}
+            </span>
+          </td>
+          <td>
+            <span class="badge ${cat.status === 'active' ? 'badge-success' : 'badge-danger'}">
+              ${cat.status === 'active' ? 'Hoạt động' : 'Tạm ẩn'}
+            </span>
+          </td>
+          <td>
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+              <button type="button" class="btn btn-outline btn-sm" onclick="openAdminCategoryModal('${cat.id}')" title="Chỉnh sửa danh mục">
+                <i class="fa-solid fa-pen"></i> Sửa
+              </button>
+              <button type="button" class="btn btn-outline btn-sm ${cat.status === 'active' ? 'text-warning' : 'text-success'}" onclick="toggleCategoryStatus('${cat.id}')" title="${cat.status === 'active' ? 'Ẩn danh mục' : 'Kích hoạt'}">
+                <i class="fa-solid ${cat.status === 'active' ? 'fa-eye-slash' : 'fa-eye'}"></i>
+              </button>
+              <button type="button" class="btn btn-outline btn-sm text-danger" onclick="deleteAdminCategory('${cat.id}')" title="Xóa danh mục">
+                <i class="fa-regular fa-trash-can"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  window.autoGenerateCategoryCode = (name) => {
+    const codeInput = document.getElementById('adminCategoryCode');
+    const idInput = document.getElementById('adminCategoryId');
+    if (!codeInput || (idInput && idInput.value)) return;
+    const slug = name.toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/đ/g, 'd').replace(/[^a-z0-9]/g, '_').replace(/_+/g, '_').replace(/^_|_$/g, '');
+    codeInput.value = slug;
+  };
+
+  window.openAdminCategoryModal = (catId = null) => {
+    const idEl = document.getElementById('adminCategoryId');
+    const nameEl = document.getElementById('adminCategoryName');
+    const codeEl = document.getElementById('adminCategoryCode');
+    const iconEl = document.getElementById('adminCategoryIcon');
+    const colorEl = document.getElementById('adminCategoryColor');
+    const descEl = document.getElementById('adminCategoryDesc');
+    const statusEl = document.getElementById('adminCategoryStatus');
+    const featuredEl = document.getElementById('adminCategoryFeatured');
+    const titleEl = document.getElementById('categoryModalTitle');
+    const submitBtn = document.getElementById('btnSubmitCategory');
+
+    if (catId) {
+      const cat = db.categories.find(item => item.id === catId);
+      if (!cat) return;
+      if (idEl) idEl.value = cat.id;
+      if (nameEl) nameEl.value = cat.name || '';
+      if (codeEl) codeEl.value = cat.code || '';
+      if (iconEl) iconEl.value = cat.icon || 'fa-umbrella-beach';
+      if (colorEl) colorEl.value = cat.color || '#0284c7';
+      if (descEl) descEl.value = cat.description || '';
+      if (statusEl) statusEl.value = cat.status || 'active';
+      if (featuredEl) featuredEl.value = cat.featured ? 'true' : 'false';
+      if (titleEl) titleEl.innerHTML = '<i class="fa-solid fa-folder-pen text-secondary"></i> Chỉnh Sửa Danh Mục Tour';
+      if (submitBtn) submitBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Cập Nhật Danh Mục';
+    } else {
+      if (formAdminCategory) formAdminCategory.reset();
+      if (idEl) idEl.value = '';
+      if (titleEl) titleEl.innerHTML = '<i class="fa-solid fa-folder-plus text-secondary"></i> Thêm Danh Mục Tour Mới';
+      if (submitBtn) submitBtn.innerHTML = '<i class="fa-solid fa-check"></i> Lưu Danh Mục';
+    }
+
+    openModal('modalAdminCategory');
+  };
+
+  if (formAdminCategory) {
+    formAdminCategory.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const id = document.getElementById('adminCategoryId')?.value || '';
+      const name = document.getElementById('adminCategoryName').value.trim();
+      const code = document.getElementById('adminCategoryCode').value.trim().toLowerCase();
+      const icon = document.getElementById('adminCategoryIcon').value;
+      const color = document.getElementById('adminCategoryColor').value;
+      const desc = document.getElementById('adminCategoryDesc').value.trim();
+      const status = document.getElementById('adminCategoryStatus').value;
+      const featured = document.getElementById('adminCategoryFeatured').value === 'true';
+
+      if (id) {
+        const cat = db.categories.find(item => item.id === id);
+        if (cat) {
+          Object.assign(cat, { name, code, icon, color, description: desc, status, featured });
+          showToast(`Đã cập nhật danh mục "${name}"!`, 'success');
+        }
+      } else {
+        const newCat = {
+          id: `cat-${Date.now()}`,
+          name,
+          code,
+          icon,
+          color,
+          description: desc,
+          tourCount: 0,
+          status,
+          featured
+        };
+        db.categories.push(newCat);
+        showToast(`Đã thêm danh mục mới "${name}" thành công!`, 'success');
+      }
+
+      saveMockDatabase(db);
+      closeModal('modalAdminCategory');
+      renderAdminCategories();
+      updateAdminKPIs();
+    });
+  }
+
+  window.toggleCategoryStatus = (catId) => {
+    const cat = db.categories.find(c => c.id === catId);
+    if (cat) {
+      cat.status = cat.status === 'active' ? 'inactive' : 'active';
+      saveMockDatabase(db);
+      renderAdminCategories();
+      showToast(`Đã ${cat.status === 'active' ? 'kích hoạt' : 'tạm ẩn'} danh mục "${cat.name}"!`, 'info');
+    }
+  };
+
+  window.deleteAdminCategory = (catId) => {
+    const cat = db.categories.find(c => c.id === catId);
+    if (!cat) return;
+    const tourCount = db.tours.filter(t => t.theme === cat.code).length;
+    if (tourCount > 0) {
+      if (!confirm(`Danh mục "${cat.name}" đang có ${tourCount} tour thuộc nhóm này. Bạn vẫn muốn xóa danh mục này?`)) return;
+    } else {
+      if (!confirm(`Bạn có chắc chắn muốn xóa danh mục "${cat.name}"?`)) return;
+    }
+
+    db.categories = db.categories.filter(c => c.id !== catId);
+    saveMockDatabase(db);
+    renderAdminCategories();
+    updateAdminKPIs();
+    showToast(`Đã xóa danh mục "${cat.name}" thành công.`, 'info');
+  };
+
+  // --- 5. REVIEWS MODERATION ---
+  function renderAdminReviews() {
+    if (!adminReviewsTable) return;
+    adminReviewsTable.innerHTML = db.reviews.map(r => `
+      <tr>
+        <td>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <img src="${r.userAvatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80'}" style="width:34px; height:34px; border-radius:50%; object-fit:cover;" alt="${r.userName}">
+            <div>
+              <strong style="color:#0f172a; font-size:0.88rem;">${r.userName}</strong>
+              <span class="text-muted" style="display:block; font-size:0.75rem;">${r.tourTitle}</span>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="text-warning" style="font-size:0.8rem;">
+            ${Array(r.rating).fill('<i class="fa-solid fa-star"></i>').join('')}
+          </div>
+        </td>
+        <td style="max-width:300px; font-size:0.84rem; color:#475569;">"${r.comment}"</td>
+        <td>
+          <span class="badge ${r.status === 'approved' ? 'badge-success' : 'badge-warning'}">
+            ${r.status === 'approved' ? '<i class="fa-solid fa-circle-check"></i> Đã duyệt' : '<i class="fa-solid fa-hourglass-half"></i> Chờ duyệt'}
+          </span>
+        </td>
+        <td>
+          ${r.status === 'approved' 
+            ? `<button class="btn btn-outline btn-sm text-danger" onclick="toggleReviewStatus('${r.id}', 'pending')"><i class="fa-regular fa-eye-slash"></i> Ẩn</button>` 
+            : `<button class="btn btn-outline btn-sm text-success" onclick="toggleReviewStatus('${r.id}', 'approved')"><i class="fa-solid fa-check"></i> Duyệt</button>`}
+        </td>
+      </tr>
+    `).join('');
+  }
+
   window.toggleReviewStatus = (reviewId, newStatus) => {
     const rev = db.reviews.find(r => r.id === reviewId);
     if (rev) {
@@ -1393,7 +1901,12 @@ function initAdminDashboard() {
     }
   };
 
+  // Initialize all Admin modules
+  updateAdminKPIs();
   renderAdminUsers();
+  renderRolePills();
+  renderRolePermissionMatrix();
+  renderAdminCategories();
   renderAdminReviews();
 }
 
