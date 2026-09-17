@@ -3212,6 +3212,573 @@ function initAdminCategories() {
   renderAdminCategories();
 }
 
+// ==========================================
+// 17K. MANAGER DEPARTURES (LỊCH KHỞI HÀNH) STANDALONE MODULE
+// ==========================================
+
+function initManagerDepartures() {
+  const table = document.getElementById('managerDeparturesTableBody');
+  if (!table) return;
+
+  const db = getMockDatabase();
+  if (!db.departures) db.departures = DEFAULT_MOCK_DATA.departures;
+
+  // Search & Filter elements
+  const searchInput = document.getElementById('depSearchInput');
+  const tourFilter = document.getElementById('depTourFilter');
+  const statusFilter = document.getElementById('depStatusFilter');
+  const resetBtn = document.getElementById('btnResetDepFilter');
+
+  // Populate Tour Filter dropdown
+  if (tourFilter) {
+    const currentVal = tourFilter.value;
+    tourFilter.innerHTML = `<option value="all">-- Tất Cả Các Tour (${db.tours.length} Tour) --</option>` +
+      db.tours.map(t => `<option value="${t.id}">${t.title}</option>`).join('');
+    if (currentVal) tourFilter.value = currentVal;
+  }
+
+  // Populate Tour Select in Modal
+  const modalTourSelect = document.getElementById('depTourSelect');
+  if (modalTourSelect) {
+    modalTourSelect.innerHTML = `<option value="" disabled selected>-- Chọn tour du lịch --</option>` +
+      db.tours.map(t => `<option value="${t.id}" data-price="${t.price}" data-days="${t.days || 3}">${t.title} (${t.duration || '3N2Đ'})</option>`).join('');
+  }
+
+  // Populate Guide Select in Modal
+  const modalGuideSelect = document.getElementById('depGuideSelect');
+  if (modalGuideSelect) {
+    const guides = db.users.filter(u => u.role === 'guide');
+    modalGuideSelect.innerHTML = `<option value="">-- Chưa gán hướng dẫn viên --</option>` +
+      guides.map(g => `<option value="${g.id}">${g.name} (${g.languages || 'HDV'} • ${g.rating || 5}★)</option>`).join('');
+  }
+
+  // Auto-calculate return date when tour or start date changes
+  function updateModalDates() {
+    const tourId = modalTourSelect ? modalTourSelect.value : '';
+    const startDateVal = document.getElementById('depStartDate') ? document.getElementById('depStartDate').value : '';
+    if (!tourId || !startDateVal) return;
+
+    const selectedTour = db.tours.find(t => t.id === tourId);
+    if (!selectedTour) return;
+
+    const days = selectedTour.days || (parseInt(selectedTour.duration, 10) || 3);
+    const startDate = new Date(startDateVal);
+    if (!isNaN(startDate.getTime())) {
+      const returnDate = new Date(startDate);
+      returnDate.setDate(startDate.getDate() + Math.max(0, days - 1));
+      const yyyy = returnDate.getFullYear();
+      const mm = String(returnDate.getMonth() + 1).padStart(2, '0');
+      const dd = String(returnDate.getDate()).padStart(2, '0');
+      const returnInput = document.getElementById('depReturnDate');
+      if (returnInput) returnInput.value = `${yyyy}-${mm}-${dd}`;
+    }
+
+    // Auto set price if price input is empty or 0
+    const priceInput = document.getElementById('depPriceInput') || document.getElementById('depPrice');
+    if (priceInput && (!priceInput.value || priceInput.value == '0')) {
+      priceInput.value = selectedTour.price || 0;
+    }
+  }
+
+  if (modalTourSelect) modalTourSelect.addEventListener('change', updateModalDates);
+  const startDateEl = document.getElementById('depStartDate');
+  if (startDateEl) startDateEl.addEventListener('change', updateModalDates);
+
+  // Helper date conversions
+  function parseDateVn(str) {
+    if (!str) return new Date();
+    if (str.includes('/')) {
+      const parts = str.split('/');
+      return new Date(parts[2], parts[1] - 1, parts[0]);
+    }
+    return new Date(str);
+  }
+
+  function formatDateVn(dateObj) {
+    if (!dateObj || isNaN(dateObj.getTime())) return '';
+    const dd = String(dateObj.getDate()).padStart(2, '0');
+    const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const yyyy = dateObj.getFullYear();
+    return `${dd}/${mm}/${yyyy}`;
+  }
+
+  // Render departures table
+  window.renderManagerDepartures = function() {
+    const targetTable = document.getElementById('managerDeparturesTableBody');
+    if (!targetTable) return;
+
+    const currentDb = getMockDatabase();
+    if (!currentDb.departures) currentDb.departures = DEFAULT_MOCK_DATA.departures;
+
+    const keyword = searchInput ? searchInput.value.trim().toLowerCase() : '';
+    const selectedTourId = tourFilter ? tourFilter.value : 'all';
+    const selectedStatus = statusFilter ? statusFilter.value : 'all';
+
+    const filtered = currentDb.departures.filter(dep => {
+      const tour = (currentDb.tours || []).find(t => t.id === dep.tourId);
+      const tourTitle = tour ? tour.title.toLowerCase() : '';
+      const tourLoc = tour ? tour.location.toLowerCase() : '';
+      const guideName = (dep.guideName || '').toLowerCase();
+      const code = (dep.code || dep.id || '').toLowerCase();
+      const depDate = (dep.date || '').toLowerCase();
+
+      // Search match
+      if (keyword) {
+        const match = code.includes(keyword) || tourTitle.includes(keyword) || tourLoc.includes(keyword) || guideName.includes(keyword) || depDate.includes(keyword);
+        if (!match) return false;
+      }
+
+      // Tour match
+      if (selectedTourId !== 'all' && dep.tourId !== selectedTourId) {
+        return false;
+      }
+
+      // Status match
+      if (selectedStatus !== 'all') {
+        if (selectedStatus === 'Available' && dep.status !== 'Available' && dep.slots <= 0) return false;
+        if (selectedStatus === 'Almost Full' && dep.status !== 'Almost Full') return false;
+        if (selectedStatus === 'Sold Out' && dep.status !== 'Sold Out' && dep.slots > 0) return false;
+        if (selectedStatus === 'Running' && dep.status !== 'Running') return false;
+        if (selectedStatus === 'Completed' && dep.status !== 'Completed') return false;
+      }
+
+      return true;
+    });
+
+    // Update KPI summary cards
+    const totalCount = filtered.length;
+    const activeCount = filtered.filter(d => d.slots > 0 && d.status !== 'Sold Out' && d.status !== 'Completed').length;
+    const totalMaxSlots = filtered.reduce((acc, d) => acc + (d.maxSlots || 20), 0);
+    const totalBooked = filtered.reduce((acc, d) => acc + Math.max(0, (d.maxSlots || 20) - (d.slots || 0)), 0);
+    const avgOccupancy = totalMaxSlots > 0 ? Math.round((totalBooked / totalMaxSlots) * 100) : 0;
+
+    const kpiTotalEl = document.getElementById('kpiTotalDepartures');
+    if (kpiTotalEl) kpiTotalEl.textContent = `${totalCount} Chuyến`;
+
+    const kpiActiveEl = document.getElementById('kpiActiveDepartures');
+    if (kpiActiveEl) kpiActiveEl.textContent = `${activeCount} Đoàn Mở Bán`;
+
+    const kpiOccupancyEl = document.getElementById('kpiAvgOccupancy');
+    if (kpiOccupancyEl) kpiOccupancyEl.textContent = `${avgOccupancy}%`;
+
+    const kpiBookedEl = document.getElementById('kpiTotalBookedSeats');
+    if (kpiBookedEl) kpiBookedEl.textContent = `${totalBooked} Khách`;
+
+    if (!filtered.length) {
+      targetTable.innerHTML = `
+        <tr>
+          <td colspan="8" style="text-align:center; padding:48px 20px;">
+            <div style="font-size:2.5rem; color:#cbd5e1; margin-bottom:12px;"><i class="fa-solid fa-calendar-xmark"></i></div>
+            <h4 style="color:#475569; margin-bottom:6px;">Không tìm thấy chuyến khởi hành nào</h4>
+            <p class="text-muted" style="font-size:0.85rem; margin-bottom:16px;">Vui lòng thử tìm kiếm với từ khóa khác hoặc điều chỉnh bộ lọc.</p>
+            <button class="btn btn-outline btn-sm" onclick="resetManagerDepFilter()"><i class="fa-solid fa-rotate-left"></i> Đặt lại bộ lọc</button>
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    targetTable.innerHTML = filtered.map((dep, idx) => {
+      const tour = (currentDb.tours || []).find(t => t.id === dep.tourId) || {
+        title: "Tour Du Lịch Đặc Biệt",
+        image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80",
+        location: "Việt Nam",
+        duration: "3N2Đ",
+        price: dep.price || 3000000
+      };
+
+      const maxSlots = dep.maxSlots || 20;
+      const availableSlots = typeof dep.slots === 'number' ? dep.slots : 0;
+      const bookedSlots = Math.max(0, maxSlots - availableSlots);
+      const fillRate = Math.min(100, Math.round((bookedSlots / maxSlots) * 100));
+
+      let progressColor = '#10b981'; // Green
+      if (fillRate >= 95) progressColor = '#ef4444'; // Red (Full)
+      else if (fillRate >= 70) progressColor = '#f59e0b'; // Yellow/Orange (Almost full)
+
+      // Status Badge
+      let statusBadge = `<span class="badge badge-emerald" style="font-size:0.75rem; font-weight:600;"><i class="fa-solid fa-circle-check"></i> Còn chỗ</span>`;
+      if (dep.status === 'Sold Out' || availableSlots === 0) {
+        statusBadge = `<span class="badge badge-rose" style="font-size:0.75rem; font-weight:600;"><i class="fa-solid fa-circle-xmark"></i> Hết chỗ</span>`;
+      } else if (dep.status === 'Almost Full' || availableSlots <= 3) {
+        statusBadge = `<span class="badge badge-amber" style="font-size:0.75rem; font-weight:600;"><i class="fa-solid fa-triangle-exclamation"></i> Sắp hết (${availableSlots})</span>`;
+      } else if (dep.status === 'Running') {
+        statusBadge = `<span class="badge badge-blue" style="font-size:0.75rem; font-weight:600;"><i class="fa-solid fa-spinner fa-spin"></i> Đang chạy</span>`;
+      } else if (dep.status === 'Completed') {
+        statusBadge = `<span class="badge badge-neutral" style="font-size:0.75rem; font-weight:600;"><i class="fa-solid fa-flag-checkered"></i> Hoàn tất</span>`;
+      }
+
+      // Guide Info
+      const guideObj = (currentDb.users || []).find(u => u.id === dep.guideId);
+      const guideName = dep.guideName || (guideObj ? guideObj.name : null);
+      const guideAvatar = guideObj ? guideObj.avatar : 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80';
+
+      const guideHtml = guideName ? `
+        <div style="display:flex; align-items:center; gap:8px;">
+          <img src="${guideAvatar}" style="width:30px; height:30px; border-radius:50%; object-fit:cover; border:2px solid #e2e8f0;" alt="${guideName}">
+          <div>
+            <strong style="display:block; font-size:0.83rem; color:#0f172a; line-height:1.2;">${guideName}</strong>
+            <span style="font-size:0.7rem; color:#0f766e;"><i class="fa-solid fa-shield-halved"></i> HDV Trưởng đoàn</span>
+          </div>
+        </div>
+      ` : `
+        <span class="badge badge-neutral" style="font-size:0.72rem; color:#94a3b8; background:#f8fafc; border:1px dashed #cbd5e1;">
+          <i class="fa-solid fa-user-xmark"></i> Chưa gán HDV
+        </span>
+      `;
+
+      const depCode = dep.code || `DEP-${dep.id.replace('dep-', '').padStart(2, '0')}`;
+
+      return `
+        <tr style="transition:all 0.15s ease;">
+          <!-- 1. STT -->
+          <td style="text-align:center; padding:12px 6px;">
+            <strong class="text-muted" style="font-size:0.8rem;">#${idx + 1}</strong>
+          </td>
+
+          <!-- 2. Mã Đoàn & Tour Du Lịch -->
+          <td style="padding:12px 10px;">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <img src="${tour.image}" style="width:54px; height:42px; border-radius:6px; object-fit:cover; box-shadow:0 2px 4px rgba(0,0,0,0.06);" alt="${tour.title}">
+              <div style="max-width:280px;">
+                <div style="display:flex; align-items:center; gap:6px; margin-bottom:3px;">
+                  <code style="background:#f0fdf4; color:#0f766e; border:1px solid #bbf7d0; padding:1px 5px; border-radius:4px; font-size:0.72rem; font-weight:700;">${depCode}</code>
+                  <span class="badge badge-neutral" style="font-size:0.68rem; padding:2px 6px;"><i class="fa-solid fa-location-dot text-danger"></i> ${tour.location}</span>
+                </div>
+                <strong style="display:block; font-size:0.86rem; color:#0f172a; line-height:1.3; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="${tour.title}">${tour.title}</strong>
+              </div>
+            </div>
+          </td>
+
+          <!-- 3. Lịch Trình Khởi Hành -->
+          <td style="padding:12px 10px;">
+            <div style="display:flex; flex-direction:column; gap:3px;">
+              <div style="display:flex; align-items:center; gap:6px; font-size:0.84rem; font-weight:600; color:#0f766e;">
+                <i class="fa-solid fa-plane-departure" style="font-size:0.75rem;"></i>
+                <span>${dep.date}</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:6px; font-size:0.75rem; color:#64748b;">
+                <i class="fa-solid fa-plane-arrival" style="font-size:0.75rem; color:#94a3b8;"></i>
+                <span>Đến ${dep.returnDate || 'Theo tour'}</span>
+                <span class="badge badge-neutral" style="font-size:0.68rem; padding:1px 5px; margin-left:2px;">${tour.duration || '3N2Đ'}</span>
+              </div>
+            </div>
+          </td>
+
+          <!-- 4. Giá Vé Chuyến -->
+          <td style="padding:12px 10px;">
+            <strong class="text-primary" style="font-size:0.88rem; font-weight:700;">${formatCurrency(dep.price || tour.price)}</strong>
+            <small style="display:block; font-size:0.7rem; color:#94a3b8;">/ khách tiêu chuẩn</small>
+          </td>
+
+          <!-- 5. Tình Trạng Chỗ & Lấp Đầy -->
+          <td style="padding:12px 10px; min-width:160px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.78rem; margin-bottom:4px;">
+              <span>Đã đặt: <strong>${bookedSlots}</strong>/${maxSlots}</span>
+              <strong style="color:${progressColor}; font-size:0.8rem;">${fillRate}%</strong>
+            </div>
+            <div style="height:6px; background:#e2e8f0; border-radius:3px; overflow:hidden; margin-bottom:4px;">
+              <div style="height:100%; width:${fillRate}%; background:${progressColor}; border-radius:3px; transition:width 0.4s ease;"></div>
+            </div>
+            <div style="font-size:0.7rem; color:#64748b; display:flex; justify-content:space-between;">
+              <span>Còn trống: <strong style="color:${availableSlots > 0 ? '#0f766e' : '#ef4444'}">${availableSlots} chỗ</strong></span>
+              <span>Tối đa ${maxSlots}</span>
+            </div>
+          </td>
+
+          <!-- 6. Hướng Dẫn Viên -->
+          <td style="padding:12px 10px;">
+            ${guideHtml}
+          </td>
+
+          <!-- 7. Trạng Thái Đoàn -->
+          <td style="text-align:center; padding:12px 8px;">
+            ${statusBadge}
+          </td>
+
+          <!-- 8. Thao Tác -->
+          <td style="text-align:center; padding:12px 8px;">
+            <div style="display:inline-flex; gap:4px; justify-content:center;">
+              <button class="btn btn-outline btn-xs" onclick="openManagerDepartureModal('${dep.id}')" title="Chỉnh sửa chuyến đi" style="padding:4px 8px;">
+                <i class="fa-regular fa-pen-to-square"></i>
+              </button>
+              <button class="btn btn-outline btn-xs ${availableSlots === 0 ? 'text-success' : 'text-warning'}" onclick="toggleDepartureAvailability('${dep.id}')" title="${availableSlots === 0 ? 'Mở lại bán vé' : 'Đóng bán vé (Hết chỗ)'}" style="padding:4px 8px;">
+                <i class="fa-solid ${availableSlots === 0 ? 'fa-lock-open' : 'fa-lock'}"></i>
+              </button>
+              <button class="btn btn-outline btn-xs text-danger" onclick="deleteManagerDeparture('${dep.id}')" title="Xóa chuyến khởi hành" style="padding:4px 8px;">
+                <i class="fa-regular fa-trash-can"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  };
+
+  // Reset Filters
+  window.resetManagerDepFilter = function() {
+    if (searchInput) searchInput.value = '';
+    if (tourFilter) tourFilter.value = 'all';
+    if (statusFilter) statusFilter.value = 'all';
+    renderManagerDepartures();
+    showToast('Đã đặt lại toàn bộ bộ lọc lịch khởi hành.', 'info');
+  };
+
+  if (resetBtn) resetBtn.addEventListener('click', resetManagerDepFilter);
+  if (searchInput) searchInput.addEventListener('input', renderManagerDepartures);
+  if (tourFilter) tourFilter.addEventListener('change', renderManagerDepartures);
+  if (statusFilter) statusFilter.addEventListener('change', renderManagerDepartures);
+
+  // Modal Open & Edit
+  window.openManagerDepartureModal = function(depId) {
+    const modal = document.getElementById('modalAddDeparture');
+    if (!modal) return;
+
+    const editIdInput = document.getElementById('depEditId');
+    const modalTitle = document.getElementById('departureModalTitle');
+    const tourSelect = document.getElementById('depTourSelect');
+    const codeInput = document.getElementById('depCodeInput');
+    const startDateInput = document.getElementById('depStartDate');
+    const returnDateInput = document.getElementById('depReturnDate');
+    const priceInput = document.getElementById('depPriceInput') || document.getElementById('depPrice');
+    const maxSlotsInput = document.getElementById('depMaxSlots');
+    const slotsInput = document.getElementById('depSlots');
+    const guideSelect = document.getElementById('depGuideSelect');
+    const statusSelect = document.getElementById('depStatusSelect');
+    const notesInput = document.getElementById('depNotesInput');
+
+    const currentDb = getMockDatabase();
+
+    if (depId) {
+      // Edit mode
+      const dep = (currentDb.departures || []).find(d => d.id === depId);
+      if (!dep) return;
+
+      if (editIdInput) editIdInput.value = dep.id;
+      if (modalTitle) modalTitle.innerHTML = `<i class="fa-solid fa-pen-to-square text-primary"></i> Chỉnh Sửa Chuyến Khởi Hành`;
+      if (tourSelect) tourSelect.value = dep.tourId || '';
+      if (codeInput) codeInput.value = dep.code || dep.id;
+
+      // Dates (convert DD/MM/YYYY to YYYY-MM-DD for input[type=date])
+      if (startDateInput && dep.date) {
+        if (dep.date.includes('/')) {
+          const p = dep.date.split('/');
+          startDateInput.value = `${p[2]}-${p[1].padStart(2, '0')}-${p[0].padStart(2, '0')}`;
+        } else {
+          startDateInput.value = dep.date;
+        }
+      }
+      if (returnDateInput && dep.returnDate) {
+        if (dep.returnDate.includes('/')) {
+          const p = dep.returnDate.split('/');
+          returnDateInput.value = `${p[2]}-${p[1].padStart(2, '0')}-${p[0].padStart(2, '0')}`;
+        } else {
+          returnDateInput.value = dep.returnDate;
+        }
+      }
+
+      if (priceInput) priceInput.value = dep.price || 0;
+      if (maxSlotsInput) maxSlotsInput.value = dep.maxSlots || 20;
+      if (slotsInput) slotsInput.value = typeof dep.slots === 'number' ? dep.slots : 20;
+      if (guideSelect) guideSelect.value = dep.guideId || '';
+      if (statusSelect) statusSelect.value = dep.status || 'Available';
+      if (notesInput) notesInput.value = dep.notes || '';
+    } else {
+      // Create mode
+      if (editIdInput) editIdInput.value = '';
+      if (modalTitle) modalTitle.innerHTML = `<i class="fa-solid fa-calendar-plus text-primary"></i> Tạo Lịch Khởi Hành Mới`;
+      if (tourSelect) tourSelect.selectedIndex = 0;
+      
+      // Default start date next Saturday
+      const d = new Date();
+      d.setDate(d.getDate() + ((6 - d.getDay() + 7) % 7 || 7));
+      const yyyy = d.getFullYear();
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+      if (startDateInput) startDateInput.value = `${yyyy}-${mm}-${dd}`;
+
+      // Default return date +3 days
+      const retD = new Date(d);
+      retD.setDate(d.getDate() + 3);
+      if (returnDateInput) returnDateInput.value = `${retD.getFullYear()}-${String(retD.getMonth() + 1).padStart(2, '0')}-${String(retD.getDate()).padStart(2, '0')}`;
+
+      if (codeInput) codeInput.value = `DEP-${Math.floor(1000 + Math.random() * 9000)}`;
+      if (priceInput) priceInput.value = 3500000;
+      if (maxSlotsInput) maxSlotsInput.value = 20;
+      if (slotsInput) slotsInput.value = 20;
+      if (guideSelect) guideSelect.value = 'usr-guide-1';
+      if (statusSelect) statusSelect.value = 'Available';
+      if (notesInput) notesInput.value = 'Tập trung tại Nhà Hát Lớn Hà Nội lúc 07:00 sáng.';
+
+      updateModalDates();
+    }
+
+    if (typeof openModal === 'function') {
+      openModal('modalAddDeparture');
+    } else {
+      modal.classList.add('active');
+    }
+  };
+
+  // Form Submit (Create / Edit Departure)
+  const formEl = document.getElementById('formAddDeparture');
+  if (formEl) {
+    formEl.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const currentDb = getMockDatabase();
+      if (!currentDb.departures) currentDb.departures = DEFAULT_MOCK_DATA.departures;
+
+      const editId = document.getElementById('depEditId') ? document.getElementById('depEditId').value.trim() : '';
+      const tourId = document.getElementById('depTourSelect') ? document.getElementById('depTourSelect').value : '';
+      const code = document.getElementById('depCodeInput') ? document.getElementById('depCodeInput').value.trim() : `DEP-${Date.now()}`;
+      const startDateVal = document.getElementById('depStartDate') ? document.getElementById('depStartDate').value : '';
+      const returnDateVal = document.getElementById('depReturnDate') ? document.getElementById('depReturnDate').value : '';
+      const priceVal = parseInt((document.getElementById('depPriceInput') || document.getElementById('depPrice') || {}).value, 10) || 0;
+      const maxSlots = parseInt((document.getElementById('depMaxSlots') || {}).value, 10) || 20;
+      const slots = parseInt((document.getElementById('depSlots') || {}).value, 10) || 0;
+      const guideId = document.getElementById('depGuideSelect') ? document.getElementById('depGuideSelect').value : '';
+      const statusSelectVal = document.getElementById('depStatusSelect') ? document.getElementById('depStatusSelect').value : 'Available';
+      const notes = document.getElementById('depNotesInput') ? document.getElementById('depNotesInput').value.trim() : '';
+
+      if (!tourId) {
+        showToast('Vui lòng chọn tour du lịch áp dụng!', 'warning');
+        return;
+      }
+
+      // Convert YYYY-MM-DD to DD/MM/YYYY
+      const formatToVnDate = (isoStr) => {
+        if (!isoStr) return '';
+        if (isoStr.includes('/')) return isoStr;
+        const [y, m, d] = isoStr.split('-');
+        return `${d}/${m}/${y}`;
+      };
+
+      const dateVn = formatToVnDate(startDateVal);
+      const returnDateVn = formatToVnDate(returnDateVal);
+
+      // Find guide name
+      const guideObj = (currentDb.users || []).find(u => u.id === guideId);
+      const guideName = guideObj ? guideObj.name : '';
+
+      // Determine status text
+      let status = statusSelectVal;
+      let statusText = 'Còn chỗ';
+      let badgeClass = 'badge-available';
+
+      if (status === 'Sold Out' || slots === 0) {
+        status = 'Sold Out';
+        statusText = 'Hết chỗ';
+        badgeClass = 'badge-sold-out';
+      } else if (status === 'Almost Full' || (slots > 0 && slots <= 3)) {
+        status = 'Almost Full';
+        statusText = 'Sắp hết chỗ';
+        badgeClass = 'badge-almost-full';
+      } else if (status === 'Running') {
+        statusText = 'Đang chạy';
+        badgeClass = 'badge-info';
+      } else if (status === 'Completed') {
+        statusText = 'Hoàn tất';
+        badgeClass = 'badge-neutral';
+      }
+
+      if (editId) {
+        // Update existing
+        const idx = currentDb.departures.findIndex(d => d.id === editId);
+        if (idx !== -1) {
+          currentDb.departures[idx] = {
+            ...currentDb.departures[idx],
+            tourId,
+            code,
+            date: dateVn,
+            returnDate: returnDateVn,
+            price: priceVal,
+            maxSlots,
+            slots,
+            guideId,
+            guideName,
+            status,
+            statusText,
+            badgeClass,
+            notes
+          };
+          saveMockDatabase(currentDb);
+          showToast(`Đã cập nhật chuyến khởi hành ${code} thành công!`, 'success');
+        }
+      } else {
+        // Create new
+        const newDep = {
+          id: `dep-${Date.now()}`,
+          code,
+          tourId,
+          date: dateVn,
+          returnDate: returnDateVn,
+          price: priceVal,
+          maxSlots,
+          slots,
+          guideId,
+          guideName,
+          status,
+          statusText,
+          badgeClass,
+          notes
+        };
+        currentDb.departures.unshift(newDep);
+        saveMockDatabase(currentDb);
+        showToast(`Đã tạo mới chuyến khởi hành ${code} thành công!`, 'success');
+      }
+
+      // Close modal
+      if (typeof closeModal === 'function') {
+        closeModal('modalAddDeparture');
+      } else {
+        const modal = document.getElementById('modalAddDeparture');
+        if (modal) modal.classList.remove('active');
+      }
+
+      renderManagerDepartures();
+    });
+  }
+
+  // Toggle Availability
+  window.toggleDepartureAvailability = function(depId) {
+    const currentDb = getMockDatabase();
+    const dep = (currentDb.departures || []).find(d => d.id === depId);
+    if (!dep) return;
+
+    if (dep.slots === 0 || dep.status === 'Sold Out') {
+      dep.slots = dep.maxSlots || 20;
+      dep.status = 'Available';
+      dep.statusText = 'Còn chỗ';
+      dep.badgeClass = 'badge-available';
+      saveMockDatabase(currentDb);
+      showToast(`Đã mở lại bán vé cho chuyến ${dep.code || dep.id}!`, 'success');
+    } else {
+      dep.slots = 0;
+      dep.status = 'Sold Out';
+      dep.statusText = 'Hết chỗ';
+      dep.badgeClass = 'badge-sold-out';
+      saveMockDatabase(currentDb);
+      showToast(`Đã đóng bán vé chuyến ${dep.code || dep.id}!`, 'warning');
+    }
+    renderManagerDepartures();
+  };
+
+  // Delete Departure
+  window.deleteManagerDeparture = function(depId) {
+    if (!confirm('Bạn có chắc chắn muốn xóa chuyến khởi hành này khỏi hệ thống?')) return;
+    const currentDb = getMockDatabase();
+    const idx = (currentDb.departures || []).findIndex(d => d.id === depId);
+    if (idx === -1) return;
+
+    const removed = currentDb.departures.splice(idx, 1)[0];
+    saveMockDatabase(currentDb);
+    showToast(`Đã xóa chuyến khởi hành ${removed.code || removed.id}!`, 'info');
+    renderManagerDepartures();
+  };
+
+  renderManagerDepartures();
+}
+
 // Auto-run individual page initializers when loaded
 document.addEventListener('DOMContentLoaded', () => {
   if (typeof initManagerPromotions === 'function') initManagerPromotions();
@@ -3221,6 +3788,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (typeof initManagerReviews === 'function') initManagerReviews();
   if (typeof initManagerMedia === 'function') initManagerMedia();
   if (typeof initManagerPayments === 'function') initManagerPayments();
+  if (typeof initManagerDepartures === 'function') initManagerDepartures();
   if (typeof initAdminCategories === 'function') initAdminCategories();
   if (typeof initGuideTourUpdates === 'function') initGuideTourUpdates();
 });

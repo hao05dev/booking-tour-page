@@ -418,24 +418,39 @@ const DEFAULT_MOCK_DATA = {
   ],
 
   departures: [
-    { id: "dep-1", tourId: "tour-1", date: "25/10/2026", returnDate: "28/10/2026", slots: 6, maxSlots: 20, price: 3490000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-1", guideName: "Trần Quốc Hưng" },
-    { id: "dep-2", tourId: "tour-1", date: "02/11/2026", returnDate: "05/11/2026", slots: 2, maxSlots: 20, price: 3590000, status: "Almost Full", statusText: "Sắp hết chỗ", badgeClass: "badge-almost-full", guideId: "usr-guide-1", guideName: "Trần Quốc Hưng" },
-    { id: "dep-3", tourId: "tour-1", date: "15/11/2026", returnDate: "18/11/2026", slots: 0, maxSlots: 20, price: 3490000, status: "Sold Out", statusText: "Hết chỗ", badgeClass: "badge-sold-out", guideId: "usr-guide-2", guideName: "Phạm Minh Tuấn" },
-    { id: "dep-4", tourId: "tour-1", date: "28/11/2026", returnDate: "01/12/2026", slots: 12, maxSlots: 20, price: 3390000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-3", guideName: "Hoàng Lan Anh" },
+    { id: "dep-1", code: "DEP-HL-2510", tourId: "tour-1", date: "25/10/2026", returnDate: "28/10/2026", slots: 6, maxSlots: 20, price: 3490000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-1", guideName: "Trần Quốc Hưng" },
+    { id: "dep-2", code: "DEP-HL-0211", tourId: "tour-1", date: "02/11/2026", returnDate: "05/11/2026", slots: 2, maxSlots: 20, price: 3590000, status: "Almost Full", statusText: "Sắp hết chỗ", badgeClass: "badge-almost-full", guideId: "usr-guide-1", guideName: "Trần Quốc Hưng" },
+    { id: "dep-3", code: "DEP-HL-1511", tourId: "tour-1", date: "15/11/2026", returnDate: "18/11/2026", slots: 0, maxSlots: 20, price: 3490000, status: "Sold Out", statusText: "Hết chỗ", badgeClass: "badge-sold-out", guideId: "usr-guide-2", guideName: "Phạm Minh Tuấn" },
+    { id: "dep-4", code: "DEP-HL-2811", tourId: "tour-1", date: "28/11/2026", returnDate: "01/12/2026", slots: 12, maxSlots: 20, price: 3390000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-3", guideName: "Hoàng Lan Anh" },
     
-    { id: "dep-5", tourId: "tour-2", date: "22/10/2026", returnDate: "24/10/2026", slots: 4, maxSlots: 15, price: 2190000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-2", guideName: "Phạm Minh Tuấn" },
-    { id: "dep-6", tourId: "tour-2", date: "05/11/2026", returnDate: "07/11/2026", slots: 8, maxSlots: 15, price: 2190000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-2", guideName: "Phạm Minh Tuấn" },
+    { id: "dep-5", code: "DEP-SP-2210", tourId: "tour-2", date: "22/10/2026", returnDate: "24/10/2026", slots: 4, maxSlots: 15, price: 2190000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-2", guideName: "Phạm Minh Tuấn" },
+    { id: "dep-6", code: "DEP-SP-0511", tourId: "tour-2", date: "05/11/2026", returnDate: "07/11/2026", slots: 8, maxSlots: 15, price: 2190000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-2", guideName: "Phạm Minh Tuấn" },
+    { id: "dep-7", code: "DEP-SP-1911", tourId: "tour-2", date: "19/11/2026", returnDate: "21/11/2026", slots: 0, maxSlots: 15, price: 2290000, status: "Sold Out", statusText: "Hết chỗ", badgeClass: "badge-sold-out", guideId: "usr-guide-1", guideName: "Trần Quốc Hưng" },
     
-    { id: "dep-7", tourId: "tour-3", date: "20/10/2026", returnDate: "24/10/2026", slots: 5, maxSlots: 25, price: 4590000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-1", guideName: "Trần Quốc Hưng" },
-    { id: "dep-8", tourId: "tour-3", date: "10/11/2026", returnDate: "14/11/2026", slots: 14, maxSlots: 25, price: 4590000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-3", guideName: "Hoàng Lan Anh" },
+    { id: "dep-8", code: "DEP-DN-2010", tourId: "tour-3", date: "20/10/2026", returnDate: "24/10/2026", slots: 5, maxSlots: 25, price: 4590000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-1", guideName: "Trần Quốc Hưng" },
+    { id: "dep-9", code: "DEP-DN-1011", tourId: "tour-3", date: "10/11/2026", returnDate: "14/11/2026", slots: 14, maxSlots: 25, price: 4590000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-3", guideName: "Hoàng Lan Anh" },
+    { id: "dep-10", code: "DEP-DN-2411", tourId: "tour-3", date: "24/11/2026", returnDate: "28/11/2026", slots: 1, maxSlots: 25, price: 4490000, status: "Almost Full", statusText: "Sắp hết chỗ", badgeClass: "badge-almost-full", guideId: "usr-guide-2", guideName: "Phạm Minh Tuấn" },
     
-    { id: "dep-9", tourId: "tour-4", date: "24/10/2026", returnDate: "27/10/2026", slots: 3, maxSlots: 30, price: 3990000, status: "Almost Full", statusText: "Sắp hết chỗ", badgeClass: "badge-almost-full", guideId: "usr-guide-3", guideName: "Hoàng Lan Anh" },
-    { id: "dep-10", tourId: "tour-4", date: "12/11/2026", returnDate: "15/11/2026", slots: 18, maxSlots: 30, price: 3990000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-1", guideName: "Trần Quốc Hưng" },
+    { id: "dep-11", code: "DEP-PQ-2410", tourId: "tour-4", date: "24/10/2026", returnDate: "27/10/2026", slots: 3, maxSlots: 30, price: 3990000, status: "Almost Full", statusText: "Sắp hết chỗ", badgeClass: "badge-almost-full", guideId: "usr-guide-3", guideName: "Hoàng Lan Anh" },
+    { id: "dep-12", code: "DEP-PQ-1211", tourId: "tour-4", date: "12/11/2026", returnDate: "15/11/2026", slots: 18, maxSlots: 30, price: 3990000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-1", guideName: "Trần Quốc Hưng" },
+    { id: "dep-13", code: "DEP-PQ-2611", tourId: "tour-4", date: "26/11/2026", returnDate: "29/11/2026", slots: 22, maxSlots: 30, price: 4190000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-3", guideName: "Hoàng Lan Anh" },
 
-    { id: "dep-11", tourId: "tour-5", date: "21/10/2026", returnDate: "21/10/2026", slots: 8, maxSlots: 20, price: 950000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-2", guideName: "Phạm Minh Tuấn" },
-    { id: "dep-12", tourId: "tour-6", date: "26/10/2026", returnDate: "29/10/2026", slots: 6, maxSlots: 20, price: 2890000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-3", guideName: "Hoàng Lan Anh" },
-    { id: "dep-13", tourId: "tour-7", date: "30/10/2026", returnDate: "02/11/2026", slots: 4, maxSlots: 16, price: 3200000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-2", guideName: "Phạm Minh Tuấn" },
-    { id: "dep-14", tourId: "tour-8", date: "28/10/2026", returnDate: "30/10/2026", slots: 10, maxSlots: 25, price: 1850000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-1", guideName: "Trần Quốc Hưng" }
+    { id: "dep-14", code: "DEP-NB-2110", tourId: "tour-5", date: "21/10/2026", returnDate: "21/10/2026", slots: 8, maxSlots: 20, price: 950000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-2", guideName: "Phạm Minh Tuấn" },
+    { id: "dep-15", code: "DEP-NB-0411", tourId: "tour-5", date: "04/11/2026", returnDate: "04/11/2026", slots: 15, maxSlots: 20, price: 950000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-1", guideName: "Trần Quốc Hưng" },
+    
+    { id: "dep-16", code: "DEP-DL-2610", tourId: "tour-6", date: "26/10/2026", returnDate: "29/10/2026", slots: 6, maxSlots: 20, price: 2890000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-3", guideName: "Hoàng Lan Anh" },
+    { id: "dep-17", code: "DEP-DL-1611", tourId: "tour-6", date: "16/11/2026", returnDate: "19/11/2026", slots: 11, maxSlots: 20, price: 2890000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-2", guideName: "Phạm Minh Tuấn" },
+    
+    { id: "dep-18", code: "DEP-HG-3010", tourId: "tour-7", date: "30/10/2026", returnDate: "02/11/2026", slots: 4, maxSlots: 16, price: 3200000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-2", guideName: "Phạm Minh Tuấn" },
+    { id: "dep-19", code: "DEP-HG-1311", tourId: "tour-7", date: "13/11/2026", returnDate: "16/11/2026", slots: 0, maxSlots: 16, price: 3250000, status: "Sold Out", statusText: "Hết chỗ", badgeClass: "badge-sold-out", guideId: "usr-guide-1", guideName: "Trần Quốc Hưng" },
+    
+    { id: "dep-20", code: "DEP-MT-2810", tourId: "tour-8", date: "28/10/2026", returnDate: "30/10/2026", slots: 10, maxSlots: 25, price: 1850000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-1", guideName: "Trần Quốc Hưng" },
+    { id: "dep-21", code: "DEP-MT-1811", tourId: "tour-8", date: "18/11/2026", returnDate: "20/11/2026", slots: 19, maxSlots: 25, price: 1850000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-3", guideName: "Hoàng Lan Anh" },
+
+    { id: "dep-22", code: "DEP-NT-0111", tourId: "tour-9", date: "01/11/2026", returnDate: "04/11/2026", slots: 5, maxSlots: 20, price: 3690000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-2", guideName: "Phạm Minh Tuấn" },
+    { id: "dep-23", code: "DEP-HU-0811", tourId: "tour-10", date: "08/11/2026", returnDate: "10/11/2026", slots: 8, maxSlots: 20, price: 2150000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-1", guideName: "Trần Quốc Hưng" },
+    { id: "dep-24", code: "DEP-CD-1411", tourId: "tour-11", date: "14/11/2026", returnDate: "16/11/2026", slots: 3, maxSlots: 18, price: 5890000, status: "Almost Full", statusText: "Sắp hết chỗ", badgeClass: "badge-almost-full", guideId: "usr-guide-3", guideName: "Hoàng Lan Anh" },
+    { id: "dep-25", code: "DEP-QN-2111", tourId: "tour-12", date: "21/11/2026", returnDate: "24/11/2026", slots: 12, maxSlots: 20, price: 3350000, status: "Available", statusText: "Còn chỗ", badgeClass: "badge-available", guideId: "usr-guide-2", guideName: "Phạm Minh Tuấn" }
   ],
 
   bookings: [
@@ -1087,6 +1102,7 @@ function getMockDatabase() {
       if (!parsed.tourUpdates) { parsed.tourUpdates = DEFAULT_MOCK_DATA.tourUpdates; changed = true; }
       if (!parsed.media) { parsed.media = DEFAULT_MOCK_DATA.media; changed = true; }
       if (!parsed.payments) { parsed.payments = DEFAULT_MOCK_DATA.payments; changed = true; }
+      if (!parsed.departures || parsed.departures.length < 20) { parsed.departures = DEFAULT_MOCK_DATA.departures; changed = true; }
       if (changed) {
         saveMockDatabase(parsed);
       }
