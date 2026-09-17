@@ -42,54 +42,52 @@
         </div>
       </div>
 
-      <div class="admindek-nav-body">
-        <div class="admindek-section-title">Chuyến Đi Của Tôi</div>
+            <div class="admindek-nav-body">
+        <div class="admindek-section-title">CHUYẾN ĐI CỦA TÔI</div>
         <ul class="admindek-nav-list">
-          <li class="admindek-nav-item">
-            <a href="guide-dashboard.html" class="admindek-nav-link ">
-              <span class="admindek-nav-link-left"><i class="fa-solid fa-route"></i> Tour Đang Dẫn Đoàn</span>
-              <span class="admindek-nav-badge badge-emerald">Active</span>
-            </a>
-          </li>
+          <!-- 1. Xem tour được phân công -->
           <li class="admindek-nav-item">
             <a href="guide-schedule.html" class="admindek-nav-link ">
-              <span class="admindek-nav-link-left"><i class="fa-solid fa-list-check"></i> 5 Chuyến Sắp Tới</span>
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-list-check"></i> Xem Tour Được Phân Công</span>
               <span class="admindek-nav-badge badge-blue">5 Tour</span>
             </a>
           </li>
-        </ul>
 
-        <div class="admindek-section-title">Công Cụ Dẫn Đoàn Thực Địa</div>
-        <ul class="admindek-nav-list">
+          <!-- 2. Xem thông tin tour -->
+          <li class="admindek-nav-item">
+            <a href="guide-timeline.html" class="admindek-nav-link active">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-route"></i> Xem Thông Tin Tour & Lịch Trình</span>
+            </a>
+          </li>
+
+          <!-- 3. Xem thông tin khách hàng tham gia tour -->
           <li class="admindek-nav-item">
             <a href="guide-roster.html" class="admindek-nav-link ">
-              <span class="admindek-nav-link-left"><i class="fa-solid fa-clipboard-user"></i> Điểm Danh Khách Lên Xe</span>
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-users-viewfinder"></i> Danh Sách Khách Tham Gia</span>
               <span class="admindek-nav-badge badge-amber">18 Khách</span>
             </a>
           </li>
+
+          <!-- 4. Cập nhật thông tin tour được phân công -->
           <li class="admindek-nav-item">
-            <a href="guide-timeline.html" class="admindek-nav-link active">
-              <span class="admindek-nav-link-left"><i class="fa-solid fa-calendar-days"></i> Lịch Trình Chi Tiết Từng Ngày</span>
+            <a href="guide-update.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-pen-to-square"></i> Cập Nhật Thông Tin Tour</span>
+              <span class="admindek-nav-badge badge-emerald">Live</span>
             </a>
           </li>
         </ul>
 
-        <div class="admindek-section-title">Hỗ Trợ & Khẩn Cấp</div>
+        <div class="admindek-section-title">HỖ TRỢ & HỆ THỐNG</div>
         <ul class="admindek-nav-list">
           <li class="admindek-nav-item">
-            <a href="tel:0911223344" class="admindek-nav-link" style="color:#ef4444;">
-              <span class="admindek-nav-link-left"><i class="fa-solid fa-phone-volume text-danger"></i> Gọi Trực Ban Điều Hành (24/7)</span>
-            </a>
-          </li>
-          <li class="admindek-nav-item">
             <a href="profile.html" class="admindek-nav-link">
-              <span class="admindek-nav-link-left"><i class="fa-solid fa-id-card"></i> Hồ Sơ Thẻ HDV</span>
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-id-badge"></i> Hồ Sơ Hướng Dẫn Viên</span>
             </a>
           </li>
         </ul>
       </div>
 
-      <div class="admindek-sidebar-footer">
+<div class="admindek-sidebar-footer">
         <button type="button" onclick="logout()" class="btn btn-outline btn-block text-danger" style="font-size:0.84rem; padding:8px 12px; border-color:rgba(239, 68, 68, 0.4);">
           <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất HDV
         </button>
