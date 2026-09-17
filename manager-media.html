@@ -3,12 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lịch Khởi Hành & Quản Lý Đoàn Tour - BookingTour Manager</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>Quản Lý Thư Viện Hình Ảnh - BookingTour Manager</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Modular Stylesheets -->
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/components.css">
@@ -18,15 +14,13 @@
 </head>
 <body class="admindek-body">
   <div class="admindek-sidebar-overlay" id="admindekOverlay" onclick="toggleAdmindekSidebar()"></div>
-  <div class="toast-container" id="toastContainer"></div>
 
   <div class="admindek-app">
+    <!-- SIDEBAR -->
     <aside class="admindek-sidebar" id="admindekSidebar">
-      <div class="admindek-sidebar-header">
-        <a href="index.html" class="admindek-brand">
-          <div class="admindek-brand-icon">
-            <i class="fa-solid fa-clipboard-check"></i>
-          </div>
+      <div class="admindek-sidebar-brand">
+        <a href="index.html" class="admindek-brand-link">
+          <div class="admindek-brand-icon"><i class="fa-solid fa-map-location-dot"></i></div>
           <div class="admindek-brand-text">
             <span>BookingTour</span>
             <small>OPERATIONS MANAGER</small>
@@ -42,7 +36,7 @@
         </div>
       </div>
 
-                  <div class="admindek-nav-body">
+            <div class="admindek-nav-body">
         <div class="admindek-section-title">NHÓM QUẢN LÝ TOUR</div>
         <ul class="admindek-nav-list">
           <!-- 1. Tour -->
@@ -71,7 +65,7 @@
 
           <!-- 4. Lịch khởi hành -->
           <li class="admindek-nav-item">
-            <a href="manager-departures.html" class="admindek-nav-link active">
+            <a href="manager-departures.html" class="admindek-nav-link ">
               <span class="admindek-nav-link-left"><i class="fa-solid fa-calendar-check"></i> Lịch Khởi Hành</span>
               <span class="admindek-nav-badge badge-blue">25 Đoàn</span>
             </a>
@@ -79,7 +73,7 @@
 
           <!-- 5. Hình ảnh -->
           <li class="admindek-nav-item">
-            <a href="manager-media.html" class="admindek-nav-link ">
+            <a href="manager-media.html" class="admindek-nav-link active">
               <span class="admindek-nav-link-left"><i class="fa-solid fa-images"></i> Hình Ảnh</span>
               <span class="admindek-nav-badge badge-amber">Kho Ảnh</span>
             </a>
@@ -143,76 +137,104 @@
       </div>
     </aside>
 
+    <!-- MAIN CONTENT -->
     <div class="admindek-main-wrapper">
       <header class="admindek-topbar">
         <div class="admindek-topbar-left">
-          <button type="button" class="admindek-toggle-btn" onclick="toggleAdmindekSidebar()" title="Toggle Sidebar">
-            <i class="fa-solid fa-bars-staggered"></i>
+          <button type="button" class="admindek-toggle-btn" onclick="toggleAdmindekSidebar()" title="Ẩn/Hiện Menu">
+            <i class="fa-solid fa-bars"></i>
           </button>
-          <div class="admindek-topbar-search">
+          <div class="admindek-search-bar">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" placeholder="Tìm kiếm chuyến khởi hành, ngày đi, HDV..." id="managerSearchInput">
-            <span class="admindek-search-badge">Ctrl K</span>
+            <input type="text" placeholder="Tìm kiếm nhanh trong phân hệ..." id="managerGlobalSearch">
+            <span class="admindek-search-kbd">Ctrl K</span>
           </div>
         </div>
 
         <div class="admindek-topbar-right">
-          <a href="index.html" class="admindek-btn-site">
-            <i class="fa-solid fa-arrow-left"></i>
-            <span>Về Trang Chủ Khách Hàng</span>
+          <a href="index.html" class="btn btn-outline btn-sm" style="font-weight:600;">
+            <i class="fa-solid fa-arrow-left"></i> Về Trang Khách Hàng
           </a>
-          <button type="button" class="admindek-icon-btn" onclick="showToast('Có 25 chuyến khởi hành đang mở bán.', 'info')">
+          <button type="button" class="admindek-icon-btn" onclick="showToast('Hệ thống vận hành ổn định!', 'info')">
             <i class="fa-regular fa-bell"></i>
+            <span class="admindek-icon-badge"></span>
           </button>
-          <div class="nav-actions" style="margin-left: 6px;"></div>
+          <div class="nav-actions" style="margin-left:6px;"></div>
         </div>
       </header>
 
       <main class="admindek-content">
         <div class="admindek-page-header">
           <div class="admindek-page-title-wrap">
-            <h1 class="admindek-page-title">Lịch Khởi Hành & Quản Lý Đoàn Tour</h1>
+            <h1>Quản Lý Thư Viện Hình Ảnh</h1>
             <div class="admindek-breadcrumb">
               <a href="index.html">Trang chủ</a>
               <span>/</span>
-              <a href="manager-dashboard.html">Quản lý tour</a>
+              <span>Quản lý tour</span>
               <span>/</span>
-              <span>Chuyến đi khởi hành</span>
+              <span style="color:#0f172a; font-weight:600;">Hình ảnh tour</span>
             </div>
-          </div>
-          <div class="admindek-page-actions">
-            <button class="btn btn-primary" onclick="openManagerDepartureModal()"><i class="fa-solid fa-calendar-plus"></i> Tạo Lịch Khởi Hành Mới</button>
           </div>
         </div>
 
-        <div class="admindek-grid">
-          <div class="admindek-card admindek-col-12">
-            <div class="admindek-card-header">
-              <div class="admindek-card-title">
-                <i class="fa-solid fa-calendar-check text-primary"></i>
-                <div>
-                  <h3>Toàn Bộ Các Chuyến Đi Đang Vận Hành</h3>
-                  <p>Xem số chỗ còn lại, tỷ lệ lấp đầy, hướng dẫn viên dẫn đoàn và chỉnh sửa lịch trình.</p>
-                </div>
+        <!-- KPI Cards -->
+        <div class="admindek-stats-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 24px;">
+          <div class="admindek-stat-card stat-teal">
+            <div class="admindek-stat-top">
+              <div>
+                <div class="admindek-stat-label">Tổng Số Hình Ảnh</div>
+                <div class="admindek-stat-value" id="kpiTotalMedia">8 Hình Ảnh</div>
               </div>
+              <div class="admindek-stat-icon"><i class="fa-solid fa-images"></i></div>
             </div>
+            <div class="admindek-stat-bottom"><i class="fa-solid fa-cloud-arrow-up"></i><span>Lưu trữ trên CDN tốc độ cao</span></div>
+          </div>
+          <div class="admindek-stat-card stat-emerald">
+            <div class="admindek-stat-top">
+              <div>
+                <div class="admindek-stat-label">Ảnh Tour Du Lịch</div>
+                <div class="admindek-stat-value">5 Ảnh Tour</div>
+              </div>
+              <div class="admindek-stat-icon"><i class="fa-solid fa-map"></i></div>
+            </div>
+            <div class="admindek-stat-bottom"><i class="fa-solid fa-check"></i><span>Gắn trực tiếp vào banner tour</span></div>
+          </div>
+          <div class="admindek-stat-card stat-blue">
+            <div class="admindek-stat-top">
+              <div>
+                <div class="admindek-stat-label">Ảnh Điểm Đến</div>
+                <div class="admindek-stat-value">3 Ảnh Danh Thắng</div>
+              </div>
+              <div class="admindek-stat-icon"><i class="fa-solid fa-mountain-sun"></i></div>
+            </div>
+            <div class="admindek-stat-bottom"><i class="fa-solid fa-panorama"></i><span>Hình ảnh chất lượng HD sắc nét</span></div>
+          </div>
+        </div>
 
-            <div class="admindek-table-responsive">
-              <table class="admindek-table" id="managerTourTable">
-                <thead>
-                  <tr>
-                    <th>Thông Tin Tour</th>
-                    <th>Mùa Vụ & Giai Đoạn</th>
-                    <th>Giá Tiêu Chuẩn</th>
-                    <th>Lịch Khởi Hành</th>
-                    <th>Phân Loại</th>
-                    <th>Thao Tác</th>
-                  </tr>
-                </thead>
-                <tbody id="managerTourTableBody">
-                  <!-- Rendered by JS -->
-                </tbody>
-              </table>
+        <div class="admindek-box">
+          <div class="admindek-box-header">
+            <div>
+              <h2 class="admindek-box-title">
+                <i class="fa-solid fa-images"></i>
+                <span>Thư Viện & Kho Hình Ảnh Tour Du Lịch</span>
+              </h2>
+              <p class="text-muted" style="font-size:0.85rem; margin-top:4px;">Quản lý ảnh đại diện, banner tour và hình ảnh các điểm tham quan trên website.</p>
+            </div>
+            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+              <select id="mediaCategoryFilter" class="form-control" style="width:auto; min-width:140px; font-size:0.85rem;" onchange="renderManagerMedia()">
+                <option value="all">Tất Cả Loại Ảnh</option>
+                <option value="Tour">Ảnh Tour Mở Bán</option>
+                <option value="Địa điểm">Ảnh Địa Điểm Danh Thắng</option>
+              </select>
+              <button class="btn btn-primary btn-sm" onclick="openMediaUploadModal()" style="font-weight:700;">
+                <i class="fa-solid fa-cloud-arrow-up"></i> Thêm Link Ảnh Mới
+              </button>
+            </div>
+          </div>
+
+          <div class="admindek-box-body">
+            <div id="managerMediaGrid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap:18px;">
+              <!-- Rendered by JS -->
             </div>
           </div>
         </div>
@@ -220,58 +242,43 @@
     </div>
   </div>
 
-  <!-- Modal Thêm Ngày Khởi Hành -->
-  <div class="modal-backdrop" id="modalAddDeparture">
-    <div class="modal-container" style="max-width:600px;">
+  <!-- Modal Thêm Link Ảnh -->
+  <div class="modal-backdrop" id="modalMediaUpload">
+    <div class="modal-container" style="max-width:540px;">
       <div class="modal-header">
-        <h3 class="modal-title" id="departureModalTitle"><i class="fa-solid fa-calendar-plus text-warning"></i> Thêm Lịch Khởi Hành & Gán HDV</h3>
+        <h3 class="modal-title"><i class="fa-solid fa-cloud-arrow-up text-primary"></i> Thêm Hình Ảnh Vào Thư Viện</h3>
         <button class="modal-close" data-close-modal><i class="fa-solid fa-xmark"></i></button>
       </div>
-      <form id="formAddDeparture">
-        <input type="hidden" id="depEditId" value="">
-        <div class="modal-body">
+      <form id="formMediaUpload" onsubmit="saveMediaImage(event)">
+        <div class="modal-body" style="padding:20px 24px;">
           <div class="form-group">
-            <label class="form-label required">Chọn Tour Cần Mở Ngày</label>
-            <select id="depTourSelect" class="form-control" required></select>
+            <label class="form-label required">Tiêu Đề / Tên Hình Ảnh</label>
+            <input type="text" id="mediaTitle" class="form-control" placeholder="Ví dụ: Hoàng Hôn Trên Vịnh Hạ Long" required>
           </div>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-            <div class="form-group">
-              <label class="form-label required">Ngày Khởi Hành</label>
-              <input type="date" id="depStartDate" class="form-control" value="2026-11-20" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label required">Ngày Kết Thúc</label>
-              <input type="date" id="depReturnDate" class="form-control" value="2026-11-23" required>
-            </div>
-          </div>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
-            <div class="form-group">
-              <label class="form-label required">Số Chỗ Còn Mở</label>
-              <input type="number" id="depSlots" class="form-control" value="20" min="0" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label required">Sức Chứa Tối Đa</label>
-              <input type="number" id="depMaxSlots" class="form-control" value="20" min="1" required>
-            </div>
-          </div>
-          <div class="form-group" style="margin-bottom:0;">
-            <label class="form-label required">Phân Công Hướng Dẫn Viên</label>
-            <select id="depGuideSelect" class="form-control" required>
-              <option value="usr-guide-1">Trần Quốc Hưng (8 năm KN, 4.95★)</option>
-              <option value="usr-guide-2">Phạm Minh Tuấn (5 năm KN, 4.88★)</option>
-              <option value="usr-guide-3">Hoàng Lan Anh (6 năm KN, 4.92★)</option>
+          <div class="form-group">
+            <label class="form-label required">Phân Loại Ảnh</label>
+            <select id="mediaCategory" class="form-control" required>
+              <option value="Tour" selected>Ảnh Tour Mở Bán</option>
+              <option value="Địa điểm">Ảnh Địa Điểm Tham Quan</option>
             </select>
           </div>
+          <div class="form-group">
+            <label class="form-label required">Link URL Hình Ảnh (Online)</label>
+            <div style="display:flex; gap:10px; align-items:center;">
+              <input type="url" id="mediaUrl" class="form-control" placeholder="https://images.unsplash.com/..." required oninput="previewMediaModalImage()">
+              <img id="mediaModalPreview" src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=200&q=80" style="width:50px; height:40px; border-radius:6px; object-fit:cover; border:1px solid #cbd5e1;" alt="Preview">
+            </div>
+          </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary btn-sm" data-close-modal>Hủy</button>
-          <button type="submit" class="btn btn-primary btn-sm"><i class="fa-solid fa-floppy-disk"></i> Lưu Chuyến Khởi Hành</button>
+        <div class="modal-footer" style="padding:14px 24px; display:flex; justify-content:flex-end; gap:10px; background:#f8fafc; border-top:1px solid #e2e8f0;">
+          <button type="button" class="btn btn-secondary" data-close-modal>Hủy</button>
+          <button type="submit" class="btn btn-primary" style="font-weight:700;"><i class="fa-solid fa-save"></i> Thêm Ảnh</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- Core Scripts -->
+  <!-- SCRIPTS -->
   <script src="js/mock-data.js"></script>
   <script src="js/utils.js"></script>
   <script src="js/auth.js"></script>

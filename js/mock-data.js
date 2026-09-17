@@ -990,6 +990,83 @@ const DEFAULT_MOCK_DATA = {
       emergencyAlert: null,
       updatedAt: "17/09/2026 10:45"
     }
+  ],
+  media: [
+    { id: "med-1", title: "Du Thuyền Hạ Long 5 Sao", url: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80", category: "Tour", tourId: "tour-1", date: "15/09/2026", size: "1.4 MB" },
+    { id: "med-2", title: "Đỉnh Fansipan Sa Pa Mùa Lúa", url: "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=800&q=80", category: "Tour", tourId: "tour-2", date: "12/09/2026", size: "1.8 MB" },
+    { id: "med-3", title: "Cầu Vàng Bà Nà Hills Đà Nẵng", url: "https://images.unsplash.com/photo-1569154941061-e231b4725ef1?auto=format&fit=crop&w=800&q=80", category: "Tour", tourId: "tour-3", date: "10/09/2026", size: "2.1 MB" },
+    { id: "med-4", title: "Đảo Ngọc Phú Quốc Biển Xanh", url: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80", category: "Tour", tourId: "tour-4", date: "08/09/2026", size: "1.6 MB" },
+    { id: "med-5", title: "Eo Gió & Biển Kỳ Co Quy Nhơn", url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80", category: "Tour", tourId: "tour-12", date: "05/09/2026", size: "1.5 MB" },
+    { id: "med-6", title: "Quần Thể Danh Thắng Tràng An", url: "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=800&q=80", category: "Địa điểm", tourId: "tour-6", date: "02/09/2026", size: "1.9 MB" },
+    { id: "med-7", title: "Phố Cổ Hội An Lung Linh Đèn Lồng", url: "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=800&q=80", category: "Địa điểm", tourId: "tour-3", date: "28/08/2026", size: "2.3 MB" },
+    { id: "med-8", title: "Chợ Nổi Cái Răng Cần Thơ", url: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=800&q=80", category: "Địa điểm", tourId: "tour-8", date: "25/08/2026", size: "1.7 MB" }
+  ],
+  payments: [
+    {
+      id: "pay-1",
+      transactionId: "TXN-20260917-8891",
+      bookingId: "BK-892347",
+      customerName: "Nguyễn Văn Hào",
+      tourTitle: "Khám Phá Vịnh Hạ Long - Du Thuyền 5 Sao 3N2Đ",
+      amount: 6980000,
+      method: "vnpay",
+      methodLabel: "VNPay QR",
+      date: "17/09/2026 09:30",
+      status: "paid",
+      statusLabel: "Đã thanh toán"
+    },
+    {
+      id: "pay-2",
+      transactionId: "TXN-20260916-7712",
+      bookingId: "BK-892348",
+      customerName: "Trần Thị Mai",
+      tourTitle: "Đà Nẵng - Hội An - Bà Nà Hills Cầu Vàng 4N3Đ",
+      amount: 9180000,
+      method: "bank_transfer",
+      methodLabel: "Chuyển khoản VCB QR",
+      date: "16/09/2026 14:15",
+      status: "paid",
+      statusLabel: "Đã thanh toán"
+    },
+    {
+      id: "pay-3",
+      transactionId: "TXN-20260916-6540",
+      bookingId: "BK-892349",
+      customerName: "Lê Hoàng Nam",
+      tourTitle: "Chinh Phục Fansipan & Săn Mây Sa Pa 2N1Đ",
+      amount: 4380000,
+      method: "momo",
+      methodLabel: "Ví MoMo",
+      date: "16/09/2026 11:20",
+      status: "pending",
+      statusLabel: "Chờ xác nhận"
+    },
+    {
+      id: "pay-4",
+      transactionId: "TXN-20260915-5432",
+      bookingId: "BK-892350",
+      customerName: "Phạm Thu Trang",
+      tourTitle: "Quy Nhơn - Kỳ Co - Eo Gió 3N2Đ",
+      amount: 6700000,
+      method: "credit_card",
+      methodLabel: "Thẻ Quốc Tế Visa/Master",
+      date: "15/09/2026 16:40",
+      status: "paid",
+      statusLabel: "Đã thanh toán"
+    },
+    {
+      id: "pay-5",
+      transactionId: "TXN-20260914-4321",
+      bookingId: "BK-892351",
+      customerName: "Đỗ Mạnh Cường",
+      tourTitle: "Thiên Đường Biển Đảo Phú Quốc 3N2Đ",
+      amount: 7980000,
+      method: "cash",
+      methodLabel: "Tiền mặt tại quầy",
+      date: "14/09/2026 10:05",
+      status: "refunded",
+      statusLabel: "Đã hoàn tiền"
+    }
   ]
 };
 
@@ -1008,6 +1085,8 @@ function getMockDatabase() {
       if (!parsed.promotions) { parsed.promotions = DEFAULT_MOCK_DATA.promotions; changed = true; }
       if (!parsed.destinations) { parsed.destinations = DEFAULT_MOCK_DATA.destinations; changed = true; }
       if (!parsed.tourUpdates) { parsed.tourUpdates = DEFAULT_MOCK_DATA.tourUpdates; changed = true; }
+      if (!parsed.media) { parsed.media = DEFAULT_MOCK_DATA.media; changed = true; }
+      if (!parsed.payments) { parsed.payments = DEFAULT_MOCK_DATA.payments; changed = true; }
       if (changed) {
         saveMockDatabase(parsed);
       }

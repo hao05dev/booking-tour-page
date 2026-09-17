@@ -2938,6 +2938,280 @@ function initGuideTourUpdates() {
   window.loadGuideTourUpdate();
 }
 
+// ==========================================
+// 17H. MANAGER MEDIA GALLERY MODULE
+// ==========================================
+
+function initManagerMedia() {
+  const grid = document.getElementById('managerMediaGrid');
+  if (!grid) return;
+
+  window.renderManagerMedia = function() {
+    const container = document.getElementById('managerMediaGrid');
+    if (!container) return;
+    const db = getMockDatabase();
+    const media = db.media || [];
+
+    const categoryFilter = document.getElementById('mediaCategoryFilter');
+    const cat = categoryFilter ? categoryFilter.value : 'all';
+
+    const filtered = media.filter(m => cat === 'all' || m.category === cat);
+
+    const kpiTotal = document.getElementById('kpiTotalMedia');
+    if (kpiTotal) kpiTotal.textContent = `${media.length} Hình Ảnh`;
+
+    if (filtered.length === 0) {
+      container.innerHTML = `<div style="grid-column: 1/-1;" class="text-center py-5 text-muted"><i class="fa-regular fa-image fa-2x mb-2" style="color:#cbd5e1; display:block;"></i>Không có hình ảnh nào phù hợp.</div>`;
+      return;
+    }
+
+    container.innerHTML = filtered.map(m => `
+      <div class="admindek-card" style="border:1px solid #e2e8f0; border-radius:10px; overflow:hidden; background:#ffffff; transition:transform 0.2s, box-shadow 0.2s;">
+        <div style="position:relative; height:160px; overflow:hidden; background:#f1f5f9;">
+          <img src="${m.url}" alt="${m.title}" style="width:100%; height:100%; object-fit:cover;">
+          <span class="badge ${m.category === 'Tour' ? 'badge-primary' : 'badge-warning'}" style="position:absolute; top:8px; left:8px; font-size:0.7rem; font-weight:700;">
+            ${m.category}
+          </span>
+        </div>
+        <div style="padding:14px;">
+          <strong style="color:#0f172a; font-size:0.88rem; display:block; margin-bottom:4px; line-height:1.3;">${m.title}</strong>
+          <div style="font-size:0.75rem; color:#64748b; margin-bottom:12px; display:flex; justify-content:space-between;">
+            <span><i class="fa-regular fa-calendar"></i> ${m.date}</span>
+            <span><i class="fa-solid fa-file"></i> ${m.size}</span>
+          </div>
+          <div style="display:flex; gap:6px;">
+            <button class="btn btn-outline btn-xs" style="flex:1;" onclick="navigator.clipboard.writeText('${m.url}'); showToast('Đã sao chép link ảnh vào clipboard!', 'success');" title="Sao chép link">
+              <i class="fa-regular fa-copy"></i> Link
+            </button>
+            <button class="btn btn-outline btn-xs" onclick="window.open('${m.url}', '_blank')" title="Xem ảnh gốc">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </button>
+            <button class="btn btn-outline btn-xs text-danger" onclick="deleteMediaImage('${m.id}')" title="Xóa ảnh">
+              <i class="fa-regular fa-trash-can"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  };
+
+  window.openMediaUploadModal = function() {
+    const form = document.getElementById('formMediaUpload');
+    if (form) form.reset();
+    openModal('modalMediaUpload');
+  };
+
+  window.previewMediaModalImage = function() {
+    const input = document.getElementById('mediaUrl');
+    const preview = document.getElementById('mediaModalPreview');
+    if (input && preview) {
+      preview.src = input.value.trim() || 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=200&q=80';
+    }
+  };
+
+  window.saveMediaImage = function(e) {
+    if (e) e.preventDefault();
+    const db = getMockDatabase();
+    if (!db.media) db.media = [];
+
+    const title = document.getElementById('mediaTitle').value.trim();
+    const category = document.getElementById('mediaCategory').value;
+    const url = document.getElementById('mediaUrl').value.trim();
+
+    if (!title || !url) {
+      showToast('Vui lòng nhập tên ảnh và đường dẫn hợp lệ!', 'warning');
+      return;
+    }
+
+    const now = new Date();
+    const newMedia = {
+      id: `med-${Date.now()}`,
+      title,
+      category,
+      url,
+      date: `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth()+1).padStart(2, '0')}/${now.getFullYear()}`,
+      size: '1.5 MB'
+    };
+
+    db.media.unshift(newMedia);
+    saveMockDatabase(db);
+    showToast('Đã thêm hình ảnh mới vào thư viện!', 'success');
+    closeModal('modalMediaUpload');
+    renderManagerMedia();
+  };
+
+  window.deleteMediaImage = function(mediaId) {
+    if (!confirm('Bạn có chắc chắn muốn xóa hình ảnh này khỏi thư viện?')) return;
+    const db = getMockDatabase();
+    db.media = (db.media || []).filter(m => m.id !== mediaId);
+    saveMockDatabase(db);
+    showToast('Đã xóa hình ảnh!', 'info');
+    renderManagerMedia();
+  };
+
+  renderManagerMedia();
+}
+
+// ==========================================
+// 17I. MANAGER PAYMENTS MODULE
+// ==========================================
+
+function initManagerPayments() {
+  const tbody = document.getElementById('managerPaymentsTableBody');
+  if (!tbody) return;
+
+  window.renderManagerPayments = function() {
+    const tableBody = document.getElementById('managerPaymentsTableBody');
+    if (!tableBody) return;
+    const db = getMockDatabase();
+    const payments = db.payments || [];
+
+    const methodFilter = document.getElementById('paymentMethodFilter');
+    const statusFilter = document.getElementById('paymentStatusFilter');
+
+    const method = methodFilter ? methodFilter.value : 'all';
+    const status = statusFilter ? statusFilter.value : 'all';
+
+    const filtered = payments.filter(p => {
+      const matchMethod = method === 'all' || p.method === method;
+      const matchStatus = status === 'all' || p.status === status;
+      return matchMethod && matchStatus;
+    });
+
+    const totalRevenue = payments.filter(p => p.status === 'paid').reduce((sum, p) => sum + p.amount, 0);
+    const kpiRev = document.getElementById('kpiTotalRevenue');
+    if (kpiRev) kpiRev.textContent = formatCurrency(totalRevenue);
+
+    if (filtered.length === 0) {
+      tableBody.innerHTML = `<tr><td colspan="8" class="text-center py-5 text-muted"><i class="fa-solid fa-credit-card fa-2x mb-2" style="color:#cbd5e1; display:block;"></i>Không tìm thấy giao dịch thanh toán nào.</td></tr>`;
+      return;
+    }
+
+    const methodIcons = {
+      vnpay: 'fa-solid fa-qrcode text-primary',
+      bank_transfer: 'fa-solid fa-building-columns text-success',
+      momo: 'fa-solid fa-wallet text-danger',
+      credit_card: 'fa-solid fa-credit-card text-blue',
+      cash: 'fa-solid fa-money-bill-wave text-amber'
+    };
+
+    tableBody.innerHTML = filtered.map((p, idx) => `
+      <tr>
+        <td style="text-align:center; padding:10px 6px;"><strong class="text-muted">#${idx + 1}</strong></td>
+        <td style="padding:10px 10px;">
+          <strong style="color:#0f766e; font-family:monospace; font-size:0.84rem;">${p.transactionId}</strong>
+          <span style="display:block; font-size:0.72rem; color:#64748b;">${p.date}</span>
+        </td>
+        <td style="padding:10px 8px;">
+          <span class="badge badge-neutral" style="font-weight:700; font-family:monospace; font-size:0.75rem;">${p.bookingId}</span>
+        </td>
+        <td style="padding:10px 10px;">
+          <strong style="color:#0f172a; font-size:0.86rem; display:block;">${p.customerName}</strong>
+          <span style="font-size:0.74rem; color:#64748b; line-height:1.3; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden;">${p.tourTitle}</span>
+        </td>
+        <td style="padding:10px 8px;">
+          <strong style="color:#0f766e; font-size:0.9rem;">${formatCurrency(p.amount)}</strong>
+        </td>
+        <td style="padding:10px 8px;">
+          <div style="font-size:0.8rem; color:#334155; display:flex; align-items:center; gap:6px;">
+            <i class="${methodIcons[p.method] || 'fa-solid fa-money-check'}"></i>
+            <span>${p.methodLabel}</span>
+          </div>
+        </td>
+        <td style="text-align:center; padding:10px 6px;">
+          <span class="badge ${p.status === 'paid' ? 'badge-success' : p.status === 'pending' ? 'badge-warning' : 'badge-danger'}" style="font-size:0.72rem;">
+            ${p.status === 'paid' ? '<i class="fa-solid fa-circle-check"></i> Đã thanh toán' : p.status === 'pending' ? '<i class="fa-solid fa-clock"></i> Chờ duyệt' : '<i class="fa-solid fa-arrow-rotate-left"></i> Đã hoàn tiền'}
+          </span>
+        </td>
+        <td style="text-align:center; padding:10px 6px;">
+          <div style="display:inline-flex; gap:4px; justify-content:center;">
+            <button class="btn btn-outline btn-xs ${p.status === 'pending' ? 'text-success' : ''}" onclick="togglePaymentStatus('${p.id}')" title="${p.status === 'pending' ? 'Xác nhận thanh toán' : 'Chuyển trạng thái'}" style="padding:4px 7px;">
+              <i class="fa-solid ${p.status === 'pending' ? 'fa-check' : 'fa-arrows-rotate'}"></i>
+            </button>
+            <button class="btn btn-outline btn-xs text-danger" onclick="refundPayment('${p.id}')" title="Hoàn tiền" style="padding:4px 7px;">
+              <i class="fa-solid fa-arrow-rotate-left"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+  };
+
+  window.togglePaymentStatus = function(payId) {
+    const db = getMockDatabase();
+    const item = (db.payments || []).find(p => p.id === payId);
+    if (!item) return;
+    item.status = item.status === 'paid' ? 'pending' : 'paid';
+    saveMockDatabase(db);
+    showToast(`Đã chuyển trạng thái thanh toán đơn ${item.bookingId}!`, 'info');
+    renderManagerPayments();
+  };
+
+  window.refundPayment = function(payId) {
+    if (!confirm('Bạn có chắc chắn muốn ghi nhận hoàn tiền cho giao dịch này?')) return;
+    const db = getMockDatabase();
+    const item = (db.payments || []).find(p => p.id === payId);
+    if (!item) return;
+    item.status = 'refunded';
+    saveMockDatabase(db);
+    showToast(`Đã ghi nhận hoàn tiền cho giao dịch ${item.transactionId}!`, 'warning');
+    renderManagerPayments();
+  };
+
+  renderManagerPayments();
+}
+
+// ==========================================
+// 17J. TOUR CATEGORIES STANDALONE MODULE
+// ==========================================
+
+function initAdminCategories() {
+  const table = document.getElementById('adminCategoriesTableBody') || document.getElementById('managerCategoriesTableBody');
+  if (!table) return;
+
+  window.renderAdminCategories = function() {
+    const targetTable = document.getElementById('adminCategoriesTableBody') || document.getElementById('managerCategoriesTableBody');
+    if (!targetTable) return;
+    const db = getMockDatabase();
+    if (!db.categories) db.categories = DEFAULT_MOCK_DATA.categories;
+
+    targetTable.innerHTML = db.categories.map((cat, idx) => {
+      const matchedToursCount = (db.tours || []).filter(t => t.theme === cat.code || (t.title && t.title.toLowerCase().includes(cat.name.toLowerCase()))).length;
+
+      return `
+        <tr>
+          <td style="text-align:center; padding:10px 6px;"><strong class="text-muted">#${idx + 1}</strong></td>
+          <td style="text-align:center; padding:10px 6px;">
+            <div style="width:36px; height:36px; border-radius:8px; background:${cat.color || '#0f766e'}15; color:${cat.color || '#0f766e'}; display:inline-flex; align-items:center; justify-content:center; font-size:1rem;">
+              <i class="fa-solid ${cat.icon || 'fa-tag'}"></i>
+            </div>
+          </td>
+          <td style="padding:10px 10px;">
+            <strong style="color:#0f172a; font-size:0.88rem;">${cat.name}</strong>
+          </td>
+          <td style="padding:10px 8px;">
+            <code style="background:#f1f5f9; padding:3px 6px; border-radius:4px; color:#0f766e; font-size:0.8rem;">${cat.code || cat.slug || ''}</code>
+          </td>
+          <td style="padding:10px 10px; font-size:0.78rem; color:#475569;">
+            ${cat.description || 'Danh mục tour tiêu chuẩn'}
+          </td>
+          <td style="text-align:center; padding:10px 6px;">
+            <span class="badge badge-primary" style="font-size:0.75rem; font-weight:700;"><i class="fa-solid fa-route"></i> ${matchedToursCount || cat.tourCount || 0} Tour</span>
+          </td>
+          <td style="text-align:center; padding:10px 6px;">
+            <div style="display:inline-flex; gap:4px; justify-content:center;">
+              <button class="btn btn-outline btn-xs" onclick="openAdminCategoryModal('${cat.id}')" title="Sửa" style="padding:4px 7px;"><i class="fa-regular fa-pen-to-square"></i></button>
+              <button class="btn btn-outline btn-xs text-danger" onclick="deleteAdminCategory('${cat.id}')" title="Xóa" style="padding:4px 7px;"><i class="fa-regular fa-trash-can"></i></button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  };
+
+  renderAdminCategories();
+}
+
 // Auto-run individual page initializers when loaded
 document.addEventListener('DOMContentLoaded', () => {
   if (typeof initManagerPromotions === 'function') initManagerPromotions();
@@ -2945,6 +3219,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (typeof initManagerGuides === 'function') initManagerGuides();
   if (typeof initManagerDestinations === 'function') initManagerDestinations();
   if (typeof initManagerReviews === 'function') initManagerReviews();
+  if (typeof initManagerMedia === 'function') initManagerMedia();
+  if (typeof initManagerPayments === 'function') initManagerPayments();
+  if (typeof initAdminCategories === 'function') initAdminCategories();
   if (typeof initGuideTourUpdates === 'function') initGuideTourUpdates();
 });
 
