@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Lý Danh Mục Tour - BookingTour Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Modular Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body class="admindek-body">
+  <div class="admindek-sidebar-overlay" id="admindekOverlay" onclick="toggleAdmindekSidebar()"></div>
+  <div class="toast-container" id="toastContainer"></div>
+
+  <div class="admindek-app">
+    <aside class="admindek-sidebar" id="admindekSidebar">
+      <div class="admindek-sidebar-header">
+        <a href="index.html" class="admindek-brand">
+          <div class="admindek-brand-icon" style="background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%);">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <div class="admindek-brand-text">
+            <span>BookingTour</span>
+            <small>SYSTEM ADMIN</small>
+          </div>
+        </a>
+      </div>
+
+      <div class="admindek-sidebar-user">
+        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=150&q=80" alt="Admin Avatar" class="admindek-sidebar-avatar" style="border-color:#0f766e;">
+        <div class="admindek-sidebar-user-info">
+          <span class="admindek-sidebar-name">Admin Quản Trị</span>
+          <span class="admindek-sidebar-role"><i class="fa-solid fa-shield-check text-success"></i> Quản Trị Hệ Thống</span>
+        </div>
+      </div>
+
+      <div class="admindek-nav-body">
+        <div class="admindek-section-title">Tổng Quan & Hệ Thống</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="admin-dashboard.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-chart-pie"></i> Bảng Điều Khiển</span>
+              <span class="admindek-nav-badge badge-blue">Live</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="admindek-section-title">Tài Khoản & Phân Quyền</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="admin-users.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-users-gear"></i> Quản Lý Tài Khoản</span>
+              <span class="admindek-nav-badge badge-emerald" id="sidebarUsersCountBadge">10 Users</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="admin-permissions.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-shield-halved"></i> Phân Quyền & CRUD</span>
+              <span class="admindek-nav-badge badge-amber">5 Roles</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="admindek-section-title">Sản Phẩm & Nội Dung</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="admin-categories.html" class="admindek-nav-link active">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-tags"></i> Danh Mục Tour</span>
+              <span class="admindek-nav-badge badge-blue" id="sidebarCategoriesCountBadge">6 Nhóm</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="admin-reviews.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-star-half-stroke"></i> Kiểm Duyệt Đánh Giá</span>
+              <span class="admindek-nav-badge badge-emerald">Duyệt</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="admindek-section-title">Hệ Thống & Dữ Liệu</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="javascript:void(0)" onclick="resetMockDatabase(); showToast('Đã làm mới và đồng bộ dữ liệu hệ thống!', 'info'); setTimeout(()=>location.reload(), 600);" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-arrows-rotate"></i> Đồng Bộ Dữ Liệu</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="profile.html" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-gear"></i> Cài Đặt Hồ Sơ</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="admindek-sidebar-footer">
+        <button type="button" onclick="logout()" class="btn btn-outline btn-block text-danger" style="font-size:0.84rem; padding:8px 12px; border-color:rgba(239, 68, 68, 0.4);">
+          <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất Admin
+        </button>
+      </div>
+    </aside>
+
+    <div class="admindek-main-wrapper">
+      <header class="admindek-topbar">
+        <div class="admindek-topbar-left">
+          <button type="button" class="admindek-toggle-btn" onclick="toggleAdmindekSidebar()" title="Toggle Sidebar">
+            <i class="fa-solid fa-bars-staggered"></i>
+          </button>
+          <div class="admindek-topbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Tìm kiếm danh mục tour..." id="adminSearchInput">
+            <span class="admindek-search-badge">Ctrl K</span>
+          </div>
+        </div>
+
+        <div class="admindek-topbar-right">
+          <a href="index.html" class="admindek-btn-site">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Về Trang Chủ Khách Hàng</span>
+          </a>
+          <button type="button" class="admindek-icon-btn" onclick="showToast('Hệ thống có 6 danh mục tour đang mở bán.', 'info')">
+            <i class="fa-regular fa-bell"></i>
+          </button>
+          <div class="nav-actions" style="margin-left: 6px;"></div>
+        </div>
+      </header>
+
+      <main class="admindek-content">
+        <div class="admindek-page-header">
+          <div class="admindek-page-title-wrap">
+            <h1 class="admindek-page-title">Quản Lý Danh Mục Tour Du Lịch</h1>
+            <div class="admindek-breadcrumb">
+              <a href="index.html">Trang chủ</a>
+              <span>/</span>
+              <a href="admin-dashboard.html">Admin</a>
+              <span>/</span>
+              <span>Danh mục tour</span>
+            </div>
+          </div>
+          <div class="admindek-page-actions">
+            <button class="btn btn-primary" onclick="openAdminCategoryModal()"><i class="fa-solid fa-plus-circle"></i> Thêm Danh Mục Mới</button>
+          </div>
+        </div>
+
+        <div class="admindek-grid">
+          <div class="admindek-card admindek-col-12">
+            <div class="admindek-card-header">
+              <div class="admindek-card-title">
+                <i class="fa-solid fa-tags text-primary"></i>
+                <div>
+                  <h3>Danh Mục Phân Loại Tour Trong Hệ Thống</h3>
+                  <p>Quản lý các nhóm tour du lịch hiển thị ngoài trang chủ và bộ lọc khách hàng.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="admindek-table-responsive">
+              <table class="admindek-table" id="adminCategoriesTable">
+                <thead>
+                  <tr>
+                    <th>Icon</th>
+                    <th>Tên Danh Mục & Mã Slug</th>
+                    <th>Mô Tả Danh Mục</th>
+                    <th>Số Lượng Tour</th>
+                    <th>Trạng Thái</th>
+                    <th>Thao Tác</th>
+                  </tr>
+                </thead>
+                <tbody id="adminCategoriesTableBody">
+                  <!-- Rendered by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal Tạo/Sửa Category -->
+  <div class="modal-backdrop" id="modalAdminCategory">
+    <div class="modal-container" style="max-width:580px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="adminCategoryModalTitle"><i class="fa-solid fa-plus-circle text-primary"></i> Thêm Danh Mục Tour Mới</h3>
+        <button class="modal-close" data-close-modal><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="formAdminCategory">
+        <input type="hidden" id="adminCategoryId" value="">
+        <div class="modal-body" style="max-height:75vh; overflow-y:auto; padding:20px 24px;">
+          <div class="form-group">
+            <label class="form-label required">Tên Danh Mục Tour</label>
+            <input type="text" id="adminCategoryName" class="form-control" placeholder="Ví dụ: Du Lịch Biển Đảo" oninput="autoGenerateCategoryCode(this.value)" required>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <div class="form-group">
+              <label class="form-label required">Mã Định Danh (Slug/Code)</label>
+              <input type="text" id="adminCategoryCode" class="form-control" placeholder="beach-island" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label required">Icon FontAwesome</label>
+              <input type="text" id="adminCategoryIcon" class="form-control" placeholder="fa-umbrella-beach" value="fa-umbrella-beach" required>
+            </div>
+          </div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <div class="form-group">
+              <label class="form-label required">Màu Nhận Diện</label>
+              <input type="color" id="adminCategoryColor" class="form-control" value="#0284c7" style="height:42px; padding:4px;">
+            </div>
+            <div class="form-group">
+              <label class="form-label required">Trạng Thái</label>
+              <select id="adminCategoryStatus" class="form-control">
+                <option value="active" selected>Hoạt Động (Hiển thị)</option>
+                <option value="hidden">Ẩn Khỏi Menu</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label required">Mô Tả Ngắn</label>
+            <textarea id="adminCategoryDesc" class="form-control" rows="3" placeholder="Mô tả đặc trưng của danh mục tour này..." required>Khám phá các vùng biển tuyệt đẹp, lặn ngắm san hô và thưởng thức hải sản.</textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-close-modal>Hủy</button>
+          <button type="submit" class="btn btn-primary btn-sm"><i class="fa-solid fa-floppy-disk"></i> Lưu Danh Mục</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Core Scripts -->
+  <script src="js/mock-data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/tours.js"></script>
+  <script src="js/booking.js"></script>
+  <script src="js/dashboards.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

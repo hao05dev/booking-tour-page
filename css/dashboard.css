@@ -2240,3 +2240,26 @@
   transform: scale(1.02);
 }
 
+/* Promotion Voucher Code Badge */
+.promo-code-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+  border: 1.5px dashed #0f766e;
+  color: #0f766e;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-weight: 800;
+  font-size: 0.88rem;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(15, 118, 110, 0.08);
+}
+
+.promo-code-badge i {
+  font-size: 0.85rem;
+  color: #0d9488;
+}
+
+

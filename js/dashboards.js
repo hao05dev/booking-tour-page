@@ -2126,6 +2126,426 @@ function initAdminDashboard() {
 }
 
 // ==========================================
+// 17B. MANAGER PROMOTIONS & VOUCHERS MODULE
+// ==========================================
+
+function initManagerPromotions() {
+  const tableBody = document.getElementById('managerPromotionsTableBody');
+  const formPromotion = document.getElementById('formPromotion');
+  if (!tableBody && !formPromotion) return;
+
+  const db = getMockDatabase();
+
+  window.formatDisplayDate = function(dateStr) {
+    if (!dateStr) return 'N/A';
+    const parts = dateStr.split('-');
+    if (parts.length === 3) {
+      return `${parts[2]}/${parts[1]}/${parts[0]}`;
+    }
+    return dateStr;
+  };
+
+  window.renderManagerPromotions = function() {
+    const tbody = document.getElementById('managerPromotionsTableBody');
+    if (!tbody) return;
+    const currentDb = getMockDatabase();
+    const promotions = currentDb.promotions || [];
+
+    const searchInput = document.getElementById('promoSearchInput');
+    const statusFilter = document.getElementById('promoStatusFilter');
+    const typeFilter = document.getElementById('promoTypeFilter');
+
+    const keyword = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    const status = statusFilter ? statusFilter.value : 'all';
+    const type = typeFilter ? typeFilter.value : 'all';
+
+    const filtered = promotions.filter(p => {
+      const matchKey = p.code.toLowerCase().includes(keyword) || p.title.toLowerCase().includes(keyword);
+      const matchStatus = status === 'all' || p.status === status;
+      const matchType = type === 'all' || p.discountType === type;
+      return matchKey && matchStatus && matchType;
+    });
+
+    // Update KPI badges if present
+    const kpiActivePromos = document.getElementById('kpiActivePromos');
+    const kpiTotalUsed = document.getElementById('kpiTotalUsed');
+    const kpiTotalPromos = document.getElementById('kpiTotalPromos');
+    if (kpiActivePromos) kpiActivePromos.textContent = `${promotions.filter(p => p.status === 'active').length} Mã Đang Chạy`;
+    if (kpiTotalUsed) {
+      const totalUsed = promotions.reduce((sum, p) => sum + (p.usedCount || 0), 0);
+      kpiTotalUsed.textContent = `${totalUsed} Lượt Dùng`;
+    }
+    if (kpiTotalPromos) kpiTotalPromos.textContent = `${promotions.length} Chương Trình`;
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="7" class="text-center py-5 text-muted"><i class="fa-solid fa-ticket-simple fa-2x mb-2" style="color:#cbd5e1; display:block;"></i>Không tìm thấy mã khuyến mãi nào phù hợp.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = filtered.map((p, idx) => {
+      const isPercent = p.discountType === 'percent';
+      const discountLabel = isPercent ? `Giảm ${p.discountValue}%` : `Giảm ${formatCurrency(p.discountValue)}`;
+      const maxDiscountText = isPercent && p.maxDiscount ? `Tối đa ${formatCurrency(p.maxDiscount)}` : '';
+      const usagePercent = Math.min(100, Math.round((p.usedCount / (p.usageLimit || 1)) * 100));
+
+      return `
+        <tr>
+          <td><strong class="text-muted">#${idx + 1}</strong></td>
+          <td>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div class="promo-code-badge">
+                <i class="fa-solid fa-ticket"></i>
+                <span>${p.code}</span>
+              </div>
+              <div>
+                <strong style="display:block; color:#0f172a; font-size:0.9rem;">${p.title}</strong>
+                <span style="font-size:0.75rem; color:#64748b;">${p.description || ''}</span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div style="display:flex; flex-direction:column; gap:2px;">
+              <span class="badge ${isPercent ? 'badge-primary' : 'badge-warning'}" style="font-weight:700; width:fit-content;">
+                ${discountLabel}
+              </span>
+              ${maxDiscountText ? `<span style="font-size:0.72rem; color:#64748b;">${maxDiscountText}</span>` : ''}
+              <span style="font-size:0.72rem; color:#0f766e;">Đơn tối thiểu: ${formatCurrency(p.minOrderValue || 0)}</span>
+            </div>
+          </td>
+          <td>
+            <div style="font-size:0.8rem; color:#334155;">
+              <div><i class="fa-regular fa-calendar-plus text-primary"></i> ${formatDisplayDate(p.startDate)}</div>
+              <div><i class="fa-regular fa-calendar-xmark text-danger"></i> ${formatDisplayDate(p.endDate)}</div>
+            </div>
+          </td>
+          <td style="min-width:140px;">
+            <div style="display:flex; justify-content:space-between; font-size:0.75rem; margin-bottom:3px;">
+              <strong style="color:#0f766e;">${p.usedCount} đã dùng</strong>
+              <span class="text-muted">Hạn mức: ${p.usageLimit}</span>
+            </div>
+            <div style="width:100%; height:6px; background:#e2e8f0; border-radius:3px; overflow:hidden;">
+              <div style="width:${usagePercent}%; height:100%; background:${usagePercent >= 90 ? '#ef4444' : '#0f766e'}; border-radius:3px;"></div>
+            </div>
+          </td>
+          <td>
+            <span class="badge ${p.status === 'active' ? 'badge-success' : p.status === 'expired' ? 'badge-danger' : 'badge-neutral'}">
+              ${p.status === 'active' ? '<i class="fa-solid fa-circle-check"></i> Đang chạy' : p.status === 'expired' ? '<i class="fa-solid fa-clock-rotate-left"></i> Đã hết hạn' : '<i class="fa-solid fa-pause"></i> Tạm ngưng'}
+            </span>
+          </td>
+          <td>
+            <div style="display:flex; gap:6px;">
+              <button class="btn btn-outline btn-xs" onclick="openPromotionModal('${p.id}')" title="Chỉnh sửa"><i class="fa-regular fa-pen-to-square"></i> Sửa</button>
+              <button class="btn btn-outline btn-xs ${p.status === 'active' ? 'text-warning' : 'text-success'}" onclick="togglePromotionStatus('${p.id}')" title="${p.status === 'active' ? 'Tạm dừng' : 'Kích hoạt'}">
+                <i class="fa-solid ${p.status === 'active' ? 'fa-pause' : 'fa-play'}"></i>
+              </button>
+              <button class="btn btn-outline btn-xs text-danger" onclick="deletePromotion('${p.id}')" title="Xóa"><i class="fa-regular fa-trash-can"></i></button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  };
+
+  window.openPromotionModal = function(promoId) {
+    const currentDb = getMockDatabase();
+    const modalTitle = document.getElementById('promoModalTitle');
+    const idInput = document.getElementById('promoId');
+    const codeInput = document.getElementById('promoCode');
+    const titleInput = document.getElementById('promoTitle');
+    const typeSelect = document.getElementById('promoDiscountType');
+    const valInput = document.getElementById('promoDiscountValue');
+    const maxValInput = document.getElementById('promoMaxDiscount');
+    const minOrderInput = document.getElementById('promoMinOrder');
+    const startInput = document.getElementById('promoStartDate');
+    const endInput = document.getElementById('promoEndDate');
+    const limitInput = document.getElementById('promoUsageLimit');
+    const descInput = document.getElementById('promoDesc');
+    const statusSelect = document.getElementById('promoStatus');
+
+    if (promoId) {
+      const p = currentDb.promotions.find(x => x.id === promoId);
+      if (!p) return;
+      if (modalTitle) modalTitle.innerHTML = '<i class="fa-solid fa-pen-to-square text-primary"></i> Chỉnh Sửa Mã Khuyến Mãi';
+      if (idInput) idInput.value = p.id;
+      if (codeInput) codeInput.value = p.code;
+      if (titleInput) titleInput.value = p.title;
+      if (typeSelect) typeSelect.value = p.discountType;
+      if (valInput) valInput.value = p.discountValue;
+      if (maxValInput) maxValInput.value = p.maxDiscount || '';
+      if (minOrderInput) minOrderInput.value = p.minOrderValue || 0;
+      if (startInput) startInput.value = p.startDate;
+      if (endInput) endInput.value = p.endDate;
+      if (limitInput) limitInput.value = p.usageLimit;
+      if (descInput) descInput.value = p.description || '';
+      if (statusSelect) statusSelect.value = p.status;
+    } else {
+      if (modalTitle) modalTitle.innerHTML = '<i class="fa-solid fa-plus-circle text-primary"></i> Tạo Mã Khuyến Mãi Mới';
+      if (idInput) idInput.value = '';
+      if (codeInput) codeInput.value = `PROMO${Math.floor(1000 + Math.random() * 9000)}`;
+      if (titleInput) titleInput.value = '';
+      if (typeSelect) typeSelect.value = 'percent';
+      if (valInput) valInput.value = '15';
+      if (maxValInput) maxValInput.value = '1000000';
+      if (minOrderInput) minOrderInput.value = '2000000';
+      if (startInput) startInput.value = '2026-09-18';
+      if (endInput) endInput.value = '2026-10-31';
+      if (limitInput) limitInput.value = '100';
+      if (descInput) descInput.value = '';
+      if (statusSelect) statusSelect.value = 'active';
+    }
+    openModal('modalPromotion');
+  };
+
+  window.generateRandomPromoCode = function() {
+    const prefixes = ['SALE', 'VIETNAM', 'TOUR', 'DISCOUNT', 'HOLIDAY', 'AUTUMN', 'SUMMER', 'VIP'];
+    const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+    const num = Math.floor(10 + Math.random() * 90);
+    const codeInput = document.getElementById('promoCode');
+    if (codeInput) codeInput.value = `${prefix}${num}`;
+  };
+
+  window.togglePromotionStatus = function(promoId) {
+    const currentDb = getMockDatabase();
+    const p = currentDb.promotions.find(x => x.id === promoId);
+    if (p) {
+      p.status = p.status === 'active' ? 'disabled' : 'active';
+      saveMockDatabase(currentDb);
+      renderManagerPromotions();
+      showToast(`Đã chuyển trạng thái mã "${p.code}" thành "${p.status === 'active' ? 'Đang chạy' : 'Tạm dừng'}"!`, 'info');
+    }
+  };
+
+  window.deletePromotion = function(promoId) {
+    const currentDb = getMockDatabase();
+    const p = currentDb.promotions.find(x => x.id === promoId);
+    if (!p) return;
+    if (confirm(`Bạn có chắc chắn muốn xóa mã khuyến mãi "${p.code}" (${p.title})?`)) {
+      currentDb.promotions = currentDb.promotions.filter(x => x.id !== promoId);
+      saveMockDatabase(currentDb);
+      renderManagerPromotions();
+      showToast('Đã xóa mã khuyến mãi thành công!', 'success');
+    }
+  };
+
+  if (formPromotion) {
+    formPromotion.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const currentDb = getMockDatabase();
+      const id = document.getElementById('promoId').value.trim();
+      const code = document.getElementById('promoCode').value.trim().toUpperCase();
+      const title = document.getElementById('promoTitle').value.trim();
+      const discountType = document.getElementById('promoDiscountType').value;
+      const discountValue = parseInt(document.getElementById('promoDiscountValue').value, 10) || 0;
+      const maxDiscount = parseInt(document.getElementById('promoMaxDiscount').value, 10) || 0;
+      const minOrderValue = parseInt(document.getElementById('promoMinOrder').value, 10) || 0;
+      const startDate = document.getElementById('promoStartDate').value;
+      const endDate = document.getElementById('promoEndDate').value;
+      const usageLimit = parseInt(document.getElementById('promoUsageLimit').value, 10) || 100;
+      const description = document.getElementById('promoDesc').value.trim();
+      const status = document.getElementById('promoStatus').value;
+
+      if (!id) {
+        // Create
+        const newPromo = {
+          id: `promo-${Date.now()}`,
+          code,
+          title,
+          discountType,
+          discountValue,
+          maxDiscount,
+          minOrderValue,
+          startDate,
+          endDate,
+          usageLimit,
+          usedCount: 0,
+          status,
+          applicableTours: 'all',
+          description
+        };
+        if (!currentDb.promotions) currentDb.promotions = [];
+        currentDb.promotions.unshift(newPromo);
+        showToast('Đã tạo chương trình khuyến mãi mới thành công!', 'success');
+      } else {
+        // Update
+        const p = currentDb.promotions.find(x => x.id === id);
+        if (p) {
+          p.code = code;
+          p.title = title;
+          p.discountType = discountType;
+          p.discountValue = discountValue;
+          p.maxDiscount = maxDiscount;
+          p.minOrderValue = minOrderValue;
+          p.startDate = startDate;
+          p.endDate = endDate;
+          p.usageLimit = usageLimit;
+          p.description = description;
+          p.status = status;
+          showToast('Đã cập nhật mã khuyến mãi thành công!', 'success');
+        }
+      }
+
+      saveMockDatabase(currentDb);
+      renderManagerPromotions();
+      closeModal('modalPromotion');
+    });
+  }
+
+  renderManagerPromotions();
+}
+
+// ==========================================
+// 17C. MANAGER BOOKINGS MODULE
+// ==========================================
+
+function initManagerBookings() {
+  const tableBody = document.getElementById('managerBookingsTableBody');
+  if (!tableBody) return;
+
+  const db = getMockDatabase();
+
+  window.renderManagerBookings = function() {
+    const tbody = document.getElementById('managerBookingsTableBody');
+    if (!tbody) return;
+    const currentDb = getMockDatabase();
+    const bookings = currentDb.bookings || [];
+
+    const searchInput = document.getElementById('bookingSearchInput');
+    const statusFilter = document.getElementById('bookingStatusFilter');
+    const paymentFilter = document.getElementById('bookingPaymentFilter');
+
+    const keyword = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    const status = statusFilter ? statusFilter.value : 'all';
+    const payment = paymentFilter ? paymentFilter.value : 'all';
+
+    const filtered = bookings.filter(b => {
+      const matchKey = (b.bookingCode || b.id).toLowerCase().includes(keyword) || 
+                       (b.customerName || '').toLowerCase().includes(keyword) || 
+                       (b.customerPhone || '').includes(keyword) ||
+                       (b.tourTitle || '').toLowerCase().includes(keyword);
+      const matchStatus = status === 'all' || b.status === status;
+      const matchPayment = payment === 'all' || b.paymentStatus === payment;
+      return matchKey && matchStatus && matchPayment;
+    });
+
+    const kpiTotalBookings = document.getElementById('kpiTotalBookings');
+    const kpiConfirmedBookings = document.getElementById('kpiConfirmedBookings');
+    const kpiTotalRevenue = document.getElementById('kpiTotalRevenue');
+
+    if (kpiTotalBookings) kpiTotalBookings.textContent = `${bookings.length} Đơn Đặt`;
+    if (kpiConfirmedBookings) kpiConfirmedBookings.textContent = `${bookings.filter(b => b.status === 'confirmed').length} Đã Duyệt`;
+    if (kpiTotalRevenue) {
+      const rev = bookings.reduce((sum, b) => sum + (b.status !== 'cancelled' ? (b.totalPrice || 0) : 0), 0);
+      kpiTotalRevenue.textContent = formatCurrency(rev);
+    }
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="7" class="text-center py-5 text-muted"><i class="fa-solid fa-receipt fa-2x mb-2" style="color:#cbd5e1; display:block;"></i>Không có đơn đặt tour nào phù hợp.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = filtered.map(b => {
+      const statusBadge = b.status === 'confirmed' 
+        ? '<span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> Đã xác nhận</span>'
+        : b.status === 'cancelled'
+        ? '<span class="badge badge-danger"><i class="fa-solid fa-ban"></i> Đã hủy</span>'
+        : '<span class="badge badge-warning"><i class="fa-solid fa-hourglass-half"></i> Chờ duyệt</span>';
+
+      const payBadge = b.paymentStatus === 'paid'
+        ? '<span class="badge badge-emerald" style="font-size:0.75rem;"><i class="fa-solid fa-check"></i> Đã thanh toán</span>'
+        : '<span class="badge badge-amber" style="font-size:0.75rem;"><i class="fa-regular fa-clock"></i> Chưa thanh toán</span>';
+
+      return `
+        <tr>
+          <td><strong class="text-primary font-mono">${b.bookingCode || b.id}</strong></td>
+          <td>
+            <div>
+              <strong style="display:block; color:#0f172a; font-size:0.9rem;">${b.customerName || 'Khách hàng'}</strong>
+              <span style="font-size:0.75rem; color:#64748b;"><i class="fa-solid fa-phone"></i> ${b.customerPhone || 'N/A'} • <i class="fa-regular fa-envelope"></i> ${b.customerEmail || ''}</span>
+            </div>
+          </td>
+          <td>
+            <div>
+              <strong style="color:#0f766e; font-size:0.88rem; display:block;">${b.tourTitle || 'Tour Du Lịch'}</strong>
+              <span style="font-size:0.75rem; color:#64748b;"><i class="fa-regular fa-calendar"></i> ${b.departureDate || 'Theo lịch'} • <strong>${b.guestsCount || 1} Khách</strong></span>
+            </div>
+          </td>
+          <td><strong class="text-primary" style="font-size:0.92rem;">${formatCurrency(b.totalPrice || 0)}</strong></td>
+          <td>${payBadge}</td>
+          <td>${statusBadge}</td>
+          <td>
+            <div style="display:flex; gap:6px;">
+              ${b.status !== 'confirmed' ? `<button class="btn btn-primary btn-xs" onclick="updateManagerBookingStatus('${b.id}', 'confirmed')" title="Duyệt đơn"><i class="fa-solid fa-check"></i> Duyệt</button>` : ''}
+              ${b.status !== 'cancelled' ? `<button class="btn btn-outline btn-xs text-danger" onclick="updateManagerBookingStatus('${b.id}', 'cancelled')" title="Hủy đơn"><i class="fa-solid fa-xmark"></i> Hủy</button>` : ''}
+              <a href="booking-detail.html?id=${b.id}" class="btn btn-outline btn-xs" title="Xem chi tiết"><i class="fa-regular fa-eye"></i></a>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('');
+  };
+
+  window.updateManagerBookingStatus = function(bookingId, newStatus) {
+    const currentDb = getMockDatabase();
+    const b = currentDb.bookings.find(x => x.id === bookingId);
+    if (b) {
+      b.status = newStatus;
+      if (newStatus === 'confirmed') b.paymentStatus = 'paid';
+      saveMockDatabase(currentDb);
+      renderManagerBookings();
+      showToast(`Đã cập nhật đơn đặt tour thành "${newStatus === 'confirmed' ? 'Đã xác nhận' : 'Đã hủy'}"!`, 'success');
+    }
+  };
+
+  renderManagerBookings();
+}
+
+// ==========================================
+// 17D. MANAGER GUIDES & DEPARTURES MODULES
+// ==========================================
+
+function initManagerGuides() {
+  const tableBody = document.getElementById('managerGuidesTableBody');
+  if (!tableBody) return;
+
+  const db = getMockDatabase();
+  const guides = db.users.filter(u => u.role === 'guide');
+
+  tableBody.innerHTML = guides.map((g, idx) => `
+    <tr>
+      <td><strong>#${idx + 1}</strong></td>
+      <td>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <img src="${g.avatar || 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80'}" style="width:42px; height:42px; border-radius:50%; object-fit:cover; border:2px solid #0f766e;" alt="${g.name}">
+          <div>
+            <strong style="color:#0f172a; font-size:0.92rem; display:block;">${g.name}</strong>
+            <span style="font-size:0.75rem; color:#64748b;"><i class="fa-solid fa-phone"></i> ${g.phone || '0988 776 655'} • <i class="fa-regular fa-envelope"></i> ${g.email}</span>
+          </div>
+        </div>
+      </td>
+      <td><span class="badge badge-primary" style="font-size:0.78rem;">${g.experience || '6 năm kinh nghiệm'}</span></td>
+      <td><span style="color:#475569; font-size:0.84rem;">${g.languages || 'Tiếng Việt, Tiếng Anh'}</span></td>
+      <td>
+        <div style="color:#f59e0b; font-weight:700; font-size:0.88rem; display:flex; align-items:center; gap:4px;">
+          <i class="fa-solid fa-star"></i> ${g.rating || 4.9} <span class="text-muted" style="font-weight:400; font-size:0.75rem;">(48 đoàn)</span>
+        </div>
+      </td>
+      <td><span class="badge badge-success"><i class="fa-solid fa-circle-dot"></i> Sẵn sàng dẫn đoàn</span></td>
+      <td>
+        <button class="btn btn-outline btn-xs" onclick="openManagerDepartureModal()" title="Gán chuyến đi"><i class="fa-solid fa-calendar-plus"></i> Gán Tour</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+// Auto-run individual page initializers when loaded
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof initManagerPromotions === 'function') initManagerPromotions();
+  if (typeof initManagerBookings === 'function') initManagerBookings();
+  if (typeof initManagerGuides === 'function') initManagerGuides();
+});
+
+
+// ==========================================
 // 18. GLOBAL DROPDOWN & PAGE INITIALIZATION
 // ==========================================
 

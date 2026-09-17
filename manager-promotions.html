@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Lý Khuyến Mãi & Voucher - BookingTour Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Modular Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body class="admindek-body">
+  <div class="admindek-sidebar-overlay" id="admindekOverlay" onclick="toggleAdmindekSidebar()"></div>
+  <div class="toast-container" id="toastContainer"></div>
+
+  <div class="admindek-app">
+    <aside class="admindek-sidebar" id="admindekSidebar">
+      <div class="admindek-sidebar-header">
+        <a href="index.html" class="admindek-brand">
+          <div class="admindek-brand-icon">
+            <i class="fa-solid fa-clipboard-check"></i>
+          </div>
+          <div class="admindek-brand-text">
+            <span>BookingTour</span>
+            <small>OPERATIONS MANAGER</small>
+          </div>
+        </a>
+      </div>
+
+      <div class="admindek-sidebar-user">
+        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80" alt="Manager Avatar" class="admindek-sidebar-avatar">
+        <div class="admindek-sidebar-user-info">
+          <span class="admindek-sidebar-name">Nguyễn Thu Hà</span>
+          <span class="admindek-sidebar-role"><i class="fa-solid fa-circle" style="color:#10b981; font-size:0.5rem;"></i> Trưởng Phòng Vận Hành</span>
+        </div>
+      </div>
+
+      <div class="admindek-nav-body">
+        <div class="admindek-section-title">Điều Hành & Vận Hành</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="manager-dashboard.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-gauge-high"></i> Tổng Quan Điều Hành</span>
+              <span class="admindek-nav-badge badge-amber">Active</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="manager-calendar.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-calendar-days"></i> Lịch Điều Hành</span>
+              <span class="admindek-nav-badge badge-amber">Lịch</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="manager-departures.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-calendar-check"></i> Lịch Khởi Hành & Đoàn</span>
+              <span class="admindek-nav-badge badge-blue">25 Đoàn</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="manager-guides.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-user-tag"></i> Phân Công HDV</span>
+              <span class="admindek-nav-badge badge-emerald">6 HDV</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="admindek-section-title">Kho Sản Phẩm & Marketing</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="manager-tours.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-compass"></i> Danh Mục Tour Mở Bán</span>
+              <span class="admindek-nav-badge badge-emerald">12 Tour</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="manager-promotions.html" class="admindek-nav-link active">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-ticket"></i> Quản Lý Khuyến Mãi</span>
+              <span class="admindek-nav-badge badge-amber">Mới</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="admindek-section-title">Đơn Hàng & Khách Đoàn</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="manager-bookings.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-receipt"></i> Quản Lý Đơn Đặt Chỗ</span>
+              <span class="admindek-nav-badge badge-blue">142</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="guide-dashboard.html" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-clipboard-user"></i> Xem Tiến Độ HDV Dẫn</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="admindek-section-title">Hệ Thống</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="profile.html" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-user-gear"></i> Hồ Sơ Quản Lý</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="admindek-sidebar-footer">
+        <button type="button" onclick="logout()" class="btn btn-outline btn-block text-danger" style="font-size:0.84rem; padding:8px 12px; border-color:rgba(239, 68, 68, 0.4);">
+          <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất Quản Lý
+        </button>
+      </div>
+    </aside>
+
+    <div class="admindek-main-wrapper">
+      <header class="admindek-topbar">
+        <div class="admindek-topbar-left">
+          <button type="button" class="admindek-toggle-btn" onclick="toggleAdmindekSidebar()" title="Toggle Sidebar">
+            <i class="fa-solid fa-bars-staggered"></i>
+          </button>
+          <div class="admindek-topbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Tìm kiếm mã voucher, tên khuyến mãi..." id="promoSearchInput" oninput="renderManagerPromotions()">
+            <span class="admindek-search-badge">Ctrl K</span>
+          </div>
+        </div>
+
+        <div class="admindek-topbar-right">
+          <a href="index.html" class="admindek-btn-site">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Về Trang Chủ Khách Hàng</span>
+          </a>
+          <button type="button" class="admindek-icon-btn" onclick="showToast('Khuyến mãi: 4 mã voucher đang chạy hiệu quả.', 'info')">
+            <i class="fa-regular fa-bell"></i>
+          </button>
+          <div class="nav-actions" style="margin-left: 6px;"></div>
+        </div>
+      </header>
+
+      <main class="admindek-content">
+        <div class="admindek-page-header">
+          <div class="admindek-page-title-wrap">
+            <h1 class="admindek-page-title">Quản Lý Khuyến Mãi & Mã Giảm Giá</h1>
+            <div class="admindek-breadcrumb">
+              <a href="index.html">Trang chủ</a>
+              <span>/</span>
+              <a href="manager-dashboard.html">Quản lý tour</a>
+              <span>/</span>
+              <span>Chương trình khuyến mãi</span>
+            </div>
+          </div>
+          <div class="admindek-page-actions">
+            <button class="btn btn-primary" onclick="openPromotionModal()"><i class="fa-solid fa-plus-circle"></i> Tạo Mã Khuyến Mãi Mới</button>
+          </div>
+        </div>
+
+        <!-- 3 Stat KPI Cards -->
+        <div class="admindek-stats-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 24px;">
+          <div class="admindek-stat-card stat-teal">
+            <div class="admindek-stat-top">
+              <div>
+                <div class="admindek-stat-label">MÃ ĐANG HOẠT ĐỘNG</div>
+                <div class="admindek-stat-value" id="kpiActivePromos">4 Mã Đang Chạy</div>
+              </div>
+              <div class="admindek-stat-icon"><i class="fa-solid fa-ticket"></i></div>
+            </div>
+            <div class="admindek-stat-bottom">
+              <i class="fa-solid fa-circle-check text-success"></i>
+              <span>Tự động áp dụng tại giỏ thanh toán</span>
+            </div>
+          </div>
+
+          <div class="admindek-stat-card stat-amber">
+            <div class="admindek-stat-top">
+              <div>
+                <div class="admindek-stat-label">LƯỢT KHÁCH SỬ DỤNG</div>
+                <div class="admindek-stat-value" id="kpiTotalUsed">231 Lượt Dùng</div>
+              </div>
+              <div class="admindek-stat-icon"><i class="fa-solid fa-tags"></i></div>
+            </div>
+            <div class="admindek-stat-bottom">
+              <i class="fa-solid fa-arrow-trend-up text-warning"></i>
+              <span>Tỷ lệ chuyển đổi đơn +24.8%</span>
+            </div>
+          </div>
+
+          <div class="admindek-stat-card stat-blue">
+            <div class="admindek-stat-top">
+              <div>
+                <div class="admindek-stat-label">TỔNG CHƯƠNG TRÌNH</div>
+                <div class="admindek-stat-value" id="kpiTotalPromos">5 Chương Trình</div>
+              </div>
+              <div class="admindek-stat-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+            </div>
+            <div class="admindek-stat-bottom">
+              <i class="fa-solid fa-gift text-primary"></i>
+              <span>Quanh năm & theo mùa vụ du lịch</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="admindek-grid">
+          <!-- Main Promotion Table Card -->
+          <div class="admindek-card admindek-col-12">
+            <div class="admindek-card-header">
+              <div class="admindek-card-title">
+                <i class="fa-solid fa-ticket-simple text-primary"></i>
+                <div>
+                  <h3>Danh Sách Mã Khuyến Mãi & Voucher Giảm Giá</h3>
+                  <p>Thiết lập chiết khấu theo %, số tiền cố định, thời hạn và số lượng sử dụng.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Filter Toolbar -->
+            <div class="admin-toolbar" style="padding: 0 20px 16px 20px;">
+              <div class="admin-filter-group">
+                <select id="promoTypeFilter" class="form-control" style="width: auto; min-width: 150px;" onchange="renderManagerPromotions()">
+                  <option value="all">Tất Cả Loại Giảm</option>
+                  <option value="percent">Giảm Theo Phần Trăm (%)</option>
+                  <option value="fixed">Giảm Số Tiền Cố Định (VNĐ)</option>
+                </select>
+
+                <select id="promoStatusFilter" class="form-control" style="width: auto; min-width: 150px;" onchange="renderManagerPromotions()">
+                  <option value="all">Tất Cả Trạng Thái</option>
+                  <option value="active">Đang Hoạt Động</option>
+                  <option value="expired">Đã Hết Hạn</option>
+                  <option value="disabled">Tạm Dừng</option>
+                </select>
+              </div>
+
+              <div>
+                <button class="btn btn-secondary btn-sm" onclick="renderManagerPromotions()"><i class="fa-solid fa-arrows-rotate"></i> Làm Mới</button>
+              </div>
+            </div>
+
+            <div class="admindek-table-responsive">
+              <table class="admindek-table" id="managerPromotionsTable">
+                <thead>
+                  <tr>
+                    <th>STT</th>
+                    <th>Mã Code & Chương Trình</th>
+                    <th>Mức Giảm & Điều Kiện</th>
+                    <th>Thời Gian Áp Dụng</th>
+                    <th>Tiến Độ Sử Dụng</th>
+                    <th>Trạng Thái</th>
+                    <th>Thao Tác</th>
+                  </tr>
+                </thead>
+                <tbody id="managerPromotionsTableBody">
+                  <!-- Rendered by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal Tạo/Sửa Khuyến Mãi -->
+  <div class="modal-backdrop" id="modalPromotion">
+    <div class="modal-container" style="max-width:640px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="promoModalTitle"><i class="fa-solid fa-plus-circle text-primary"></i> Tạo Mã Khuyến Mãi Mới</h3>
+        <button class="modal-close" data-close-modal><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="formPromotion">
+        <input type="hidden" id="promoId" value="">
+        <div class="modal-body" style="max-height:75vh; overflow-y:auto; padding:20px 24px;">
+          <!-- Mã Code & Sinh Tự Động -->
+          <div class="form-group">
+            <label class="form-label required">Mã Voucher / Code Khuyến Mãi</label>
+            <div style="display:flex; gap:8px;">
+              <input type="text" id="promoCode" class="form-control font-mono uppercase" placeholder="SUMMER2026" required style="font-weight:700; letter-spacing:1px;">
+              <button type="button" class="btn btn-secondary btn-sm" onclick="generateRandomPromoCode()" style="white-space:nowrap;"><i class="fa-solid fa-shuffle"></i> Sinh Mã</button>
+            </div>
+          </div>
+
+          <!-- Tên Chương Trình -->
+          <div class="form-group">
+            <label class="form-label required">Tên Chương Trình Khuyến Mãi</label>
+            <input type="text" id="promoTitle" class="form-control" placeholder="Ví dụ: Ưu Đãi Mở Bán Mùa Thu 2026" required>
+          </div>
+
+          <!-- Loại Giảm Giá & Giá Trị -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <div class="form-group">
+              <label class="form-label required">Hình Thức Chiết Khấu</label>
+              <select id="promoDiscountType" class="form-control" required>
+                <option value="percent" selected>Giảm theo phần trăm (%)</option>
+                <option value="fixed">Giảm số tiền cố định (VNĐ)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label required">Mức Giảm (% hoặc VNĐ)</label>
+              <input type="number" id="promoDiscountValue" class="form-control" value="15" min="1" required>
+            </div>
+          </div>
+
+          <!-- Giảm Tối Đa & Đơn Tối Thiểu -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <div class="form-group">
+              <label class="form-label">Giảm Tối Đa (VNĐ, nếu là %)</label>
+              <input type="number" id="promoMaxDiscount" class="form-control" placeholder="1000000" value="1000000">
+            </div>
+            <div class="form-group">
+              <label class="form-label required">Giá Trị Đơn Tối Thiểu (VNĐ)</label>
+              <input type="number" id="promoMinOrder" class="form-control" placeholder="2000000" value="2000000" required>
+            </div>
+          </div>
+
+          <!-- Ngày Bắt Đầu & Kết Thúc -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <div class="form-group">
+              <label class="form-label required">Ngày Bắt Đầu Hiệu Lực</label>
+              <input type="date" id="promoStartDate" class="form-control" value="2026-09-18" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label required">Ngày Hết Hạn</label>
+              <input type="date" id="promoEndDate" class="form-control" value="2026-10-31" required>
+            </div>
+          </div>
+
+          <!-- Giới Hạn Lượt & Trạng Thái -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+            <div class="form-group">
+              <label class="form-label required">Số Lượng Mã Tối Đa</label>
+              <input type="number" id="promoUsageLimit" class="form-control" value="100" min="1" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label required">Trạng Thái Kích Hoạt</label>
+              <select id="promoStatus" class="form-control" required>
+                <option value="active" selected>Kích hoạt ngay</option>
+                <option value="disabled">Tạm dừng (Chưa chạy)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Mô Tả -->
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label">Mô Tả & Điều Kiện Áp Dụng</label>
+            <textarea id="promoDesc" class="form-control" rows="2" placeholder="Áp dụng cho tất cả các tour du lịch miền Trung và miền Bắc..."></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" data-close-modal>Hủy</button>
+          <button type="submit" class="btn btn-primary btn-sm"><i class="fa-solid fa-floppy-disk"></i> Lưu Mã Khuyến Mãi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Core Scripts -->
+  <script src="js/mock-data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/tours.js"></script>
+  <script src="js/booking.js"></script>
+  <script src="js/dashboards.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -798,6 +798,89 @@ const DEFAULT_MOCK_DATA = {
       featured: false,
       status: "active"
     }
+  ],
+
+  promotions: [
+    {
+      id: "promo-1",
+      code: "SUMMER2026",
+      title: "Ưu Đãi Hè Rực Rỡ 2026",
+      discountType: "percent",
+      discountValue: 15,
+      maxDiscount: 1000000,
+      minOrderValue: 3000000,
+      startDate: "2026-05-01",
+      endDate: "2026-08-31",
+      usageLimit: 200,
+      usedCount: 78,
+      status: "active",
+      applicableTours: "all",
+      description: "Giảm 15% tối đa 1.000.000đ cho tất cả các tour biển đảo và nghỉ dưỡng mùa hè."
+    },
+    {
+      id: "promo-2",
+      code: "EARLYBIRD500",
+      title: "Mở Bán Sớm Mùa Thu - Giảm 500K",
+      discountType: "fixed",
+      discountValue: 500000,
+      maxDiscount: 500000,
+      minOrderValue: 4000000,
+      startDate: "2026-08-01",
+      endDate: "2026-10-31",
+      usageLimit: 100,
+      usedCount: 42,
+      status: "active",
+      applicableTours: "all",
+      description: "Tặng ngay 500.000đ cho khách hàng đặt tour sớm trước 30 ngày khởi hành."
+    },
+    {
+      id: "promo-3",
+      code: "FAMILYVIP",
+      title: "Gói Nghỉ Dưỡng Gia Đình VIP",
+      discountType: "percent",
+      discountValue: 10,
+      maxDiscount: 2000000,
+      minOrderValue: 8000000,
+      startDate: "2026-01-01",
+      endDate: "2026-12-31",
+      usageLimit: 50,
+      usedCount: 19,
+      status: "active",
+      applicableTours: "all",
+      description: "Ưu đãi 10% tối đa 2 triệu cho nhóm gia đình từ 4 khách đặt phòng/resort cao cấp."
+    },
+    {
+      id: "promo-4",
+      code: "TREKSA10",
+      title: "Chinh Phục Tây Bắc & Sapa",
+      discountType: "percent",
+      discountValue: 12,
+      maxDiscount: 600000,
+      minOrderValue: 2500000,
+      startDate: "2026-09-01",
+      endDate: "2026-11-30",
+      usageLimit: 80,
+      usedCount: 80,
+      status: "expired",
+      applicableTours: "all",
+      description: "Giảm 12% cho các tour leo núi, săn mây mùa lúa chín."
+    },
+    {
+      id: "promo-5",
+      code: "FLASHDEAL20",
+      title: "Flash Sale Cuối Tuần Chớp Nhoáng",
+      discountType: "percent",
+      discountValue: 20,
+      maxDiscount: 800000,
+      minOrderValue: 2000000,
+      startDate: "2026-09-15",
+      endDate: "2026-09-22",
+      usageLimit: 30,
+      usedCount: 12,
+      status: "active",
+      applicableTours: "all",
+      description: "Mã flash sale đặc biệt cho các tour khởi hành cuối tuần."
+    }
   ]
 };
 
@@ -813,6 +896,7 @@ function getMockDatabase() {
       if (!parsed.modules) { parsed.modules = DEFAULT_MOCK_DATA.modules; changed = true; }
       if (!parsed.role_permissions) { parsed.role_permissions = DEFAULT_MOCK_DATA.role_permissions; changed = true; }
       if (!parsed.categories) { parsed.categories = DEFAULT_MOCK_DATA.categories; changed = true; }
+      if (!parsed.promotions) { parsed.promotions = DEFAULT_MOCK_DATA.promotions; changed = true; }
       if (changed) {
         saveMockDatabase(parsed);
       }
@@ -833,3 +917,4 @@ function resetMockDatabase() {
   localStorage.setItem('bookingtour_db', JSON.stringify(DEFAULT_MOCK_DATA));
   console.log("Mock Database reset to defaults.");
 }
+

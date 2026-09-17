@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Lý Đơn Đặt Tour - BookingTour Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Modular Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body class="admindek-body">
+  <div class="admindek-sidebar-overlay" id="admindekOverlay" onclick="toggleAdmindekSidebar()"></div>
+  <div class="toast-container" id="toastContainer"></div>
+
+  <div class="admindek-app">
+    <aside class="admindek-sidebar" id="admindekSidebar">
+      <div class="admindek-sidebar-header">
+        <a href="index.html" class="admindek-brand">
+          <div class="admindek-brand-icon">
+            <i class="fa-solid fa-clipboard-check"></i>
+          </div>
+          <div class="admindek-brand-text">
+            <span>BookingTour</span>
+            <small>OPERATIONS MANAGER</small>
+          </div>
+        </a>
+      </div>
+
+      <div class="admindek-sidebar-user">
+        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80" alt="Manager Avatar" class="admindek-sidebar-avatar">
+        <div class="admindek-sidebar-user-info">
+          <span class="admindek-sidebar-name">Nguyễn Thu Hà</span>
+          <span class="admindek-sidebar-role"><i class="fa-solid fa-circle" style="color:#10b981; font-size:0.5rem;"></i> Trưởng Phòng Vận Hành</span>
+        </div>
+      </div>
+
+      <div class="admindek-nav-body">
+        <div class="admindek-section-title">Điều Hành & Vận Hành</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="manager-dashboard.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-gauge-high"></i> Tổng Quan Điều Hành</span>
+              <span class="admindek-nav-badge badge-amber">Active</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="manager-calendar.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-calendar-days"></i> Lịch Điều Hành</span>
+              <span class="admindek-nav-badge badge-amber">Lịch</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="manager-departures.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-calendar-check"></i> Lịch Khởi Hành & Đoàn</span>
+              <span class="admindek-nav-badge badge-blue">25 Đoàn</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="manager-guides.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-user-tag"></i> Phân Công HDV</span>
+              <span class="admindek-nav-badge badge-emerald">6 HDV</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="admindek-section-title">Kho Sản Phẩm & Marketing</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="manager-tours.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-compass"></i> Danh Mục Tour Mở Bán</span>
+              <span class="admindek-nav-badge badge-emerald">12 Tour</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="manager-promotions.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-ticket"></i> Quản Lý Khuyến Mãi</span>
+              <span class="admindek-nav-badge badge-amber">Mới</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="admindek-section-title">Đơn Hàng & Khách Đoàn</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="manager-bookings.html" class="admindek-nav-link active">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-receipt"></i> Quản Lý Đơn Đặt Chỗ</span>
+              <span class="admindek-nav-badge badge-blue">142</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="guide-dashboard.html" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-clipboard-user"></i> Xem Tiến Độ HDV Dẫn</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="admindek-section-title">Hệ Thống</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="profile.html" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-user-gear"></i> Hồ Sơ Quản Lý</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="admindek-sidebar-footer">
+        <button type="button" onclick="logout()" class="btn btn-outline btn-block text-danger" style="font-size:0.84rem; padding:8px 12px; border-color:rgba(239, 68, 68, 0.4);">
+          <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất Quản Lý
+        </button>
+      </div>
+    </aside>
+
+    <div class="admindek-main-wrapper">
+      <header class="admindek-topbar">
+        <div class="admindek-topbar-left">
+          <button type="button" class="admindek-toggle-btn" onclick="toggleAdmindekSidebar()" title="Toggle Sidebar">
+            <i class="fa-solid fa-bars-staggered"></i>
+          </button>
+          <div class="admindek-topbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Tìm kiếm theo mã đơn, tên khách, số điện thoại..." id="bookingSearchInput" oninput="renderManagerBookings()">
+            <span class="admindek-search-badge">Ctrl K</span>
+          </div>
+        </div>
+
+        <div class="admindek-topbar-right">
+          <a href="index.html" class="admindek-btn-site">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Về Trang Chủ Khách Hàng</span>
+          </a>
+          <button type="button" class="admindek-icon-btn" onclick="showToast('Có 142 đơn đặt tour trong hệ thống.', 'info')">
+            <i class="fa-regular fa-bell"></i>
+          </button>
+          <div class="nav-actions" style="margin-left: 6px;"></div>
+        </div>
+      </header>
+
+      <main class="admindek-content">
+        <div class="admindek-page-header">
+          <div class="admindek-page-title-wrap">
+            <h1 class="admindek-page-title">Quản Lý Đơn Đặt Tour & Khách Đoàn</h1>
+            <div class="admindek-breadcrumb">
+              <a href="index.html">Trang chủ</a>
+              <span>/</span>
+              <a href="manager-dashboard.html">Quản lý tour</a>
+              <span>/</span>
+              <span>Đơn đặt chỗ</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 Stat KPI Cards -->
+        <div class="admindek-stats-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 24px;">
+          <div class="admindek-stat-card stat-teal">
+            <div class="admindek-stat-top">
+              <div>
+                <div class="admindek-stat-label">TỔNG ĐƠN ĐẶT TOUR</div>
+                <div class="admindek-stat-value" id="kpiTotalBookings">142 Đơn Đặt</div>
+              </div>
+              <div class="admindek-stat-icon"><i class="fa-solid fa-receipt"></i></div>
+            </div>
+            <div class="admindek-stat-bottom">
+              <i class="fa-solid fa-globe text-primary"></i>
+              <span>Từ các kênh trực tuyến và đại lý</span>
+            </div>
+          </div>
+
+          <div class="admindek-stat-card stat-emerald">
+            <div class="admindek-stat-top">
+              <div>
+                <div class="admindek-stat-label">ĐÃ XÁC NHẬN</div>
+                <div class="admindek-stat-value" id="kpiConfirmedBookings">128 Đã Duyệt</div>
+              </div>
+              <div class="admindek-stat-icon"><i class="fa-solid fa-circle-check"></i></div>
+            </div>
+            <div class="admindek-stat-bottom">
+              <i class="fa-solid fa-check text-success"></i>
+              <span>Đã thanh toán và xếp đoàn HDV</span>
+            </div>
+          </div>
+
+          <div class="admindek-stat-card stat-blue">
+            <div class="admindek-stat-top">
+              <div>
+                <div class="admindek-stat-label">DOANH THU ĐƠN TOUR</div>
+                <div class="admindek-stat-value" id="kpiTotalRevenue">845.200.000đ</div>
+              </div>
+              <div class="admindek-stat-icon"><i class="fa-solid fa-coins"></i></div>
+            </div>
+            <div class="admindek-stat-bottom">
+              <i class="fa-solid fa-chart-line text-primary"></i>
+              <span>Thực thu trong mùa vận hành</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="admindek-grid">
+          <div class="admindek-card admindek-col-12">
+            <div class="admindek-card-header">
+              <div class="admindek-card-title">
+                <i class="fa-solid fa-receipt text-primary"></i>
+                <div>
+                  <h3>Toàn Bộ Danh Sách Đơn Đặt Tour</h3>
+                  <p>Kiểm tra thông tin khách hàng, số lượng vé, duyệt đơn hoặc cập nhật thanh toán.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="admin-toolbar" style="padding: 0 20px 16px 20px;">
+              <div class="admin-filter-group">
+                <select id="bookingStatusFilter" class="form-control" style="width: auto; min-width: 150px;" onchange="renderManagerBookings()">
+                  <option value="all">Tất Cả Trạng Thái Đơn</option>
+                  <option value="confirmed">Đã Xác Nhận</option>
+                  <option value="pending">Chờ Duyệt</option>
+                  <option value="cancelled">Đã Hủy</option>
+                </select>
+
+                <select id="bookingPaymentFilter" class="form-control" style="width: auto; min-width: 150px;" onchange="renderManagerBookings()">
+                  <option value="all">Tất Cả Thanh Toán</option>
+                  <option value="paid">Đã Thanh Toán</option>
+                  <option value="unpaid">Chưa Thanh Toán</option>
+                </select>
+              </div>
+              <div>
+                <button class="btn btn-secondary btn-sm" onclick="renderManagerBookings()"><i class="fa-solid fa-arrows-rotate"></i> Làm Mới</button>
+              </div>
+            </div>
+
+            <div class="admindek-table-responsive">
+              <table class="admindek-table" id="managerBookingsTable">
+                <thead>
+                  <tr>
+                    <th>Mã Đơn</th>
+                    <th>Khách Hàng</th>
+                    <th>Tour & Ngày Đi</th>
+                    <th>Tổng Tiền</th>
+                    <th>Thanh Toán</th>
+                    <th>Trạng Thái</th>
+                    <th>Thao Tác</th>
+                  </tr>
+                </thead>
+                <tbody id="managerBookingsTableBody">
+                  <!-- Rendered by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Core Scripts -->
+  <script src="js/mock-data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/tours.js"></script>
+  <script src="js/booking.js"></script>
+  <script src="js/dashboards.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

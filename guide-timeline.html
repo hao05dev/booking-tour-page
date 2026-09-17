@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lịch Trình Chi Tiết Từng Ngày - BookingTour Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Modular Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body class="admindek-body">
+  <div class="admindek-sidebar-overlay" id="admindekOverlay" onclick="toggleAdmindekSidebar()"></div>
+  <div class="toast-container" id="toastContainer"></div>
+
+  <div class="admindek-app">
+    <aside class="admindek-sidebar" id="admindekSidebar">
+      <div class="admindek-sidebar-header">
+        <a href="index.html" class="admindek-brand">
+          <div class="admindek-brand-icon" style="background: linear-gradient(135deg, #059669 0%, #10b981 100%);">
+            <i class="fa-solid fa-compass"></i>
+          </div>
+          <div class="admindek-brand-text">
+            <span>BookingTour</span>
+            <small>TOUR GUIDE PORTAL</small>
+          </div>
+        </a>
+      </div>
+
+      <div class="admindek-sidebar-user">
+        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80" alt="Guide Avatar" class="admindek-sidebar-avatar" style="border-color:#10b981;">
+        <div class="admindek-sidebar-user-info">
+          <span class="admindek-sidebar-name">Trần Quốc Hưng</span>
+          <span class="admindek-sidebar-role"><i class="fa-solid fa-star" style="color:#f59e0b; font-size:0.65rem;"></i> HDV Trưởng Đoàn (4.95★)</span>
+        </div>
+      </div>
+
+      <div class="admindek-nav-body">
+        <div class="admindek-section-title">Chuyến Đi Của Tôi</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="guide-dashboard.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-route"></i> Tour Đang Dẫn Đoàn</span>
+              <span class="admindek-nav-badge badge-emerald">Active</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="guide-schedule.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-list-check"></i> 5 Chuyến Sắp Tới</span>
+              <span class="admindek-nav-badge badge-blue">5 Tour</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="admindek-section-title">Công Cụ Dẫn Đoàn Thực Địa</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="guide-roster.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-clipboard-user"></i> Điểm Danh Khách Lên Xe</span>
+              <span class="admindek-nav-badge badge-amber">18 Khách</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="guide-timeline.html" class="admindek-nav-link active">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-calendar-days"></i> Lịch Trình Chi Tiết Từng Ngày</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="admindek-section-title">Hỗ Trợ & Khẩn Cấp</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="tel:0911223344" class="admindek-nav-link" style="color:#ef4444;">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-phone-volume text-danger"></i> Gọi Trực Ban Điều Hành (24/7)</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="profile.html" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-id-card"></i> Hồ Sơ Thẻ HDV</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="admindek-sidebar-footer">
+        <button type="button" onclick="logout()" class="btn btn-outline btn-block text-danger" style="font-size:0.84rem; padding:8px 12px; border-color:rgba(239, 68, 68, 0.4);">
+          <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất HDV
+        </button>
+      </div>
+    </aside>
+
+    <div class="admindek-main-wrapper">
+      <header class="admindek-topbar">
+        <div class="admindek-topbar-left">
+          <button type="button" class="admindek-toggle-btn" onclick="toggleAdmindekSidebar()" title="Toggle Sidebar">
+            <i class="fa-solid fa-bars-staggered"></i>
+          </button>
+          <div class="admindek-topbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Tìm kiếm mốc thời gian, điểm tham quan..." id="guideSearchInput">
+            <span class="admindek-search-badge">Ctrl K</span>
+          </div>
+        </div>
+
+        <div class="admindek-topbar-right">
+          <a href="index.html" class="admindek-btn-site">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Về Trang Chủ Khách Hàng</span>
+          </a>
+          <button type="button" class="admindek-icon-btn" onclick="showToast('Hành trình: Đang tiến hành chặng vịnh Hạ Long.', 'info')">
+            <i class="fa-regular fa-bell"></i>
+          </button>
+          <div class="nav-actions" style="margin-left: 6px;"></div>
+        </div>
+      </header>
+
+      <main class="admindek-content">
+        <div class="admindek-page-header">
+          <div class="admindek-page-title-wrap">
+            <h1 class="admindek-page-title">Lịch Trình Chi Tiết Từng Ngày</h1>
+            <div class="admindek-breadcrumb">
+              <a href="index.html">Trang chủ</a>
+              <span>/</span>
+              <a href="guide-dashboard.html">Hướng dẫn viên</a>
+              <span>/</span>
+              <span>Lịch trình chi tiết</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="admindek-grid">
+          <div class="admindek-card admindek-col-12">
+            <div class="admindek-card-header">
+              <div class="admindek-card-title">
+                <i class="fa-solid fa-calendar-days text-primary"></i>
+                <div>
+                  <h3>Tour: Khám Phá Vịnh Hạ Long - Du Thuyền 5 Sao 3N2Đ</h3>
+                  <p>Kế hoạch chi tiết theo khung giờ, nhà hàng ăn trưa, khách sạn và phương án dự phòng thời tiết.</p>
+                </div>
+              </div>
+            </div>
+
+            <div style="padding: 20px;">
+              <div class="guide-timeline">
+                <div style="margin-bottom: 24px; padding-left: 16px; border-left: 3px solid #0f766e;">
+                  <h4 style="color:#0f766e; margin-bottom:4px;"><i class="fa-solid fa-flag-checkered"></i> Ngày 1: Hà Nội - Cảng Tuần Châu - Check-in Du Thuyền (20/09/2026)</h4>
+                  <p style="font-size:0.88rem; color:#475569; margin-bottom:8px;">• <strong>07:30</strong>: Đón khách tại Nhà Hát Lớn Hà Nội.<br>• <strong>11:30</strong>: Đến cảng quốc tế Tuần Châu, làm thủ tục lên du thuyền 5 sao.<br>• <strong>12:30</strong>: Dùng bữa trưa hải sản tươi sống và ngắm cảnh hòn Đỉnh Hương.<br>• <strong>15:00</strong>: Chèo thuyền kayak khám phá Hang Sửng Sốt.</p>
+                </div>
+
+                <div style="margin-bottom: 24px; padding-left: 16px; border-left: 3px solid #0f766e;">
+                  <h4 style="color:#0f766e; margin-bottom:4px;"><i class="fa-solid fa-ship"></i> Ngày 2: Đảo Ti Tốp - Vịnh Lan Hạ - Làng Chài Cửa Vạn (21/09/2026)</h4>
+                  <p style="font-size:0.88rem; color:#475569; margin-bottom:8px;">• <strong>06:30</strong>: Tập Taichi ngắm bình minh trên boong tàu.<br>• <strong>08:30</strong>: Tắm biển và leo đỉnh Ti Tốp ngắm toàn cảnh Vịnh.<br>• <strong>14:00</strong>: Tham quan làng chài Cửa Vạn và trải nghiệm làm ngư dân.<br>• <strong>18:30</strong>: Tiệc Sunset Party và câu mực đêm cùng thuyền viên.</p>
+                </div>
+
+                <div style="padding-left: 16px; border-left: 3px solid #10b981;">
+                  <h4 style="color:#10b981; margin-bottom:4px;"><i class="fa-solid fa-house-chimney"></i> Ngày 3: Hang Luồn - Trả Phòng - Trở Về Hà Nội (22/09/2026)</h4>
+                  <p style="font-size:0.88rem; color:#475569; margin-bottom:0;">• <strong>08:00</strong>: Ngồi thuyền nan khám phá Hang Luồn.<br>• <strong>10:30</strong>: Dùng buffet nhẹ và làm thủ tục check-out.<br>• <strong>12:00</strong>: Xe đón đoàn trở về Hà Nội, kết thúc chuyến đi an toàn.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Core Scripts -->
+  <script src="js/mock-data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/tours.js"></script>
+  <script src="js/booking.js"></script>
+  <script src="js/dashboards.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

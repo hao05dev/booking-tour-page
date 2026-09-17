@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phân Quyền Người Dùng & Ma Trận CRUD - BookingTour Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Modular Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body class="admindek-body">
+  <div class="admindek-sidebar-overlay" id="admindekOverlay" onclick="toggleAdmindekSidebar()"></div>
+  <div class="toast-container" id="toastContainer"></div>
+
+  <div class="admindek-app">
+    <aside class="admindek-sidebar" id="admindekSidebar">
+      <div class="admindek-sidebar-header">
+        <a href="index.html" class="admindek-brand">
+          <div class="admindek-brand-icon" style="background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%);">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <div class="admindek-brand-text">
+            <span>BookingTour</span>
+            <small>SYSTEM ADMIN</small>
+          </div>
+        </a>
+      </div>
+
+      <div class="admindek-sidebar-user">
+        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=150&q=80" alt="Admin Avatar" class="admindek-sidebar-avatar" style="border-color:#0f766e;">
+        <div class="admindek-sidebar-user-info">
+          <span class="admindek-sidebar-name">Admin Quản Trị</span>
+          <span class="admindek-sidebar-role"><i class="fa-solid fa-shield-check text-success"></i> Quản Trị Hệ Thống</span>
+        </div>
+      </div>
+
+      <div class="admindek-nav-body">
+        <div class="admindek-section-title">Tổng Quan & Hệ Thống</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="admin-dashboard.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-chart-pie"></i> Bảng Điều Khiển</span>
+              <span class="admindek-nav-badge badge-blue">Live</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="admindek-section-title">Tài Khoản & Phân Quyền</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="admin-users.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-users-gear"></i> Quản Lý Tài Khoản</span>
+              <span class="admindek-nav-badge badge-emerald" id="sidebarUsersCountBadge">10 Users</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="admin-permissions.html" class="admindek-nav-link active">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-shield-halved"></i> Phân Quyền & CRUD</span>
+              <span class="admindek-nav-badge badge-amber">5 Roles</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="admindek-section-title">Sản Phẩm & Nội Dung</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="admin-categories.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-tags"></i> Danh Mục Tour</span>
+              <span class="admindek-nav-badge badge-blue" id="sidebarCategoriesCountBadge">6 Nhóm</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="admin-reviews.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-star-half-stroke"></i> Kiểm Duyệt Đánh Giá</span>
+              <span class="admindek-nav-badge badge-emerald">Duyệt</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="admindek-section-title">Hệ Thống & Dữ Liệu</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="javascript:void(0)" onclick="resetMockDatabase(); showToast('Đã làm mới và đồng bộ dữ liệu hệ thống!', 'info'); setTimeout(()=>location.reload(), 600);" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-arrows-rotate"></i> Đồng Bộ Dữ Liệu</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="profile.html" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-gear"></i> Cài Đặt Hồ Sơ</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="admindek-sidebar-footer">
+        <button type="button" onclick="logout()" class="btn btn-outline btn-block text-danger" style="font-size:0.84rem; padding:8px 12px; border-color:rgba(239, 68, 68, 0.4);">
+          <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất Admin
+        </button>
+      </div>
+    </aside>
+
+    <div class="admindek-main-wrapper">
+      <header class="admindek-topbar">
+        <div class="admindek-topbar-left">
+          <button type="button" class="admindek-toggle-btn" onclick="toggleAdmindekSidebar()" title="Toggle Sidebar">
+            <i class="fa-solid fa-bars-staggered"></i>
+          </button>
+          <div class="admindek-topbar-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Tìm kiếm vai trò, quyền hạn..." id="adminSearchInput">
+            <span class="admindek-search-badge">Ctrl K</span>
+          </div>
+        </div>
+
+        <div class="admindek-topbar-right">
+          <a href="index.html" class="admindek-btn-site">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Về Trang Chủ Khách Hàng</span>
+          </a>
+          <button type="button" class="admindek-icon-btn" onclick="showToast('Phân quyền bảo mật ma trận CRUD đang hoạt động.', 'info')">
+            <i class="fa-regular fa-bell"></i>
+          </button>
+          <div class="nav-actions" style="margin-left: 6px;"></div>
+        </div>
+      </header>
+
+      <main class="admindek-content">
+        <div class="admindek-page-header">
+          <div class="admindek-page-title-wrap">
+            <h1 class="admindek-page-title">Phân Quyền Người Dùng & Ma Trận CRUD</h1>
+            <div class="admindek-breadcrumb">
+              <a href="index.html">Trang chủ</a>
+              <span>/</span>
+              <a href="admin-dashboard.html">Admin</a>
+              <span>/</span>
+              <span>Ma trận CRUD role_permission</span>
+            </div>
+          </div>
+          <div class="admindek-page-actions">
+            <button class="btn btn-primary" onclick="saveCurrentRolePermissions()"><i class="fa-solid fa-floppy-disk"></i> Lưu Ma Trận Phân Quyền</button>
+          </div>
+        </div>
+
+        <div class="admindek-grid">
+          <div class="admindek-card admindek-col-12">
+            <div class="admindek-card-header">
+              <div class="admindek-card-title">
+                <i class="fa-solid fa-shield-halved text-warning"></i>
+                <div>
+                  <h3>Cấu Hình Ma Trận Phân Quyền CRUD Cho Từng Actor</h3>
+                  <p>Bảng trung gian <code>role_permission</code> kết nối vai trò và các module chức năng hệ thống.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Role Selector Pills -->
+            <div style="padding: 0 20px 16px 20px;">
+              <div style="font-size: 0.82rem; font-weight: 700; color: #475569; margin-bottom: 8px;">CHỌN VAI TRÒ (ACTOR) ĐỂ PHÂN QUYỀN:</div>
+              <div class="admin-role-selector" id="adminRoleSelector">
+                <!-- Rendered by JS -->
+              </div>
+            </div>
+
+            <!-- Quick Matrix Actions -->
+            <div style="display:flex; justify-content:space-between; align-items:center; padding: 0 20px 16px 20px; flex-wrap:wrap; gap:10px;">
+              <div style="font-size:0.85rem; color:#0f766e; font-weight:600;" id="activeRoleDescription">
+                Đang cấu hình: <strong id="activeRoleNameText">Admin</strong>
+              </div>
+              <div style="display:flex; gap:8px;">
+                <button type="button" class="btn btn-secondary btn-xs" onclick="setAllPermissionsForActiveRole(true)"><i class="fa-solid fa-check-double"></i> Bật Toàn Bộ CRUD</button>
+                <button type="button" class="btn btn-secondary btn-xs" onclick="setAllPermissionsForActiveRole(false)"><i class="fa-solid fa-xmark"></i> Bỏ Hết Quyền</button>
+                <button type="button" class="btn btn-outline btn-xs" onclick="resetPermissionsForActiveRole()"><i class="fa-solid fa-rotate-left"></i> Khôi Phục Mặc Định</button>
+              </div>
+            </div>
+
+            <!-- Matrix Table -->
+            <div class="matrix-table-wrap">
+              <table class="matrix-table">
+                <thead>
+                  <tr>
+                    <th style="width: 250px;">Phân Hệ / Module Chức Năng</th>
+                    <th style="width: 140px; text-align:center;">Create (Tạo mới)</th>
+                    <th style="width: 140px; text-align:center;">Read (Xem/Đọc)</th>
+                    <th style="width: 140px; text-align:center;">Update (Chỉnh sửa)</th>
+                    <th style="width: 140px; text-align:center;">Delete (Xóa/Khóa)</th>
+                    <th>Ghi Chú Phân Quyền</th>
+                  </tr>
+                </thead>
+                <tbody id="adminMatrixTableBody">
+                  <!-- Rendered by JS -->
+                </tbody>
+              </table>
+            </div>
+
+            <div style="padding: 16px 20px; display: flex; justify-content: flex-end; gap: 10px; background: #f8fafc; border-top: 1px solid #e2e8f0;">
+              <button class="btn btn-secondary" onclick="resetPermissionsForActiveRole()">Hủy Thay Đổi</button>
+              <button class="btn btn-primary" onclick="saveCurrentRolePermissions()"><i class="fa-solid fa-floppy-disk"></i> Lưu Quyền Hạn</button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Core Scripts -->
+  <script src="js/mock-data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/tours.js"></script>
+  <script src="js/booking.js"></script>
+  <script src="js/dashboards.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
