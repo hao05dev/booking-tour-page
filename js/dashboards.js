@@ -1763,14 +1763,14 @@ function initAdminDashboard() {
 
   // --- 3. ROLE-PERMISSION CRUD MATRIX ---
   function renderRolePills() {
-    const pillsContainer = document.getElementById('adminRolePills');
+    const pillsContainer = document.getElementById('adminRoleSelector') || document.getElementById('adminRolePills');
     if (!pillsContainer) return;
 
     const rolesList = db.roles || DEFAULT_MOCK_DATA.roles;
     pillsContainer.innerHTML = rolesList.map(r => `
-      <button type="button" class="admin-role-pill ${r.code === activeRoleCode ? 'active' : ''}" onclick="selectMatrixRole('${r.code}')">
+      <button type="button" class="admin-role-pill ${r.code === activeRoleCode ? 'active' : ''}" onclick="selectMatrixRole('${r.code}')" style="cursor:pointer; display:inline-flex; align-items:center; gap:8px; padding:8px 16px; border-radius:8px; border:1px solid ${r.code === activeRoleCode ? '#0f766e' : '#e2e8f0'}; background:${r.code === activeRoleCode ? '#0f766e' : '#ffffff'}; color:${r.code === activeRoleCode ? '#ffffff' : '#334155'}; font-weight:600; font-size:0.85rem; transition:all 0.15s ease;">
         <span>${r.name}</span>
-        <span class="badge ${r.badgeClass}" style="font-size:0.68rem; padding:2px 6px;">${r.code}</span>
+        <span class="badge ${r.badgeClass || 'badge-primary'}" style="font-size:0.7rem; padding:2px 6px; ${r.code === activeRoleCode ? 'background:rgba(255,255,255,0.25); color:#ffffff;' : ''}">${r.code.toUpperCase()}</span>
       </button>
     `).join('');
   }
@@ -1779,8 +1779,12 @@ function initAdminDashboard() {
     activeRoleCode = roleCode;
     renderRolePills();
     const roleObj = (db.roles || DEFAULT_MOCK_DATA.roles).find(r => r.code === roleCode);
-    const activeLabelEl = document.getElementById('matrixActiveRoleLabel');
+    const activeLabelEl = document.getElementById('activeRoleNameText') || document.getElementById('matrixActiveRoleLabel');
     if (activeLabelEl) activeLabelEl.textContent = roleObj ? roleObj.name : roleCode;
+    const activeDescEl = document.getElementById('activeRoleDescription');
+    if (activeDescEl && roleObj) {
+      activeDescEl.innerHTML = `Đang cấu hình vai trò: <strong id="activeRoleNameText" style="color:#0f766e; font-size:0.95rem;">${roleObj.name}</strong> • <span style="font-size:0.82rem; color:#64748b; font-weight:normal;">${roleObj.description}</span>`;
+    }
     renderRolePermissionMatrix();
   };
 
@@ -1800,25 +1804,25 @@ function initAdminDashboard() {
       // Summary label
       let summaryHtml = '';
       if (perm.canCreate && perm.canRead && perm.canUpdate && perm.canDelete) {
-        summaryHtml = '<span class="badge badge-success" style="font-size:0.75rem;"><i class="fa-solid fa-shield-check"></i> Toàn quyền (Full CRUD)</span>';
+        summaryHtml = '<span class="badge badge-success" style="font-size:0.75rem; font-weight:700;"><i class="fa-solid fa-shield-check"></i> TOÀN QUYỀN (FULL CRUD)</span>';
       } else if (!perm.canCreate && perm.canRead && !perm.canUpdate && !perm.canDelete) {
-        summaryHtml = '<span class="badge badge-info" style="font-size:0.75rem;"><i class="fa-regular fa-eye"></i> Chỉ xem (Read-only)</span>';
+        summaryHtml = '<span class="badge badge-info" style="font-size:0.75rem; font-weight:600;"><i class="fa-regular fa-eye"></i> CHỈ XEM (READ-ONLY)</span>';
       } else if (!perm.canCreate && !perm.canRead && !perm.canUpdate && !perm.canDelete) {
-        summaryHtml = '<span class="badge badge-neutral" style="font-size:0.75rem;"><i class="fa-solid fa-ban"></i> Không có quyền</span>';
+        summaryHtml = '<span class="badge badge-neutral" style="font-size:0.75rem; font-weight:600; color:#94a3b8;"><i class="fa-solid fa-ban"></i> KHÔNG CÓ QUYỀN</span>';
       } else {
         const parts = [];
-        if (perm.canCreate) parts.push('C');
-        if (perm.canRead) parts.push('R');
-        if (perm.canUpdate) parts.push('U');
-        if (perm.canDelete) parts.push('D');
-        summaryHtml = `<span class="badge badge-warning" style="font-size:0.75rem;">${parts.join(' - ')}</span>`;
+        if (perm.canCreate) parts.push('Create (Tạo)');
+        if (perm.canRead) parts.push('Read (Xem)');
+        if (perm.canUpdate) parts.push('Update (Sửa)');
+        if (perm.canDelete) parts.push('Delete (Xóa)');
+        summaryHtml = `<span class="badge badge-warning" style="font-size:0.75rem; font-weight:600;"><i class="fa-solid fa-pen-ruler"></i> ${parts.join(', ')}</span>`;
       }
 
       return `
         <tr>
           <td>
             <div style="display:flex; align-items:center; gap:10px;">
-              <div style="width:34px; height:34px; border-radius:8px; background:#f0fdfa; color:#0f766e; display:flex; align-items:center; justify-content:center; font-size:1rem;">
+              <div style="width:36px; height:36px; border-radius:8px; background:#f0fdfa; color:#0f766e; display:flex; align-items:center; justify-content:center; font-size:1.05rem; flex-shrink:0;">
                 <i class="fa-solid ${mod.icon}"></i>
               </div>
               <div>
@@ -1828,30 +1832,30 @@ function initAdminDashboard() {
             </div>
           </td>
           <td style="text-align:center;">
-            <label class="matrix-checkbox-label ${perm.canCreate ? 'is-checked' : ''}">
+            <label class="matrix-checkbox-label ${perm.canCreate ? 'is-checked' : ''}" style="cursor:pointer;">
               <input type="checkbox" ${perm.canCreate ? 'checked' : ''} onchange="updatePermissionCheckbox('${mod.code}', 'canCreate', this.checked)">
               <span>Tạo</span>
             </label>
           </td>
           <td style="text-align:center;">
-            <label class="matrix-checkbox-label ${perm.canRead ? 'is-checked' : ''}">
+            <label class="matrix-checkbox-label ${perm.canRead ? 'is-checked' : ''}" style="cursor:pointer;">
               <input type="checkbox" ${perm.canRead ? 'checked' : ''} onchange="updatePermissionCheckbox('${mod.code}', 'canRead', this.checked)">
               <span>Đọc</span>
             </label>
           </td>
           <td style="text-align:center;">
-            <label class="matrix-checkbox-label ${perm.canUpdate ? 'is-checked' : ''}">
+            <label class="matrix-checkbox-label ${perm.canUpdate ? 'is-checked' : ''}" style="cursor:pointer;">
               <input type="checkbox" ${perm.canUpdate ? 'checked' : ''} onchange="updatePermissionCheckbox('${mod.code}', 'canUpdate', this.checked)">
               <span>Sửa</span>
             </label>
           </td>
           <td style="text-align:center;">
-            <label class="matrix-checkbox-label ${perm.canDelete ? 'is-checked' : ''}">
+            <label class="matrix-checkbox-label ${perm.canDelete ? 'is-checked' : ''}" style="cursor:pointer;">
               <input type="checkbox" ${perm.canDelete ? 'checked' : ''} onchange="updatePermissionCheckbox('${mod.code}', 'canDelete', this.checked)">
               <span>Xóa</span>
             </label>
           </td>
-          <td style="text-align:center;">
+          <td>
             ${summaryHtml}
           </td>
         </tr>
@@ -1866,12 +1870,14 @@ function initAdminDashboard() {
       db.role_permissions.push(perm);
     }
     perm[action] = checked;
+    saveMockDatabase(db);
     renderRolePermissionMatrix();
   };
 
   window.saveCurrentRolePermissions = () => {
     saveMockDatabase(db);
-    showToast(`Đã lưu cấu hình ma trận phân quyền cho vai trò "${activeRoleCode}" vào hệ thống!`, 'success');
+    const roleObj = (db.roles || DEFAULT_MOCK_DATA.roles).find(r => r.code === activeRoleCode);
+    showToast(`Đã lưu cấu hình ma trận phân quyền cho vai trò "${roleObj ? roleObj.name : activeRoleCode}" vào hệ thống!`, 'success');
   };
 
   window.setAllPermissionsForActiveRole = (enabled) => {
