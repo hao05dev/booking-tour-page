@@ -615,34 +615,237 @@ function initManagerDashboard() {
     return { status: 'Available', statusText: 'Còn chỗ', badgeClass: 'badge-available' };
   }
 
-  // Global helpers for Tour Creation Form
+  // Global helpers for Tour Creation Form: Day of Week, Date Range & Duration Bidirectional Calculation
+  window.getDayOfWeekInfo = function(dateStr) {
+    if (!dateStr) return { dayName: '', fullText: '', shortCode: '' };
+    const date = new Date(dateStr + 'T00:00:00');
+    if (isNaN(date.getTime())) return { dayName: '', fullText: '', shortCode: '' };
+    const days = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+    const shortCodes = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+    const dayIndex = date.getDay();
+    const formatted = `${String(date.getDate()).padStart(2, '0')}/${String(date.getMonth() + 1).padStart(2, '0')}/${date.getFullYear()}`;
+    return {
+      dayName: days[dayIndex],
+      fullText: `${days[dayIndex]}, ${formatted}`,
+      shortCode: shortCodes[dayIndex]
+    };
+  };
+
+  window.addDaysToDateStr = function(dateStr, daysToAdd) {
+    const d = new Date(dateStr + 'T00:00:00');
+    if (isNaN(d.getTime())) return dateStr;
+    d.setDate(d.getDate() + daysToAdd);
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  };
+
   window.autoFillSeasonDates = function(seasonVal) {
-    const startEl = document.getElementById('newTourSeasonStart');
-    const endEl = document.getElementById('newTourSeasonEnd');
-    if (!startEl || !endEl) return;
+    const startEl = document.getElementById('newTourStartDate');
+    const endEl = document.getElementById('newTourEndDate');
     const map = {
-      autumn: { start: '2026-09-01', end: '2026-11-30' },
-      summer: { start: '2026-04-01', end: '2026-08-31' },
-      spring: { start: '2026-01-01', end: '2026-03-31' },
-      winter: { start: '2026-12-01', end: '2027-02-28' },
-      festival: { start: '2026-12-15', end: '2027-02-15' },
-      all_year: { start: '2026-01-01', end: '2026-12-31' }
+      autumn: { start: '2026-09-18', end: '2026-09-20' },
+      summer: { start: '2026-06-12', end: '2026-06-14' },
+      spring: { start: '2026-02-20', end: '2026-02-22' },
+      winter: { start: '2026-12-18', end: '2026-12-20' },
+      festival: { start: '2026-12-31', end: '2027-01-02' },
+      all_year: { start: '2026-09-18', end: '2026-09-20' }
     };
     if (map[seasonVal]) {
-      startEl.value = map[seasonVal].start;
-      endEl.value = map[seasonVal].end;
+      if (startEl) startEl.value = map[seasonVal].start;
+      if (endEl) endEl.value = map[seasonVal].end;
+      window.handleTourStartDateChange();
     }
   };
 
-  window.autoFormatDuration = function(days) {
-    const d = Math.max(1, parseInt(days, 10) || 1);
+  window.handleTourStartDateChange = function() {
+    const startEl = document.getElementById('newTourStartDate');
+    const endEl = document.getElementById('newTourEndDate');
+    const presetEl = document.getElementById('newTourPresetDuration');
+    const startDayOfWeekEl = document.getElementById('newTourStartDayOfWeek');
+    const endDayOfWeekEl = document.getElementById('newTourEndDayOfWeek');
+    const daysEl = document.getElementById('newTourDays');
     const durationEl = document.getElementById('newTourDuration');
-    if (durationEl) {
-      if (d === 1) {
-        durationEl.value = '1 Ngày';
-      } else {
-        durationEl.value = `${d} Ngày ${d - 1} Đêm`;
+    const badgeEl = document.getElementById('tourDurationBadge');
+
+    if (!startEl || !startEl.value) return;
+
+    const startInfo = window.getDayOfWeekInfo(startEl.value);
+    if (startDayOfWeekEl) {
+      startDayOfWeekEl.innerHTML = `<i class="fa-solid fa-calendar-day"></i> ${startInfo.dayName}`;
+    }
+
+    // Auto highlight start day in weekly pills if not checked
+    const matchingPill = document.querySelector(`input[name="tourDaysOfWeek"][value="${startInfo.shortCode}"]`);
+    if (matchingPill && !matchingPill.checked) {
+      matchingPill.checked = true;
+      window.updateDaysOfWeekSummary();
+    }
+
+    // If preset is selected (e.g. 1, 2, 3, 4, 5, 6, 7), calculate end date automatically
+    if (presetEl && presetEl.value !== 'custom') {
+      const days = parseInt(presetEl.value, 10) || 1;
+      const computedEnd = window.addDaysToDateStr(startEl.value, days - 1);
+      if (endEl) endEl.value = computedEnd;
+      if (endDayOfWeekEl) {
+        const endInfo = window.getDayOfWeekInfo(computedEnd);
+        endDayOfWeekEl.innerHTML = `<i class="fa-solid fa-calendar-check"></i> ${endInfo.dayName}`;
       }
+      const durText = days === 1 ? '1 Ngày' : `${days} Ngày ${days - 1} Đêm`;
+      if (daysEl) daysEl.value = days;
+      if (durationEl) durationEl.value = durText;
+      if (badgeEl) badgeEl.innerHTML = `<i class="fa-regular fa-clock"></i> ${durText} (${days} ngày)`;
+    } else if (endEl && endEl.value) {
+      window.handleTourEndDateChange();
+    }
+  };
+
+  window.handlePresetDurationChange = function(presetVal) {
+    const startEl = document.getElementById('newTourStartDate');
+    const endEl = document.getElementById('newTourEndDate');
+    const daysEl = document.getElementById('newTourDays');
+    const durationEl = document.getElementById('newTourDuration');
+    const badgeEl = document.getElementById('tourDurationBadge');
+    const endDayOfWeekEl = document.getElementById('newTourEndDayOfWeek');
+
+    if (presetVal === 'custom') return;
+
+    const days = parseInt(presetVal, 10) || 1;
+    const startDate = (startEl && startEl.value) ? startEl.value : '2026-09-18';
+    if (startEl && !startEl.value) startEl.value = startDate;
+
+    const computedEnd = window.addDaysToDateStr(startDate, days - 1);
+    if (endEl) endEl.value = computedEnd;
+
+    const durText = days === 1 ? '1 Ngày' : `${days} Ngày ${days - 1} Đêm`;
+    if (daysEl) daysEl.value = days;
+    if (durationEl) durationEl.value = durText;
+    if (badgeEl) badgeEl.innerHTML = `<i class="fa-regular fa-clock"></i> ${durText} (${days} ngày)`;
+
+    if (endDayOfWeekEl) {
+      const endInfo = window.getDayOfWeekInfo(computedEnd);
+      endDayOfWeekEl.innerHTML = `<i class="fa-solid fa-calendar-check"></i> ${endInfo.dayName}`;
+    }
+  };
+
+  window.handleTourEndDateChange = function() {
+    const startEl = document.getElementById('newTourStartDate');
+    const endEl = document.getElementById('newTourEndDate');
+    const presetEl = document.getElementById('newTourPresetDuration');
+    const endDayOfWeekEl = document.getElementById('newTourEndDayOfWeek');
+    const daysEl = document.getElementById('newTourDays');
+    const durationEl = document.getElementById('newTourDuration');
+    const badgeEl = document.getElementById('tourDurationBadge');
+
+    if (!startEl || !endEl || !startEl.value || !endEl.value) return;
+
+    const dStart = new Date(startEl.value + 'T00:00:00');
+    let dEnd = new Date(endEl.value + 'T00:00:00');
+
+    if (dEnd < dStart) {
+      if (typeof showToast === 'function') {
+        showToast('Ngày kết thúc không thể trước ngày bắt đầu!', 'warning');
+      }
+      endEl.value = startEl.value;
+      dEnd = dStart;
+    }
+
+    const diffTime = Math.abs(dEnd - dStart);
+    const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24)) + 1; // inclusive count
+
+    const durText = diffDays === 1 ? '1 Ngày' : `${diffDays} Ngày ${diffDays - 1} Đêm`;
+    if (daysEl) daysEl.value = diffDays;
+    if (durationEl) durationEl.value = durText;
+    if (badgeEl) badgeEl.innerHTML = `<i class="fa-regular fa-clock"></i> ${durText} (${diffDays} ngày)`;
+
+    const endInfo = window.getDayOfWeekInfo(endEl.value);
+    if (endDayOfWeekEl) {
+      endDayOfWeekEl.innerHTML = `<i class="fa-solid fa-calendar-check"></i> ${endInfo.dayName}`;
+    }
+
+    if (presetEl) {
+      if (['1', '2', '3', '4', '5', '6', '7'].includes(String(diffDays))) {
+        presetEl.value = String(diffDays);
+      } else {
+        presetEl.value = 'custom';
+      }
+    }
+  };
+
+  window.updateDaysOfWeekSummary = function() {
+    const checkboxes = document.querySelectorAll('input[name="tourDaysOfWeek"]');
+    const summaryEl = document.getElementById('tourDayOfWeekSummary');
+    const checkedVals = [];
+
+    checkboxes.forEach(cb => {
+      const parentLabel = cb.closest('.day-pill');
+      if (cb.checked) {
+        checkedVals.push(cb.value);
+        if (parentLabel) parentLabel.classList.add('is-active');
+      } else {
+        if (parentLabel) parentLabel.classList.remove('is-active');
+      }
+    });
+
+    if (summaryEl) {
+      if (checkedVals.length === 7) {
+        summaryEl.innerText = 'Khởi hành: Hàng ngày (T2 - CN)';
+      } else if (checkedVals.length === 0) {
+        summaryEl.innerText = 'Chưa chọn ngày khởi hành cố định';
+      } else {
+        const map = { T2: 'Thứ 2', T3: 'Thứ 3', T4: 'Thứ 4', T5: 'Thứ 5', T6: 'Thứ 6', T7: 'Thứ 7', CN: 'Chủ Nhật' };
+        const labelList = checkedVals.map(v => map[v] || v).join(', ');
+        summaryEl.innerText = `Hàng tuần: ${labelList}`;
+      }
+    }
+  };
+
+  window.setQuickDaysOfWeek = function(mode) {
+    const checkboxes = document.querySelectorAll('input[name="tourDaysOfWeek"]');
+    checkboxes.forEach(cb => {
+      if (mode === 'all') {
+        cb.checked = true;
+      } else if (mode === 'weekend') {
+        cb.checked = ['T6', 'T7', 'CN'].includes(cb.value);
+      }
+    });
+    window.updateDaysOfWeekSummary();
+  };
+
+  // Image Preview and Sample Helpers
+  window.handleTourImagePreview = function(url) {
+    const imgEl = document.getElementById('tourImgPreview');
+    const placeholderEl = document.getElementById('tourImgPlaceholder');
+    if (!imgEl || !placeholderEl) return;
+
+    if (url && url.trim()) {
+      imgEl.style.display = 'block';
+      placeholderEl.style.display = 'none';
+      imgEl.src = url.trim();
+    } else {
+      imgEl.style.display = 'none';
+      placeholderEl.style.display = 'block';
+    }
+  };
+
+  window.handleTourImageError = function(imgEl) {
+    if (imgEl) imgEl.style.display = 'none';
+    const placeholderEl = document.getElementById('tourImgPlaceholder');
+    if (placeholderEl) placeholderEl.style.display = 'block';
+  };
+
+  window.setTourSampleImage = function(type) {
+    const imgInput = document.getElementById('newTourImage');
+    const samples = {
+      beach: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
+      mountain: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80',
+      culture: 'https://images.unsplash.com/photo-1569154941061-e231b4725ef1?auto=format&fit=crop&w=800&q=80',
+      city: 'https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=800&q=80'
+    };
+    if (imgInput && samples[type]) {
+      imgInput.value = samples[type];
+      window.handleTourImagePreview(samples[type]);
     }
   };
 
@@ -1221,7 +1424,7 @@ function initManagerDashboard() {
     });
   }
 
-  // Create New Tour Form (Enhanced with Seasonality, Stage & Date Range)
+  // Create New Tour Form (Enhanced with Seasonality, Stage, Start/End Dates & Day-of-Week)
   if (formAddTour) {
     formAddTour.addEventListener('submit', (event) => {
       event.preventDefault();
@@ -1234,13 +1437,18 @@ function initManagerDashboard() {
       const stageSelect = document.getElementById('newTourStage');
       const stage = stageSelect ? stageSelect.value : 'regular';
       const stageLabel = stageSelect ? stageSelect.options[stageSelect.selectedIndex].text.replace(/^[^\w\s\u00C0-\u1EF9]+/g, '').trim() : 'Đang Mở Bán';
-      const seasonStart = document.getElementById('newTourSeasonStart')?.value || '2026-01-01';
-      const seasonEnd = document.getElementById('newTourSeasonEnd')?.value || '2026-12-31';
+      
+      const startDate = document.getElementById('newTourStartDate')?.value || '2026-09-18';
+      const endDate = document.getElementById('newTourEndDate')?.value || '2026-09-20';
+      const startInfo = window.getDayOfWeekInfo(startDate);
+      const endInfo = window.getDayOfWeekInfo(endDate);
       const days = parseInt(document.getElementById('newTourDays')?.value, 10) || 3;
       const duration = document.getElementById('newTourDuration')?.value.trim() || `${days} Ngày ${days > 1 ? (days - 1) + ' Đêm' : ''}`;
-      const price = parseInt(document.getElementById('newTourPrice').value, 10) || 3000000;
+      const checkedDaysOfWeek = Array.from(document.querySelectorAll('input[name="tourDaysOfWeek"]:checked')).map(cb => cb.value);
+
+      const price = parseInt(document.getElementById('newTourPrice').value, 10) || 3200000;
       const desc = document.getElementById('newTourDesc').value.trim();
-      const img = document.getElementById('newTourImage').value.trim() || 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80';
+      const img = document.getElementById('newTourImage').value.trim() || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80';
 
       const newTour = {
         id: `tour-${Date.now()}`,
@@ -1250,12 +1458,17 @@ function initManagerDashboard() {
         theme: 'nature',
         duration,
         days,
+        startDate,
+        endDate,
+        startDayOfWeek: startInfo.dayName,
+        endDayOfWeek: endInfo.dayName,
+        daysOfWeek: checkedDaysOfWeek,
         season,
         seasonLabel,
         stage,
         stageLabel,
-        seasonStart,
-        seasonEnd,
+        seasonStart: startDate,
+        seasonEnd: endDate,
         rating: 5.0,
         reviewsCount: 0,
         price,
@@ -1274,7 +1487,9 @@ function initManagerDashboard() {
       renderManagerTours();
       closeModal('modalAddTour');
       formAddTour.reset();
-      showToast('Đã thêm tour mới thành công với đầy đủ mùa vụ và giai đoạn!', 'success');
+      // Reset image preview
+      window.handleTourImagePreview('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80');
+      showToast('Đã tạo tour mới thành công với lịch trình và thứ trong tuần!', 'success');
     });
   }
 

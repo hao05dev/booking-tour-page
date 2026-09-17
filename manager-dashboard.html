@@ -284,7 +284,7 @@
 
   <!-- Modal: Tạo Tour Mới -->
   <div class="modal-backdrop" id="modalAddTour">
-    <div class="modal-container" style="max-width:720px;">
+    <div class="modal-container" style="max-width:760px;">
       <div class="modal-header">
         <h3 class="modal-title"><i class="fa-solid fa-plus-circle text-primary"></i> Tạo Tour Du Lịch Mới</h3>
         <button class="modal-close" data-close-modal><i class="fa-solid fa-xmark"></i></button>
@@ -342,43 +342,114 @@
             </div>
           </div>
 
-          <!-- Khung Thời Gian Xuất Hiện Trong Năm (Bắt Đầu & Kết Thúc Mùa Bán) -->
-          <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px; margin-bottom:16px;">
-            <div style="font-size:0.82rem; font-weight:700; color:#0f766e; margin-bottom:8px;">
-              <i class="fa-regular fa-calendar-range"></i> Khung Thời Gian Xuất Hiện / Vận Hành Trong Năm
-            </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
-              <div class="form-group" style="margin-bottom:0;">
-                <label class="form-label required">Ngày Bắt Đầu Mùa Bán</label>
-                <input type="date" id="newTourSeasonStart" class="form-control" value="2026-09-01" required>
+          <!-- Khung Thời Gian Vận Hành & Lịch Trình Tour (Start Date - End Date - Date of Week - Duration) -->
+          <div class="tour-schedule-builder" style="background:#f8fafc; border:1.5px solid #cbd5e1; border-radius:12px; padding:16px; margin-bottom:18px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
+              <div style="font-size:0.88rem; font-weight:700; color:#0f766e; display:flex; align-items:center; gap:6px;">
+                <i class="fa-solid fa-calendar-days"></i> Lịch Trình & Thời Lượng Tour
               </div>
-              <div class="form-group" style="margin-bottom:0;">
-                <label class="form-label required">Ngày Kết Thúc Mùa Bán</label>
-                <input type="date" id="newTourSeasonEnd" class="form-control" value="2026-11-30" required>
+              <div id="tourDurationBadge" class="badge badge-primary" style="font-size:0.8rem; padding:5px 12px; font-weight:700;">
+                <i class="fa-regular fa-clock"></i> 3 Ngày 2 Đêm (3 ngày)
+              </div>
+            </div>
+
+            <!-- Start Date, Preset Duration & End Date -->
+            <div style="display:grid; grid-template-columns: 1.2fr 1fr 1.2fr; gap:12px; align-items:start;">
+              <!-- Start Date -->
+              <div class="form-group" style="margin-bottom:6px;">
+                <label class="form-label required" style="font-size:0.8rem;">Ngày Bắt Đầu (Start Date)</label>
+                <input type="date" id="newTourStartDate" class="form-control" value="2026-09-18" required onchange="handleTourStartDateChange()">
+                <div id="newTourStartDayOfWeek" style="font-size:0.75rem; color:#0f766e; font-weight:600; margin-top:4px;">
+                  <i class="fa-solid fa-calendar-day"></i> Thứ Sáu
+                </div>
+              </div>
+
+              <!-- Preset Duration Dropdown -->
+              <div class="form-group" style="margin-bottom:6px;">
+                <label class="form-label required" style="font-size:0.8rem;">Thời Lượng Có Sẵn</label>
+                <select id="newTourPresetDuration" class="form-control" onchange="handlePresetDurationChange(this.value)">
+                  <option value="1">1 Ngày (Đi trong ngày)</option>
+                  <option value="2">2 Ngày 1 Đêm</option>
+                  <option value="3" selected>3 Ngày 2 Đêm</option>
+                  <option value="4">4 Ngày 3 Đêm</option>
+                  <option value="5">5 Ngày 4 Đêm</option>
+                  <option value="6">6 Ngày 5 Đêm</option>
+                  <option value="7">7 Ngày 6 Đêm (1 Tuần)</option>
+                  <option value="custom">Tùy chỉnh theo ngày kết thúc</option>
+                </select>
+                <div style="font-size:0.72rem; color:#64748b; margin-top:4px;">
+                  Chọn mẫu để tính ngày kết thúc
+                </div>
+              </div>
+
+              <!-- End Date -->
+              <div class="form-group" style="margin-bottom:6px;">
+                <label class="form-label required" style="font-size:0.8rem;">Ngày Kết Thúc (End Date)</label>
+                <input type="date" id="newTourEndDate" class="form-control" value="2026-09-20" required onchange="handleTourEndDateChange()">
+                <div id="newTourEndDayOfWeek" style="font-size:0.75rem; color:#0f766e; font-weight:600; margin-top:4px;">
+                  <i class="fa-solid fa-calendar-check"></i> Chủ Nhật
+                </div>
+              </div>
+            </div>
+
+            <!-- Hidden fields for calculated duration & days -->
+            <input type="hidden" id="newTourDays" value="3">
+            <input type="hidden" id="newTourDuration" value="3 Ngày 2 Đêm">
+
+            <!-- Recurring Days of Week Selector (Thứ trong tuần khởi hành) -->
+            <div style="margin-top:12px; padding-top:12px; border-top:1px dashed #cbd5e1;">
+              <div style="font-size:0.78rem; font-weight:600; color:#475569; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px;">
+                <span><i class="fa-solid fa-repeat text-primary"></i> Khởi hành vào các thứ trong tuần (Day of Week):</span>
+                <span id="tourDayOfWeekSummary" style="font-size:0.75rem; color:#0f766e; font-weight:700;">Hàng tuần: Thứ 6, Thứ 7, Chủ Nhật</span>
+              </div>
+              <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+                <label class="day-pill"><input type="checkbox" name="tourDaysOfWeek" value="T2" onchange="updateDaysOfWeekSummary()"><span>T2</span></label>
+                <label class="day-pill"><input type="checkbox" name="tourDaysOfWeek" value="T3" onchange="updateDaysOfWeekSummary()"><span>T3</span></label>
+                <label class="day-pill"><input type="checkbox" name="tourDaysOfWeek" value="T4" onchange="updateDaysOfWeekSummary()"><span>T4</span></label>
+                <label class="day-pill"><input type="checkbox" name="tourDaysOfWeek" value="T5" onchange="updateDaysOfWeekSummary()"><span>T5</span></label>
+                <label class="day-pill is-active"><input type="checkbox" name="tourDaysOfWeek" value="T6" checked onchange="updateDaysOfWeekSummary()"><span>T6</span></label>
+                <label class="day-pill is-active"><input type="checkbox" name="tourDaysOfWeek" value="T7" checked onchange="updateDaysOfWeekSummary()"><span>T7</span></label>
+                <label class="day-pill is-active"><input type="checkbox" name="tourDaysOfWeek" value="CN" checked onchange="updateDaysOfWeekSummary()"><span>CN</span></label>
+                <button type="button" class="btn btn-secondary btn-xs" onclick="setQuickDaysOfWeek('all')" style="padding:4px 8px; font-size:0.72rem; margin-left:4px;">Hàng ngày</button>
+                <button type="button" class="btn btn-secondary btn-xs" onclick="setQuickDaysOfWeek('weekend')" style="padding:4px 8px; font-size:0.72rem;">Cuối tuần</button>
               </div>
             </div>
           </div>
 
-          <!-- Thời Lượng & Giá Tour -->
-          <div style="display:grid; grid-template-columns:1fr 1.2fr 1fr; gap:14px;">
-            <div class="form-group">
-              <label class="form-label required">Số Ngày Đi</label>
-              <input type="number" id="newTourDays" class="form-control" value="3" min="1" max="30" onchange="autoFormatDuration(this.value)" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label required">Thời Lượng Hiển Thị</label>
-              <input type="text" id="newTourDuration" class="form-control" value="3 Ngày 2 Đêm" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label required">Giá Tour (VND)</label>
-              <input type="number" id="newTourPrice" class="form-control" placeholder="3200000" value="3200000" required>
-            </div>
+          <!-- Giá Tour -->
+          <div class="form-group">
+            <label class="form-label required">Giá Tour Cơ Bản (VND / Khách)</label>
+            <input type="number" id="newTourPrice" class="form-control" placeholder="3200000" value="3200000" required>
           </div>
 
-          <!-- Link Ảnh Đại Diện -->
+          <!-- Link Ảnh Đại Diện với Preview Card nhỏ bên cạnh -->
           <div class="form-group">
             <label class="form-label">Link Ảnh Đại Diện (URL)</label>
-            <input type="url" id="newTourImage" class="form-control" placeholder="https://images.unsplash.com/..." value="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80">
+            <div style="display:flex; gap:14px; align-items:flex-start;">
+              <div style="flex:1;">
+                <input type="url" id="newTourImage" class="form-control" placeholder="https://images.unsplash.com/..." 
+                  value="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80"
+                  oninput="handleTourImagePreview(this.value)">
+                <!-- Quick Image Samples -->
+                <div style="display:flex; gap:6px; margin-top:8px; flex-wrap:wrap; font-size:0.72rem; align-items:center;">
+                  <span style="color:#64748b; font-weight:600;"><i class="fa-solid fa-wand-magic-sparkles text-warning"></i> Gợi ý nhanh:</span>
+                  <button type="button" class="btn btn-secondary btn-xs" onclick="setTourSampleImage('beach')" style="padding:2px 8px; font-size:0.72rem;">Biển Đảo</button>
+                  <button type="button" class="btn btn-secondary btn-xs" onclick="setTourSampleImage('mountain')" style="padding:2px 8px; font-size:0.72rem;">Núi Rừng</button>
+                  <button type="button" class="btn btn-secondary btn-xs" onclick="setTourSampleImage('culture')" style="padding:2px 8px; font-size:0.72rem;">Di Sản</button>
+                  <button type="button" class="btn btn-secondary btn-xs" onclick="setTourSampleImage('city')" style="padding:2px 8px; font-size:0.72rem;">Đô Thị</button>
+                </div>
+              </div>
+              <!-- Thumbnail Preview Box -->
+              <div style="display:flex; flex-direction:column; align-items:center; gap:4px; flex-shrink:0;">
+                <div class="tour-img-preview-card" style="width:105px; height:75px; border-radius:8px; border:2px dashed #cbd5e1; overflow:hidden; background:#f1f5f9; display:flex; align-items:center; justify-content:center; position:relative; box-shadow:0 1px 3px rgba(0,0,0,0.08);">
+                  <img id="tourImgPreview" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" alt="Preview" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="handleTourImageError(this)">
+                  <div id="tourImgPlaceholder" style="display:none; text-align:center; color:#94a3b8; font-size:0.7rem; padding:4px;">
+                    <i class="fa-regular fa-image" style="font-size:1.4rem; display:block; margin-bottom:2px; color:#cbd5e1;"></i> Lỗi ảnh
+                  </div>
+                </div>
+                <span style="font-size:0.7rem; color:#64748b; font-weight:600;"><i class="fa-solid fa-eye"></i> Xem trước</span>
+              </div>
+            </div>
           </div>
 
           <!-- Mô Tả -->

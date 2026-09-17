@@ -2191,3 +2191,52 @@
   align-items: center;
   flex-wrap: wrap;
 }
+
+/* Day Pill Selector for Tour Schedule & Recurring Days */
+.day-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1.5px solid #cbd5e1;
+  background: #ffffff;
+  color: #475569;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.day-pill:hover {
+  border-color: #0f766e;
+  color: #0f766e;
+  background: #f0fdfa;
+  transform: translateY(-1px);
+}
+
+.day-pill input[type="checkbox"] {
+  display: none;
+}
+
+.day-pill.is-active {
+  background: #0f766e;
+  border-color: #0f766e;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(15, 118, 110, 0.3);
+}
+
+/* Tour Image Preview Box */
+.tour-img-preview-card {
+  transition: all 0.2s ease;
+  background: #f8fafc;
+}
+
+.tour-img-preview-card:hover {
+  border-color: #0f766e !important;
+  box-shadow: 0 4px 10px rgba(15, 118, 110, 0.15) !important;
+  transform: scale(1.02);
+}
+
