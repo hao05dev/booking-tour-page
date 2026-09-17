@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản Lý Đánh Giá & Bình Luận - BookingTour</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body class="admindek-body">
+  <div class="admindek-sidebar-overlay" id="admindekOverlay" onclick="toggleAdmindekSidebar()"></div>
+
+  <div class="admindek-app">
+    <!-- SIDEBAR -->
+    <aside class="admindek-sidebar" id="admindekSidebar">
+      <div class="admindek-sidebar-brand">
+        <div class="admindek-brand-logo"><i class="fa-solid fa-map-location-dot"></i></div>
+        <div class="admindek-brand-text">
+          <h2>BookingTour</h2>
+          <span>OPERATIONS MANAGER</span>
+        </div>
+      </div>
+
+      <div class="admindek-user-card">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80" alt="Avatar" class="admindek-user-avatar">
+        <div class="admindek-user-info">
+          <h4>Nguyễn Thu Hà</h4>
+          <span class="user-status-dot online">Trưởng Phòng Vận Hành</span>
+        </div>
+      </div>
+
+      <nav class="admindek-nav-section">
+        <div class="admindek-section-title">QUẢN TRỊ VẬN HÀNH TOUR</div>
+        <ul class="admindek-nav-list">
+          <!-- 1. Quản lý tour -->
+          <li class="admindek-nav-item">
+            <a href="manager-tours.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-map-location-dot"></i> Quản Lý Tour</span>
+              <span class="admindek-nav-badge badge-emerald">12 Tour</span>
+            </a>
+          </li>
+
+          <!-- 2. Quản lý địa điểm -->
+          <li class="admindek-nav-item">
+            <a href="manager-destinations.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-mountain-sun"></i> Quản Lý Địa Điểm</span>
+              <span class="admindek-nav-badge badge-blue">8 Điểm</span>
+            </a>
+          </li>
+
+          <!-- 3. Quản lý lịch khởi hành -->
+          <li class="admindek-nav-item">
+            <a href="manager-departures.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-calendar-check"></i> Quản Lý Lịch Khởi Hành</span>
+              <span class="admindek-nav-badge badge-blue">25 Đoàn</span>
+            </a>
+          </li>
+
+          <!-- 4. Quản lý đặt tour -->
+          <li class="admindek-nav-item">
+            <a href="manager-bookings.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-receipt"></i> Quản Lý Đặt Tour</span>
+              <span class="admindek-nav-badge badge-amber">142 Đơn</span>
+            </a>
+          </li>
+
+          <!-- 5. Quản lý hướng dẫn viên -->
+          <li class="admindek-nav-item">
+            <a href="manager-guides.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-user-tie"></i> Quản Lý Hướng Dẫn Viên</span>
+              <span class="admindek-nav-badge badge-emerald">6 HDV</span>
+            </a>
+          </li>
+
+          <!-- 6. Quản lý đánh giá và bình luận -->
+          <li class="admindek-nav-item">
+            <a href="manager-reviews.html" class="admindek-nav-link active">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-star-half-stroke"></i> Đánh Giá & Bình Luận</span>
+              <span class="admindek-nav-badge badge-blue">Duyệt</span>
+            </a>
+          </li>
+
+          <!-- 7. Theo dõi hoạt động đặt tour -->
+          <li class="admindek-nav-item">
+            <a href="manager-dashboard.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-chart-line"></i> Theo Dõi Hoạt Động Đặt Tour</span>
+              <span class="admindek-nav-badge badge-amber">Doanh Thu</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="admindek-section-title">MARKETING & TIỆN ÍCH</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="manager-promotions.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-ticket"></i> Quản Lý Khuyến Mãi</span>
+              <span class="admindek-nav-badge badge-amber">Voucher</span>
+            </a>
+          </li>
+          <li class="admindek-nav-item">
+            <a href="manager-calendar.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-calendar-days"></i> Lịch Điều Hành Tour</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- MAIN WRAPPER -->
+    <div class="admindek-main-wrapper">
+      <!-- TOPBAR -->
+      <header class="admindek-topbar">
+        <div class="admindek-topbar-left">
+          <button type="button" class="admindek-toggle-btn" onclick="toggleAdmindekSidebar()" title="Ẩn/Hiện Menu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="admindek-search-bar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Tìm kiếm nhanh trong hệ thống..." id="globalSearchInput">
+            <span class="admindek-search-kbd">Ctrl K</span>
+          </div>
+        </div>
+
+        <div class="admindek-topbar-right">
+          <a href="index.html" class="btn btn-outline btn-sm" style="font-weight:600;">
+            <i class="fa-solid fa-arrow-left"></i> Về Trang Khách Hàng
+          </a>
+          <button type="button" class="admindek-icon-btn" onclick="showToast('Hệ thống đang hoạt động ổn định!', 'info')" title="Thông báo">
+            <i class="fa-regular fa-bell"></i>
+            <span class="admindek-icon-badge"></span>
+          </button>
+          <div class="nav-actions" style="margin-left: 6px;"></div>
+        </div>
+      </header>
+
+      <!-- CONTENT -->
+      <main class="admindek-content">
+        <!-- Page Header -->
+        <div class="admindek-page-header">
+          <div class="admindek-page-title-wrap">
+            <h1>Quản Lý Đánh Giá & Bình Luận</h1>
+            <div class="admindek-breadcrumb">
+              <a href="index.html">Trang chủ</a>
+              <span>/</span>
+              <span>Quản lý tour</span> / <span style="color:#0f172a; font-weight:600;">Kiểm soát đánh giá</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="admindek-box">
+          <div class="admindek-box-header">
+            <div>
+              <h2 class="admindek-box-title">
+                <i class="fa-solid fa-star-half-stroke"></i>
+                <span>Kiểm Soát Đánh Giá & Bình Luận Của Khách Hàng</span>
+              </h2>
+              <p class="text-muted" style="font-size:0.85rem; margin-top:4px;">Theo dõi phản hồi thực tế, đánh giá sao của từng tour và kiểm duyệt bình luận công khai.</p>
+            </div>
+            <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+              <select id="mgrReviewRatingFilter" class="form-control" style="width:auto; min-width:130px; font-size:0.85rem;" onchange="renderManagerReviews()">
+                <option value="all">Tất Cả Số Sao</option>
+                <option value="5">5 Sao (Xuất sắc)</option>
+                <option value="4">4 Sao (Tốt)</option>
+                <option value="3">3 Sao (Bình thường)</option>
+                <option value="2">2 Sao (Kém)</option>
+                <option value="1">1 Sao (Rất tệ)</option>
+              </select>
+
+              <select id="mgrReviewStatusFilter" class="form-control" style="width:auto; min-width:130px; font-size:0.85rem;" onchange="renderManagerReviews()">
+                <option value="all">Tất Cả Trạng Thái</option>
+                <option value="approved">Đã Duyệt Hiển Thị</option>
+                <option value="pending">Chờ Kiểm Duyệt</option>
+                <option value="hidden">Đã Ẩn</option>
+              </select>
+
+              <button class="btn btn-secondary btn-sm" onclick="renderManagerReviews()"><i class="fa-solid fa-arrows-rotate"></i> Làm Mới</button>
+            </div>
+          </div>
+
+          <div class="table-responsive" style="overflow-x:auto; width:100%;">
+            <table class="table-custom" id="managerReviewsTable" style="min-width:860px; width:100%; margin-bottom:0;">
+              <thead>
+                <tr>
+                  <th style="width:50px; text-align:center;">STT</th>
+                  <th style="width:160px;">Khách Hàng</th>
+                  <th style="min-width:180px;">Tour Đánh Giá</th>
+                  <th style="width:120px;">Đánh Giá</th>
+                  <th style="min-width:240px;">Nội Dung Bình Luận</th>
+                  <th style="width:110px; text-align:center;">Trạng Thái</th>
+                  <th style="width:110px; text-align:center;">Thao Tác</th>
+                </tr>
+              </thead>
+              <tbody id="managerReviewsTableBody">
+                <!-- Rendered by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+
+
+  <!-- SCRIPTS -->
+  <script src="js/mock-data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/tours.js"></script>
+  <script src="js/booking.js"></script>
+  <script src="js/dashboards.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

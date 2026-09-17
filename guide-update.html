@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cập Nhật Thông Tin Tour Phân Công - BookingTour</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body class="admindek-body">
+  <div class="admindek-sidebar-overlay" id="admindekOverlay" onclick="toggleAdmindekSidebar()"></div>
+
+  <div class="admindek-app">
+    <!-- SIDEBAR -->
+    <aside class="admindek-sidebar" id="admindekSidebar">
+      <div class="admindek-sidebar-brand">
+        <div class="admindek-brand-logo"><i class="fa-solid fa-map-location-dot"></i></div>
+        <div class="admindek-brand-text">
+          <h2>BookingTour</h2>
+          <span>TOUR GUIDE</span>
+        </div>
+      </div>
+
+      <div class="admindek-user-card">
+        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80" alt="Avatar" class="admindek-user-avatar">
+        <div class="admindek-user-info">
+          <h4>Trần Quốc Hưng</h4>
+          <span class="user-status-dot online">HDV Thẻ Quốc Tế #VN-8892</span>
+        </div>
+      </div>
+
+      <nav class="admindek-nav-section">
+        <div class="admindek-section-title">CHUYẾN ĐI CỦA TÔI</div>
+        <ul class="admindek-nav-list">
+          <!-- 1. Xem tour được phân công -->
+          <li class="admindek-nav-item">
+            <a href="guide-schedule.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-list-check"></i> Xem Tour Được Phân Công</span>
+              <span class="admindek-nav-badge badge-blue">5 Tour</span>
+            </a>
+          </li>
+
+          <!-- 2. Xem thông tin tour -->
+          <li class="admindek-nav-item">
+            <a href="guide-timeline.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-route"></i> Xem Thông Tin Tour & Lịch Trình</span>
+            </a>
+          </li>
+
+          <!-- 3. Xem thông tin khách hàng tham gia tour -->
+          <li class="admindek-nav-item">
+            <a href="guide-roster.html" class="admindek-nav-link ">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-users-viewfinder"></i> Danh Sách Khách Tham Gia</span>
+              <span class="admindek-nav-badge badge-amber">18 Khách</span>
+            </a>
+          </li>
+
+          <!-- 4. Cập nhật thông tin tour được phân công -->
+          <li class="admindek-nav-item">
+            <a href="guide-update.html" class="admindek-nav-link active">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-pen-to-square"></i> Cập Nhật Thông Tin Tour</span>
+              <span class="admindek-nav-badge badge-emerald">Live</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="admindek-section-title">HỖ TRỢ & HỆ THỐNG</div>
+        <ul class="admindek-nav-list">
+          <li class="admindek-nav-item">
+            <a href="profile.html" class="admindek-nav-link">
+              <span class="admindek-nav-link-left"><i class="fa-solid fa-id-badge"></i> Hồ Sơ Hướng Dẫn Viên</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- MAIN WRAPPER -->
+    <div class="admindek-main-wrapper">
+      <!-- TOPBAR -->
+      <header class="admindek-topbar">
+        <div class="admindek-topbar-left">
+          <button type="button" class="admindek-toggle-btn" onclick="toggleAdmindekSidebar()" title="Ẩn/Hiện Menu">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="admindek-search-bar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Tìm kiếm nhanh trong hệ thống..." id="globalSearchInput">
+            <span class="admindek-search-kbd">Ctrl K</span>
+          </div>
+        </div>
+
+        <div class="admindek-topbar-right">
+          <a href="index.html" class="btn btn-outline btn-sm" style="font-weight:600;">
+            <i class="fa-solid fa-arrow-left"></i> Về Trang Khách Hàng
+          </a>
+          <button type="button" class="admindek-icon-btn" onclick="showToast('Hệ thống đang hoạt động ổn định!', 'info')" title="Thông báo">
+            <i class="fa-regular fa-bell"></i>
+            <span class="admindek-icon-badge"></span>
+          </button>
+          <div class="nav-actions" style="margin-left: 6px;"></div>
+        </div>
+      </header>
+
+      <!-- CONTENT -->
+      <main class="admindek-content">
+        <!-- Page Header -->
+        <div class="admindek-page-header">
+          <div class="admindek-page-title-wrap">
+            <h1>Cập Nhật Thông Tin Tour Phân Công</h1>
+            <div class="admindek-breadcrumb">
+              <a href="index.html">Trang chủ</a>
+              <span>/</span>
+              <span>Hướng dẫn viên</span> / <span style="color:#0f172a; font-weight:600;">Cập nhật tiến độ</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="guideTourUpdateContainer">
+          <!-- Selection & Status Banner -->
+          <div class="admindek-box" style="margin-bottom:20px; background:linear-gradient(135deg, #0f766e 0%, #0d9488 100%); color:#ffffff;">
+            <div style="padding:22px 24px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+                <div>
+                  <span style="font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; opacity:0.85; font-weight:700;">Nhật Ký & Cập Nhật Tiến Độ Thực Địa</span>
+                  <h2 style="font-size:1.35rem; margin:4px 0 8px; color:#ffffff;">Cập Nhật Thông Tin Chuyến Đi Đang Thực Hiện</h2>
+                  <p style="font-size:0.88rem; opacity:0.9; margin:0;">Chọn chuyến đi được phân công để cập nhật trạm dừng chân, tình hình thời tiết và tình trạng đoàn tour.</p>
+                </div>
+                <div style="background:rgba(255,255,255,0.15); padding:12px 18px; border-radius:10px; backdrop-filter:blur(4px);">
+                  <div style="font-size:0.75rem; opacity:0.85;">Cập nhật gần nhất:</div>
+                  <strong id="guideLastUpdate" style="font-size:0.95rem; color:#ffffff;">Hôm nay 10:45</strong>
+                </div>
+              </div>
+
+              <div style="margin-top:20px;">
+                <label style="font-size:0.85rem; font-weight:600; margin-bottom:6px; display:block; color:#f0fdfa;">Chọn Tour / Đoàn Khởi Hành:</label>
+                <select id="guideDepartureSelector" class="form-control" style="background:#ffffff; color:#0f172a; font-weight:600; font-size:0.95rem; max-width:600px;">
+                  <!-- Dynamically populated via JS -->
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Update Form Box -->
+          <div class="admindek-box">
+            <div class="admindek-box-header">
+              <div>
+                <h2 class="admindek-box-title">
+                  <i class="fa-solid fa-clipboard-check"></i>
+                  <span>Thông Tin Tiến Độ & Báo Cáo Thực Địa</span>
+                </h2>
+                <p class="text-muted" style="font-size:0.85rem; margin-top:4px;">Thông tin cập nhật sẽ được đồng bộ ngay lập tức tới bộ phận Quản lý điều hành.</p>
+              </div>
+            </div>
+
+            <div class="admindek-box-body">
+              <form id="formGuideTourUpdate">
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px;">
+                  <div class="form-group">
+                    <label class="form-label" style="font-weight:700;"><i class="fa-solid fa-cloud-sun text-warning"></i> Tình Hình Thời Tiết & Khí Hậu Thực Tế</label>
+                    <input type="text" id="guideWeather" class="form-control" placeholder="Ví dụ: Nắng nhẹ 27°C, rất thuận lợi tham quan" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label" style="font-weight:700;"><i class="fa-solid fa-van-shuttle text-primary"></i> Tình Trạng Phương Tiện & Lái Xe</label>
+                    <input type="text" id="guideVehicle" class="form-control" placeholder="Ví dụ: Xe 29 chỗ Universe số 43B-029.88 vận hành an toàn" required>
+                  </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom:24px;">
+                  <label class="form-label" style="font-weight:700;"><i class="fa-solid fa-book-open-reader text-success"></i> Nhật Ký Dẫn Đoàn & Ghi Chú Phát Sinh</label>
+                  <textarea id="guideFieldNotes" class="form-control" rows="5" placeholder="Ghi nhận cụ thể thời gian đến điểm, tình trạng sức khỏe khách, các lưu ý bữa ăn hoặc yêu cầu đặc biệt của đoàn..." required></textarea>
+                </div>
+
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; padding-top:16px; border-top:1px solid #e2e8f0;">
+                  <div style="font-size:0.85rem; color:#64748b;">
+                    <i class="fa-solid fa-shield-halved text-emerald"></i> Dữ liệu bảo mật và được lưu trữ tự động trên hệ thống.
+                  </div>
+                  <div style="display:flex; gap:10px;">
+                    <button type="button" class="btn btn-secondary" onclick="loadGuideTourUpdate()"><i class="fa-solid fa-rotate-left"></i> Khôi Phục</button>
+                    <button type="submit" class="btn btn-primary" style="font-weight:700;"><i class="fa-solid fa-paper-plane"></i> Cập Nhật & Gửi Báo Cáo</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+
+
+  <!-- SCRIPTS -->
+  <script src="js/mock-data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/navbar.js"></script>
+  <script src="js/tours.js"></script>
+  <script src="js/booking.js"></script>
+  <script src="js/dashboards.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

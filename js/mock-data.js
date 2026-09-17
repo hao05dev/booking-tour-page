@@ -881,6 +881,115 @@ const DEFAULT_MOCK_DATA = {
       applicableTours: "all",
       description: "Mã flash sale đặc biệt cho các tour khởi hành cuối tuần."
     }
+  ],
+  destinations: [
+    {
+      id: "dest-1",
+      name: "Vịnh Hạ Long & Đảo Cát Bà",
+      province: "Quảng Ninh",
+      region: "north",
+      image: "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=600&q=80",
+      description: "Kỳ quan thiên nhiên thế giới với hàng nghìn đảo đá vôi kỳ vĩ và du thuyền 5 sao sang trọng.",
+      highlights: "Hang Sửng Sốt, Đảo Ti Tốp, Vịnh Lan Hạ, Chèo kayak",
+      status: "active",
+      toursCount: 4
+    },
+    {
+      id: "dest-2",
+      name: "Đỉnh Fansipan & Thị Trấn Sa Pa",
+      province: "Lào Cai",
+      region: "north",
+      image: "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=600&q=80",
+      description: "Nóc nhà Đông Dương hùng vĩ, thung lũng Mường Hoa và bản làng mây mờ tuyết trắng.",
+      highlights: "Cáp treo Fansipan, Đèo Ô Quy Hồ, Bản Cát Cát, Cổng Trời",
+      status: "active",
+      toursCount: 3
+    },
+    {
+      id: "dest-3",
+      name: "Quần Thể Danh Thắng Tràng An - Bái Đính",
+      province: "Ninh Bình",
+      region: "north",
+      image: "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=600&q=80",
+      description: "Di sản thế giới kép của UNESCO với hệ thống hang động non nước hữu tình và chùa Bái Đính nguy nga.",
+      highlights: "Hang Sáng Hang Tối, Chùa Bái Đính, Hang Múa, Cố đô Hoa Lư",
+      status: "active",
+      toursCount: 2
+    },
+    {
+      id: "dest-4",
+      name: "Phố Cổ Hội An & Cù Lao Chàm",
+      province: "Quảng Nam",
+      region: "central",
+      image: "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=600&q=80",
+      description: "Đô thị cổ nghìn năm rực rỡ đèn lồng bên dòng sông Hoài thơ mộng và khu dự trữ sinh quyển Cù Lao Chàm.",
+      highlights: "Chùa Cầu, Lặn ngắm san hô Cù Lao Chàm, Thuyền hoa đăng sông Hoài",
+      status: "active",
+      toursCount: 5
+    },
+    {
+      id: "dest-5",
+      name: "Bà Nà Hills & Cầu Vàng",
+      province: "Đà Nẵng",
+      region: "central",
+      image: "https://images.unsplash.com/photo-1569154941061-e231b4725ef1?auto=format&fit=crop&w=600&q=80",
+      description: "Đường lên tiên cảnh với kiến trúc Làng Pháp cổ kính và Cầu Vàng lừng danh thế giới.",
+      highlights: "Cầu Vàng Đôi Bàn Tay, Làng Pháp, Fantasy Park, Hầm rượu Debay",
+      status: "active",
+      toursCount: 6
+    },
+    {
+      id: "dest-6",
+      name: "Eo Gió & Bãi Biển Kỳ Co",
+      province: "Bình Định",
+      region: "central",
+      image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80",
+      description: "Nơi ngắm hoàng hôn đẹp nhất Việt Nam với bãi biển xanh ngọc bích và đồi cát Phương Mai.",
+      highlights: "Con đường ven biển Eo Gió, Bãi lặn san hô Kỳ Co, Tịnh Xá Ngọc Hòa",
+      status: "active",
+      toursCount: 3
+    },
+    {
+      id: "dest-7",
+      name: "Đảo Ngọc Phú Quốc & Grand World",
+      province: "Kiên Giang",
+      region: "south",
+      image: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=600&q=80",
+      description: "Thiên đường nghỉ dưỡng biển đảo nhiệt đới với VinWonders, Safari và hoàng hôn Bãi Dài.",
+      highlights: "Cáp treo Hòn Thơm, Safari Phú Quốc, Grand World Thành phố không ngủ",
+      status: "active",
+      toursCount: 4
+    },
+    {
+      id: "dest-8",
+      name: "Chợ Nổi Cái Răng & Vườn Trái Cây Miệt Vườn",
+      province: "Cần Thơ",
+      region: "south",
+      image: "https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=600&q=80",
+      description: "Văn hóa sông nước miền Tây đặc trưng với ghe thuyền tấp nập và đờn ca tài tử Nam Bộ.",
+      highlights: "Chợ nổi Cái Răng, Vườn cacao Mười Cương, Nhà cổ Bình Thủy",
+      status: "active",
+      toursCount: 2
+    }
+  ],
+  tourUpdates: [
+    {
+      id: "upd-1",
+      departureId: "dep-1",
+      guideId: "usr-guide-1",
+      guideName: "Trần Quốc Hưng",
+      tourTitle: "Khám Phá Di Sản Miền Trung: Đà Nẵng - Hội An - Huế 4N3Đ",
+      currentCheckpoint: "check-3",
+      checkpointName: "Đoàn đang tham quan Cầu Vàng - Bà Nà Hills",
+      checkpointStatus: "in_progress",
+      headcountChecked: 18,
+      totalGuests: 18,
+      weather: "Nắng nhẹ 27°C, rất thuận lợi tham quan",
+      vehicleStatus: "Xe 29 chỗ Universe số 43B-029.88 vận hành an toàn",
+      fieldNotes: "Đoàn tập trung đúng giờ tại sảnh khách sạn lúc 07:30. Khách tham quan Cầu Vàng hào hứng chụp ảnh. Ăn trưa buffet tại nhà hàng Club lúc 12:00.",
+      emergencyAlert: null,
+      updatedAt: "17/09/2026 10:45"
+    }
   ]
 };
 
@@ -897,6 +1006,8 @@ function getMockDatabase() {
       if (!parsed.role_permissions) { parsed.role_permissions = DEFAULT_MOCK_DATA.role_permissions; changed = true; }
       if (!parsed.categories) { parsed.categories = DEFAULT_MOCK_DATA.categories; changed = true; }
       if (!parsed.promotions) { parsed.promotions = DEFAULT_MOCK_DATA.promotions; changed = true; }
+      if (!parsed.destinations) { parsed.destinations = DEFAULT_MOCK_DATA.destinations; changed = true; }
+      if (!parsed.tourUpdates) { parsed.tourUpdates = DEFAULT_MOCK_DATA.tourUpdates; changed = true; }
       if (changed) {
         saveMockDatabase(parsed);
       }

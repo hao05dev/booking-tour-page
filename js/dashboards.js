@@ -2537,11 +2537,415 @@ function initManagerGuides() {
   `).join('');
 }
 
+// ==========================================
+// 17E. MANAGER DESTINATIONS MODULE
+// ==========================================
+
+function initManagerDestinations() {
+  const tableBody = document.getElementById('managerDestinationsTableBody');
+  if (!tableBody) return;
+
+  window.renderManagerDestinations = function() {
+    const tbody = document.getElementById('managerDestinationsTableBody');
+    if (!tbody) return;
+    const db = getMockDatabase();
+    const destinations = db.destinations || [];
+
+    const searchInput = document.getElementById('destSearchInput');
+    const regionFilter = document.getElementById('destRegionFilter');
+    const statusFilter = document.getElementById('destStatusFilter');
+
+    const keyword = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    const region = regionFilter ? regionFilter.value : 'all';
+    const status = statusFilter ? statusFilter.value : 'all';
+
+    const filtered = destinations.filter(d => {
+      const matchKey = d.name.toLowerCase().includes(keyword) || d.province.toLowerCase().includes(keyword) || (d.highlights || '').toLowerCase().includes(keyword);
+      const matchRegion = region === 'all' || d.region === region;
+      const matchStatus = status === 'all' || d.status === status;
+      return matchKey && matchRegion && matchStatus;
+    });
+
+    // Update KPIs
+    const kpiTotal = document.getElementById('kpiTotalDest');
+    const kpiActive = document.getElementById('kpiActiveDest');
+    const kpiProvinces = document.getElementById('kpiProvinces');
+    if (kpiTotal) kpiTotal.textContent = `${destinations.length} Địa Điểm`;
+    if (kpiActive) kpiActive.textContent = `${destinations.filter(d => d.status === 'active').length} Đang Khai Thác`;
+    if (kpiProvinces) {
+      const provs = new Set(destinations.map(d => d.province));
+      kpiProvinces.textContent = `${provs.size} Tỉnh Thành`;
+    }
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="7" class="text-center py-5 text-muted"><i class="fa-solid fa-map-location-dot fa-2x mb-2" style="color:#cbd5e1; display:block;"></i>Không tìm thấy địa điểm du lịch nào.</td></tr>`;
+      return;
+    }
+
+    const regionNames = { north: 'Miền Bắc', central: 'Miền Trung', south: 'Miền Nam' };
+    const regionBadges = { north: 'badge-primary', central: 'badge-warning', south: 'badge-success' };
+
+    tbody.innerHTML = filtered.map((d, idx) => `
+      <tr>
+        <td style="text-align:center; padding:10px 6px;"><strong class="text-muted">#${idx + 1}</strong></td>
+        <td style="padding:10px 12px;">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <img src="${d.image || 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=200&q=80'}" style="width:54px; height:42px; border-radius:6px; object-fit:cover; border:1px solid #e2e8f0;" alt="${d.name}">
+            <div>
+              <strong style="color:#0f172a; font-size:0.88rem; display:block; line-height:1.3;">${d.name}</strong>
+              <span style="font-size:0.73rem; color:#64748b; line-height:1.3; display:-webkit-box; -webkit-line-clamp:1; -webkit-box-orient:vertical; overflow:hidden;">${d.description || ''}</span>
+            </div>
+          </div>
+        </td>
+        <td style="padding:10px 8px;">
+          <div>
+            <span style="font-weight:600; color:#1e293b; font-size:0.84rem; display:block;"><i class="fa-solid fa-location-dot text-danger" style="font-size:0.75rem;"></i> ${d.province}</span>
+            <span class="badge ${regionBadges[d.region] || 'badge-neutral'}" style="font-size:0.68rem; margin-top:2px;">${regionNames[d.region] || d.region}</span>
+          </div>
+        </td>
+        <td style="padding:10px 10px;">
+          <span style="font-size:0.74rem; color:#475569; line-height:1.3; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">
+            ${d.highlights || 'Đang cập nhật danh thắng'}
+          </span>
+        </td>
+        <td style="text-align:center; padding:10px 8px;">
+          <span class="badge badge-primary" style="font-size:0.75rem; font-weight:700;"><i class="fa-solid fa-route"></i> ${d.toursCount || 0} Tour</span>
+        </td>
+        <td style="text-align:center; padding:10px 6px;">
+          <span class="badge ${d.status === 'active' ? 'badge-success' : 'badge-neutral'}" style="font-size:0.72rem;">
+            ${d.status === 'active' ? '<i class="fa-solid fa-circle-check"></i> Đang mở' : '<i class="fa-solid fa-pause"></i> Tạm ngưng'}
+          </span>
+        </td>
+        <td style="text-align:center; padding:10px 6px;">
+          <div style="display:inline-flex; gap:4px; justify-content:center;">
+            <button class="btn btn-outline btn-xs" onclick="openDestinationModal('${d.id}')" title="Chỉnh sửa" style="padding:4px 7px;"><i class="fa-regular fa-pen-to-square"></i> Sửa</button>
+            <button class="btn btn-outline btn-xs ${d.status === 'active' ? 'text-warning' : 'text-success'}" onclick="toggleDestinationStatus('${d.id}')" title="${d.status === 'active' ? 'Tạm ẩn' : 'Mở lại'}" style="padding:4px 7px;">
+              <i class="fa-solid ${d.status === 'active' ? 'fa-eye-slash' : 'fa-eye'}"></i>
+            </button>
+            <button class="btn btn-outline btn-xs text-danger" onclick="deleteDestination('${d.id}')" title="Xóa" style="padding:4px 7px;"><i class="fa-regular fa-trash-can"></i></button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+  };
+
+  window.openDestinationModal = function(destId) {
+    const db = getMockDatabase();
+    const modalTitle = document.getElementById('destModalTitle');
+    const idInput = document.getElementById('destId');
+    const nameInput = document.getElementById('destName');
+    const provInput = document.getElementById('destProvince');
+    const regInput = document.getElementById('destRegion');
+    const imgInput = document.getElementById('destImage');
+    const descInput = document.getElementById('destDescription');
+    const highInput = document.getElementById('destHighlights');
+    const statusInput = document.getElementById('destStatus');
+
+    if (destId) {
+      const item = (db.destinations || []).find(d => d.id === destId);
+      if (!item) return;
+      if (modalTitle) modalTitle.innerHTML = '<i class="fa-solid fa-pen-to-square text-primary"></i> Chỉnh Sửa Địa Điểm Tham Quan';
+      if (idInput) idInput.value = item.id;
+      if (nameInput) nameInput.value = item.name;
+      if (provInput) provInput.value = item.province;
+      if (regInput) regInput.value = item.region;
+      if (imgInput) imgInput.value = item.image || '';
+      if (descInput) descInput.value = item.description || '';
+      if (highInput) highInput.value = item.highlights || '';
+      if (statusInput) statusInput.value = item.status || 'active';
+    } else {
+      if (modalTitle) modalTitle.innerHTML = '<i class="fa-solid fa-map-location-dot text-primary"></i> Thêm Địa Điểm Mới';
+      const form = document.getElementById('formDestination');
+      if (form) form.reset();
+      if (idInput) idInput.value = '';
+      if (statusInput) statusInput.value = 'active';
+    }
+    if (typeof previewDestinationImage === 'function') previewDestinationImage();
+    openModal('modalDestination');
+  };
+
+  window.saveDestination = function(e) {
+    if (e) e.preventDefault();
+    const db = getMockDatabase();
+    if (!db.destinations) db.destinations = [];
+
+    const id = document.getElementById('destId').value;
+    const name = document.getElementById('destName').value.trim();
+    const province = document.getElementById('destProvince').value.trim();
+    const region = document.getElementById('destRegion').value;
+    const image = document.getElementById('destImage').value.trim() || 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=600&q=80';
+    const description = document.getElementById('destDescription').value.trim();
+    const highlights = document.getElementById('destHighlights').value.trim();
+    const status = document.getElementById('destStatus').value;
+
+    if (!name || !province) {
+      showToast('Vui lòng nhập tên địa điểm và tỉnh thành!', 'warning');
+      return;
+    }
+
+    if (id) {
+      const idx = db.destinations.findIndex(d => d.id === id);
+      if (idx !== -1) {
+        db.destinations[idx] = {
+          ...db.destinations[idx],
+          name, province, region, image, description, highlights, status
+        };
+        showToast('Đã cập nhật thông tin địa điểm thành công!', 'success');
+      }
+    } else {
+      const newDest = {
+        id: `dest-${Date.now()}`,
+        name, province, region, image, description, highlights, status,
+        toursCount: 0
+      };
+      db.destinations.unshift(newDest);
+      showToast('Đã thêm địa điểm tham quan mới thành công!', 'success');
+    }
+
+    saveMockDatabase(db);
+    closeModal('modalDestination');
+    renderManagerDestinations();
+  };
+
+  window.toggleDestinationStatus = function(destId) {
+    const db = getMockDatabase();
+    const item = (db.destinations || []).find(d => d.id === destId);
+    if (!item) return;
+    item.status = item.status === 'active' ? 'inactive' : 'active';
+    saveMockDatabase(db);
+    showToast(`Đã ${item.status === 'active' ? 'mở lại' : 'tạm ẩn'} địa điểm ${item.name}!`, 'info');
+    renderManagerDestinations();
+  };
+
+  window.deleteDestination = function(destId) {
+    if (!confirm('Bạn có chắc chắn muốn xóa địa điểm tham quan này?')) return;
+    const db = getMockDatabase();
+    db.destinations = (db.destinations || []).filter(d => d.id !== destId);
+    saveMockDatabase(db);
+    showToast('Đã xóa địa điểm tham quan!', 'info');
+    renderManagerDestinations();
+  };
+
+  window.previewDestinationImage = function() {
+    const input = document.getElementById('destImage');
+    const preview = document.getElementById('destImagePreview');
+    if (input && preview) {
+      preview.src = input.value.trim() || 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=600&q=80';
+    }
+  };
+
+  const form = document.getElementById('formDestination');
+  if (form) form.addEventListener('submit', window.saveDestination);
+
+  renderManagerDestinations();
+}
+
+// ==========================================
+// 17F. MANAGER REVIEWS MODULE
+// ==========================================
+
+function initManagerReviews() {
+  const tbody = document.getElementById('managerReviewsTableBody');
+  if (!tbody) return;
+
+  window.renderManagerReviews = function() {
+    const tableBody = document.getElementById('managerReviewsTableBody');
+    if (!tableBody) return;
+    const db = getMockDatabase();
+    const reviews = db.reviews || [];
+
+    const searchInput = document.getElementById('mgrReviewSearchInput');
+    const ratingFilter = document.getElementById('mgrReviewRatingFilter');
+    const statusFilter = document.getElementById('mgrReviewStatusFilter');
+
+    const keyword = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    const rating = ratingFilter ? ratingFilter.value : 'all';
+    const status = statusFilter ? statusFilter.value : 'all';
+
+    const filtered = reviews.filter(r => {
+      const matchKey = (r.tourTitle || '').toLowerCase().includes(keyword) || (r.userName || '').toLowerCase().includes(keyword) || (r.comment || '').toLowerCase().includes(keyword);
+      const matchRating = rating === 'all' || String(r.rating) === rating;
+      const matchStatus = status === 'all' || r.status === status;
+      return matchKey && matchRating && matchStatus;
+    });
+
+    if (filtered.length === 0) {
+      tableBody.innerHTML = `<tr><td colspan="7" class="text-center py-5 text-muted"><i class="fa-regular fa-comment-dots fa-2x mb-2" style="color:#cbd5e1; display:block;"></i>Không có đánh giá nào phù hợp.</td></tr>`;
+      return;
+    }
+
+    tableBody.innerHTML = filtered.map((r, idx) => `
+      <tr>
+        <td style="text-align:center; padding:10px 6px;"><strong class="text-muted">#${idx + 1}</strong></td>
+        <td style="padding:10px 10px;">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <img src="${r.userAvatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&q=80'}" style="width:34px; height:34px; border-radius:50%; object-fit:cover;" alt="${r.userName}">
+            <div>
+              <strong style="color:#0f172a; font-size:0.85rem; display:block;">${r.userName}</strong>
+              <span style="font-size:0.72rem; color:#64748b;">${r.date || 'Hôm qua'}</span>
+            </div>
+          </div>
+        </td>
+        <td style="padding:10px 10px;">
+          <strong style="color:#0f172a; font-size:0.84rem; display:block; line-height:1.3;">${r.tourTitle}</strong>
+        </td>
+        <td style="padding:10px 8px;">
+          <div style="color:#f59e0b; font-size:0.8rem;">
+            ${Array.from({length: 5}, (_, i) => `<i class="fa-${i < r.rating ? 'solid' : 'regular'} fa-star"></i>`).join('')}
+            <span style="font-weight:700; margin-left:3px; color:#0f172a;">${r.rating}.0</span>
+          </div>
+        </td>
+        <td style="padding:10px 10px;">
+          <p style="font-size:0.75rem; color:#334155; line-height:1.35; margin:0; max-width:280px;">${r.comment}</p>
+        </td>
+        <td style="text-align:center; padding:10px 6px;">
+          <span class="badge ${r.status === 'approved' ? 'badge-success' : r.status === 'pending' ? 'badge-warning' : 'badge-neutral'}" style="font-size:0.72rem;">
+            ${r.status === 'approved' ? 'Đã duyệt' : r.status === 'pending' ? 'Chờ duyệt' : 'Đã ẩn'}
+          </span>
+        </td>
+        <td style="text-align:center; padding:10px 6px;">
+          <div style="display:inline-flex; gap:4px; justify-content:center;">
+            <button class="btn btn-outline btn-xs ${r.status === 'approved' ? 'text-warning' : 'text-success'}" onclick="toggleManagerReviewStatus('${r.id}')" title="${r.status === 'approved' ? 'Ẩn bình luận' : 'Duyệt hiển thị'}" style="padding:4px 7px;">
+              <i class="fa-solid ${r.status === 'approved' ? 'fa-eye-slash' : 'fa-check'}"></i>
+            </button>
+            <button class="btn btn-outline btn-xs text-danger" onclick="deleteManagerReview('${r.id}')" title="Xóa" style="padding:4px 7px;"><i class="fa-regular fa-trash-can"></i></button>
+          </div>
+        </td>
+      </tr>
+    `).join('');
+  };
+
+  window.toggleManagerReviewStatus = function(reviewId) {
+    const db = getMockDatabase();
+    const item = (db.reviews || []).find(r => r.id === reviewId);
+    if (!item) return;
+    item.status = item.status === 'approved' ? 'hidden' : 'approved';
+    saveMockDatabase(db);
+    showToast(`Đã ${item.status === 'approved' ? 'duyệt hiển thị' : 'ẩn'} bình luận!`, 'info');
+    renderManagerReviews();
+  };
+
+  window.deleteManagerReview = function(reviewId) {
+    if (!confirm('Bạn có chắc chắn muốn xóa đánh giá này?')) return;
+    const db = getMockDatabase();
+    db.reviews = (db.reviews || []).filter(r => r.id !== reviewId);
+    saveMockDatabase(db);
+    showToast('Đã xóa đánh giá!', 'info');
+    renderManagerReviews();
+  };
+
+  renderManagerReviews();
+}
+
+// ==========================================
+// 17G. GUIDE TOUR REAL-TIME UPDATES MODULE
+// ==========================================
+
+function initGuideTourUpdates() {
+  const container = document.getElementById('guideTourUpdateContainer');
+  if (!container) return;
+
+  const db = getMockDatabase();
+  const departures = db.departures || [];
+  const tours = db.tours || [];
+  const assigned = departures.filter(d => d.guideId === 'usr-guide-1' || d.guideName === 'Trần Quốc Hưng').map(d => {
+    const t = tours.find(item => item.id === d.tourId) || {};
+    const booked = (d.maxSlots || 20) - (d.slots || 0);
+    return {
+      ...d,
+      tourTitle: t.title || 'Tour Du Lịch Di Sản',
+      startDate: d.date || 'Hôm nay',
+      currentGuests: booked,
+      maxGuests: d.maxSlots || 20
+    };
+  });
+
+  const selector = document.getElementById('guideDepartureSelector');
+  if (selector) {
+    selector.innerHTML = assigned.map(d => `
+      <option value="${d.id}">${d.tourTitle} (Khởi hành: ${d.startDate} • ${d.currentGuests}/${d.maxGuests} khách)</option>
+    `).join('');
+  }
+
+  window.loadGuideTourUpdate = function(depId) {
+    const currentDepId = depId || (selector ? selector.value : (assigned[0] ? assigned[0].id : null));
+    if (!currentDepId) return;
+
+    const currentDb = getMockDatabase();
+    const updateRecord = (currentDb.tourUpdates || []).find(u => u.departureId === currentDepId) || {
+      departureId: currentDepId,
+      checkpointStatus: 'in_progress',
+      headcountChecked: 18,
+      weather: 'Nắng nhẹ 27°C, rất thuận lợi tham quan',
+      vehicleStatus: 'Xe 29 chỗ Universe số 43B-029.88 vận hành tốt',
+      fieldNotes: 'Đoàn di chuyển đúng tiến độ, khách vui vẻ, an toàn.',
+      updatedAt: 'Vừa xong'
+    };
+
+    const weatherInput = document.getElementById('guideWeather');
+    const vehicleInput = document.getElementById('guideVehicle');
+    const notesInput = document.getElementById('guideFieldNotes');
+    const lastUpdateSpan = document.getElementById('guideLastUpdate');
+
+    if (weatherInput) weatherInput.value = updateRecord.weather || '';
+    if (vehicleInput) vehicleInput.value = updateRecord.vehicleStatus || '';
+    if (notesInput) notesInput.value = updateRecord.fieldNotes || '';
+    if (lastUpdateSpan) lastUpdateSpan.textContent = updateRecord.updatedAt || 'Hôm nay';
+  };
+
+  window.saveGuideTourUpdate = function(e) {
+    if (e) e.preventDefault();
+    const currentDb = getMockDatabase();
+    if (!currentDb.tourUpdates) currentDb.tourUpdates = [];
+
+    const depId = selector ? selector.value : (assigned[0] ? assigned[0].id : 'dep-1');
+    const weather = document.getElementById('guideWeather')?.value || '';
+    const vehicleStatus = document.getElementById('guideVehicle')?.value || '';
+    const fieldNotes = document.getElementById('guideFieldNotes')?.value || '';
+    const now = new Date();
+    const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')} - ${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth()+1).padStart(2, '0')}/${now.getFullYear()}`;
+
+    const existingIdx = currentDb.tourUpdates.findIndex(u => u.departureId === depId);
+    const newUpdate = {
+      id: `upd-${Date.now()}`,
+      departureId: depId,
+      guideId: 'usr-guide-1',
+      guideName: 'Trần Quốc Hưng',
+      weather,
+      vehicleStatus,
+      fieldNotes,
+      updatedAt: timeStr
+    };
+
+    if (existingIdx !== -1) {
+      currentDb.tourUpdates[existingIdx] = { ...currentDb.tourUpdates[existingIdx], ...newUpdate };
+    } else {
+      currentDb.tourUpdates.unshift(newUpdate);
+    }
+
+    saveMockDatabase(currentDb);
+    showToast('Đã cập nhật thông tin và tiến độ tour thực địa thành công!', 'success');
+    const lastUpdateSpan = document.getElementById('guideLastUpdate');
+    if (lastUpdateSpan) lastUpdateSpan.textContent = timeStr;
+  };
+
+  if (selector) {
+    selector.addEventListener('change', () => window.loadGuideTourUpdate(selector.value));
+  }
+  const form = document.getElementById('formGuideTourUpdate');
+  if (form) form.addEventListener('submit', window.saveGuideTourUpdate);
+
+  window.loadGuideTourUpdate();
+}
+
 // Auto-run individual page initializers when loaded
 document.addEventListener('DOMContentLoaded', () => {
   if (typeof initManagerPromotions === 'function') initManagerPromotions();
   if (typeof initManagerBookings === 'function') initManagerBookings();
   if (typeof initManagerGuides === 'function') initManagerGuides();
+  if (typeof initManagerDestinations === 'function') initManagerDestinations();
+  if (typeof initManagerReviews === 'function') initManagerReviews();
+  if (typeof initGuideTourUpdates === 'function') initGuideTourUpdates();
 });
 
 
