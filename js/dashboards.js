@@ -2178,7 +2178,7 @@ function initManagerPromotions() {
     if (kpiTotalPromos) kpiTotalPromos.textContent = `${promotions.length} Chương Trình`;
 
     if (filtered.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="7" class="text-center py-5 text-muted"><i class="fa-solid fa-ticket-simple fa-2x mb-2" style="color:#cbd5e1; display:block;"></i>Không tìm thấy mã khuyến mãi nào phù hợp.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="8" class="text-center py-5 text-muted"><i class="fa-solid fa-ticket-simple fa-2x mb-2" style="color:#cbd5e1; display:block;"></i>Không tìm thấy mã khuyến mãi nào phù hợp.</td></tr>`;
       return;
     }
 
@@ -2190,55 +2190,55 @@ function initManagerPromotions() {
 
       return `
         <tr>
-          <td><strong class="text-muted">#${idx + 1}</strong></td>
-          <td>
-            <div style="display:flex; align-items:center; gap:10px;">
-              <div class="promo-code-badge">
-                <i class="fa-solid fa-ticket"></i>
-                <span>${p.code}</span>
-              </div>
-              <div>
-                <strong style="display:block; color:#0f172a; font-size:0.9rem;">${p.title}</strong>
-                <span style="font-size:0.75rem; color:#64748b;">${p.description || ''}</span>
-              </div>
+          <td style="text-align:center; padding:10px 6px;"><strong class="text-muted">#${idx + 1}</strong></td>
+          <td style="padding:10px 8px;">
+            <div class="promo-code-badge" title="Mã khuyến mãi: ${p.code}" style="padding:4px 8px; font-size:0.8rem;">
+              <i class="fa-solid fa-ticket"></i>
+              <span>${p.code}</span>
             </div>
           </td>
-          <td>
+          <td style="padding:10px 10px;">
+            <strong style="display:block; color:#0f172a; font-size:0.85rem; line-height:1.3; margin-bottom:2px;">${p.title}</strong>
+            <div style="font-size:0.73rem; color:#64748b; line-height:1.3; max-width:240px;" title="${p.description || ''}">
+              ${p.description || 'Chương trình ưu đãi giảm giá'}
+            </div>
+          </td>
+          <td style="padding:10px 8px;">
             <div style="display:flex; flex-direction:column; gap:2px;">
-              <span class="badge ${isPercent ? 'badge-primary' : 'badge-warning'}" style="font-weight:700; width:fit-content;">
+              <span class="badge ${isPercent ? 'badge-primary' : 'badge-warning'}" style="font-weight:700; width:fit-content; font-size:0.72rem; padding:3px 7px;">
                 ${discountLabel}
               </span>
-              ${maxDiscountText ? `<span style="font-size:0.72rem; color:#64748b;">${maxDiscountText}</span>` : ''}
-              <span style="font-size:0.72rem; color:#0f766e;">Đơn tối thiểu: ${formatCurrency(p.minOrderValue || 0)}</span>
+              ${maxDiscountText ? `<span style="font-size:0.7rem; color:#64748b;">${maxDiscountText}</span>` : ''}
+              <span style="font-size:0.7rem; color:#0f766e; white-space:nowrap; font-weight:500;">Đơn tối thiểu: ${formatCurrency(p.minOrderValue || 0)}</span>
             </div>
           </td>
-          <td>
-            <div style="font-size:0.8rem; color:#334155;">
-              <div><i class="fa-regular fa-calendar-plus text-primary"></i> ${formatDisplayDate(p.startDate)}</div>
-              <div><i class="fa-regular fa-calendar-xmark text-danger"></i> ${formatDisplayDate(p.endDate)}</div>
+          <td style="padding:10px 8px;">
+            <div style="font-size:0.73rem; color:#334155; line-height:1.4; white-space:nowrap;">
+              <div><i class="fa-regular fa-calendar-plus text-primary" style="width:13px;"></i> ${formatDisplayDate(p.startDate)}</div>
+              <div><i class="fa-regular fa-calendar-xmark text-danger" style="width:13px;"></i> ${formatDisplayDate(p.endDate)}</div>
             </div>
           </td>
-          <td style="min-width:140px;">
-            <div style="display:flex; justify-content:space-between; font-size:0.75rem; margin-bottom:3px;">
+          <td style="padding:10px 8px; min-width:115px;">
+            <div style="display:flex; justify-content:space-between; font-size:0.7rem; margin-bottom:3px; gap:4px; white-space:nowrap;">
               <strong style="color:#0f766e;">${p.usedCount} đã dùng</strong>
-              <span class="text-muted">Hạn mức: ${p.usageLimit}</span>
+              <span class="text-muted">Hạn: ${p.usageLimit}</span>
             </div>
-            <div style="width:100%; height:6px; background:#e2e8f0; border-radius:3px; overflow:hidden;">
+            <div style="width:100%; height:5px; background:#e2e8f0; border-radius:3px; overflow:hidden;">
               <div style="width:${usagePercent}%; height:100%; background:${usagePercent >= 90 ? '#ef4444' : '#0f766e'}; border-radius:3px;"></div>
             </div>
           </td>
-          <td>
-            <span class="badge ${p.status === 'active' ? 'badge-success' : p.status === 'expired' ? 'badge-danger' : 'badge-neutral'}">
+          <td style="text-align:center; padding:10px 6px;">
+            <span class="badge ${p.status === 'active' ? 'badge-success' : p.status === 'expired' ? 'badge-danger' : 'badge-neutral'}" style="white-space:nowrap; font-size:0.7rem; padding:3px 7px;">
               ${p.status === 'active' ? '<i class="fa-solid fa-circle-check"></i> Đang chạy' : p.status === 'expired' ? '<i class="fa-solid fa-clock-rotate-left"></i> Đã hết hạn' : '<i class="fa-solid fa-pause"></i> Tạm ngưng'}
             </span>
           </td>
-          <td>
-            <div style="display:flex; gap:6px;">
-              <button class="btn btn-outline btn-xs" onclick="openPromotionModal('${p.id}')" title="Chỉnh sửa"><i class="fa-regular fa-pen-to-square"></i> Sửa</button>
-              <button class="btn btn-outline btn-xs ${p.status === 'active' ? 'text-warning' : 'text-success'}" onclick="togglePromotionStatus('${p.id}')" title="${p.status === 'active' ? 'Tạm dừng' : 'Kích hoạt'}">
+          <td style="text-align:center; padding:10px 6px;">
+            <div style="display:inline-flex; gap:3px; justify-content:center;">
+              <button class="btn btn-outline btn-xs" onclick="openPromotionModal('${p.id}')" title="Chỉnh sửa" style="padding:4px 7px;"><i class="fa-regular fa-pen-to-square"></i></button>
+              <button class="btn btn-outline btn-xs ${p.status === 'active' ? 'text-warning' : 'text-success'}" onclick="togglePromotionStatus('${p.id}')" title="${p.status === 'active' ? 'Tạm dừng' : 'Kích hoạt'}" style="padding:4px 7px;">
                 <i class="fa-solid ${p.status === 'active' ? 'fa-pause' : 'fa-play'}"></i>
               </button>
-              <button class="btn btn-outline btn-xs text-danger" onclick="deletePromotion('${p.id}')" title="Xóa"><i class="fa-regular fa-trash-can"></i></button>
+              <button class="btn btn-outline btn-xs text-danger" onclick="deletePromotion('${p.id}')" title="Xóa" style="padding:4px 7px;"><i class="fa-regular fa-trash-can"></i></button>
             </div>
           </td>
         </tr>

@@ -2248,18 +2248,61 @@
   background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
   border: 1.5px dashed #0f766e;
   color: #0f766e;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
   font-weight: 800;
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   letter-spacing: 0.5px;
-  box-shadow: 0 2px 4px rgba(15, 118, 110, 0.08);
+  white-space: nowrap;
+  box-shadow: 0 1px 3px rgba(15, 118, 110, 0.08);
 }
 
 .promo-code-badge i {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: #0d9488;
 }
+
+/* Admindek Table Styles */
+.admindek-table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.admindek-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.admindek-table th {
+  background-color: #f8fafc;
+  color: #475569;
+  font-weight: 700;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px 14px;
+  border-bottom: 2px solid #e2e8f0;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.admindek-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #1e293b;
+  vertical-align: middle;
+}
+
+.admindek-table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+.admindek-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
 
 
